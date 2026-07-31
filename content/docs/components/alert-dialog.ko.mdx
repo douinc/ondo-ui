@@ -1,0 +1,365 @@
+---
+title: Alert Dialog (알림 대화 상자)
+description: 사용자에게 중요한 내용을 표시하고 응답을 요구하는 모달 대화 상자입니다.
+---
+
+<ComponentPreview name="alert-dialog-demo">
+
+```tsx
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { Button } from "@/components/ui/button"
+
+export default function AlertDialogDemo() {
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger render={<Button variant="outline" />}>
+        대화 표시
+      </AlertDialogTrigger>
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>정말 진행하시겠어요?</AlertDialogTitle>
+          <AlertDialogDescription>
+            이 작업은 되돌릴 수 없습니다. 계정이 서버에서 영구 삭제됩니다.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>취소</AlertDialogCancel>
+          <AlertDialogAction>계속</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  )
+}
+```
+
+</ComponentPreview>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/alert-dialog
+```
+
+## 사용법
+
+```tsx showLineNumbers
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+```
+
+```tsx showLineNumbers
+<AlertDialog>
+  <AlertDialogTrigger render={<Button variant="outline" />}>
+    Show Dialog
+  </AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+      <AlertDialogDescription>
+        This action cannot be undone. This will permanently delete your account
+        from our servers.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogAction>Continue</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+```
+
+## 구조
+
+`AlertDialog`를 구성하려면 다음 구조를 사용하세요:
+
+```text
+AlertDialog
+├── AlertDialogTrigger
+└── AlertDialogContent
+    ├── AlertDialogHeader
+    │   ├── AlertDialogMedia
+    │   ├── AlertDialogTitle
+    │   └── AlertDialogDescription
+    └── AlertDialogFooter
+        ├── AlertDialogCancel
+        └── AlertDialogAction
+```
+
+## 예제
+
+### 기본
+
+제목, 설명, 취소 및 계속 버튼이 포함된 기본 알림 대화입니다.
+
+<ComponentPreview name="alert-dialog-basic">
+
+```tsx
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { Button } from "@/components/ui/button"
+
+export default function AlertDialogBasic() {
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger
+        render={<Button variant="outline">대화 표시</Button>}
+      />
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>정말 진행하시겠어요?</AlertDialogTitle>
+          <AlertDialogDescription>
+            이 작업은 되돌릴 수 없습니다. 계정과 데이터가 서버에서
+            영구 삭제됩니다.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>취소</AlertDialogCancel>
+          <AlertDialogAction>계속</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 작은 크기
+
+`size="sm"` prop을 사용하여 알림 대화를 더 작게 만듭니다.
+
+<ComponentPreview name="alert-dialog-small">
+
+```tsx
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { Button } from "@/components/ui/button"
+
+export default function AlertDialogSmall() {
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger
+        render={<Button variant="outline">대화 표시</Button>}
+      />
+      <AlertDialogContent size="sm">
+        <AlertDialogHeader>
+          <AlertDialogTitle>주변기기 연결을 허용하시겠어요?</AlertDialogTitle>
+          <AlertDialogDescription>
+            USB 주변기기가 이 기기에 연결되도록 허용하시겠어요?
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>허용 안 함</AlertDialogCancel>
+          <AlertDialogAction>허용</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 미디어
+
+`AlertDialogMedia` 컴포넌트를 사용하여 아이콘이나 이미지 같은 미디어 요소를 알림 대화에 추가합니다.
+
+<ComponentPreview name="alert-dialog-media">
+
+```tsx
+import { IconCirclePlus } from "@tabler/icons-react"
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogMedia as AlertDialogMediaComponent,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { Button } from "@/components/ui/button"
+
+export default function AlertDialogMedia() {
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger
+        render={<Button variant="outline">프로젝트 공유</Button>}
+      />
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogMediaComponent>
+            <IconCirclePlus />
+          </AlertDialogMediaComponent>
+          <AlertDialogTitle>이 프로젝트를 공유하시겠어요?</AlertDialogTitle>
+          <AlertDialogDescription>
+            링크를 가진 모든 사람이 이 프로젝트를 보고 편집할 수 있습니다.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>취소</AlertDialogCancel>
+          <AlertDialogAction>공유</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 작은 크기 + 미디어
+
+`size="sm"` prop과 `AlertDialogMedia` 컴포넌트를 사용하여 작은 알림 대화를 만들고 미디어 요소를 추가합니다.
+
+<ComponentPreview name="alert-dialog-small-with-media">
+
+```tsx
+import { IconBluetooth } from "@tabler/icons-react"
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogMedia as AlertDialogMediaComponent,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { Button } from "@/components/ui/button"
+
+export default function AlertDialogSmallWithMedia() {
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger
+        render={<Button variant="outline">대화 표시</Button>}
+      />
+
+      <AlertDialogContent size="sm">
+        <AlertDialogHeader>
+          <AlertDialogMediaComponent>
+            <IconBluetooth />
+          </AlertDialogMediaComponent>
+          <AlertDialogTitle>주변기기 연결을 허용하시겠어요?</AlertDialogTitle>
+          <AlertDialogDescription>
+            USB 주변기기가 이 기기에 연결되도록 허용하시겠어요?
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>허용 안 함</AlertDialogCancel>
+          <AlertDialogAction>허용</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 삭제 작업
+
+`AlertDialogAction` 컴포넌트를 사용하여 알림 대화에 삭제 작업 버튼을 추가합니다.
+
+<ComponentPreview name="alert-dialog-destructive">
+
+```tsx
+import { IconTrash } from "@tabler/icons-react"
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogMedia as AlertDialogMediaComponent,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { Button } from "@/components/ui/button"
+
+export default function AlertDialogDestructive() {
+  return (
+    <AlertDialog>
+      <AlertDialogTrigger
+        render={<Button variant="destructive">채팅 삭제</Button>}
+      />
+      <AlertDialogContent size="sm">
+        <AlertDialogHeader>
+          <AlertDialogMediaComponent className="bg-destructive/10 text-destructive dark:bg-destructive/20 dark:text-destructive">
+            <IconTrash />
+          </AlertDialogMediaComponent>
+          <AlertDialogTitle>채팅을 삭제하시겠어요?</AlertDialogTitle>
+          <AlertDialogDescription>
+            이 채팅 대화가 영구 삭제됩니다.{" "}
+            <a href="#">설정</a>에서 이 채팅 중에 저장한 기억을 삭제합니다.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel variant="outline">취소</AlertDialogCancel>
+          <AlertDialogAction variant="destructive">삭제</AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API 참고
+
+컴포넌트는 [Base UI AlertDialog](https://base-ui.com/react/components/alert-dialog)를 래핑하며 모든 props를 허용합니다.
+
+### size
+
+`AlertDialogContent` 컴포넌트의 `size` prop을 사용하여 알림 대화의 크기를 제어합니다. 다음 값들을 허용합니다:
+
+| Prop   | Type                | Default     |
+| ------ | ------------------- | ----------- |
+| `size` | `"default" \| "sm"` | `"default"` |

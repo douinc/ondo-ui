@@ -1,0 +1,37 @@
+---
+title: 테마
+description: 폰트, oklch 색상 토큰, 다크 모드.
+---
+
+`@ondo-ui/theme` 레지스트리 아이템은 타이포그래피와 색상 토큰을 설정하고, `@ondo-ui/theme-provider`는 다크 모드를 연결합니다.
+
+## 타이포그래피
+
+테마는 Fontsource에서 두 가지 폰트를 설치합니다:
+
+- **Pretendard** — `--font-sans`와 `--font-heading`. 한글 글리프를 완벽하게 지원합니다.
+- **Monaspace Neon** — 코드용 `--font-mono`.
+
+## 색상 토큰
+
+모든 색상은 [oklch](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/oklch) 색 공간의 CSS 변수로 정의되며, shadcn 토큰 규칙(`--background`, `--foreground`, `--primary` 등)을 따릅니다. 라이트 값은 `:root`에, 다크 값은 `.dark`에 있습니다. [색상](/colors) 페이지에서 살펴보세요.
+
+## 다크 모드
+
+`ThemeProvider`는 클래스 기반 전환 방식으로 [next-themes](https://github.com/pacocoursey/next-themes)를 감쌉니다:
+
+```tsx title="app/layout.tsx"
+import { ThemeProvider } from "@/components/theme-provider"
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="ko" suppressHydrationWarning>
+      <body>
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
+    </html>
+  )
+}
+```
+
+키보드 단축키도 등록됩니다. 어디서든 <kbd>d</kbd> 키를 누르면 라이트/다크 모드가 전환됩니다.

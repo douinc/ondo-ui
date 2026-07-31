@@ -1,0 +1,1026 @@
+---
+title: Message Scroller (메시지 스크롤러)
+description: 턴을 고정하고, 저장된 대화를 알맞은 위치에서 열고, 스트리밍 응답을 따라가며, 이전 기록을 흔들림 없이 불러오고, 원하는 메시지로 이동하는 채팅 스크롤 컨테이너입니다.
+---
+
+<ComponentPreview name="message-scroller-demo">
+
+```tsx
+"use client"
+
+import { useChat } from "@ai-sdk/react"
+
+import { createChat, getMessageText } from "@/lib/ai"
+import { MessageAnimated } from "@/components/message-animated"
+import {
+  MessageScroller,
+  MessageScrollerButton,
+  MessageScrollerContent,
+  MessageScrollerProvider,
+  MessageScrollerViewport,
+} from "@/components/ui/message-scroller"
+
+const chat = createChat()
+  .user("AI가 답변을 스트리밍할 때마다 대화 전체가 튀어요.")
+  .sleep(1000)
+  .assistant(
+    "메시지 목록을 `MessageScroller`로 감싸고 `autoScroll`을 켜세요."
+  )
+const initialMessages = chat.get(0)
+const transport = chat.transport({ delayMs: 20 })
+
+export default function MessageScrollerDemo() {
+  const { messages, status } = useChat({ messages: initialMessages, transport })
+  const isBusy = status === "submitted" || status === "streaming"
+
+  return (
+    <MessageScrollerProvider>
+      <MessageScroller>
+        <MessageScrollerViewport>
+          <MessageScrollerContent aria-busy={isBusy}>
+            {messages.map((message) => (
+              <MessageAnimated
+                key={message.id}
+                message={message}
+                scrollAnchor={message.role === "user"}
+              />
+            ))}
+          </MessageScrollerContent>
+        </MessageScrollerViewport>
+        <MessageScrollerButton />
+      </MessageScroller>
+    </MessageScrollerProvider>
+  )
+}
+```
+
+</ComponentPreview>
+
+## 좋은 스트리밍 채팅 경험이란
+
+채팅 인터페이스를 만드는 일은 원래 단순했습니다. 입력창이 달린 역순 리스트를 만들고,
+메시지를 입력하면 하단에 추가되고, 답장이 오면 리스트가 늘어나며 스크롤됩니다. 끝.
+
+스트리밍은 이 모델을 깨뜨립니다. 사용자가 아직 읽고 있거나, 스크롤 중이거나, 전혀 다른
+곳을 보고 있는 동안에도 메시지가 조각조각 도착합니다.
+
+이제 관건은 대화가 계속 변하는 동안 읽는 사람의 위치를 지켜주는 것입니다. 이를 놓치면
+화면이 계속 튀고, 사용자는 하단으로 끌려가 맥락을 잃고 다시 자리를 찾아야 합니다.
+
+실질적으로는 스크롤의 문제입니다. 언제 따라가고, 언제 멈추고, 언제 사용자에게 맡길지의
+문제죠. 좋은 스트리밍 채팅은 다음을 지켜야 합니다:
+
+1. **사용자가 원할 때만 움직입니다.** 읽고 있는 사람을 다른 곳으로 끌고 가지 마세요. 자동 스크롤이 기본값이어서는 안 됩니다.
+2. **따라가는 동안에만 따라갑니다.** 최신 지점에 있다면 스트림을 보여주고, 위로 스크롤했다면 그대로 두세요.
+3. **모든 상호작용이 신호입니다.** 스크롤만이 아닙니다. 텍스트 선택, 키보드 사용, 링크 열기, 검색 모두 화면 이동을 멈춰야 합니다.
+4. **새 턴은 뷰포트 상단 근처에서 시작합니다.** 그래야 새 턴을 처음부터 읽을 공간이 생깁니다.
+5. **그다음 답변을 스트리밍합니다.** 답변은 화면 안으로 자라나야지, 나머지를 즉시 밀어내서는 안 됩니다.
+6. **이전 대화 일부를 맥락으로 남깁니다.** 질문과 답변은 시각적으로 이어져야 하고, 이전 턴이 충분히 보여야 지금 어디인지 알 수 있습니다.
+7. **새 콘텐츠는 화면 밖에서 도착해도 됩니다.** 사용자가 보고 있는 것을 바꾸지 않고도 대화는 계속 스트리밍될 수 있습니다.
+8. **화면 밖 상황을 알려줍니다.** 응답이 아직 스트리밍 중인지, 새 메시지가 도착했는지 분명히 보여주세요.
+9. **최신 답변으로 쉽게 돌아가게 합니다.** "최신으로 이동" 동작으로 돌아가면 다시 따라가기가 재개되어야 합니다.
+10. **대화의 어느 지점으로든 이동할 수 있게 합니다.** 긴 스레드에는 메시지 링크, 검색, 안 읽음 표시, 직접 이동이 필요합니다.
+11. **떠난 자리에서 다시 엽니다.** 저장된 대화는 마지막으로 의미 있는 턴에서 열려야 합니다. 보통 마지막 사용자 메시지이며, 맨 아래가 아닙니다.
+12. **레이아웃이 바뀌어도 위치를 유지합니다.** 이미지가 로드되고, 마크다운이 펼쳐지고, 코드 블록이 렌더링되고, 위로 이전 메시지가 추가돼도 자리를 잃어서는 안 됩니다.
+13. **중단 상황에서도 위치를 뺏지 않습니다.** 중지, 재시도, 재생성, 분기, 오류가 대화를 예기치 않게 움직여서는 안 됩니다.
+14. **긴 스레드에서도 반응성을 유지합니다.** 스트리밍 텍스트, 마크다운, 코드, 이미지, 긴 기록에서도 빠릿해야 합니다.
+15. **소란스럽지 않게 접근 가능해야 합니다.** 대화를 탐색 가능하게 유지하고, 키보드 포커스를 보존하며, 중요한 이벤트만 적절한 속도로 알리세요.
+
+**사용자의 의도에 반해 화면을 움직이지 마세요.**
+
+## MessageScroller
+
+MessageScroller는 이런 동작을 위해 만들어진 대화 스크롤러입니다.
+`MessageScrollerProvider`가 스크롤 상태와 대화 행의 동작을 소유합니다. 여는 위치,
+스트리밍 출력, 새 턴 고정, 앞쪽에 추가되는 기록, 가시성, 스크롤 컨트롤이 여기에
+해당합니다. `MessageScroller`는 그 안에서 렌더링되는 스타일 프레임입니다.
+
+MessageScroller의 범위는 스크롤 뷰포트입니다. 메시지, AI 상태, 전송, 영속성, 분기,
+모델 상태는 소유하지 않습니다. 제품 코드는 메시지, 마커, 도구, 첨부, 입력창을 구성하는
+일에 집중할 수 있습니다.
+
+채팅에 필요한 스크롤 동작만 제공하고 나머지 채팅 UI는 건드리지 않습니다. 그리고 풍부한
+마크다운이 섞인 긴 대화에서도 빠릅니다.
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/message-scroller
+```
+
+## 사용법
+
+```tsx
+import { Message } from "@/components/ui/message"
+import {
+  MessageScroller,
+  MessageScrollerButton,
+  MessageScrollerContent,
+  MessageScrollerItem,
+  MessageScrollerProvider,
+  MessageScrollerViewport,
+} from "@/components/ui/message-scroller"
+```
+
+```tsx
+<MessageScrollerProvider>
+  <MessageScroller>
+    <MessageScrollerViewport>
+      <MessageScrollerContent>
+        {messages.map((message) => (
+          <MessageScrollerItem
+            key={message.id}
+            messageId={message.id}
+            scrollAnchor={message.role === "user"}
+          >
+            <Message />
+          </MessageScrollerItem>
+        ))}
+      </MessageScrollerContent>
+    </MessageScrollerViewport>
+    <MessageScrollerButton />
+  </MessageScroller>
+</MessageScrollerProvider>
+```
+
+`MessageScroller`는 부모를 채우므로 높이가 정해진 컨테이너 안에 배치하세요.
+
+```tsx
+<div className="flex h-screen flex-col">
+  <MessageScrollerProvider>
+    <MessageScroller className="flex-1">{/* 대화 */}</MessageScroller>
+  </MessageScrollerProvider>
+</div>
+```
+
+## Composition
+
+```tsx
+<MessageScrollerProvider>
+  <MessageScroller>
+    <MessageScrollerViewport>
+      <MessageScrollerContent>
+        <MessageScrollerItem>
+          {/* 메시지, 마커 또는 행 */}
+        </MessageScrollerItem>
+        <MessageScrollerItem />
+        <MessageScrollerItem />
+      </MessageScrollerContent>
+    </MessageScrollerViewport>
+    <MessageScrollerButton />
+  </MessageScroller>
+</MessageScrollerProvider>
+```
+
+- **`MessageScrollerProvider`** — 헤드리스 루트입니다. 스크롤 상태와 여는 위치, 자동
+  스크롤, 고정, 스크롤 명령, 가시성 추적에 대한 동작 프롭을 소유합니다.
+- **`MessageScroller`** — 스타일 프레임입니다. 프로바이더 안에서 뷰포트, 콘텐츠,
+  컨트롤을 배치합니다.
+- **`MessageScrollerViewport`** — 실제로 스크롤되는 요소입니다. 네이티브 스크롤 이벤트를
+  받고, 이전 메시지가 위에 추가될 때 보이던 행을 유지합니다.
+- **`MessageScrollerContent`** — 대화 컨테이너입니다. 행들을 담고 새 메시지를 위한
+  라이브 리전 기본값을 제공합니다.
+- **`MessageScrollerItem`** — 대화 행의 경계입니다. 콘텐츠의 모든 직계 자식을 감싸야
+  스크롤러가 측정·고정·위치 유지·가시성 추적·이동을 할 수 있습니다. 항목은 메시지, 마커,
+  입력 중 표시, 구분선, 입장/퇴장 이벤트, "이전 불러오기" 행 등이 될 수 있습니다.
+- **`MessageScrollerButton`** — 스크롤 컨트롤입니다. 대화의 시작이나 끝으로 이동하며, 해당 방향에 콘텐츠가 없으면 비활성 상태가 됩니다.
+
+## 핵심 개념
+
+### 턴 고정
+
+턴은 새로운 주고받음이 시작되는 대화 단위입니다. 단순한 AI 채팅에서는 보통 사용자의
+메시지와 뒤따르는 어시스턴트 답변이 한 턴입니다.
+
+앵커는 뷰포트가 그 턴의 시작으로 취급할 행입니다. 해당 행에 `scrollAnchor`를 지정하세요.
+새 앵커가 추가되면 뷰포트가 그것을 상단 근처로 옮기고 위쪽에 이전 항목을 살짝 남겨,
+새 턴이 맥락에서 떨어져 나온 느낌이 들지 않게 합니다.
+
+```tsx
+// 다음 턴을 위해 사용자 메시지를 앵커로 삼도록 스크롤러에 알립니다.
+<MessageScrollerItem
+  messageId={message.id}
+  scrollAnchor={message.role === "user"}
+/>
+```
+
+스크롤 앵커는 메시지 역할에 묶여 있지 않습니다. 사용자 메시지, 시스템 마커, 핸드오프
+이벤트 등 의미 있는 턴을 시작하는 어떤 행이든 앵커가 될 수 있습니다. `MessageScroller`는
+어느 행이 뷰포트를 고정할지만 알면 됩니다.
+
+아래 예제에서는 사용자 메시지가 앵커입니다. 새 메시지를 보내면 뷰포트가 그것을 상단 근처에 고정하고 아래에 어시스턴트 답변을 추가합니다. 앵커를 어시스턴트 메시지로 바꿔 차이를 확인해 보세요.
+
+<ComponentPreview name="message-scroller-anchoring">
+
+```tsx
+"use client"
+
+import * as React from "react"
+
+import { MessageAnimated } from "@/components/message-animated"
+import {
+  MessageScroller,
+  MessageScrollerButton,
+  MessageScrollerContent,
+  MessageScrollerProvider,
+  MessageScrollerViewport,
+} from "@/components/ui/message-scroller"
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+
+export default function MessageScrollerAnchoring() {
+  const [anchorRole, setAnchorRole] = React.useState("user")
+
+  return (
+    <MessageScrollerProvider>
+      <MessageScroller>
+        <MessageScrollerViewport>
+          <MessageScrollerContent>
+            {messages.map((message) => (
+              <MessageAnimated
+                key={message.id}
+                message={message}
+                scrollAnchor={message.role === anchorRole}
+              />
+            ))}
+          </MessageScrollerContent>
+        </MessageScrollerViewport>
+        <MessageScrollerButton />
+      </MessageScroller>
+    </MessageScrollerProvider>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 그룹 채팅
+
+그룹 채팅에서 턴의 경계는 "사용자 메시지"보다 구체적입니다. 보통 모델에게 응답을 요청하는
+메시지이거나 "Marcus가 대화에 참여했습니다" 같은 마커입니다. 입력 중 표시나 기록 컨트롤은
+대개 앵커가 되어서는 안 됩니다.
+
+고정은 역할과 무관하므로 마커도 메시지만큼 쉽게 앵커로 만들 수 있습니다.
+
+```tsx
+<MessageScrollerItem messageId="marcus-joined" scrollAnchor>
+  <Marker variant="separator">
+    <MarkerContent>Marcus가 대화에 참여했습니다</MarkerContent>
+  </Marker>
+</MessageScrollerItem>
+```
+
+<ComponentPreview name="message-scroller-group-chat">
+
+```tsx
+"use client"
+
+import { Marker, MarkerContent } from "@/components/ui/marker"
+import {
+  MessageScroller,
+  MessageScrollerContent,
+  MessageScrollerItem,
+  MessageScrollerProvider,
+  MessageScrollerViewport,
+} from "@/components/ui/message-scroller"
+
+export default function MessageScrollerGroupChat() {
+  return (
+    <MessageScrollerProvider>
+      <MessageScroller>
+        <MessageScrollerViewport>
+          <MessageScrollerContent>
+            <MessageScrollerItem messageId="marcus-joined" scrollAnchor>
+              <Marker variant="separator">
+                <MarkerContent>Marcus가 대화에 참여했습니다</MarkerContent>
+              </Marker>
+            </MessageScrollerItem>
+            {/* 메시지 */}
+          </MessageScrollerContent>
+        </MessageScrollerViewport>
+      </MessageScroller>
+    </MessageScrollerProvider>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 맥락 유지하기
+
+새 턴이 시작되어도 같은 흐름의 일부처럼 느껴져야 합니다. `scrollPreviousItemPeek`은
+앵커 위에 이전 항목의 일부를 남겨, 빈 페이지에서 대화가 다시 시작된 느낌 대신 맥락을
+유지하게 합니다.
+
+```tsx
+// 새로 고정된 행 위에 이전 턴을 64px 남깁니다.
+<MessageScrollerProvider scrollPreviousItemPeek={64}>
+  <MessageScroller>{/* 고정된 턴 */}</MessageScroller>
+</MessageScrollerProvider>
+```
+
+아래 예제에서 남기는 양을 조절해 대화에 어떤 영향을 주는지 확인해 보세요.
+
+<ComponentPreview name="message-scroller-previous-context">
+
+```tsx
+"use client"
+
+import * as React from "react"
+
+import {
+  MessageScroller,
+  MessageScrollerContent,
+  MessageScrollerProvider,
+  MessageScrollerViewport,
+} from "@/components/ui/message-scroller"
+import { Slider } from "@/components/ui/slider"
+
+export default function MessageScrollerPreviousContext() {
+  const [peek, setPeek] = React.useState(64)
+
+  return (
+    <MessageScrollerProvider scrollPreviousItemPeek={peek}>
+      <MessageScroller>
+        <MessageScrollerViewport>
+          <MessageScrollerContent>{/* 고정된 턴 */}</MessageScrollerContent>
+        </MessageScrollerViewport>
+      </MessageScroller>
+    </MessageScrollerProvider>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 최신 지점 따라가기
+
+사용자가 계속 머물렀든 다시 돌아왔든 최신 지점에 있다면, `autoScroll`이 스트리밍되는
+답변을 계속 화면에 유지합니다. 휠, 터치, 키보드 스크롤 키, 스크롤바 드래그 등으로 최신
+지점에서 벗어나면 뷰가 해제됩니다. 명시적인 메시지 이동도 마찬가지입니다. 이후 새 조각이
+도착해도 사용자를 움직이지 않습니다.
+
+`autoScroll`은 턴 고정과 함께 동작합니다. 새 턴이 상단 근처에 고정되면 뷰는 그대로
+머물고 답변이 아래 공간으로 흘러 들어옵니다. 답변이 뷰포트를 채우면 사용자는 다시 최신
+지점에 있게 되고, 앵커 대신 출력 따라가기가 이어받습니다.
+
+```tsx
+<MessageScrollerProvider autoScroll>
+  <MessageScroller>{/* 스트리밍되는 턴 */}</MessageScroller>
+</MessageScrollerProvider>
+```
+
+<ComponentPreview name="message-scroller-streaming">
+
+```tsx
+"use client"
+
+import { useChat } from "@ai-sdk/react"
+
+import { createChat } from "@/lib/ai"
+import { MessageAnimated } from "@/components/message-animated"
+import {
+  MessageScroller,
+  MessageScrollerButton,
+  MessageScrollerContent,
+  MessageScrollerProvider,
+  MessageScrollerViewport,
+} from "@/components/ui/message-scroller"
+
+export default function MessageScrollerStreaming() {
+  const { messages } = useChat({ messages: initialMessages, transport })
+
+  return (
+    <MessageScrollerProvider autoScroll>
+      <MessageScroller>
+        <MessageScrollerViewport>
+          <MessageScrollerContent>
+            {messages.map((message) => (
+              <MessageAnimated
+                key={message.id}
+                message={message}
+                scrollAnchor={message.role === "user"}
+              />
+            ))}
+          </MessageScrollerContent>
+        </MessageScrollerViewport>
+        <MessageScrollerButton />
+      </MessageScroller>
+    </MessageScrollerProvider>
+  )
+}
+```
+
+</ComponentPreview>
+
+`autoScroll`이 켜져 있을 때 `scrollToEnd`를 호출하거나 `MessageScrollerButton`을 누르면
+출력 따라가기가 다시 활성화되어, 위로 스크롤했던 사용자도 최신 지점으로 돌아와 계속
+따라갈 수 있습니다. 최신 메시지로 향하는 프로그래매틱 스크롤이 진행되는 동안 루트와
+뷰포트에 `data-autoscrolling`이 노출되므로 전환 중 스타일을 조건부로 적용할 수 있습니다.
+
+### 저장된 대화 열기
+
+저장된 대화를 맨 끝에서 여는 것이 합리적으로 보일 수 있지만, 그러면 충분한 맥락 없이
+대화 한가운데로 떨어지는 경우가 많습니다. 더 나은 기본값은 `"last-anchor"`입니다.
+사용자의 마지막 메시지 같은 마지막 의미 있는 턴을 답변과 함께 보여줍니다.
+
+이렇게 하면 사용자가 스레드에서 자기 위치를 바로 잡습니다. 무엇을 물었고 답변이 어디서
+시작하는지 보이므로, 맨 아래에서부터 대화를 되짚을 필요 없이 이어갈 수 있습니다.
+
+```tsx
+<MessageScrollerProvider defaultScrollPosition="last-anchor">
+  <MessageScroller>{/* 대화 */}</MessageScroller>
+</MessageScrollerProvider>
+```
+
+<ComponentPreview name="message-scroller-opening-position">
+
+```tsx
+"use client"
+
+import * as React from "react"
+
+import {
+  MessageScroller,
+  MessageScrollerContent,
+  MessageScrollerProvider,
+  MessageScrollerViewport,
+} from "@/components/ui/message-scroller"
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+
+export default function MessageScrollerOpeningPosition() {
+  const [position, setPosition] = React.useState("last-anchor")
+
+  return (
+    <MessageScrollerProvider key={position} defaultScrollPosition={position}>
+      <MessageScroller>
+        <MessageScrollerViewport>
+          <MessageScrollerContent>{/* 대화 */}</MessageScrollerContent>
+        </MessageScrollerViewport>
+      </MessageScroller>
+    </MessageScrollerProvider>
+  )
+}
+```
+
+</ComponentPreview>
+
+`"last-anchor"`는 메시지 역할이 아니라 `scrollAnchor`를 기준으로 합니다. 앵커가 없거나
+마지막 고정 턴이 이미 뷰포트에 들어온다면 `"end"`로 대체됩니다.
+
+대화의 처음부터 이어가려면 `"start"`를, 가장 최신 메시지가 적절한 착지점이라면 `"end"`를
+사용하세요.
+
+### 이전 메시지 불러오기
+
+이전 메시지를 불러온다고 해서 사용자가 보고 있는 대화가 움직여서는 안 됩니다. 현재 대화
+위쪽에 이전 행이 추가될 때 `MessageScrollerViewport`가 보이던 행을 유지하므로, 위에서
+기록이 로드되는 동안에도 사용자는 같은 자리에 머뭅니다.
+
+이 동작은 `preserveScrollOnPrepend`를 통해 기본으로 켜져 있습니다.
+
+<ComponentPreview name="message-scroller-load-history">
+
+```tsx
+"use client"
+
+import * as React from "react"
+import { IconRefresh } from "@tabler/icons-react"
+import { toast } from "@/components/ui/toast"
+
+import { createChat, getMessageText } from "@/lib/ai"
+import { Bubble, BubbleContent } from "@/components/ui/bubble"
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Marker, MarkerContent } from "@/components/ui/marker"
+import { Message, MessageContent } from "@/components/ui/message"
+import {
+  MessageScroller,
+  MessageScrollerButton,
+  MessageScrollerContent,
+  MessageScrollerItem,
+  MessageScrollerProvider,
+  MessageScrollerViewport,
+} from "@/components/ui/message-scroller"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+
+const chat = createChat()
+  .user("Can you summarize the incident channel?")
+  .assistant(
+    "The first alert was a delayed export job. It started backing up around 09:42 UTC and triggered the warning once the retry queue crossed the threshold.\n\nNo customer-facing checkout paths were affected, but exports for larger workspaces were running about 12 minutes behind."
+  )
+  .user("Was checkout affected?")
+  .assistant(
+    "No checkout errors were reported. Payment authorization, order creation, and confirmation emails stayed inside their normal latency bands.\n\nThe only elevated metric was export queue depth, which maps to analytics downloads instead of checkout."
+  )
+  .user("What changed in the last deploy?")
+  .assistant(
+    "Only the export queue worker changed. The deploy moved large CSV jobs onto the shared retry policy, which made each failed attempt hold a worker slot longer than before.\n\nThe app deploy did not include checkout, pricing, or billing API changes."
+  )
+  .user("Do we need to roll back?")
+  .assistant(
+    "Not yet. Queue depth is recovering after we reduced retry concurrency, and the oldest pending job is now under five minutes old.\n\nKeep rollback ready if the queue starts climbing again, but the current trend points toward recovery."
+  )
+  .user("Keep watching for customer-visible issues.")
+  .assistant(
+    "I will watch the queue and support tags for another 15 minutes. I am tracking export failures, delayed download requests, and any support thread that mentions missing reports.\n\nIf those stay quiet through the next batch window, we can close this as an internal degradation."
+  )
+
+const history = chat.get()
+const INITIAL_VISIBLE_COUNT = 5
+
+export default function MessageScrollerLoadHistory() {
+  const [demoKey, setDemoKey] = React.useState(0)
+  const [visibleCount, setVisibleCount] = React.useState(INITIAL_VISIBLE_COUNT)
+  const visibleMessages = history.slice(-visibleCount)
+  const canLoadHistory = visibleCount < history.length
+
+  return (
+    <MessageScrollerProvider>
+      <div className="relative flex flex-col gap-4">
+        <Card className="mx-auto h-140 w-full max-w-sm gap-0">
+          <CardHeader className="gap-1 border-b">
+            <CardTitle>Load History</CardTitle>
+            <CardDescription>
+              Prepended messages keep your place.
+            </CardDescription>
+            <CardAction>
+              <Tooltip>
+                <TooltipTrigger
+                  render={
+                    <Button
+                      type="button"
+                      variant="outline"
+                      size="icon"
+                      aria-label="Reset loaded messages"
+                      disabled={visibleCount === INITIAL_VISIBLE_COUNT}
+                      onClick={() => {
+                        setVisibleCount(INITIAL_VISIBLE_COUNT)
+                        setDemoKey((key) => key + 1)
+                      }}
+                    />
+                  }
+                >
+                  <IconRefresh />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Reset</p>
+                </TooltipContent>
+              </Tooltip>
+            </CardAction>
+          </CardHeader>
+          <CardContent className="flex-1 overflow-hidden p-0">
+            <MessageScroller key={demoKey}>
+              <MessageScrollerViewport>
+                <MessageScrollerContent className="p-(--card-spacing)">
+                  {visibleMessages.map((message) => {
+                    const isUserMessage = message.role === "user"
+
+                    return (
+                      <MessageScrollerItem
+                        key={message.id}
+                        messageId={message.id}
+                      >
+                        <Message align={isUserMessage ? "end" : "start"}>
+                          <MessageContent>
+                            <Bubble variant={isUserMessage ? "muted" : "ghost"}>
+                              <BubbleContent className="space-y-2">
+                                {getMessageText(message)
+                                  .split(/\n\s*\n/)
+                                  .map((paragraph) => paragraph.trim())
+                                  .filter(Boolean)
+                                  .map((paragraph, index) => (
+                                    <p
+                                      key={index}
+                                      className="whitespace-pre-wrap"
+                                    >
+                                      {paragraph}
+                                    </p>
+                                  ))}
+                              </BubbleContent>
+                            </Bubble>
+                          </MessageContent>
+                        </Message>
+                      </MessageScrollerItem>
+                    )
+                  })}
+                  <MessageScrollerItem scrollAnchor={false}>
+                    <Marker variant="separator">
+                      <MarkerContent>End of Conversation</MarkerContent>
+                    </Marker>
+                  </MessageScrollerItem>
+                </MessageScrollerContent>
+              </MessageScrollerViewport>
+              <MessageScrollerButton />
+            </MessageScroller>
+          </CardContent>
+          <CardFooter className="flex flex-col items-center gap-2 border-t">
+            <Button
+              type="button"
+              disabled={!canLoadHistory}
+              onClick={() => {
+                setVisibleCount(history.length)
+                toast.add({
+                  title: "History loaded",
+                  description: "Scroll up to see earlier messages.",
+                })
+              }}
+              className="w-full"
+              variant="secondary"
+            >
+              {canLoadHistory ? "Load History" : "History Loaded"}
+            </Button>
+            <p className="text-xs text-muted-foreground">
+              Restore earlier messages while keeping your place.
+            </p>
+          </CardFooter>
+        </Card>
+        <div className="mx-auto max-w-sm px-0.5 text-center text-xs text-balance text-muted-foreground">
+          Click Load History to load the entire conversation
+        </div>
+      </div>
+    </MessageScrollerProvider>
+  )
+}
+```
+
+</ComponentPreview>
+
+메시지 행에는 안정적인 `messageId`를 사용하세요. 그래야 스크롤러가 뷰포트 가장자리에
+걸친 픽셀로 추측하는 대신 특정 행을 기준으로 위치를 유지할 수 있습니다.
+
+### 새 메시지 애니메이션
+
+`MessageScrollerItem`은 직접 애니메이션할 수 있습니다. 항목의 motion 버전을 만들고
+`messageId`와 `scrollAnchor`를 그대로 유지한 뒤, 등장에는 transform과 opacity를
+사용하세요.
+
+흔한 패턴은 사용자가 보낸 메시지에 애니메이션을 주고, 어시스턴트 답변은 그 아래 일반
+행으로 흘러 들어오게 하는 것입니다. 사용자 행을 최종 위치보다 아래에서 시작하면 뷰포트
+최신 지점에서 떠오르는 느낌이 납니다.
+
+```tsx
+const MotionMessageScrollerItem = motion.create(MessageScrollerItem)
+```
+
+<ComponentPreview name="message-scroller-animation">
+
+```tsx
+"use client"
+
+import * as React from "react"
+import { useChat } from "@ai-sdk/react"
+
+import { MESSAGE_ANIMATIONS } from "@/lib/message-animations"
+import { MessageAnimated } from "@/components/message-animated"
+import {
+  MessageScroller,
+  MessageScrollerContent,
+  MessageScrollerProvider,
+  MessageScrollerViewport,
+} from "@/components/ui/message-scroller"
+
+export default function MessageScrollerAnimation() {
+  const [preset, setPreset] = React.useState(MESSAGE_ANIMATIONS["slide-up"])
+  const { messages } = useChat({ messages: initialMessages, transport })
+
+  return (
+    <MessageScrollerProvider autoScroll>
+      <MessageScroller>
+        <MessageScrollerViewport>
+          <MessageScrollerContent>
+            {messages.map((message) => (
+              <MessageAnimated
+                key={message.id}
+                message={message}
+                animationPreset={preset}
+                scrollAnchor={message.role === "user"}
+              />
+            ))}
+          </MessageScrollerContent>
+        </MessageScrollerViewport>
+      </MessageScroller>
+    </MessageScrollerProvider>
+  )
+}
+```
+
+</ComponentPreview>
+
+행 등장에 height, margin, padding을 애니메이션하지 마세요. 스크롤러의 위치 계산과
+충돌할 수 있습니다. 사용자가 모션 최소화를 선호한다면 등장 애니메이션은 건너뛰되 스크롤
+동작은 그대로 유지하세요.
+
+### 메시지로 이동
+
+검색 결과, 퍼머링크, 아웃라인 항목, 툴바 버튼은 메시지 리스트 바깥에서 대화를 제어해야
+할 때가 많습니다. 그럴 때 `useMessageScroller`를 사용하세요. 훅은
+`MessageScrollerProvider`에서 값을 읽으므로, `MessageScroller` 프레임 바깥에 렌더링된
+컨트롤을 포함해 프로바이더 안의 어떤 컴포넌트에서도 동작합니다.
+
+```tsx
+import { useMessageScroller } from "@/components/ui/message-scroller"
+```
+
+```tsx
+const { scrollToMessage, scrollToEnd, scrollToStart } = useMessageScroller()
+```
+
+<ComponentPreview name="message-scroller-commands">
+
+```tsx
+"use client"
+
+import {
+  MessageScroller,
+  MessageScrollerContent,
+  MessageScrollerProvider,
+  MessageScrollerViewport,
+  useMessageScroller,
+} from "@/components/ui/message-scroller"
+
+function JumpMenu() {
+  const { scrollToMessage, scrollToEnd, scrollToStart } = useMessageScroller()
+
+  return (
+    <div className="flex gap-2">
+      <Button onClick={() => scrollToStart()}>처음</Button>
+      <Button onClick={() => scrollToMessage("turn-3")}>3번째 턴</Button>
+      <Button onClick={() => scrollToEnd()}>최신</Button>
+    </div>
+  )
+}
+
+export default function MessageScrollerCommands() {
+  return (
+    <MessageScrollerProvider>
+      <MessageScroller>
+        <MessageScrollerViewport>
+          <MessageScrollerContent>{/* 대화 */}</MessageScrollerContent>
+        </MessageScrollerViewport>
+      </MessageScroller>
+      <JumpMenu />
+    </MessageScrollerProvider>
+  )
+}
+```
+
+</ComponentPreview>
+
+`scrollToMessage`는 `MessageScrollerItem`의 `messageId`를 대상으로 하므로, 지정 가능해야
+하는 행에는 안정적인 id를 부여하세요. 대상이 마운트되지 않았고 대기열에도 넣을 수 없으면
+`scrollToMessage`는 `false`를 반환합니다.
+
+`scrollToMessage`는 항목이 존재하기 전에도 대상을 대기열에 넣을 수 있어, 대화가 마운트되는
+동안 클라이언트에서 해석되는 퍼머링크를 처리합니다. 행이 마운트된 뒤에는 존재하지 않는
+id에 대해 추측성 재시도 루프를 돌리는 대신 `false`를 반환합니다. `true`는 스크롤이
+실행되었거나 대기열에 들어갔다는 뜻이지, 행이 이미 보인다는 뜻은 아닙니다.
+
+### 읽는 위치 추적
+
+대화에서 사용자의 위치를 추적하려면 `useMessageScrollerVisibility`를 사용하세요. 현재
+고정된 턴을 강조하는 목차나 이동 메뉴가 대표적인 예입니다.
+
+```tsx
+import { useMessageScrollerVisibility } from "@/components/ui/message-scroller"
+```
+
+```tsx
+const { currentAnchorId, visibleMessageIds } = useMessageScrollerVisibility()
+```
+
+<ComponentPreview name="message-scroller-visibility">
+
+```tsx
+"use client"
+
+import {
+  MessageScroller,
+  MessageScrollerContent,
+  MessageScrollerProvider,
+  MessageScrollerViewport,
+  useMessageScrollerVisibility,
+} from "@/components/ui/message-scroller"
+
+function Outline() {
+  const { currentAnchorId, visibleMessageIds } = useMessageScrollerVisibility()
+
+  return <aside>{currentAnchorId}</aside>
+}
+
+export default function MessageScrollerVisibility() {
+  return (
+    <MessageScrollerProvider>
+      <MessageScroller>
+        <MessageScrollerViewport>
+          <MessageScrollerContent>{/* 대화 */}</MessageScrollerContent>
+        </MessageScrollerViewport>
+      </MessageScroller>
+      <Outline />
+    </MessageScrollerProvider>
+  )
+}
+```
+
+</ComponentPreview>
+
+`currentAnchorId`는 현재 고정된 턴을 알려주어 "지금 어디인가"에 답하며, 해당 앵커가
+뷰포트 위로 스크롤된 뒤에도 값이 유지됩니다. `visibleMessageIds`는 문서 순서대로 "화면에
+무엇이 보이는가"에 답합니다.
+
+가시성 추적은 쓰는 만큼만 비용이 듭니다. `useMessageScrollerVisibility`를 구독하는 대상이
+있을 때만 동작하며, 행은 `messageId`가 있어야 추적에 포함됩니다.
+
+### 스크롤 상태 읽기
+
+상태 표시기나 커스텀 "최신으로 이동" 컨트롤처럼 JavaScript에서 스크롤 상태가 필요할 때
+`useMessageScrollerScrollable`을 사용하세요. 뷰포트가 아직 더 스크롤할 수 있는 방향을
+알려줍니다. "시작/끝에 있음"은 그 부정(`!start` / `!end`)이고, "스크롤 가능 여부"는
+`start || end`입니다. 스크롤러 자체를 스타일링할 때는 `data-scrollable` 속성을 쓰세요.
+
+```tsx
+import { useMessageScrollerScrollable } from "@/components/ui/message-scroller"
+```
+
+```tsx
+const { start, end } = useMessageScrollerScrollable()
+```
+
+<ComponentPreview name="message-scroller-scrollable">
+
+```tsx
+"use client"
+
+import { MessageAnimated } from "@/components/message-animated"
+import {
+  MessageScroller,
+  MessageScrollerContent,
+  MessageScrollerProvider,
+  MessageScrollerViewport,
+  useMessageScrollerScrollable,
+} from "@/components/ui/message-scroller"
+
+function ScrollState() {
+  const { start, end } = useMessageScrollerScrollable()
+
+  return (
+    <p>
+      start: {String(start)} · end: {String(end)}
+    </p>
+  )
+}
+
+export default function MessageScrollerScrollable() {
+  return (
+    <MessageScrollerProvider>
+      <MessageScroller>
+        <MessageScrollerViewport>
+          <MessageScrollerContent>{/* 대화 */}</MessageScrollerContent>
+        </MessageScrollerViewport>
+      </MessageScroller>
+      <ScrollState />
+    </MessageScrollerProvider>
+  )
+}
+```
+
+</ComponentPreview>
+
+## 성능
+
+`MessageScroller`는 마크다운과 조합된 메시지 행을 포함한 대형 대화를 기준으로 벤치마크
+되었습니다.
+
+`MessageScroller`의 성능 목표는 스크롤 핫 패스를 React 상태 밖에 두는 것입니다. 대화 행의 React 리렌더링 없음,
+스크롤마다 강제 레이아웃 없음, 화면 밖 페인트 작업은 브라우저가 피할 수 있는 만큼 최소화.
+
+스크롤 위치, 고정, 출력 따라가기는 명령형으로 추적되어 `data-*` 속성으로 루트와 뷰포트에 반영되므로, 스크롤과 스트리밍이 대화 행을 리렌더링하지 않습니다.
+
+스타일이 적용된 `MessageScrollerItem`에는 `content-visibility: auto`와
+`contain-intrinsic-size`가 포함되어 있습니다. 선택, 복사, 페이지 내 찾기, SSR, 보조
+기술을 위해 행은 DOM에 남지만, 뷰포트에서 멀리 떨어진 행의 렌더링 작업은 브라우저가
+건너뛸 수 있습니다.
+
+가시성 추적은 쓰는 만큼만 비용이 듭니다. 이동 메뉴나 활성 턴 표시기는
+`useMessageScrollerVisibility`를 구독하기 전까지 비용이 들지 않습니다.
+
+이는 채팅 대화의 일반적인 범위, 즉 마크다운과 조합 컴포넌트를 포함한 수백에서 수천 턴
+수준을 여유 있게 감당합니다.
+
+## 가상화
+
+가상화는 의도적으로 프리미티브 밖에 두었습니다. `MessageScroller`는 실제 DOM 행을
+렌더링하면서도 수천 턴까지 충분히 빠르므로([성능](#성능) 참고), 대부분의 대화에는
+가상화가 필요하지 않습니다.
+
+가상화가 필요할 만큼 대화가 커지면 `MessageScrollerViewport`를 스크롤 요소로 삼고 행은
+가상화 라이브러리가 소유하도록 하세요.
+
+```tsx showLineNumbers
+import * as React from "react"
+import { useVirtualizer } from "@tanstack/react-virtual"
+
+function VirtualizedTranscript({
+  messages,
+}: {
+  messages: Array<{ id: string; content: React.ReactNode }>
+}) {
+  const viewportRef = React.useRef<HTMLDivElement>(null)
+
+  const virtualizer = useVirtualizer({
+    count: messages.length,
+    getScrollElement: () => viewportRef.current,
+    estimateSize: () => 86,
+    getItemKey: (index) => messages[index]?.id ?? index,
+    overscan: 8,
+  })
+
+  return (
+    <MessageScrollerProvider>
+      <MessageScroller>
+        <MessageScrollerViewport ref={viewportRef}>
+          <MessageScrollerContent className="block min-h-full">
+            <div
+              className="relative w-full"
+              style={{ height: virtualizer.getTotalSize() }}
+            >
+              {virtualizer.getVirtualItems().map((virtualItem) => {
+                const message = messages[virtualItem.index]
+
+                if (!message) {
+                  return null
+                }
+
+                return (
+                  <div
+                    key={virtualItem.key}
+                    ref={virtualizer.measureElement}
+                    data-index={virtualItem.index}
+                    className="absolute start-0 top-0 w-full"
+                    style={{
+                      transform: `translateY(${virtualItem.start}px)`,
+                    }}
+                  >
+                    <Message>{message.content}</Message>
+                  </div>
+                )
+              })}
+            </div>
+          </MessageScrollerContent>
+        </MessageScrollerViewport>
+        <MessageScrollerButton />
+      </MessageScroller>
+    </MessageScrollerProvider>
+  )
+}
+```
+
+## 접근성
+
+`MessageScroller`는 특정 메시지 UI를 강요하지 않으면서도 스크롤 컨테이너를 키보드로
+접근 가능하게, 대화를 읽어줄 수 있게 유지합니다.
+
+`MessageScrollerViewport`는 기본적으로 레이블이 있고 키보드 포커스가 가능한 스크롤
+영역입니다. `role="region"`, `aria-label="Messages"`, `tabIndex={0}`을 사용하므로 키보드
+사용자가 대화에 포커스해 직접 스크롤할 수 있습니다.
+
+`MessageScrollerContent`는 `role="log"`와 `aria-relevant="additions"`로 대화를 라이브
+리전으로 표시합니다. 새 행은 읽어줄 수 있지만, 스트리밍되는 텍스트 변경을 토큰 단위로
+읽어줄 필요는 없습니다.
+
+```tsx
+<MessageScrollerContent aria-busy={status === "streaming"}>
+  {/* 메시지 */}
+</MessageScrollerContent>
+```
+
+완성된 메시지 행이 나올 때까지 안내를 미루려면 턴이 스트리밍되는 동안 `aria-busy`를
+전달하세요.
+
+`MessageScrollerButton`은 실제 버튼을 렌더링합니다. 이동할 곳이 없으면 `inert`를 설정하고
+`tabIndex={-1}`을 사용하며 `data-active="false"`를 노출하므로, 비활성 스크롤 컨트롤이
+불필요한 포커스 정류장을 만들지 않습니다.
+
+## 스타일 없는 버전
+
+`MessageScroller`의 동작은 `@shadcn/react` 패키지에서 옵니다. 직접 만든 마크업과
+스타일로 사용하려면
+[@shadcn/react Message Scroller](https://ui.shadcn.com/docs/react/message-scroller)
+문서를 참고하세요.
+
+## API 참고
+
+각 파트의 프롭, 데이터 속성, 훅은
+[@shadcn/react Message Scroller](https://ui.shadcn.com/docs/react/message-scroller#api-reference)
+페이지에 문서화되어 있습니다. 스타일이 적용된 컴포넌트와 스타일 없는 파트 모두 동일합니다.

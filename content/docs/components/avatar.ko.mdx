@@ -1,0 +1,430 @@
+---
+title: Avatar (아바타)
+description: 사용자를 나타내기 위한 이미지 요소입니다. 이미지 로드 실패 시 폴백을 제공합니다.
+---
+
+<Callout>
+  아바타 위에 알림 카운트가 필요하세요?
+  [`NumberBadge`](/docs/compositions/number-badge)가 애니메이션 카운트를 원하는
+  모서리에 self-anchor로 얹어줍니다.
+</Callout>
+
+<ComponentPreview name="avatar-demo">
+
+```tsx
+import {
+  Avatar,
+  AvatarBadge,
+  AvatarFallback,
+  AvatarGroup,
+  AvatarGroupCount,
+  AvatarImage,
+} from "@/components/ui/avatar"
+
+export default function AvatarDemo() {
+  return (
+    <div className="flex flex-row flex-wrap items-center gap-6 md:gap-12">
+      <Avatar>
+        <AvatarImage
+          src="https://github.com/shadcn.png"
+          alt="@shadcn"
+          className="grayscale"
+        />
+        <AvatarFallback>CN</AvatarFallback>
+      </Avatar>
+      <Avatar>
+        <AvatarImage
+          src="https://github.com/evilrabbit.png"
+          alt="@evilrabbit"
+        />
+        <AvatarFallback>ER</AvatarFallback>
+        <AvatarBadge className="bg-green-600 dark:bg-green-800" />
+      </Avatar>
+      <AvatarGroup className="grayscale">
+        <Avatar>
+          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
+        <Avatar>
+          <AvatarImage
+            src="https://github.com/maxleiter.png"
+            alt="@maxleiter"
+          />
+          <AvatarFallback>LR</AvatarFallback>
+        </Avatar>
+        <Avatar>
+          <AvatarImage
+            src="https://github.com/evilrabbit.png"
+            alt="@evilrabbit"
+          />
+          <AvatarFallback>ER</AvatarFallback>
+        </Avatar>
+        <AvatarGroupCount>+3</AvatarGroupCount>
+      </AvatarGroup>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## Installation
+
+```bash
+bunx shadcn@latest add @ondo-ui/avatar
+```
+
+## Usage
+
+```tsx showLineNumbers
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+```
+
+```tsx showLineNumbers
+<Avatar>
+  <AvatarImage src="https://github.com/shadcn.png" />
+  <AvatarFallback>CN</AvatarFallback>
+</Avatar>
+```
+
+## Composition
+
+`Avatar`를 만들기 위해 다음 구성을 사용하세요:
+
+```text
+Avatar
+├── AvatarImage
+├── AvatarFallback
+└── AvatarBadge
+```
+
+`AvatarGroup`을 만들기 위해 다음 구성을 사용하세요:
+
+```text
+AvatarGroup
+├── Avatar
+│   ├── AvatarImage
+│   ├── AvatarFallback
+│   └── AvatarBadge
+├── Avatar
+│   ├── AvatarImage
+│   ├── AvatarFallback
+│   └── AvatarBadge
+└── AvatarGroupCount
+```
+
+## Examples
+
+### Basic
+
+이미지와 폴백을 포함한 기본 아바타 컴포넌트입니다.
+
+<ComponentPreview name="avatar-basic">
+
+```tsx
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
+
+export default function AvatarBasic() {
+  return (
+    <Avatar>
+      <AvatarImage
+        src="https://github.com/shadcn.png"
+        alt="@shadcn"
+        className="grayscale"
+      />
+      <AvatarFallback>CN</AvatarFallback>
+    </Avatar>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Badge
+
+`AvatarBadge` 컴포넌트를 사용하여 아바타에 배지를 추가할 수 있습니다. 배지는 아바타의 오른쪽 아래에 위치합니다.
+
+<ComponentPreview name="avatar-badge">
+
+```tsx
+import {
+  Avatar,
+  AvatarBadge as AvatarBadgeComponent,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
+
+export default function AvatarBadge() {
+  return (
+    <Avatar>
+      <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+      <AvatarFallback>CN</AvatarFallback>
+      <AvatarBadgeComponent className="bg-green-600 dark:bg-green-800" />
+    </Avatar>
+  )
+}
+```
+
+</ComponentPreview>
+
+`className` prop을 사용하여 배지에 커스텀 스타일을 추가할 수 있습니다.
+
+```tsx showLineNumbers
+<Avatar>
+  <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+  <AvatarFallback>CN</AvatarFallback>
+  <AvatarBadge className="bg-green-600 dark:bg-green-800" />
+</Avatar>
+```
+
+### Badge with Icon
+
+`<AvatarBadge>` 안에 아이콘을 사용할 수도 있습니다.
+
+<ComponentPreview name="avatar-badge-with-icon">
+
+```tsx
+import { IconPlus } from "@tabler/icons-react"
+
+import {
+  Avatar,
+  AvatarBadge,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
+
+export default function AvatarBadgeWithIcon() {
+  return (
+    <Avatar className="grayscale">
+      <AvatarImage src="https://github.com/pranathip.png" alt="@pranathip" />
+      <AvatarFallback>PP</AvatarFallback>
+      <AvatarBadge>
+        <IconPlus />
+      </AvatarBadge>
+    </Avatar>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Avatar Group
+
+`AvatarGroup` 컴포넌트를 사용하여 아바타 그룹을 추가할 수 있습니다.
+
+<ComponentPreview name="avatar-avatar-group">
+
+```tsx
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarGroup,
+  AvatarImage,
+} from "@/components/ui/avatar"
+
+export default function AvatarAvatarGroup() {
+  return (
+    <AvatarGroup className="grayscale">
+      <Avatar>
+        <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+        <AvatarFallback>CN</AvatarFallback>
+      </Avatar>
+      <Avatar>
+        <AvatarImage src="https://github.com/maxleiter.png" alt="@maxleiter" />
+        <AvatarFallback>LR</AvatarFallback>
+      </Avatar>
+      <Avatar>
+        <AvatarImage
+          src="https://github.com/evilrabbit.png"
+          alt="@evilrabbit"
+        />
+        <AvatarFallback>ER</AvatarFallback>
+      </Avatar>
+    </AvatarGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Avatar Group Count
+
+`<AvatarGroupCount>`를 사용하여 그룹에 카운트를 추가할 수 있습니다.
+
+<ComponentPreview name="avatar-avatar-group-count">
+
+```tsx
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarGroup,
+  AvatarGroupCount,
+  AvatarImage,
+} from "@/components/ui/avatar"
+
+export default function AvatarAvatarGroupCount() {
+  return (
+    <AvatarGroup className="grayscale">
+      <Avatar>
+        <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+        <AvatarFallback>CN</AvatarFallback>
+      </Avatar>
+      <Avatar>
+        <AvatarImage src="https://github.com/maxleiter.png" alt="@maxleiter" />
+        <AvatarFallback>LR</AvatarFallback>
+      </Avatar>
+      <Avatar>
+        <AvatarImage
+          src="https://github.com/evilrabbit.png"
+          alt="@evilrabbit"
+        />
+        <AvatarFallback>ER</AvatarFallback>
+      </Avatar>
+      <AvatarGroupCount>+3</AvatarGroupCount>
+    </AvatarGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Avatar Group with Icon
+
+`<AvatarGroupCount>` 안에 아이콘을 사용할 수도 있습니다.
+
+<ComponentPreview name="avatar-avatar-group-with-icon">
+
+```tsx
+import { IconPlus } from "@tabler/icons-react"
+
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarGroup,
+  AvatarGroupCount,
+  AvatarImage,
+} from "@/components/ui/avatar"
+
+export default function AvatarAvatarGroupWithIcon() {
+  return (
+    <AvatarGroup className="grayscale">
+      <Avatar>
+        <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+        <AvatarFallback>CN</AvatarFallback>
+      </Avatar>
+      <Avatar>
+        <AvatarImage src="https://github.com/maxleiter.png" alt="@maxleiter" />
+        <AvatarFallback>LR</AvatarFallback>
+      </Avatar>
+      <Avatar>
+        <AvatarImage
+          src="https://github.com/evilrabbit.png"
+          alt="@evilrabbit"
+        />
+        <AvatarFallback>ER</AvatarFallback>
+      </Avatar>
+      <AvatarGroupCount>
+        <IconPlus />
+      </AvatarGroupCount>
+    </AvatarGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Sizes
+
+`size` prop을 사용하여 아바타의 크기를 변경할 수 있습니다.
+
+<ComponentPreview name="avatar-sizes">
+
+```tsx
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
+
+export default function AvatarSizes() {
+  return (
+    <div className="flex flex-wrap items-center gap-2 grayscale">
+      <Avatar size="sm">
+        <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+        <AvatarFallback>CN</AvatarFallback>
+      </Avatar>
+      <Avatar>
+        <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+        <AvatarFallback>CN</AvatarFallback>
+      </Avatar>
+      <Avatar size="lg">
+        <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+        <AvatarFallback>CN</AvatarFallback>
+      </Avatar>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Dropdown
+
+`Avatar` 컴포넌트를 드롭다운 메뉴의 트리거로 사용할 수 있습니다.
+
+<ComponentPreview name="avatar-dropdown">
+
+```tsx
+"use client"
+
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
+export default function AvatarDropdown() {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        render={<Button variant="ghost" size="icon" className="rounded-full" />}
+      >
+        <Avatar>
+          <AvatarImage src="https://github.com/shadcn.png" alt="shadcn" />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-32">
+        <DropdownMenuGroup>
+          <DropdownMenuItem>Profile</DropdownMenuItem>
+          <DropdownMenuItem>Billing</DropdownMenuItem>
+          <DropdownMenuItem>Settings</DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem variant="destructive">Log out</DropdownMenuItem>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API 참고
+
+The component wraps [Base UI Avatar](https://base-ui.com/react/components/avatar) and accepts all of its props.

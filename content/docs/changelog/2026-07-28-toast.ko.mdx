@@ -1,0 +1,34 @@
+---
+title: Sonner를 대체하는 Toast
+description: Base UI 기반 토스트 컴포넌트가 Sonner 래퍼를 대신합니다.
+version: 1.0.0
+---
+
+**v1.0.0**
+
+[`Toast`](/docs/components/toast)는 [Base UI Toast](https://base-ui.com/react/components/toast)를 기반으로 한 새 컴포넌트이며 `Sonner`를 대체합니다. upstream shadcn도 Base UI 변형에서 같은 전환을 했습니다 — 문서에서 `sonner`가 빠지고 `toast`가 그 자리를 대신했습니다.
+
+```tsx
+import { toast } from "@/components/ui/toast"
+
+toast.add({
+  title: "Event created",
+  description: "Sunday, December 3 at 9:00 AM",
+})
+```
+
+`Toaster`는 앱 루트 근처에 한 번만 마운트합니다. 프로바이더·포털·뷰포트·기본 토스트 목록을 하나로 묶고 있으며, `toast`는 독립 매니저라 호출하는 쪽이 프로바이더 안에 있을 필요가 없습니다.
+
+커스텀 레이아웃을 위해 전체 표면을 노출합니다: `Toast`, `ToastAction`, `ToastClose`, `ToastContent`, `ToastDescription`, `ToastPortal`, `ToastProvider`, `ToastTitle`, `ToastViewport`, 그리고 `createToastManager`와 `useToastManager`.
+
+**breaking change입니다.** `Sonner`는 레지스트리에서 제거되었고 `sonner` 패키지도 더 이상 의존성이 아닙니다. 두 API는 호환되지 않습니다:
+
+```diff
+- toast("Event created", { description: "…" })
++ toast.add({ title: "Event created", description: "…" })
+
+- toast.success("Saved")
++ toast.add({ type: "success", title: "Saved" })
+```
+
+상태 아이콘은 `success`, `info`, `warning`, `error`, `loading`을 그대로 지원하며, `Sonner`가 쓰던 것과 같은 아이콘 세트와 시맨틱 색상을 사용하므로 외관은 이어집니다.

@@ -1,0 +1,1027 @@
+---
+title: Field (필드)
+description: 레이블, 컨트롤, 도움말 텍스트를 조합하여 접근성 있는 폼 필드와 그룹화된 입력을 구성합니다.
+---
+
+<ComponentPreview name="field-demo">
+
+```tsx
+import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+  FieldLegend,
+  FieldSeparator,
+  FieldSet,
+} from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { Textarea } from "@/components/ui/textarea"
+
+const months = [
+  { label: "MM", value: null },
+  { label: "01", value: "01" },
+  { label: "02", value: "02" },
+  { label: "03", value: "03" },
+  { label: "04", value: "04" },
+  { label: "05", value: "05" },
+  { label: "06", value: "06" },
+  { label: "07", value: "07" },
+  { label: "08", value: "08" },
+  { label: "09", value: "09" },
+  { label: "10", value: "10" },
+  { label: "11", value: "11" },
+  { label: "12", value: "12" },
+]
+
+const years = [
+  { label: "YYYY", value: null },
+  { label: "2024", value: "2024" },
+  { label: "2025", value: "2025" },
+  { label: "2026", value: "2026" },
+  { label: "2027", value: "2027" },
+  { label: "2028", value: "2028" },
+  { label: "2029", value: "2029" },
+]
+
+export default function FieldDemo() {
+  return (
+    <div className="w-full max-w-md">
+      <form>
+        <FieldGroup>
+          <FieldSet>
+            <FieldLegend>Payment Method</FieldLegend>
+            <FieldDescription>
+              All transactions are secure and encrypted
+            </FieldDescription>
+            <FieldGroup>
+              <Field>
+                <FieldLabel htmlFor="checkout-7j9-card-name-43j">
+                  Name on Card
+                </FieldLabel>
+                <Input
+                  id="checkout-7j9-card-name-43j"
+                  placeholder="Evil Rabbit"
+                  required
+                />
+              </Field>
+              <Field>
+                <FieldLabel htmlFor="checkout-7j9-card-number-uw1">
+                  Card Number
+                </FieldLabel>
+                <Input
+                  id="checkout-7j9-card-number-uw1"
+                  placeholder="1234 5678 9012 3456"
+                  required
+                />
+                <FieldDescription>
+                  Enter your 16-digit card number
+                </FieldDescription>
+              </Field>
+              <div className="grid grid-cols-3 gap-4">
+                <Field>
+                  <FieldLabel htmlFor="checkout-exp-month-ts6">
+                    Month
+                  </FieldLabel>
+                  <Select items={months}>
+                    <SelectTrigger id="checkout-exp-month-ts6">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        {months.map((item) => (
+                          <SelectItem key={item.value} value={item.value}>
+                            {item.label}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </Field>
+                <Field>
+                  <FieldLabel htmlFor="checkout-7j9-exp-year-f59">
+                    Year
+                  </FieldLabel>
+                  <Select items={years}>
+                    <SelectTrigger id="checkout-7j9-exp-year-f59">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectGroup>
+                        {years.map((item) => (
+                          <SelectItem key={item.value} value={item.value}>
+                            {item.label}
+                          </SelectItem>
+                        ))}
+                      </SelectGroup>
+                    </SelectContent>
+                  </Select>
+                </Field>
+                <Field>
+                  <FieldLabel htmlFor="checkout-7j9-cvv">CVV</FieldLabel>
+                  <Input id="checkout-7j9-cvv" placeholder="123" required />
+                </Field>
+              </div>
+            </FieldGroup>
+          </FieldSet>
+          <FieldSeparator />
+          <FieldSet>
+            <FieldLegend>Billing Address</FieldLegend>
+            <FieldDescription>
+              The billing address associated with your payment method
+            </FieldDescription>
+            <FieldGroup>
+              <Field orientation="horizontal">
+                <Checkbox
+                  id="checkout-7j9-same-as-shipping-wgm"
+                  defaultChecked
+                />
+                <FieldLabel
+                  htmlFor="checkout-7j9-same-as-shipping-wgm"
+                  className="font-normal"
+                >
+                  Same as shipping address
+                </FieldLabel>
+              </Field>
+            </FieldGroup>
+          </FieldSet>
+          <FieldSet>
+            <FieldGroup>
+              <Field>
+                <FieldLabel htmlFor="checkout-7j9-optional-comments">
+                  Comments
+                </FieldLabel>
+                <Textarea
+                  id="checkout-7j9-optional-comments"
+                  placeholder="Add any additional comments"
+                  className="resize-none"
+                />
+              </Field>
+            </FieldGroup>
+          </FieldSet>
+          <Field orientation="horizontal">
+            <Button type="submit">Submit</Button>
+            <Button variant="outline" type="button">
+              Cancel
+            </Button>
+          </Field>
+        </FieldGroup>
+      </form>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## Installation
+
+```bash
+bunx shadcn@latest add @ondo-ui/field
+```
+
+## Usage
+
+```tsx showLineNumbers
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldError,
+  FieldGroup,
+  FieldLabel,
+  FieldLegend,
+  FieldSeparator,
+  FieldSet,
+  FieldTitle,
+} from "@/components/ui/field"
+```
+
+```tsx showLineNumbers
+<FieldSet>
+  <FieldLegend>Profile</FieldLegend>
+  <FieldDescription>This appears on invoices and emails.</FieldDescription>
+  <FieldGroup>
+    <Field>
+      <FieldLabel htmlFor="name">Full name</FieldLabel>
+      <Input id="name" autoComplete="off" placeholder="Evil Rabbit" />
+      <FieldDescription>This appears on invoices and emails.</FieldDescription>
+    </Field>
+    <Field>
+      <FieldLabel htmlFor="username">Username</FieldLabel>
+      <Input id="username" autoComplete="off" aria-invalid />
+      <FieldError>Choose another username.</FieldError>
+    </Field>
+    <Field orientation="horizontal">
+      <Switch id="newsletter" />
+      <FieldLabel htmlFor="newsletter">Subscribe to the newsletter</FieldLabel>
+    </Field>
+  </FieldGroup>
+</FieldSet>
+```
+
+## Composition
+
+### Field
+
+하나의 컨트롤에 레이블, 도움말 텍스트, 검증 기능을 제공합니다.
+
+```text
+Field
+├── FieldLabel
+├── Input / Textarea / Switch / Select
+├── FieldDescription
+└── FieldError
+```
+
+### FieldGroup
+
+관련된 필드들을 하나의 그룹으로 묶습니다. 필요한 경우 FieldSeparator를 사용하여 섹션을 분할할 수 있습니다.
+
+```text
+FieldGroup
+├── Field
+│   ├── FieldLabel
+│   ├── Input / Textarea / Switch / Select
+│   ├── FieldDescription
+│   └── FieldError
+├── FieldSeparator
+└── Field
+    ├── FieldLabel
+    └── Input / Textarea / Switch / Select
+```
+
+### FieldSet
+
+레이블과 설명을 포함하는 의미론적 그룹화로, 일반적으로 FieldGroup을 포함합니다.
+
+```text
+FieldSet
+├── FieldLegend
+├── FieldDescription
+└── FieldGroup
+    ├── Field
+    │   ├── FieldLabel
+    │   ├── Input / Textarea / Switch / Select
+    │   ├── FieldDescription
+    │   └── FieldError
+    └── Field
+        ├── FieldLabel
+        └── Input / Textarea / Switch / Select
+```
+
+## Anatomy
+
+Field 제품군은 접근성 있는 폼 작성을 위해 설계되었습니다. 일반적인 필드 구조는 다음과 같습니다:
+
+```tsx showLineNumbers
+<Field>
+  <FieldLabel htmlFor="input-id">Label</FieldLabel>
+  {/* Input, Select, Switch, etc. */}
+  <FieldDescription>Optional helper text.</FieldDescription>
+  <FieldError>Validation message.</FieldError>
+</Field>
+```
+
+- Field는 단일 필드의 핵심 래퍼입니다.
+- FieldContent는 레이블과 설명을 그룹화하는 플렉스 열입니다. 설명이 없으면 필수가 아닙니다.
+- 관련 필드는 FieldGroup으로 래핑하고, 의미론적 그룹화를 위해 FieldSet과 FieldLegend를 사용하세요.
+
+## Form
+
+Field 컴포넌트와 React Hook Form, Tanstack Form, 또는 Formisch를 사용하여 폼을 구축하는 방법은 Form 문서를 참조하세요.
+
+## Examples
+
+### Input
+
+<ComponentPreview name="field-input">
+
+```tsx
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+  FieldSet,
+} from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+
+export default function FieldInput() {
+  return (
+    <FieldSet className="w-full max-w-xs">
+      <FieldGroup>
+        <Field>
+          <FieldLabel htmlFor="username">Username</FieldLabel>
+          <Input id="username" type="text" placeholder="Max Leiter" />
+          <FieldDescription>
+            Choose a unique username for your account.
+          </FieldDescription>
+        </Field>
+        <Field>
+          <FieldLabel htmlFor="password">Password</FieldLabel>
+          <FieldDescription>
+            Must be at least 8 characters long.
+          </FieldDescription>
+          <Input id="password" type="password" placeholder="••••••••" />
+        </Field>
+      </FieldGroup>
+    </FieldSet>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Textarea
+
+<ComponentPreview name="field-textarea">
+
+```tsx
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+  FieldSet,
+} from "@/components/ui/field"
+import { Textarea } from "@/components/ui/textarea"
+
+export default function FieldTextarea() {
+  return (
+    <FieldSet className="w-full max-w-xs">
+      <FieldGroup>
+        <Field>
+          <FieldLabel htmlFor="feedback">Feedback</FieldLabel>
+          <Textarea
+            id="feedback"
+            placeholder="Your feedback helps us improve..."
+            rows={4}
+          />
+          <FieldDescription>
+            Share your thoughts about our service.
+          </FieldDescription>
+        </Field>
+      </FieldGroup>
+    </FieldSet>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Select
+
+<ComponentPreview name="field-select">
+
+```tsx
+import {
+  Field,
+  FieldDescription,
+  FieldLabel,
+} from "@/components/ui/field"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
+const items = [
+  { label: "Choose department", value: null },
+  { label: "Engineering", value: "engineering" },
+  { label: "Design", value: "design" },
+  { label: "Marketing", value: "marketing" },
+  { label: "Sales", value: "sales" },
+  { label: "Customer Support", value: "support" },
+  { label: "Human Resources", value: "hr" },
+  { label: "Finance", value: "finance" },
+  { label: "Operations", value: "operations" },
+]
+
+export default function FieldSelect() {
+  return (
+    <Field className="w-full max-w-xs">
+      <FieldLabel>Department</FieldLabel>
+      <Select items={items}>
+        <SelectTrigger>
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            {items.map((item) => (
+              <SelectItem key={item.value} value={item.value}>
+                {item.label}
+              </SelectItem>
+            ))}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+      <FieldDescription>
+        Select your department or area of work.
+      </FieldDescription>
+    </Field>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Slider
+
+<ComponentPreview name="field-slider">
+
+```tsx
+"use client"
+
+import * as React from "react"
+
+import {
+  Field,
+  FieldDescription,
+  FieldTitle,
+} from "@/components/ui/field"
+import { Slider } from "@/components/ui/slider"
+
+export default function FieldSlider() {
+  const [value, setValue] = React.useState([200, 800])
+
+  return (
+    <Field className="w-full max-w-xs">
+      <FieldTitle>Price Range</FieldTitle>
+      <FieldDescription>
+        Set your budget range ($
+        <span className="font-medium tabular-nums">{value[0]}</span> -{" "}
+        <span className="font-medium tabular-nums">{value[1]}</span>).
+      </FieldDescription>
+      <Slider
+        value={value}
+        onValueChange={(value) => setValue(value as [number, number])}
+        max={1000}
+        min={0}
+        step={10}
+        className="mt-2 w-full"
+        aria-label="Price Range"
+      />
+    </Field>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Fieldset
+
+<ComponentPreview name="field-fieldset">
+
+```tsx
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+  FieldLegend,
+  FieldSet,
+} from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+
+export default function FieldFieldset() {
+  return (
+    <FieldSet className="w-full max-w-sm">
+      <FieldLegend>Address Information</FieldLegend>
+      <FieldDescription>
+        We need your address to deliver your order.
+      </FieldDescription>
+      <FieldGroup>
+        <Field>
+          <FieldLabel htmlFor="street">Street Address</FieldLabel>
+          <Input id="street" type="text" placeholder="123 Main St" />
+        </Field>
+        <div className="grid grid-cols-2 gap-4">
+          <Field>
+            <FieldLabel htmlFor="city">City</FieldLabel>
+            <Input id="city" type="text" placeholder="New York" />
+          </Field>
+          <Field>
+            <FieldLabel htmlFor="zip">Postal Code</FieldLabel>
+            <Input id="zip" type="text" placeholder="90502" />
+          </Field>
+        </div>
+      </FieldGroup>
+    </FieldSet>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Checkbox
+
+<ComponentPreview name="field-checkbox">
+
+```tsx
+import { Checkbox } from "@/components/ui/checkbox"
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+  FieldLegend,
+  FieldSeparator,
+  FieldSet,
+} from "@/components/ui/field"
+
+export default function FieldCheckbox() {
+  return (
+    <FieldGroup className="w-full max-w-xs">
+      <FieldSet>
+        <FieldLegend variant="label">
+          Show these items on the desktop
+        </FieldLegend>
+        <FieldDescription>
+          Select the items you want to show on the desktop.
+        </FieldDescription>
+        <FieldGroup className="gap-3">
+          <Field orientation="horizontal">
+            <Checkbox id="finder-pref-9k2-hard-disks-ljj" />
+            <FieldLabel
+              htmlFor="finder-pref-9k2-hard-disks-ljj"
+              className="font-normal"
+              defaultChecked
+            >
+              Hard disks
+            </FieldLabel>
+          </Field>
+          <Field orientation="horizontal">
+            <Checkbox id="finder-pref-9k2-external-disks-1yg" />
+            <FieldLabel
+              htmlFor="finder-pref-9k2-external-disks-1yg"
+              className="font-normal"
+            >
+              External disks
+            </FieldLabel>
+          </Field>
+          <Field orientation="horizontal">
+            <Checkbox id="finder-pref-9k2-cds-dvds-fzt" />
+            <FieldLabel
+              htmlFor="finder-pref-9k2-cds-dvds-fzt"
+              className="font-normal"
+            >
+              CDs, DVDs, and iPods
+            </FieldLabel>
+          </Field>
+          <Field orientation="horizontal">
+            <Checkbox id="finder-pref-9k2-connected-servers-6l2" />
+            <FieldLabel
+              htmlFor="finder-pref-9k2-connected-servers-6l2"
+              className="font-normal"
+            >
+              Connected servers
+            </FieldLabel>
+          </Field>
+        </FieldGroup>
+      </FieldSet>
+      <FieldSeparator />
+      <Field orientation="horizontal">
+        <Checkbox id="finder-pref-9k2-sync-folders-nep" defaultChecked />
+        <FieldContent>
+          <FieldLabel htmlFor="finder-pref-9k2-sync-folders-nep">
+            Sync Desktop & Documents folders
+          </FieldLabel>
+          <FieldDescription>
+            Your Desktop & Documents folders are being synced with iCloud Drive.
+            You can access them from other devices.
+          </FieldDescription>
+        </FieldContent>
+      </Field>
+    </FieldGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Radio
+
+<ComponentPreview name="field-radio">
+
+```tsx
+import {
+  Field,
+  FieldDescription,
+  FieldLabel,
+  FieldLegend,
+  FieldSet,
+} from "@/components/ui/field"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+
+export default function FieldRadio() {
+  return (
+    <FieldSet className="w-full max-w-xs">
+      <FieldLegend variant="label">Subscription Plan</FieldLegend>
+      <FieldDescription>
+        Yearly and lifetime plans offer significant savings.
+      </FieldDescription>
+      <RadioGroup defaultValue="monthly">
+        <Field orientation="horizontal">
+          <RadioGroupItem value="monthly" id="plan-monthly" />
+          <FieldLabel htmlFor="plan-monthly" className="font-normal">
+            Monthly ($9.99/month)
+          </FieldLabel>
+        </Field>
+        <Field orientation="horizontal">
+          <RadioGroupItem value="yearly" id="plan-yearly" />
+          <FieldLabel htmlFor="plan-yearly" className="font-normal">
+            Yearly ($99.99/year)
+          </FieldLabel>
+        </Field>
+        <Field orientation="horizontal">
+          <RadioGroupItem value="lifetime" id="plan-lifetime" />
+          <FieldLabel htmlFor="plan-lifetime" className="font-normal">
+            Lifetime ($299.99)
+          </FieldLabel>
+        </Field>
+      </RadioGroup>
+    </FieldSet>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Switch
+
+<ComponentPreview name="field-switch">
+
+```tsx
+import { Field, FieldLabel } from "@/components/ui/field"
+import { Switch } from "@/components/ui/switch"
+
+export default function FieldSwitch() {
+  return (
+    <Field orientation="horizontal" className="w-fit">
+      <FieldLabel htmlFor="2fa">Multi-factor authentication</FieldLabel>
+      <Switch id="2fa" />
+    </Field>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Choice Card
+
+FieldLabel 내에 Field 컴포넌트를 래핑하여 선택 가능한 필드 그룹을 만듭니다. RadioItem, Checkbox, Switch 컴포넌트와 함께 작동합니다.
+
+<ComponentPreview name="field-choice-card">
+
+```tsx
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+  FieldLegend,
+  FieldSet,
+  FieldTitle,
+} from "@/components/ui/field"
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+
+export default function FieldChoiceCard() {
+  return (
+    <FieldGroup className="w-full max-w-xs">
+      <FieldSet>
+        <FieldLegend variant="label">Compute Environment</FieldLegend>
+        <FieldDescription>
+          Select the compute environment for your cluster.
+        </FieldDescription>
+        <RadioGroup defaultValue="kubernetes">
+          <FieldLabel htmlFor="kubernetes-r2h">
+            <Field orientation="horizontal">
+              <FieldContent>
+                <FieldTitle>Kubernetes</FieldTitle>
+                <FieldDescription>
+                  Run GPU workloads on a K8s cluster.
+                </FieldDescription>
+              </FieldContent>
+              <RadioGroupItem value="kubernetes" id="kubernetes-r2h" />
+            </Field>
+          </FieldLabel>
+          <FieldLabel htmlFor="vm-z4k">
+            <Field orientation="horizontal">
+              <FieldContent>
+                <FieldTitle>Virtual Machine</FieldTitle>
+                <FieldDescription>
+                  Access a cluster to run GPU workloads.
+                </FieldDescription>
+              </FieldContent>
+              <RadioGroupItem value="vm" id="vm-z4k" />
+            </Field>
+          </FieldLabel>
+        </RadioGroup>
+      </FieldSet>
+    </FieldGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Field Group
+
+Field 컴포넌트를 FieldGroup으로 스택합니다. FieldSeparator를 추가하여 분할할 수 있습니다.
+
+<ComponentPreview name="field-field-group">
+
+```tsx
+import { Checkbox } from "@/components/ui/checkbox"
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+  FieldSeparator,
+  FieldSet,
+} from "@/components/ui/field"
+
+export default function FieldFieldGroup() {
+  return (
+    <FieldGroup className="w-full max-w-xs">
+      <FieldSet>
+        <FieldLabel>Responses</FieldLabel>
+        <FieldDescription>
+          Get notified when ChatGPT responds to requests that take time, like
+          research or image generation.
+        </FieldDescription>
+        <FieldGroup data-slot="checkbox-group">
+          <Field orientation="horizontal">
+            <Checkbox id="push" defaultChecked disabled />
+            <FieldLabel htmlFor="push" className="font-normal">
+              Push notifications
+            </FieldLabel>
+          </Field>
+        </FieldGroup>
+      </FieldSet>
+      <FieldSeparator />
+      <FieldSet>
+        <FieldLabel>Tasks</FieldLabel>
+        <FieldDescription>
+          Get notified when tasks you&apos;ve created have updates.{" "}
+          <a href="#">Manage tasks</a>
+        </FieldDescription>
+        <FieldGroup data-slot="checkbox-group">
+          <Field orientation="horizontal">
+            <Checkbox id="push-tasks" />
+            <FieldLabel htmlFor="push-tasks" className="font-normal">
+              Push notifications
+            </FieldLabel>
+          </Field>
+          <Field orientation="horizontal">
+            <Checkbox id="email-tasks" />
+            <FieldLabel htmlFor="email-tasks" className="font-normal">
+              Email notifications
+            </FieldLabel>
+          </Field>
+        </FieldGroup>
+      </FieldSet>
+    </FieldGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+## Responsive Layout
+
+- **수직 필드**: 기본 방향은 레이블, 컨트롤, 도움말 텍스트를 스택하며, 모바일 우선 레이아웃에 이상적입니다.
+- **수평 필드**: Field에 orientation="horizontal"을 설정하여 레이블과 컨트롤을 나란히 정렬합니다. 설명을 정렬 상태로 유지하려면 FieldContent와 함께 사용하세요.
+- **반응형 필드**: orientation="responsive"를 설정하여 컨테이너 인식 부모 내에서 자동 열 레이아웃을 활용합니다. FieldGroup에 @container/field-group 클래스를 적용하여 특정 중단점에서 방향을 전환합니다.
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+  FieldLegend,
+  FieldSet,
+} from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+
+export function FieldResponsive() {
+  return (
+    <div className="w-full max-w-lg">
+      <form>
+        <FieldSet>
+          <FieldLegend>Profile</FieldLegend>
+          <FieldDescription>Fill in your profile information.</FieldDescription>
+          <FieldGroup>
+            <Field orientation="responsive">
+              <FieldContent>
+                <FieldLabel htmlFor="name">Name</FieldLabel>
+                <FieldDescription>
+                  Provide your full name for identification
+                </FieldDescription>
+              </FieldContent>
+              <Input id="name" placeholder="Evil Rabbit" required />
+            </Field>
+            <Field orientation="responsive">
+              <Button type="submit">Submit</Button>
+              <Button type="button" variant="outline">
+                Cancel
+              </Button>
+            </Field>
+          </FieldGroup>
+        </FieldSet>
+      </form>
+    </div>
+  )
+}
+```
+
+## Validation and Errors
+
+- Field에 data-invalid를 추가하여 전체 블록을 오류 상태로 전환합니다.
+- 보조 기술을 위해 입력 자체에 aria-invalid를 추가합니다.
+- FieldError를 컨트롤 직후 또는 FieldContent 내에 렌더링하여 오류 메시지를 필드와 정렬된 상태로 유지합니다.
+
+```tsx showLineNumbers /data-invalid/ /aria-invalid/
+<Field data-invalid>
+  <FieldLabel htmlFor="email">Email</FieldLabel>
+  <Input id="email" type="email" aria-invalid />
+  <FieldError>Enter a valid email address.</FieldError>
+</Field>
+```
+
+## Accessibility
+
+- FieldSet과 FieldLegend는 키보드 및 보조 기술 사용자를 위해 관련 컨트롤을 그룹화합니다.
+- Field는 role="group"을 출력하므로 중첩된 컨트롤은 FieldLabel 및 FieldLegend에서 레이블을 상속합니다.
+- FieldSeparator는 신중하게 적용하여 스크린 리더 사용자가 명확한 섹션 경계를 만나도록 하세요.
+
+## API 참고
+
+### FieldSet
+
+간격 사전 설정이 있는 의미론적 fieldset을 렌더링하는 컨테이너입니다.
+
+| Prop        | Type     | Default |
+| ----------- | -------- | ------- |
+| `className` | `string` |         |
+
+```tsx
+<FieldSet>
+  <FieldLegend>Delivery</FieldLegend>
+  <FieldGroup>{/* Fields */}</FieldGroup>
+</FieldSet>
+```
+
+### FieldLegend
+
+FieldSet의 범례 요소입니다. label 변형으로 전환하여 레이블 크기 조정과 정렬을 맞춥니다.
+
+| Prop        | Type                  | Default    |
+| ----------- | --------------------- | ---------- |
+| `variant`   | `"legend" \| "label"` | `"legend"` |
+| `className` | `string`              |            |
+
+```tsx
+<FieldLegend variant="label">Notification Preferences</FieldLegend>
+```
+
+FieldLegend에는 legend와 label이라는 두 가지 변형이 있습니다. label 변형은 레이블 크기 조정과 정렬을 적용합니다. 중첩된 FieldSet이 있을 때 유용합니다.
+
+### FieldGroup
+
+Field 컴포넌트를 스택하고 반응형 방향을 위한 컨테이너 쿼리를 활성화하는 레이아웃 래퍼입니다.
+
+| Prop        | Type     | Default |
+| ----------- | -------- | ------- |
+| `className` | `string` |         |
+
+```tsx
+<FieldGroup className="@container/field-group flex flex-col gap-6">
+  <Field>{/* ... */}</Field>
+  <Field>{/* ... */}</Field>
+</FieldGroup>
+```
+
+### Field
+
+단일 필드의 핵심 래퍼입니다. 방향 제어, 잘못된 상태 스타일, 간격을 제공합니다.
+
+| Prop           | Type                                         | Default      |
+| -------------- | -------------------------------------------- | ------------ |
+| `orientation`  | `"vertical" \| "horizontal" \| "responsive"` | `"vertical"` |
+| `className`    | `string`                                     |              |
+| `data-invalid` | `boolean`                                    |              |
+
+```tsx
+<Field orientation="horizontal">
+  <FieldLabel htmlFor="remember">Remember me</FieldLabel>
+  <Switch id="remember" />
+</Field>
+```
+
+### FieldContent
+
+레이블이 컨트롤 옆에 있을 때 컨트롤과 설명을 그룹화하는 플렉스 열입니다. 설명이 없으면 필수가 아닙니다.
+
+| Prop        | Type     | Default |
+| ----------- | -------- | ------- |
+| `className` | `string` |         |
+
+```tsx
+<Field>
+  <Checkbox id="notifications" />
+  <FieldContent>
+    <FieldLabel htmlFor="notifications">Notifications</FieldLabel>
+    <FieldDescription>Email, SMS, and push options.</FieldDescription>
+  </FieldContent>
+</Field>
+```
+
+### FieldLabel
+
+직접 입력 및 중첩된 Field 자식 모두를 위해 스타일이 지정된 레이블입니다.
+
+| Prop        | Type      | Default |
+| ----------- | --------- | ------- |
+| `className` | `string`  |         |
+| `asChild`   | `boolean` | `false` |
+
+```tsx
+<FieldLabel htmlFor="email">Email</FieldLabel>
+```
+
+### FieldTitle
+
+FieldContent 내에 레이블 스타일의 제목을 렌더링합니다.
+
+| Prop        | Type     | Default |
+| ----------- | -------- | ------- |
+| `className` | `string` |         |
+
+```tsx
+<FieldContent>
+  <FieldTitle>Enable Touch ID</FieldTitle>
+  <FieldDescription>Unlock your device faster.</FieldDescription>
+</FieldContent>
+```
+
+### FieldDescription
+
+수평 레이아웃에서 긴 줄을 자동으로 조정하는 도움말 텍스트 슬롯입니다.
+
+| Prop        | Type     | Default |
+| ----------- | -------- | ------- |
+| `className` | `string` |         |
+
+```tsx
+<FieldDescription>We never share your email with anyone.</FieldDescription>
+```
+
+### FieldSeparator
+
+FieldGroup 내 섹션을 분할하는 시각적 구분선입니다. 선택적 인라인 콘텐츠를 허용합니다.
+
+| Prop        | Type     | Default |
+| ----------- | -------- | ------- |
+| `className` | `string` |         |
+
+```tsx
+<FieldSeparator>Or continue with</FieldSeparator>
+```
+
+### FieldError
+
+접근성 있는 오류 컨테이너로, 자식 또는 errors 배열(예: react-hook-form에서)을 허용합니다.
+
+| Prop        | Type                                       | Default |
+| ----------- | ------------------------------------------ | ------- |
+| `errors`    | `Array<{ message?: string } \| undefined>` |         |
+| `className` | `string`                                   |         |
+
+```tsx
+<FieldError errors={errors.username} />
+```
+
+errors 배열에 여러 메시지가 포함되면 컴포넌트가 자동으로 목록을 렌더링합니다.
+
+FieldError는 또한 Zod, Valibot, ArkType을 포함한 Standard Schema를 구현하는 모든 검증자에 의해 생성된 문제도 허용합니다. 스키마 결과의 issues 배열을 직접 전달하여 라이브러리 전반에서 통합된 오류 목록을 렌더링합니다.

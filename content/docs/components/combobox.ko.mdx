@@ -1,0 +1,991 @@
+---
+title: Combobox (콤보박스)
+description: 제안 목록이 있는 자동완성 입력.
+---
+
+<ComponentPreview name="combobox-demo">
+
+```tsx
+"use client"
+
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "@/components/ui/combobox"
+
+const frameworks = [
+  "Next.js",
+  "SvelteKit",
+  "Nuxt.js",
+  "Remix",
+  "Astro",
+] as const
+
+export default function ComboboxDemo() {
+  return (
+    <Combobox items={frameworks}>
+      <ComboboxInput placeholder="프레임워크 선택" />
+      <ComboboxContent>
+        <ComboboxEmpty>항목을 찾을 수 없습니다.</ComboboxEmpty>
+        <ComboboxList>
+          {(item) => (
+            <ComboboxItem key={item} value={item}>
+              {item}
+            </ComboboxItem>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+  )
+}
+```
+
+</ComponentPreview>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/combobox
+```
+
+## 사용법
+
+```tsx showLineNumbers
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "@/components/ui/combobox"
+```
+
+```tsx showLineNumbers
+const frameworks = ["Next.js", "SvelteKit", "Nuxt.js", "Remix", "Astro"]
+
+export function ExampleCombobox() {
+  return (
+    <Combobox items={frameworks}>
+      <ComboboxInput placeholder="Select a framework" />
+      <ComboboxContent>
+        <ComboboxEmpty>No items found.</ComboboxEmpty>
+        <ComboboxList>
+          {(item) => (
+            <ComboboxItem key={item} value={item}>
+              {item}
+            </ComboboxItem>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+  )
+}
+```
+
+## Composition
+
+### 단순
+
+단일 라인 입력과 평면 목록 ([기본](#기본) 참조).
+
+```text
+Combobox
+├── ComboboxInput
+└── ComboboxContent
+    ├── ComboboxEmpty
+    └── ComboboxList
+        ├── ComboboxItem
+        └── ComboboxItem
+```
+
+### 칩 포함
+
+`multiple`, 칩 및 칩 입력을 사용한 다중 선택 ([다중](#다중) 참조).
+
+```text
+Combobox
+├── ComboboxChips
+│   ├── ComboboxValue
+│   │   └── ComboboxChip
+│   └── ComboboxChipsInput
+└── ComboboxContent
+    ├── ComboboxEmpty
+    └── ComboboxList
+        ├── ComboboxItem
+        └── ComboboxItem
+```
+
+### 그룹 및 컬렉션 포함
+
+각 `ComboboxGroup` 내에 `ComboboxCollection`을 사용한 중첩 항목 (그룹 간 구분선 포함, [그룹](#그룹) 참조).
+
+```text
+Combobox
+├── ComboboxInput
+└── ComboboxContent
+    ├── ComboboxEmpty
+    └── ComboboxList
+        ├── ComboboxGroup
+        │   ├── ComboboxLabel
+        │   └── ComboboxCollection
+        │       ├── ComboboxItem
+        │       └── ComboboxItem
+        ├── ComboboxSeparator
+        └── ComboboxGroup
+            ├── ComboboxLabel
+            └── ComboboxCollection
+                ├── ComboboxItem
+                └── ComboboxItem
+```
+
+## 예제
+
+### 기본
+
+프레임워크 목록이 있는 간단한 콤보박스.
+
+<ComponentPreview name="combobox-basic">
+
+```tsx
+"use client"
+
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "@/components/ui/combobox"
+
+const frameworks = [
+  "Next.js",
+  "SvelteKit",
+  "Nuxt.js",
+  "Remix",
+  "Astro",
+] as const
+
+export default function ComboboxBasic() {
+  return (
+    <Combobox items={frameworks}>
+      <ComboboxInput placeholder="프레임워크 선택" />
+      <ComboboxContent>
+        <ComboboxEmpty>항목을 찾을 수 없습니다.</ComboboxEmpty>
+        <ComboboxList>
+          {(item) => (
+            <ComboboxItem key={item} value={item}>
+              {item}
+            </ComboboxItem>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 크기
+
+`Combobox`의 `size` prop으로 컨트롤 전체 크기를 조절합니다. `xs`, `sm`, `default`, `lg`, `xl`, `2xl`을 지원합니다.
+
+`xl`과 `2xl`에서는 팝업도 입력을 따라갑니다 — 항목 글자·패딩·체크 표시가 커지고, 모서리 반경도 그것을 연 입력과 맞춰집니다. `ComboboxChips`를 쓰면 칩도 함께 커집니다.
+
+<ComponentPreview name="combobox-size">
+
+```tsx
+"use client"
+
+import * as React from "react"
+
+import {
+  Combobox,
+  ComboboxChip,
+  ComboboxChips,
+  ComboboxChipsInput,
+  ComboboxCollection,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxGroup,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxLabel,
+  ComboboxList,
+  ComboboxSeparator,
+  ComboboxValue,
+  useComboboxAnchor,
+} from "@/components/ui/combobox"
+
+const timezones = [
+  {
+    value: "Americas",
+    items: [
+      "(GMT-5) New York",
+      "(GMT-8) Los Angeles",
+      "(GMT-6) Chicago",
+      "(GMT-3) São Paulo",
+    ],
+  },
+  {
+    value: "Europe",
+    items: ["(GMT+0) London", "(GMT+1) Paris", "(GMT+1) Berlin"],
+  },
+  {
+    value: "Asia/Pacific",
+    items: [
+      "(GMT+9) Tokyo",
+      "(GMT+8) Singapore",
+      "(GMT+11) Sydney",
+      "(GMT+9) Seoul",
+    ],
+  },
+] as const
+
+const frameworks = ["Next.js", "SvelteKit", "Nuxt.js", "Remix"] as const
+
+const sizes = ["xs", "sm", "default", "lg", "xl", "2xl"] as const
+
+function ComboboxSizeMultiple({ size }: { size: (typeof sizes)[number] }) {
+  const anchor = useComboboxAnchor()
+
+  return (
+    <Combobox
+      multiple
+      autoHighlight
+      size={size}
+      items={frameworks}
+      defaultValue={[frameworks[0], frameworks[1]]}
+    >
+      <ComboboxChips ref={anchor}>
+        <ComboboxValue>
+          {(values) => (
+            <React.Fragment>
+              {values.map((value: string) => (
+                <ComboboxChip key={value}>{value}</ComboboxChip>
+              ))}
+              <ComboboxChipsInput placeholder={`Size ${size}`} />
+            </React.Fragment>
+          )}
+        </ComboboxValue>
+      </ComboboxChips>
+      <ComboboxContent anchor={anchor}>
+        <ComboboxEmpty>No items found.</ComboboxEmpty>
+        <ComboboxList>
+          {(item: string) => (
+            <ComboboxItem key={item} value={item}>
+              {item}
+            </ComboboxItem>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+  )
+}
+
+export default function ComboboxSize() {
+  return (
+    <div className="flex w-full max-w-72 flex-col gap-6">
+      <div className="flex flex-col gap-3">
+        {sizes.map((size) => (
+          <Combobox key={size} items={timezones} size={size}>
+            <ComboboxInput placeholder={`Size ${size}`} showClear />
+            <ComboboxContent>
+              <ComboboxEmpty>No timezones found.</ComboboxEmpty>
+              <ComboboxList>
+                {(group: (typeof timezones)[number], index: number) => (
+                  <ComboboxGroup key={group.value} items={group.items}>
+                    <ComboboxLabel>{group.value}</ComboboxLabel>
+                    <ComboboxCollection>
+                      {(item: string) => (
+                        <ComboboxItem key={item} value={item}>
+                          {item}
+                        </ComboboxItem>
+                      )}
+                    </ComboboxCollection>
+                    {index < timezones.length - 1 && <ComboboxSeparator />}
+                  </ComboboxGroup>
+                )}
+              </ComboboxList>
+            </ComboboxContent>
+          </Combobox>
+        ))}
+      </div>
+      <div className="flex flex-col gap-3">
+        {sizes.map((size) => (
+          <ComboboxSizeMultiple key={size} size={size} />
+        ))}
+      </div>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 다중
+
+`multiple` 및 `ComboboxChips`를 사용한 다중 선택이 있는 콤보박스.
+
+<ComponentPreview name="combobox-multiple">
+
+```tsx
+"use client"
+
+import * as React from "react"
+
+import {
+  Combobox,
+  ComboboxChip,
+  ComboboxChips,
+  ComboboxChipsInput,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxItem,
+  ComboboxList,
+  ComboboxValue,
+  useComboboxAnchor,
+} from "@/components/ui/combobox"
+
+const frameworks = [
+  "Next.js",
+  "SvelteKit",
+  "Nuxt.js",
+  "Remix",
+  "Astro",
+] as const
+
+export default function ComboboxMultiple() {
+  const anchor = useComboboxAnchor()
+
+  return (
+    <Combobox
+      multiple
+      autoHighlight
+      items={frameworks}
+      defaultValue={[frameworks[0]]}
+    >
+      <ComboboxChips ref={anchor} className="w-full max-w-xs">
+        <ComboboxValue>
+          {(values) => (
+            <React.Fragment>
+              {values.map((value: string) => (
+                <ComboboxChip key={value}>{value}</ComboboxChip>
+              ))}
+              <ComboboxChipsInput />
+            </React.Fragment>
+          )}
+        </ComboboxValue>
+      </ComboboxChips>
+      <ComboboxContent anchor={anchor}>
+        <ComboboxEmpty>항목을 찾을 수 없습니다.</ComboboxEmpty>
+        <ComboboxList>
+          {(item) => (
+            <ComboboxItem key={item} value={item}>
+              {item}
+            </ComboboxItem>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 초기화 버튼
+
+`showClear` prop을 사용하여 초기화 버튼을 표시합니다.
+
+<ComponentPreview name="combobox-clear-button">
+
+```tsx
+"use client"
+
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "@/components/ui/combobox"
+
+const frameworks = [
+  "Next.js",
+  "SvelteKit",
+  "Nuxt.js",
+  "Remix",
+  "Astro",
+] as const
+
+export default function ComboboxClearButton() {
+  return (
+    <Combobox items={frameworks} defaultValue={frameworks[0]}>
+      <ComboboxInput placeholder="프레임워크 선택" showClear />
+      <ComboboxContent>
+        <ComboboxEmpty>항목을 찾을 수 없습니다.</ComboboxEmpty>
+        <ComboboxList>
+          {(item) => (
+            <ComboboxItem key={item} value={item}>
+              {item}
+            </ComboboxItem>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 그룹
+
+`ComboboxGroup` 및 `ComboboxSeparator`를 사용하여 항목을 그룹화합니다.
+
+<ComponentPreview name="combobox-groups">
+
+```tsx
+"use client"
+
+import {
+  Combobox,
+  ComboboxCollection,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxGroup,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxLabel,
+  ComboboxList,
+  ComboboxSeparator,
+} from "@/components/ui/combobox"
+
+const timezones = [
+  {
+    value: "Americas",
+    items: [
+      "(GMT-5) New York",
+      "(GMT-8) Los Angeles",
+      "(GMT-6) Chicago",
+      "(GMT-5) Toronto",
+      "(GMT-8) Vancouver",
+      "(GMT-3) São Paulo",
+    ],
+  },
+  {
+    value: "Europe",
+    items: [
+      "(GMT+0) London",
+      "(GMT+1) Paris",
+      "(GMT+1) Berlin",
+      "(GMT+1) Rome",
+      "(GMT+1) Madrid",
+      "(GMT+1) Amsterdam",
+    ],
+  },
+  {
+    value: "Asia/Pacific",
+    items: [
+      "(GMT+9) Tokyo",
+      "(GMT+8) Shanghai",
+      "(GMT+8) Singapore",
+      "(GMT+4) Dubai",
+      "(GMT+11) Sydney",
+      "(GMT+9) Seoul",
+    ],
+  },
+] as const
+
+export default function ComboboxGroups() {
+  return (
+    <Combobox items={timezones}>
+      <ComboboxInput placeholder="시간대 선택" />
+      <ComboboxContent>
+        <ComboboxEmpty>시간대를 찾을 수 없습니다.</ComboboxEmpty>
+        <ComboboxList>
+          {(group, index) => (
+            <ComboboxGroup key={group.value} items={group.items}>
+              <ComboboxLabel>{group.value}</ComboboxLabel>
+              <ComboboxCollection>
+                {(item) => (
+                  <ComboboxItem key={item} value={item}>
+                    {item}
+                  </ComboboxItem>
+                )}
+              </ComboboxCollection>
+              {index < timezones.length - 1 && <ComboboxSeparator />}
+            </ComboboxGroup>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 사용자 정의 항목
+
+`ComboboxItem` 내에 사용자 정의 컴포넌트를 렌더링할 수 있습니다.
+
+<ComponentPreview name="combobox-custom-items">
+
+```tsx
+"use client"
+
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "@/components/ui/combobox"
+import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemTitle,
+} from "@/components/ui/item"
+
+const countries = [
+  { code: "", value: "", continent: "", label: "Select country" },
+  {
+    code: "ar",
+    value: "argentina",
+    label: "Argentina",
+    continent: "South America",
+  },
+  { code: "au", value: "australia", label: "Australia", continent: "Oceania" },
+  { code: "br", value: "brazil", label: "Brazil", continent: "South America" },
+  { code: "ca", value: "canada", label: "Canada", continent: "North America" },
+  { code: "cn", value: "china", label: "China", continent: "Asia" },
+  {
+    code: "co",
+    value: "colombia",
+    label: "Colombia",
+    continent: "South America",
+  },
+  { code: "eg", value: "egypt", label: "Egypt", continent: "Africa" },
+  { code: "fr", value: "france", label: "France", continent: "Europe" },
+  { code: "de", value: "germany", label: "Germany", continent: "Europe" },
+  { code: "it", value: "italy", label: "Italy", continent: "Europe" },
+  { code: "jp", value: "japan", label: "Japan", continent: "Asia" },
+  { code: "ke", value: "kenya", label: "Kenya", continent: "Africa" },
+  { code: "mx", value: "mexico", label: "Mexico", continent: "North America" },
+  {
+    code: "nz",
+    value: "new-zealand",
+    label: "New Zealand",
+    continent: "Oceania",
+  },
+  { code: "ng", value: "nigeria", label: "Nigeria", continent: "Africa" },
+  {
+    code: "za",
+    value: "south-africa",
+    label: "South Africa",
+    continent: "Africa",
+  },
+  { code: "kr", value: "south-korea", label: "South Korea", continent: "Asia" },
+  {
+    code: "gb",
+    value: "united-kingdom",
+    label: "United Kingdom",
+    continent: "Europe",
+  },
+  {
+    code: "us",
+    value: "united-states",
+    label: "United States",
+    continent: "North America",
+  },
+]
+
+export default function ComboboxCustomItems() {
+  return (
+    <Combobox
+      items={countries.filter((country) => country.code !== "")}
+      itemToStringValue={(country: (typeof countries)[number]) => country.label}
+    >
+      <ComboboxInput placeholder="국가 검색..." />
+      <ComboboxContent>
+        <ComboboxEmpty>국가를 찾을 수 없습니다.</ComboboxEmpty>
+        <ComboboxList>
+          {(country) => (
+            <ComboboxItem key={country.code} value={country}>
+              <Item size="xs" className="p-0">
+                <ItemContent>
+                  <ItemTitle className="whitespace-nowrap">
+                    {country.label}
+                  </ItemTitle>
+                  <ItemDescription>
+                    {country.continent} ({country.code})
+                  </ItemDescription>
+                </ItemContent>
+              </Item>
+            </ComboboxItem>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 유효하지 않음
+
+`aria-invalid` prop을 사용하여 콤보박스를 유효하지 않음으로 표시합니다.
+
+<ComponentPreview name="combobox-invalid">
+
+```tsx
+"use client"
+
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "@/components/ui/combobox"
+
+const frameworks = [
+  "Next.js",
+  "SvelteKit",
+  "Nuxt.js",
+  "Remix",
+  "Astro",
+] as const
+
+export default function ComboboxInvalid() {
+  return (
+    <Combobox items={frameworks}>
+      <ComboboxInput placeholder="프레임워크 선택" aria-invalid="true" />
+      <ComboboxContent>
+        <ComboboxEmpty>항목을 찾을 수 없습니다.</ComboboxEmpty>
+        <ComboboxList>
+          {(item) => (
+            <ComboboxItem key={item} value={item}>
+              {item}
+            </ComboboxItem>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 비활성화
+
+`disabled` prop을 사용하여 콤보박스를 비활성화합니다.
+
+<ComponentPreview name="combobox-disabled">
+
+```tsx
+"use client"
+
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "@/components/ui/combobox"
+
+const frameworks = [
+  "Next.js",
+  "SvelteKit",
+  "Nuxt.js",
+  "Remix",
+  "Astro",
+] as const
+
+export default function ComboboxDisabled() {
+  return (
+    <Combobox items={frameworks}>
+      <ComboboxInput placeholder="프레임워크 선택" disabled />
+      <ComboboxContent>
+        <ComboboxEmpty>항목을 찾을 수 없습니다.</ComboboxEmpty>
+        <ComboboxList>
+          {(item) => (
+            <ComboboxItem key={item} value={item}>
+              {item}
+            </ComboboxItem>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 자동 강조
+
+`autoHighlight` prop을 사용하여 필터링 시 첫 번째 항목을 자동으로 강조합니다.
+
+<ComponentPreview name="combobox-auto-highlight">
+
+```tsx
+"use client"
+
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "@/components/ui/combobox"
+
+const frameworks = [
+  "Next.js",
+  "SvelteKit",
+  "Nuxt.js",
+  "Remix",
+  "Astro",
+] as const
+
+export default function ComboboxAutoHighlight() {
+  return (
+    <Combobox items={frameworks} autoHighlight>
+      <ComboboxInput placeholder="프레임워크 선택" />
+      <ComboboxContent>
+        <ComboboxEmpty>항목을 찾을 수 없습니다.</ComboboxEmpty>
+        <ComboboxList>
+          {(item) => (
+            <ComboboxItem key={item} value={item}>
+              {item}
+            </ComboboxItem>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 팝업
+
+`render` prop을 사용하여 버튼이나 다른 컴포넌트에서 콤보박스를 트리거할 수 있습니다. `ComboboxInput`을 `ComboboxContent` 내부로 이동합니다.
+
+<ComponentPreview name="combobox-popup">
+
+```tsx
+"use client"
+
+import { Button } from "@/components/ui/button"
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+  ComboboxTrigger,
+  ComboboxValue,
+} from "@/components/ui/combobox"
+
+const countries = [
+  { code: "", value: "", continent: "", label: "Select country" },
+  {
+    code: "ar",
+    value: "argentina",
+    label: "Argentina",
+    continent: "South America",
+  },
+  { code: "au", value: "australia", label: "Australia", continent: "Oceania" },
+  { code: "br", value: "brazil", label: "Brazil", continent: "South America" },
+  { code: "ca", value: "canada", label: "Canada", continent: "North America" },
+  { code: "cn", value: "china", label: "China", continent: "Asia" },
+  {
+    code: "co",
+    value: "colombia",
+    label: "Colombia",
+    continent: "South America",
+  },
+  { code: "eg", value: "egypt", label: "Egypt", continent: "Africa" },
+  { code: "fr", value: "france", label: "France", continent: "Europe" },
+  { code: "de", value: "germany", label: "Germany", continent: "Europe" },
+  { code: "it", value: "italy", label: "Italy", continent: "Europe" },
+  { code: "jp", value: "japan", label: "Japan", continent: "Asia" },
+  { code: "ke", value: "kenya", label: "Kenya", continent: "Africa" },
+  { code: "mx", value: "mexico", label: "Mexico", continent: "North America" },
+  {
+    code: "nz",
+    value: "new-zealand",
+    label: "New Zealand",
+    continent: "Oceania",
+  },
+  { code: "ng", value: "nigeria", label: "Nigeria", continent: "Africa" },
+  {
+    code: "za",
+    value: "south-africa",
+    label: "South Africa",
+    continent: "Africa",
+  },
+  { code: "kr", value: "south-korea", label: "South Korea", continent: "Asia" },
+  {
+    code: "gb",
+    value: "united-kingdom",
+    label: "United Kingdom",
+    continent: "Europe",
+  },
+  {
+    code: "us",
+    value: "united-states",
+    label: "United States",
+    continent: "North America",
+  },
+]
+
+export default function ComboboxPopup() {
+  return (
+    <>
+      <Combobox items={countries} defaultValue={countries[0]}>
+        <ComboboxTrigger
+          render={
+            <Button
+              variant="outline"
+              className="w-64 justify-between font-normal"
+            />
+          }
+        >
+          <ComboboxValue />
+        </ComboboxTrigger>
+        <ComboboxContent>
+          <ComboboxInput showTrigger={false} placeholder="검색" />
+          <ComboboxEmpty>항목을 찾을 수 없습니다.</ComboboxEmpty>
+          <ComboboxList>
+            {(item) => (
+              <ComboboxItem key={item.code} value={item}>
+                {item.label}
+              </ComboboxItem>
+            )}
+          </ComboboxList>
+        </ComboboxContent>
+      </Combobox>
+    </>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 입력 그룹
+
+`ComboboxInput` 내에 `InputGroupAddon` 컴포넌트를 사용하여 콤보박스에 애드온을 추가할 수 있습니다.
+
+<ComponentPreview name="combobox-input-group">
+
+```tsx
+"use client"
+
+import { IconGlobe } from "@tabler/icons-react"
+
+import {
+  Combobox,
+  ComboboxCollection,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxGroup,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxLabel,
+  ComboboxList,
+} from "@/components/ui/combobox"
+import { InputGroupAddon } from "@/components/ui/input-group"
+
+const timezones = [
+  {
+    value: "Americas",
+    items: [
+      "(GMT-5) New York",
+      "(GMT-8) Los Angeles",
+      "(GMT-6) Chicago",
+      "(GMT-5) Toronto",
+      "(GMT-8) Vancouver",
+      "(GMT-3) São Paulo",
+    ],
+  },
+  {
+    value: "Europe",
+    items: [
+      "(GMT+0) London",
+      "(GMT+1) Paris",
+      "(GMT+1) Berlin",
+      "(GMT+1) Rome",
+      "(GMT+1) Madrid",
+      "(GMT+1) Amsterdam",
+    ],
+  },
+  {
+    value: "Asia/Pacific",
+    items: [
+      "(GMT+9) Tokyo",
+      "(GMT+8) Shanghai",
+      "(GMT+8) Singapore",
+      "(GMT+4) Dubai",
+      "(GMT+11) Sydney",
+      "(GMT+9) Seoul",
+    ],
+  },
+] as const
+
+export default function ComboboxInputGroup() {
+  return (
+    <Combobox items={timezones}>
+      <ComboboxInput placeholder="시간대 선택">
+        <InputGroupAddon>
+          <IconGlobe />
+        </InputGroupAddon>
+      </ComboboxInput>
+      <ComboboxContent alignOffset={-28} className="w-60">
+        <ComboboxEmpty>시간대를 찾을 수 없습니다.</ComboboxEmpty>
+        <ComboboxList>
+          {(group) => (
+            <ComboboxGroup key={group.value} items={group.items}>
+              <ComboboxLabel>{group.value}</ComboboxLabel>
+              <ComboboxCollection>
+                {(item) => (
+                  <ComboboxItem key={item} value={item}>
+                    {item}
+                  </ComboboxItem>
+                )}
+              </ComboboxCollection>
+            </ComboboxGroup>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API 참고
+
+이 컴포넌트는 [Base UI Combobox](https://base-ui.com/react/components/combobox)를 래핑하며 모든 props를 허용합니다.
+
+`Combobox`는 `size`도 받습니다 — `"xs" | "sm" | "default" | "lg" | "xl" | "2xl"`, 기본값은 `"default"`입니다. 입력·팝업·칩이 함께 조절됩니다.

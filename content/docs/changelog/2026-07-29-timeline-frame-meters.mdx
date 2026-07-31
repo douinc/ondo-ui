@@ -1,0 +1,80 @@
+---
+title: Timeline, Frame, and the meter family
+description: Five components for reporting history and bounded values — plus a shared color scale across every progress and meter indicator.
+version: 1.1.0
+---
+
+**v1.1.0**
+
+All five come from the same gap. ondo had good primitives for *inputs* and *lists*, but nothing purpose-built for **reporting a history or a bounded value**, so products kept hand-rolling the same shapes on top of `Card` and raw SVG.
+
+[`Timeline`](/docs/components/timeline) shows events in chronological order, vertically or horizontally. Each item declares its `step`, and the timeline's `value` marks how far the sequence has advanced — items at or below it render as completed, and the rail fills to match.
+
+```tsx
+<Timeline>
+  <TimelineItem step={1}>
+    <TimelineHeader>
+      <TimelineDate>March 2024</TimelineDate>
+      <TimelineTitle>Project Initialized</TimelineTitle>
+    </TimelineHeader>
+    <TimelineIndicator />
+    <TimelineSeparator />
+    <TimelineContent>
+      Successfully set up the project repository and initial architecture.
+    </TimelineContent>
+  </TimelineItem>
+</Timeline>
+```
+
+The indicator and the separator are separate parts, which is what makes the alternating, horizontal, and custom-indicator layouts in the docs possible without fighting the component.
+
+The indicator itself takes `variant` for the color, `fill` for whether it draws as a ring or a disc, and `animate` for `ping` or `pulse` on the step that is currently running; that last one respects `prefers-reduced-motion`. `size` on the root scales the dot, its icon, and the whole rail together, because the item's margin and the separator's length are derived from the indicator size rather than hard-coded.
+
+```tsx
+<Timeline value={2} size="lg">
+  <TimelineItem step={2}>
+    <TimelineIndicator variant="warning" fill="solid" animate="ping" />
+    <TimelineSeparator />
+  </TimelineItem>
+</Timeline>
+```
+
+[`MeterRing`](/docs/components/meter-ring) is a radial reading of a bounded value, built on [Base UI Meter](https://base-ui.com/react/components/meter), so it is announced correctly. The arc is a conic gradient masked into a ring — two elements, no SVG — and it takes `currentColor`, so `variant` recolors it.
+
+```tsx
+<MeterRing value={0.68} max={1} format={{ style: "percent" }} variant="success">
+  <MeterRingLabel>Coverage</MeterRingLabel>
+</MeterRing>
+```
+
+`formatValue` replaces the centered text when a number format cannot say what is needed — an em-dash for "no reading yet" beats a ring confidently displaying `0.00`.
+
+[`Meter`](/docs/components/meter) and [`ProgressRing`](/docs/components/progress-ring) fill in the rest of the grid. There are two questions to answer — *is this a task finishing, or a value that simply is what it is?* and *bar or ring?* — and now every combination has a component, so the name you reach for decides the ARIA role.
+
+|  | Linear | Radial |
+| --- | --- | --- |
+| **Task completion** | [`Progress`](/docs/components/progress) | [`ProgressRing`](/docs/components/progress-ring) |
+| **Bounded reading** | [`Meter`](/docs/components/meter) | [`MeterRing`](/docs/components/meter-ring) |
+
+`ProgressRing` is the genuinely new one here: because it is built on Base UI Progress, `value={null}` marks it indeterminate, and the arc becomes a spinner instead of claiming a number it does not have.
+
+```tsx
+<ProgressRing value={null}>
+  <ProgressRingLabel>Connecting</ProgressRingLabel>
+</ProgressRing>
+```
+
+All four now share one color scale. `variant` — `default`, `info`, `success`, `warning`, `destructive` — sets a text color on the root and the fill paints with `currentColor`, so a `className="text-…"` override works everywhere too. `Progress` gained this prop in the process; it previously hardcoded its fill.
+
+[`Frame`](/docs/components/frame) is the surface the Timeline's horizontal example sits on: a bordered container that nests panels inside it. The panel radius derives from the frame's, so the corners stay concentric instead of doubling up, and `--frame-radius` is the single knob for both.
+
+```tsx
+<Frame stacked>
+  <FramePanel>
+    <FrameHeader>
+      <FrameTitle>Deployment</FrameTitle>
+    </FrameHeader>
+  </FramePanel>
+  <FramePanel>Second panel, joined to the first.</FramePanel>
+</Frame>
+```

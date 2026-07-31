@@ -1,0 +1,188 @@
+---
+title: Meter (미터)
+description: 점수, 사용률, 잔량처럼 범위가 정해진 값을 가로 막대로 보여줍니다.
+---
+
+<ComponentPreview name="meter-demo">
+
+```tsx
+import { Meter } from "@/components/ui/meter"
+
+export default function MeterDemo() {
+  return <Meter value={72} className="w-full max-w-sm" />
+}
+```
+
+</ComponentPreview>
+
+<Callout>
+  이 영역은 네 컴포넌트가 나눠 맡습니다. `Meter`와
+  [`MeterRing`](/docs/components/meter-ring)은 그 자체로 하나의 상태인 값을,
+  [`Progress`](/docs/components/progress)와
+  [`ProgressRing`](/docs/components/progress-ring)은 끝을 향해 올라가는 작업을
+  보여줍니다. 막대냐 링이냐는 그다음에 고르세요.
+</Callout>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/meter
+```
+
+## 사용법
+
+```tsx
+import { Meter, MeterLabel, MeterValue } from "@/components/ui/meter"
+```
+
+```tsx
+<Meter value={72} min={0} max={100} variant="default">
+  <MeterLabel>디스크 사용량</MeterLabel>
+  <MeterValue />
+</Meter>
+```
+
+`Meter`는 Base UI의 `Meter` 위에 만들어져 있어, 올바른 `aria-valuenow`와
+`aria-valuetext`를 가진 미터로 읽힙니다. `Progress`와 달리 진행률을 알 수 없는
+상태가 없습니다 — 미터에는 언제나 읽을 값이 있습니다.
+
+children은 트랙 위에 놓이며, `MeterLabel`과 `MeterValue`가 들어갈 자리입니다.
+막대는 `bg-current`로 칠해지므로 `variant`(또는 `className`의 텍스트 색상
+유틸리티)로 색을 바꿉니다.
+
+## Composition
+
+```text
+Meter
+├── MeterLabel
+├── MeterValue
+└── MeterTrack
+    └── MeterIndicator
+```
+
+## 예시
+
+### 레이블과 값
+
+`MeterLabel`은 무엇을 재는지 알려주고 `MeterValue`는 그 값을 씁니다.
+`MeterValue`가 오른쪽 끝에 붙으므로 둘이 막대 위 한 줄로 읽힙니다.
+
+<ComponentPreview name="meter-label">
+
+```tsx
+import { Meter, MeterLabel, MeterValue } from "@/components/ui/meter"
+
+export default function MeterLabelDemo() {
+  return (
+    <Meter value={68} variant="success" className="w-full max-w-sm">
+      <MeterLabel>디스크 사용량</MeterLabel>
+      <MeterValue />
+    </Meter>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Variants
+
+`variant`는 테마의 시맨틱 색상에서 막대 색을 고릅니다. 어떤 값이 어느 구간인지는
+제품마다 다르므로, 호출하는 쪽에서 값에 맞춰 variant를 정하세요.
+
+<ComponentPreview name="meter-variants">
+
+```tsx
+import { Meter, MeterLabel, MeterValue } from "@/components/ui/meter"
+
+export default function MeterVariants() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-5">
+      <Meter value={18} variant="destructive">
+        <MeterLabel>위험</MeterLabel>
+        <MeterValue />
+      </Meter>
+      <Meter value={34} variant="info">
+        <MeterLabel>정상</MeterLabel>
+        <MeterValue />
+      </Meter>
+      <Meter value={46} variant="warning">
+        <MeterLabel>주의</MeterLabel>
+        <MeterValue />
+      </Meter>
+      <Meter value={91} variant="success">
+        <MeterLabel>양호</MeterLabel>
+        <MeterValue />
+      </Meter>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 값 서식
+
+`format`은 `Intl.NumberFormat` 옵션을 받아 표시되는 문구와 스크린 리더가 읽는
+값을 함께 결정합니다. 값 앞뒤에 말을 붙여야 한다면 `MeterValue`에 렌더 함수를
+넘기세요.
+
+이 렌더 함수는 함수 prop이므로, 이를 넘기는 컴포넌트는 클라이언트 컴포넌트여야
+합니다.
+
+<ComponentPreview name="meter-format">
+
+```tsx
+"use client"
+
+import { Meter, MeterLabel, MeterValue } from "@/components/ui/meter"
+
+export default function MeterFormat() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-5">
+      <Meter value={0.68} max={1} format={{ style: "percent" }}>
+        <MeterLabel>커버리지</MeterLabel>
+        <MeterValue />
+      </Meter>
+      <Meter
+        value={412}
+        max={500}
+        format={{ maximumFractionDigits: 0 }}
+        variant="info"
+      >
+        <MeterLabel>좌석</MeterLabel>
+        <MeterValue>{(formatted) => `500석 중 ${formatted}석`}</MeterValue>
+      </Meter>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API 참고
+
+### Meter
+
+| Prop | 타입 | 기본값 |
+| --- | --- | --- |
+| `value` | `number` | – |
+| `min` | `number` | `0` |
+| `max` | `number` | `100` |
+| `variant` | `"default" \| "info" \| "success" \| "warning" \| "destructive"` | `"default"` |
+| `format` | `Intl.NumberFormatOptions` | – |
+| `locale` | `Intl.LocalesArgument` | 런타임 로캘 |
+| `getAriaValueText` | `(formatted: string, value: number) => string` | – |
+
+이 외에 Base UI [`Meter.Root`](https://base-ui.com/react/components/meter)의
+속성을 그대로 받습니다.
+
+### MeterTrack, MeterIndicator
+
+막대와 그 안을 채우는 부분입니다. `Meter`가 알아서 조합하므로, 트랙의 스타일을
+바꿀 때만 직접 사용하세요.
+
+### MeterLabel, MeterValue
+
+Base UI의 `Meter.Label`과 `Meter.Value`에 ondo 스타일을 입힌 것입니다.
+`format`만으로 부족하다면 `MeterValue`에 렌더 함수
+(`(formatted, value) => ReactNode`)를 넘길 수 있습니다.

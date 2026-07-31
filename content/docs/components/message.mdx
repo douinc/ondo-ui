@@ -1,0 +1,597 @@
+---
+title: Message
+description: Displays a message in a conversation, with optional avatar, header, footer, and alignment.
+---
+
+<ComponentPreview name="message-demo">
+
+```tsx
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
+import {
+  Bubble,
+  BubbleContent,
+  BubbleGroup,
+  BubbleReactions,
+} from "@/components/ui/bubble"
+import { Marker, MarkerContent } from "@/components/ui/marker"
+import {
+  Message,
+  MessageAvatar,
+  MessageContent,
+  MessageFooter,
+} from "@/components/ui/message"
+
+export default function MessageDemo() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-6 py-12">
+      <Message align="end">
+        <MessageAvatar>
+          <Avatar>
+            <AvatarImage src="/avatars/10.png" alt="@me" />
+            <AvatarFallback>ME</AvatarFallback>
+          </Avatar>
+        </MessageAvatar>
+        <MessageContent>
+          <Bubble>
+            <BubbleContent>Deploying to prod real quick.</BubbleContent>
+          </Bubble>
+        </MessageContent>
+      </Message>
+      <Message>
+        <MessageAvatar>
+          <Avatar>
+            <AvatarImage src="/avatars/02.png" alt="@rabbit" />
+            <AvatarFallback>R</AvatarFallback>
+          </Avatar>
+        </MessageAvatar>
+        <MessageContent>
+          <Bubble variant="muted">
+            <BubbleContent>It&apos;s 4:55 PM. On a Friday.</BubbleContent>
+          </Bubble>
+        </MessageContent>
+      </Message>
+      <Message align="end">
+        <MessageAvatar>
+          <Avatar>
+            <AvatarImage src="/avatars/10.png" alt="@me" />
+            <AvatarFallback>ME</AvatarFallback>
+          </Avatar>
+        </MessageAvatar>
+        <MessageContent>
+          <Bubble>
+            <BubbleContent>It&apos;s a one-line change.</BubbleContent>
+          </Bubble>
+          <MessageFooter>Delivered</MessageFooter>
+        </MessageContent>
+      </Message>
+      <Message>
+        <MessageAvatar>
+          <Avatar>
+            <AvatarImage src="/avatars/02.png" alt="@rabbit" />
+            <AvatarFallback>R</AvatarFallback>
+          </Avatar>
+        </MessageAvatar>
+        <MessageContent>
+          <BubbleGroup>
+            <Bubble variant="muted">
+              <BubbleContent>
+                It&apos;s always a one-line change 😭.
+              </BubbleContent>
+            </Bubble>
+            <Bubble variant="muted">
+              <BubbleContent>Alright, let me take a look.</BubbleContent>
+              <BubbleReactions aria-label="Reactions: thumbs up">
+                <span>👍</span>
+              </BubbleReactions>
+            </Bubble>
+          </BubbleGroup>
+        </MessageContent>
+      </Message>
+      <Marker role="status">
+        <MarkerContent className="shimmer">
+          <span className="font-medium">Oliver</span> is typing...
+        </MarkerContent>
+      </Marker>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+The `Message` component lays out a single message in a conversation. It handles the avatar, alignment, header, and footer around the message surface.
+
+For AI apps, you can render reasoning steps, tool calls and assistant messages using the `Message` component.
+
+## Installation
+
+```bash
+bunx shadcn@latest add @ondo-ui/message
+```
+
+## Usage
+
+```tsx showLineNumbers
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Bubble, BubbleContent } from "@/components/ui/bubble"
+import { Message, MessageAvatar, MessageContent } from "@/components/ui/message"
+```
+
+```tsx showLineNumbers
+<Message>
+  <MessageAvatar>
+    <Avatar>
+      <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+      <AvatarFallback>CN</AvatarFallback>
+    </Avatar>
+  </MessageAvatar>
+  <MessageContent>
+    <Bubble>
+      <BubbleContent>How can I help you today?</BubbleContent>
+    </Bubble>
+  </MessageContent>
+</Message>
+```
+
+**Note:** `Message` owns the row layout—avatar, alignment, header, and footer.
+Render the visible message surface inside it with
+[`Bubble`](/docs/components/bubble). For the scroll container around a
+conversation, use [`MessageScroller`](/docs/components/message-scroller).
+
+## Composition
+
+Use the following composition to build a message:
+
+```text
+Message
+├── MessageAvatar
+└── MessageContent
+    ├── MessageHeader
+    ├── Bubble
+    └── MessageFooter
+```
+
+Use `MessageGroup` to stack consecutive messages from the same sender:
+
+```text
+MessageGroup
+├── Message
+└── Message
+```
+
+## Examples
+
+### Avatar
+
+Use `MessageAvatar` to render an avatar next to the message. Set `align="end"` on the message to align the avatar to the end of the message.
+
+<ComponentPreview name="message-avatar">
+
+```tsx
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
+import {
+  Bubble,
+  BubbleContent,
+  BubbleGroup,
+} from "@/components/ui/bubble"
+import {
+  Message,
+  MessageAvatar as MessageAvatarComponent,
+  MessageContent,
+} from "@/components/ui/message"
+
+export default function MessageAvatar() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-6 py-12">
+      <Message>
+        <MessageAvatarComponent>
+          <Avatar>
+            <AvatarImage src="/avatars/03.png" alt="@avatar" />
+            <AvatarFallback>R</AvatarFallback>
+          </Avatar>
+        </MessageAvatarComponent>
+        <MessageContent>
+          <Bubble variant="muted">
+            <BubbleContent>
+              The build failed during dependency installation.
+            </BubbleContent>
+          </Bubble>
+        </MessageContent>
+      </Message>
+      <Message align="end">
+        <MessageAvatarComponent>
+          <Avatar>
+            <AvatarImage src="/avatars/10.png" alt="@avatar" />
+            <AvatarFallback>R</AvatarFallback>
+          </Avatar>
+        </MessageAvatarComponent>
+        <MessageContent>
+          <Bubble>
+            <BubbleContent>Can you share the exact error?</BubbleContent>
+          </Bubble>
+        </MessageContent>
+      </Message>
+      <Message>
+        <MessageAvatarComponent>
+          <Avatar>
+            <AvatarImage src="/avatars/03.png" alt="@avatar" />
+            <AvatarFallback>R</AvatarFallback>
+          </Avatar>
+        </MessageAvatarComponent>
+        <MessageContent>
+          <BubbleGroup>
+            <Bubble variant="muted">
+              <BubbleContent>Here&apos;s the error from the logs</BubbleContent>
+            </Bubble>
+            <Bubble variant="muted">
+              <BubbleContent>
+                Something went wrong with the build. The libraries are not
+                installed correctly. Try running the build again.
+              </BubbleContent>
+            </Bubble>
+          </BubbleGroup>
+        </MessageContent>
+      </Message>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+| align   | Description                                         |
+| ------- | --------------------------------------------------- |
+| `start` | Align the message to the start of the conversation. |
+| `end`   | Align the message to the end of the conversation.   |
+
+### Group
+
+Use `MessageGroup` to stack consecutive messages from the same sender. Render an empty `MessageAvatar` on the earlier messages to keep them aligned with the avatar on the last one.
+
+<ComponentPreview name="message-group">
+
+```tsx
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
+import { Bubble, BubbleContent } from "@/components/ui/bubble"
+import {
+  Message,
+  MessageAvatar as MessageAvatarComponent,
+  MessageContent,
+  MessageGroup as MessageGroupComponent,
+} from "@/components/ui/message"
+
+export default function MessageGroup() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-6 py-12">
+      <MessageGroupComponent>
+        <Message>
+          <MessageAvatarComponent />
+          <MessageContent>
+            <Bubble variant="muted">
+              <BubbleContent>I checked the registry addresses.</BubbleContent>
+            </Bubble>
+          </MessageContent>
+        </Message>
+        <Message>
+          <MessageAvatarComponent>
+            <Avatar>
+              <AvatarImage src="/avatars/02.png" alt="@avatar" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+          </MessageAvatarComponent>
+          <MessageContent>
+            <Bubble variant="muted">
+              <BubbleContent>
+                The component and example JSON now live under the UI registry.
+              </BubbleContent>
+            </Bubble>
+          </MessageContent>
+        </Message>
+      </MessageGroupComponent>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Header and Footer
+
+Use `MessageHeader` for a sender name and `MessageFooter` for metadata such as a delivery or read status.
+
+<ComponentPreview name="message-header-and-footer">
+
+```tsx
+import { Bubble, BubbleContent } from "@/components/ui/bubble"
+import {
+  Message,
+  MessageContent,
+  MessageFooter,
+  MessageHeader,
+} from "@/components/ui/message"
+
+export default function MessageHeaderAndFooter() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-8 py-12">
+      <Message>
+        <MessageContent>
+          <MessageHeader>Olivia</MessageHeader>
+          <Bubble variant="muted">
+            <BubbleContent>I already checked the logs.</BubbleContent>
+          </Bubble>
+        </MessageContent>
+      </Message>
+      <Message align="end">
+        <MessageContent>
+          <Bubble>
+            <BubbleContent>
+              Send the report to the team. Ping @shadcn if you need help.
+            </BubbleContent>
+          </Bubble>
+          <MessageFooter>
+            <div>
+              Read <span className="font-normal">Yesterday</span>
+            </div>
+          </MessageFooter>
+        </MessageContent>
+      </Message>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Actions
+
+Place message-level actions in `MessageFooter`, such as copy, retry, or feedback buttons.
+
+<ComponentPreview name="message-actions">
+
+```tsx
+import {
+  IconCopy,
+  IconRefresh,
+  IconThumbDown,
+  IconThumbUp,
+} from "@tabler/icons-react"
+
+import { Bubble, BubbleContent } from "@/components/ui/bubble"
+import { Button } from "@/components/ui/button"
+import {
+  Message,
+  MessageContent,
+  MessageFooter,
+} from "@/components/ui/message"
+
+export default function MessageActions() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-8 py-12">
+      <Message>
+        <MessageContent>
+          <Bubble variant="muted">
+            <BubbleContent>
+              The install failure is coming from the workspace package.
+            </BubbleContent>
+          </Bubble>
+          <MessageFooter>
+            <Button variant="ghost" size="icon" aria-label="Copy" title="Copy">
+              <IconCopy />
+            </Button>
+            <Button variant="ghost" size="icon" aria-label="Like" title="Like">
+              <IconThumbUp />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label="Dislike"
+              title="Dislike"
+            >
+              <IconThumbDown />
+            </Button>
+          </MessageFooter>
+        </MessageContent>
+      </Message>
+      <Message align="end">
+        <MessageContent>
+          <Bubble>
+            <BubbleContent>Okay drop me a link. Taking a look...</BubbleContent>
+          </Bubble>
+          <MessageFooter className="gap-2">
+            <span className="font-normal text-destructive">Failed to send</span>
+            <Button
+              variant="ghost"
+              size="icon-xs"
+              title="Retry"
+              aria-label="Retry"
+            >
+              <IconRefresh />
+            </Button>
+          </MessageFooter>
+        </MessageContent>
+      </Message>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Attachment
+
+<ComponentPreview name="message-attachment">
+
+```tsx
+"use client"
+
+import { IconDownload, IconFileText } from "@tabler/icons-react"
+
+import {
+  Attachment,
+  AttachmentAction,
+  AttachmentActions,
+  AttachmentContent,
+  AttachmentDescription,
+  AttachmentMedia,
+  AttachmentTitle,
+} from "@/components/ui/attachment"
+import { Bubble, BubbleContent } from "@/components/ui/bubble"
+import { Message, MessageContent } from "@/components/ui/message"
+
+export default function MessageAttachment() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-8 py-12">
+      <Message align="end">
+        <MessageContent>
+          <Attachment orientation="vertical">
+            <AttachmentMedia variant="image">
+              <img
+                src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=900&auto=format&fit=crop&q=80"
+                alt="Workspace"
+              />
+            </AttachmentMedia>
+          </Attachment>
+          <Bubble>
+            <BubbleContent>
+              Here&apos;s the image. Can you add it to the PDF? Use it for the
+              cover page.
+            </BubbleContent>
+          </Bubble>
+        </MessageContent>
+      </Message>
+      <Message>
+        <MessageContent>
+          <Bubble variant="muted">
+            <BubbleContent>
+              Done. Here&apos;s the PDF with the image added as the cover page.
+            </BubbleContent>
+          </Bubble>
+          <Attachment>
+            <AttachmentMedia>
+              <IconFileText />
+            </AttachmentMedia>
+            <AttachmentContent>
+              <AttachmentTitle>sales-dashboard.pdf</AttachmentTitle>
+              <AttachmentDescription>PDF · 2.4 MB</AttachmentDescription>
+            </AttachmentContent>
+            <AttachmentActions>
+              <AttachmentAction
+                type="button"
+                title="Download"
+                aria-label="Download"
+                size="icon-sm"
+                variant="secondary"
+              >
+                <IconDownload />
+              </AttachmentAction>
+            </AttachmentActions>
+          </Attachment>
+        </MessageContent>
+      </Message>
+      <Message align="end">
+        <MessageContent>
+          <Bubble>
+            <BubbleContent>Thanks. Looks good.</BubbleContent>
+          </Bubble>
+        </MessageContent>
+      </Message>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## Accessibility
+
+`Message` is a presentational layout wrapper. Accessibility comes from the content you place inside it.
+
+### Label icon-only actions
+
+Action buttons in `MessageFooter` are usually icon-only, so give each one an `aria-label`.
+
+```tsx showLineNumbers
+<MessageFooter>
+  <Button variant="ghost" size="icon" aria-label="Copy">
+    <IconCopy />
+  </Button>
+</MessageFooter>
+```
+
+### Status updates
+
+For in-progress messages, use a [`Marker`](/docs/components/marker) with `role="status"` so assistive tech announces the update as it appears.
+
+```tsx showLineNumbers
+<Message>
+  <Marker role="status">
+    <MarkerIcon>
+      <Spinner />
+    </MarkerIcon>
+    <MarkerContent>Checking the logs...</MarkerContent>
+  </Marker>
+</Message>
+```
+
+## API reference
+
+### Message
+
+The message row wrapper.
+
+| Prop        | Type               | Default   | Description                                       |
+| ----------- | ------------------ | --------- | ------------------------------------------------- |
+| `align`     | `"start" \| "end"` | `"start"` | The alignment of the message in the conversation. |
+| `className` | `string`           | -         | Additional classes to apply to the row.           |
+
+### MessageGroup
+
+Groups consecutive messages from the same sender.
+
+| Prop        | Type     | Default | Description                                    |
+| ----------- | -------- | ------- | ---------------------------------------------- |
+| `className` | `string` | -       | Additional classes to apply to the group root. |
+
+### MessageAvatar
+
+The avatar slot, aligned to the bottom of the message. When the message has a `MessageFooter`, the avatar shifts up to stay aligned with the message surface instead of the footer.
+
+| Prop        | Type     | Default | Description                                     |
+| ----------- | -------- | ------- | ----------------------------------------------- |
+| `className` | `string` | -       | Additional classes to apply to the avatar slot. |
+
+### MessageContent
+
+Wraps the header, message surface, and footer.
+
+| Prop        | Type     | Default | Description                                      |
+| ----------- | -------- | ------- | ------------------------------------------------ |
+| `className` | `string` | -       | Additional classes to apply to the content slot. |
+
+### MessageHeader
+
+Displays content above the message, such as a sender name. Stays aligned to the start regardless of `align`.
+
+| Prop        | Type     | Default | Description                                |
+| ----------- | -------- | ------- | ------------------------------------------ |
+| `className` | `string` | -       | Additional classes to apply to the header. |
+
+### MessageFooter
+
+Displays content below the message, such as status or actions. Aligns to the message side.
+
+| Prop        | Type     | Default | Description                                |
+| ----------- | -------- | ------- | ------------------------------------------ |
+| `className` | `string` | -       | Additional classes to apply to the footer. |

@@ -1,0 +1,20 @@
+---
+title: Animated number counters
+description: NumberCount and NumberBadge bring rolling-digit counts to avatars, icons, and stats.
+version: 0.2.0
+---
+
+**v0.2.0**
+
+Two new items built on
+[`@number-flow/react`](https://number-flow.barvian.me):
+
+- [`NumberCount`](/docs/components/number-count) — a new **component**: an
+  animated number whose digits roll between values. A thin wrapper over
+  NumberFlow with ondo defaults; every NumberFlow prop (`format`, `prefix`,
+  `suffix`, `spinTiming`, `trend`, …) passes straight through.
+- [`NumberBadge`](/docs/compositions/number-badge) — a new **composition**: a
+  self-anchoring count badge for avatars and icons. Wraps its `children` and
+  overlays an animated count with `99+` overflow, hide-on-zero, and `placement`.
+
+Both install their `@number-flow/react` dependency automatically.

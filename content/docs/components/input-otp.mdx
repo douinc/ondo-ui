@@ -1,0 +1,425 @@
+---
+title: Input OTP
+description: Accessible one-time password component with copy-paste functionality.
+---
+
+<ComponentPreview name="input-otp-demo">
+
+```tsx
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp"
+
+export default function InputOTPDemo() {
+  return (
+    <InputOTP maxLength={6} defaultValue="123456">
+      <InputOTPGroup>
+        <InputOTPSlot index={0} />
+        <InputOTPSlot index={1} />
+        <InputOTPSlot index={2} />
+        <InputOTPSlot index={3} />
+        <InputOTPSlot index={4} />
+        <InputOTPSlot index={5} />
+      </InputOTPGroup>
+    </InputOTP>
+  )
+}
+```
+
+</ComponentPreview>
+
+## About
+
+Input OTP is built on top of [input-otp](https://github.com/guilhermerodz/input-otp) by [@guilherme_rodz](https://twitter.com/guilherme_rodz).
+
+## Installation
+
+```bash
+bunx shadcn@latest add @ondo-ui/input-otp
+```
+
+## Usage
+
+```tsx showLineNumbers
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "@/components/ui/input-otp"
+```
+
+```tsx showLineNumbers
+<InputOTP maxLength={6}>
+  <InputOTPGroup>
+    <InputOTPSlot index={0} />
+    <InputOTPSlot index={1} />
+    <InputOTPSlot index={2} />
+  </InputOTPGroup>
+  <InputOTPSeparator />
+  <InputOTPGroup>
+    <InputOTPSlot index={3} />
+    <InputOTPSlot index={4} />
+    <InputOTPSlot index={5} />
+  </InputOTPGroup>
+</InputOTP>
+```
+
+## Composition
+
+Use the following composition to build an `InputOTP`:
+
+```text
+InputOTP
+├── InputOTPGroup
+│   ├── InputOTPSlot
+│   ├── InputOTPSlot
+│   └── InputOTPSlot
+├── InputOTPSeparator
+├── InputOTPGroup
+│   ├── InputOTPSlot
+│   ├── InputOTPSlot
+│   └── InputOTPSlot
+├── InputOTPSeparator
+└── InputOTPGroup
+    ├── InputOTPSlot
+    └── InputOTPSlot
+```
+
+## Examples
+
+### Separator
+
+Use the `<InputOTPSeparator />` component to add a separator between input groups.
+
+<ComponentPreview name="input-otp-separator">
+
+```tsx
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator as InputOTPSeparatorUI,
+  InputOTPSlot,
+} from "@/components/ui/input-otp"
+
+export default function InputOTPSeparator() {
+  return (
+    <InputOTP maxLength={6}>
+      <InputOTPGroup>
+        <InputOTPSlot index={0} />
+        <InputOTPSlot index={1} />
+      </InputOTPGroup>
+      <InputOTPSeparatorUI />
+      <InputOTPGroup>
+        <InputOTPSlot index={2} />
+        <InputOTPSlot index={3} />
+      </InputOTPGroup>
+      <InputOTPSeparatorUI />
+      <InputOTPGroup>
+        <InputOTPSlot index={4} />
+        <InputOTPSlot index={5} />
+      </InputOTPGroup>
+    </InputOTP>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Disabled
+
+Use the `disabled` prop to disable the input.
+
+<ComponentPreview name="input-otp-disabled">
+
+```tsx
+import { Field, FieldLabel } from "@/components/ui/field"
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "@/components/ui/input-otp"
+
+export default function InputOTPDisabled() {
+  return (
+    <InputOTP id="disabled" maxLength={6} disabled value="123456">
+      <InputOTPGroup>
+        <InputOTPSlot index={0} />
+        <InputOTPSlot index={1} />
+        <InputOTPSlot index={2} />
+      </InputOTPGroup>
+      <InputOTPSeparator />
+      <InputOTPGroup>
+        <InputOTPSlot index={3} />
+        <InputOTPSlot index={4} />
+        <InputOTPSlot index={5} />
+      </InputOTPGroup>
+    </InputOTP>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Controlled
+
+Use the `value` and `onChange` props to control the input value.
+
+<ComponentPreview name="input-otp-controlled">
+
+```tsx
+"use client"
+
+import * as React from "react"
+
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp"
+
+export default function InputOTPControlled() {
+  const [value, setValue] = React.useState("")
+
+  return (
+    <div className="space-y-2">
+      <InputOTP
+        maxLength={6}
+        value={value}
+        onChange={(value) => setValue(value)}
+      >
+        <InputOTPGroup>
+          <InputOTPSlot index={0} />
+          <InputOTPSlot index={1} />
+          <InputOTPSlot index={2} />
+          <InputOTPSlot index={3} />
+          <InputOTPSlot index={4} />
+          <InputOTPSlot index={5} />
+        </InputOTPGroup>
+      </InputOTP>
+      <div className="text-center text-sm">
+        {value === "" ? (
+          <>Enter your one-time password.</>
+        ) : (
+          <>You entered: {value}</>
+        )}
+      </div>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Invalid
+
+Use `aria-invalid` on the slots to show an error state.
+
+<ComponentPreview name="input-otp-invalid">
+
+```tsx
+"use client"
+
+import * as React from "react"
+
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "@/components/ui/input-otp"
+
+export default function InputOTPInvalid() {
+  const [value, setValue] = React.useState("000000")
+
+  return (
+    <InputOTP maxLength={6} value={value} onChange={setValue}>
+      <InputOTPGroup>
+        <InputOTPSlot index={0} aria-invalid />
+        <InputOTPSlot index={1} aria-invalid />
+      </InputOTPGroup>
+      <InputOTPSeparator />
+      <InputOTPGroup>
+        <InputOTPSlot index={2} aria-invalid />
+        <InputOTPSlot index={3} aria-invalid />
+      </InputOTPGroup>
+      <InputOTPSeparator />
+      <InputOTPGroup>
+        <InputOTPSlot index={4} aria-invalid />
+        <InputOTPSlot index={5} aria-invalid />
+      </InputOTPGroup>
+    </InputOTP>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Four Digits
+
+A common pattern for PIN codes. This uses the `pattern={REGEXP_ONLY_DIGITS}` prop.
+
+<ComponentPreview name="input-otp-four-digits">
+
+```tsx
+"use client"
+
+import { REGEXP_ONLY_DIGITS } from "input-otp"
+
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSlot,
+} from "@/components/ui/input-otp"
+
+export default function InputOTPFourDigits() {
+  return (
+    <InputOTP maxLength={4} pattern={REGEXP_ONLY_DIGITS}>
+      <InputOTPGroup>
+        <InputOTPSlot index={0} />
+        <InputOTPSlot index={1} />
+        <InputOTPSlot index={2} />
+        <InputOTPSlot index={3} />
+      </InputOTPGroup>
+    </InputOTP>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Alphanumeric
+
+Use `REGEXP_ONLY_DIGITS_AND_CHARS` to accept both letters and numbers.
+
+<ComponentPreview name="input-otp-alphanumeric">
+
+```tsx
+"use client"
+
+import { REGEXP_ONLY_DIGITS_AND_CHARS } from "input-otp"
+
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "@/components/ui/input-otp"
+
+export default function InputOTPAlphanumeric() {
+  return (
+    <InputOTP maxLength={6} pattern={REGEXP_ONLY_DIGITS_AND_CHARS}>
+      <InputOTPGroup>
+        <InputOTPSlot index={0} />
+        <InputOTPSlot index={1} />
+        <InputOTPSlot index={2} />
+      </InputOTPGroup>
+      <InputOTPSeparator />
+      <InputOTPGroup>
+        <InputOTPSlot index={3} />
+        <InputOTPSlot index={4} />
+        <InputOTPSlot index={5} />
+      </InputOTPGroup>
+    </InputOTP>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Form
+
+<ComponentPreview name="input-otp-form">
+
+```tsx
+import { IconRefresh } from "@tabler/icons-react"
+
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import {
+  Field,
+  FieldDescription,
+  FieldLabel,
+} from "@/components/ui/field"
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+} from "@/components/ui/input-otp"
+
+export default function InputOTPForm() {
+  return (
+    <Card className="mx-auto max-w-md">
+      <CardHeader>
+        <CardTitle>Verify your login</CardTitle>
+        <CardDescription>
+          Enter the verification code we sent to your email address:{" "}
+          <span className="font-medium">m@example.com</span>.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <Field>
+          <div className="flex items-center justify-between">
+            <FieldLabel htmlFor="otp-verification">
+              Verification code
+            </FieldLabel>
+            <Button variant="outline" size="xs">
+              <IconRefresh />
+              Resend Code
+            </Button>
+          </div>
+          <InputOTP maxLength={6} id="otp-verification" required>
+            <InputOTPGroup className="*:data-[slot=input-otp-slot]:h-12 *:data-[slot=input-otp-slot]:w-11 *:data-[slot=input-otp-slot]:text-xl">
+              <InputOTPSlot index={0} />
+              <InputOTPSlot index={1} />
+              <InputOTPSlot index={2} />
+            </InputOTPGroup>
+            <InputOTPSeparator className="mx-2" />
+            <InputOTPGroup className="*:data-[slot=input-otp-slot]:h-12 *:data-[slot=input-otp-slot]:w-11 *:data-[slot=input-otp-slot]:text-xl">
+              <InputOTPSlot index={3} />
+              <InputOTPSlot index={4} />
+              <InputOTPSlot index={5} />
+            </InputOTPGroup>
+          </InputOTP>
+          <FieldDescription>
+            <a href="#">I no longer have access to this email address.</a>
+          </FieldDescription>
+        </Field>
+      </CardContent>
+      <CardFooter>
+        <Field>
+          <Button type="submit" className="w-full">
+            Verify
+          </Button>
+          <div className="text-sm text-muted-foreground">
+            Having trouble signing in?{" "}
+            <a
+              href="#"
+              className="underline underline-offset-4 transition-colors hover:text-primary"
+            >
+              Contact support
+            </a>
+          </div>
+        </Field>
+      </CardFooter>
+    </Card>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API reference
+
+The component wraps [Base UI Input OTP](https://input-otp.rodz.dev) and accepts all of its props.

@@ -1,0 +1,34 @@
+---
+title: Toast replaces Sonner
+description: A Base UI toast component takes over from the Sonner wrapper.
+version: 1.0.0
+---
+
+**v1.0.0**
+
+[`Toast`](/docs/components/toast) is a new component built on [Base UI Toast](https://base-ui.com/react/components/toast), and it replaces `Sonner`. Upstream shadcn made the same move on its Base UI variant: `sonner` is gone from the docs and `toast` took its place.
+
+```tsx
+import { toast } from "@/components/ui/toast"
+
+toast.add({
+  title: "Event created",
+  description: "Sunday, December 3 at 9:00 AM",
+})
+```
+
+Mount `Toaster` once near the root of your app. It bundles the provider, portal, viewport, and default toast list, and `toast` is a standalone manager — the caller does not need to be inside the provider.
+
+The whole surface is exported for custom layouts: `Toast`, `ToastAction`, `ToastClose`, `ToastContent`, `ToastDescription`, `ToastPortal`, `ToastProvider`, `ToastTitle`, `ToastViewport`, plus `createToastManager` and `useToastManager`.
+
+**This is a breaking change.** `Sonner` is removed from the registry, and the `sonner` package is no longer a dependency. The APIs are not compatible:
+
+```diff
+- toast("Event created", { description: "…" })
++ toast.add({ title: "Event created", description: "…" })
+
+- toast.success("Saved")
++ toast.add({ type: "success", title: "Saved" })
+```
+
+Status icons still cover `success`, `info`, `warning`, `error`, and `loading`, using the same icon set and semantic colors `Sonner` used, so the look carries over.

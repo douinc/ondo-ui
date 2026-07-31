@@ -1,0 +1,233 @@
+---
+title: Navigation Menu (내비게이션 메뉴)
+description: 웹사이트를 탐색하기 위한 링크 모음입니다.
+---
+
+<ComponentPreview name="navigation-menu-demo">
+
+```tsx
+"use client"
+
+import * as React from "react"
+import Link from "next/link"
+import {
+  IconAlertCircle,
+  IconCircleCheck,
+  IconCircleDashed,
+} from "@tabler/icons-react"
+
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu"
+
+const components: { title: string; href: string; description: string }[] = [
+  {
+    title: "Alert Dialog",
+    href: "/docs/primitives/alert-dialog",
+    description:
+      "사용자에게 중요한 내용을 표시하고 응답을 요구하는 모달 대화 상자입니다.",
+  },
+  {
+    title: "Hover Card",
+    href: "/docs/primitives/hover-card",
+    description: "링크 뒤의 콘텐츠를 미리 보여줍니다.",
+  },
+  {
+    title: "Progress",
+    href: "/docs/primitives/progress",
+    description:
+      "작업의 완료 진행률을 표시하는 인디케이터로, 보통 진행 막대로 나타냅니다.",
+  },
+  {
+    title: "Tabs",
+    href: "/docs/primitives/tabs",
+    description:
+      "한 번에 하나씩 표시되는, 탭 패널이라 불리는 계층형 콘텐츠 섹션 모음입니다.",
+  },
+]
+
+export default function NavigationMenuDemo() {
+  return (
+    <NavigationMenu>
+      <NavigationMenuList>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger>시작하기</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className="w-96">
+              <ListItem href="/docs" title="소개">
+                Tailwind CSS로 만든 재사용 가능한 컴포넌트입니다.
+              </ListItem>
+              <ListItem href="/docs/installation" title="설치">
+                의존성을 설치하고 앱 구조를 잡는 방법입니다.
+              </ListItem>
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+        <NavigationMenuItem className="hidden md:flex">
+          <NavigationMenuTrigger>컴포넌트</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className="grid w-[400px] gap-2 md:w-[500px] md:grid-cols-2 lg:w-[600px]">
+              {components.map((component) => (
+                <ListItem
+                  key={component.title}
+                  title={component.title}
+                  href={component.href}
+                >
+                  {component.description}
+                </ListItem>
+              ))}
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuTrigger>아이콘 포함</NavigationMenuTrigger>
+          <NavigationMenuContent>
+            <ul className="grid w-[200px]">
+              <li>
+                <NavigationMenuLink
+                  render={
+                    <Link href="#" className="flex-row items-center gap-2" />
+                  }
+                >
+                  <IconAlertCircle />
+                  백로그
+                </NavigationMenuLink>
+                <NavigationMenuLink
+                  render={
+                    <Link href="#" className="flex-row items-center gap-2" />
+                  }
+                >
+                  <IconCircleDashed />
+                  할 일
+                </NavigationMenuLink>
+                <NavigationMenuLink
+                  render={
+                    <Link href="#" className="flex-row items-center gap-2" />
+                  }
+                >
+                  <IconCircleCheck />
+                  완료
+                </NavigationMenuLink>
+              </li>
+            </ul>
+          </NavigationMenuContent>
+        </NavigationMenuItem>
+        <NavigationMenuItem>
+          <NavigationMenuLink
+            render={<Link href="/docs" />}
+            className={navigationMenuTriggerStyle()}
+          >
+            문서
+          </NavigationMenuLink>
+        </NavigationMenuItem>
+      </NavigationMenuList>
+    </NavigationMenu>
+  )
+}
+
+function ListItem({
+  title,
+  children,
+  href,
+  ...props
+}: React.ComponentPropsWithoutRef<"li"> & { href: string }) {
+  return (
+    <li {...props}>
+      <NavigationMenuLink render={<Link href={href} />}>
+        <div className="flex flex-col gap-1 text-sm">
+          <div className="leading-none font-medium">{title}</div>
+          <div className="line-clamp-2 text-muted-foreground">{children}</div>
+        </div>
+      </NavigationMenuLink>
+    </li>
+  )
+}
+```
+
+</ComponentPreview>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/navigation-menu
+```
+
+## 사용법
+
+```tsx showLineNumbers
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu"
+```
+
+```tsx showLineNumbers
+<NavigationMenu>
+  <NavigationMenuList>
+    <NavigationMenuItem>
+      <NavigationMenuTrigger>첫 번째 항목</NavigationMenuTrigger>
+      <NavigationMenuContent>
+        <NavigationMenuLink>링크</NavigationMenuLink>
+      </NavigationMenuContent>
+    </NavigationMenuItem>
+  </NavigationMenuList>
+</NavigationMenu>
+```
+
+## Composition
+
+`NavigationMenu`는 다음과 같이 구성합니다:
+
+```text
+NavigationMenu
+├── NavigationMenuList
+│   ├── NavigationMenuItem
+│   │   ├── NavigationMenuTrigger
+│   │   └── NavigationMenuContent
+│   │       ├── NavigationMenuLink
+│   │       └── NavigationMenuLink
+│   └── NavigationMenuItem
+│       └── NavigationMenuLink
+└── NavigationMenuIndicator
+```
+
+## 링크 컴포넌트
+
+`render` 프롭으로 Next.js `Link` 같은 커스텀 링크 컴포넌트를 조합합니다.
+
+```tsx showLineNumbers
+import Link from "next/link"
+
+import {
+  NavigationMenuItem,
+  NavigationMenuLink,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu"
+
+export function NavigationMenuDemo() {
+  return (
+    <NavigationMenuItem>
+      <NavigationMenuLink
+        render={<Link href="/docs" />}
+        className={navigationMenuTriggerStyle()}
+      >
+        문서
+      </NavigationMenuLink>
+    </NavigationMenuItem>
+  )
+}
+```
+
+## API 참고
+
+이 컴포넌트는 [Base UI Navigation Menu](https://base-ui.com/react/components/navigation-menu)를 감싸며 해당 프롭을 모두 그대로 받습니다.

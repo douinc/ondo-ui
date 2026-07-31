@@ -1,0 +1,288 @@
+---
+title: Native Select (네이티브 셀렉트)
+description: 일관된 디자인 시스템 통합을 제공하는 스타일링된 네이티브 HTML select 요소입니다.
+---
+
+import { IconInfoCircle } from "@tabler/icons-react"
+
+<Callout variant="info" icon={<IconInfoCircle className="translate-y-[3px]!" />}>
+  스타일링된 select 컴포넌트는 [Select](/docs/components/select)
+  컴포넌트를 참고하세요.
+</Callout>
+
+<ComponentPreview name="native-select-demo">
+
+```tsx
+import {
+  NativeSelect,
+  NativeSelectOption,
+} from "@/components/ui/native-select"
+
+export default function NativeSelectDemo() {
+  return (
+    <NativeSelect>
+      <NativeSelectOption value="">Select status</NativeSelectOption>
+      <NativeSelectOption value="todo">Todo</NativeSelectOption>
+      <NativeSelectOption value="in-progress">In Progress</NativeSelectOption>
+      <NativeSelectOption value="done">Done</NativeSelectOption>
+      <NativeSelectOption value="cancelled">Cancelled</NativeSelectOption>
+    </NativeSelect>
+  )
+}
+```
+
+</ComponentPreview>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/native-select
+```
+
+## 사용법
+
+```tsx showLineNumbers
+import {
+  NativeSelect,
+  NativeSelectOptGroup,
+  NativeSelectOption,
+} from "@/components/ui/native-select"
+```
+
+```tsx showLineNumbers
+<NativeSelect>
+  <NativeSelectOption value="">Select a fruit</NativeSelectOption>
+  <NativeSelectOption value="apple">Apple</NativeSelectOption>
+  <NativeSelectOption value="banana">Banana</NativeSelectOption>
+  <NativeSelectOption value="blueberry">Blueberry</NativeSelectOption>
+  <NativeSelectOption value="pineapple">Pineapple</NativeSelectOption>
+</NativeSelect>
+```
+
+## Composition
+
+### Simple
+
+`NativeSelect` 아래에 직접 배치된 옵션 (no `NativeSelectOptGroup`).
+
+```text
+NativeSelect
+├── NativeSelectOption
+├── NativeSelectOption
+├── NativeSelectOption
+└── NativeSelectOption
+```
+
+### With groups
+
+`NativeSelectOptGroup`을 사용하여 옵션을 카테고리별로 정리합니다.
+
+```text
+NativeSelect
+├── NativeSelectOptGroup
+│   ├── NativeSelectOption
+│   └── NativeSelectOption
+└── NativeSelectOptGroup
+    ├── NativeSelectOption
+    └── NativeSelectOption
+```
+
+## 예시
+
+### 크기
+
+`size` prop으로 높이를 조절합니다. `xs`, `sm`, `default`, `lg`, `xl`, `2xl`을 지원합니다.
+
+<ComponentPreview name="native-select-size">
+
+```tsx
+import {
+  NativeSelect,
+  NativeSelectOption,
+} from "@/components/ui/native-select"
+
+export default function NativeSelectSize() {
+  return (
+    <div className="flex flex-col items-start gap-2">
+      <NativeSelect size="xs" className="w-48">
+        <NativeSelectOption value="todo">Todo</NativeSelectOption>
+        <NativeSelectOption value="in-progress">In Progress</NativeSelectOption>
+        <NativeSelectOption value="done">Done</NativeSelectOption>
+      </NativeSelect>
+      <NativeSelect size="sm" className="w-48">
+        <NativeSelectOption value="todo">Todo</NativeSelectOption>
+        <NativeSelectOption value="in-progress">In Progress</NativeSelectOption>
+        <NativeSelectOption value="done">Done</NativeSelectOption>
+      </NativeSelect>
+      <NativeSelect size="default" className="w-48">
+        <NativeSelectOption value="todo">Todo</NativeSelectOption>
+        <NativeSelectOption value="in-progress">In Progress</NativeSelectOption>
+        <NativeSelectOption value="done">Done</NativeSelectOption>
+      </NativeSelect>
+      <NativeSelect size="lg" className="w-48">
+        <NativeSelectOption value="todo">Todo</NativeSelectOption>
+        <NativeSelectOption value="in-progress">In Progress</NativeSelectOption>
+        <NativeSelectOption value="done">Done</NativeSelectOption>
+      </NativeSelect>
+      <NativeSelect size="xl" className="w-48">
+        <NativeSelectOption value="todo">Todo</NativeSelectOption>
+        <NativeSelectOption value="in-progress">In Progress</NativeSelectOption>
+        <NativeSelectOption value="done">Done</NativeSelectOption>
+      </NativeSelect>
+      <NativeSelect size="2xl" className="w-48">
+        <NativeSelectOption value="todo">Todo</NativeSelectOption>
+        <NativeSelectOption value="in-progress">In Progress</NativeSelectOption>
+        <NativeSelectOption value="done">Done</NativeSelectOption>
+      </NativeSelect>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Groups
+
+`NativeSelectOptGroup`을 사용하여 옵션을 카테고리별로 정리합니다.
+
+<ComponentPreview name="native-select-groups">
+
+```tsx
+import {
+  NativeSelect,
+  NativeSelectOptGroup,
+  NativeSelectOption,
+} from "@/components/ui/native-select"
+
+export default function NativeSelectGroups() {
+  return (
+    <NativeSelect>
+      <NativeSelectOption value="">Select department</NativeSelectOption>
+      <NativeSelectOptGroup label="Engineering">
+        <NativeSelectOption value="frontend">Frontend</NativeSelectOption>
+        <NativeSelectOption value="backend">Backend</NativeSelectOption>
+        <NativeSelectOption value="devops">DevOps</NativeSelectOption>
+      </NativeSelectOptGroup>
+      <NativeSelectOptGroup label="Sales">
+        <NativeSelectOption value="sales-rep">Sales Rep</NativeSelectOption>
+        <NativeSelectOption value="account-manager">
+          Account Manager
+        </NativeSelectOption>
+        <NativeSelectOption value="sales-director">
+          Sales Director
+        </NativeSelectOption>
+      </NativeSelectOptGroup>
+      <NativeSelectOptGroup label="Operations">
+        <NativeSelectOption value="support">
+          Customer Support
+        </NativeSelectOption>
+        <NativeSelectOption value="product-manager">
+          Product Manager
+        </NativeSelectOption>
+        <NativeSelectOption value="ops-manager">
+          Operations Manager
+        </NativeSelectOption>
+      </NativeSelectOptGroup>
+    </NativeSelect>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Disabled
+
+`NativeSelect` 컴포넌트에 `disabled` prop을 추가하여 select를 비활성화합니다.
+
+<ComponentPreview name="native-select-disabled">
+
+```tsx
+import {
+  NativeSelect,
+  NativeSelectOption,
+} from "@/components/ui/native-select"
+
+export default function NativeSelectDisabled() {
+  return (
+    <NativeSelect disabled>
+      <NativeSelectOption value="">Disabled</NativeSelectOption>
+      <NativeSelectOption value="apple">Apple</NativeSelectOption>
+      <NativeSelectOption value="banana">Banana</NativeSelectOption>
+      <NativeSelectOption value="blueberry">Blueberry</NativeSelectOption>
+    </NativeSelect>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Invalid
+
+`aria-invalid`을 사용하여 유효성 검사 오류를 표시하고 `Field` 컴포넌트에 `data-invalid` 속성을 사용하여 스타일링합니다.
+
+<ComponentPreview name="native-select-invalid">
+
+```tsx
+import {
+  NativeSelect,
+  NativeSelectOption,
+} from "@/components/ui/native-select"
+
+export default function NativeSelectInvalid() {
+  return (
+    <NativeSelect aria-invalid="true">
+      <NativeSelectOption value="">Error state</NativeSelectOption>
+      <NativeSelectOption value="apple">Apple</NativeSelectOption>
+      <NativeSelectOption value="banana">Banana</NativeSelectOption>
+      <NativeSelectOption value="blueberry">Blueberry</NativeSelectOption>
+    </NativeSelect>
+  )
+}
+```
+
+</ComponentPreview>
+
+## Native Select 대 Select
+
+- `NativeSelect`는 네이티브 브라우저 동작, 더 나은 성능, 또는 모바일 최적화된 드롭다운을 원할 때 사용합니다.
+- `Select`는 커스텀 스타일링, 애니메이션, 또는 복잡한 상호 작용을 원할 때 사용합니다.
+
+## API 참고
+
+### NativeSelect
+
+네이티브 HTML select 요소를 감싸는 주요 select 컴포넌트입니다.
+
+```tsx
+<NativeSelect>
+  <NativeSelectOption value="option1">Option 1</NativeSelectOption>
+  <NativeSelectOption value="option2">Option 2</NativeSelectOption>
+</NativeSelect>
+```
+
+네이티브 `<select>` 요소의 모든 속성과 함께 `size`를 지원합니다 — `"xs" | "sm" | "default" | "lg" | "xl" | "2xl"`, 기본값은 `"default"`입니다.
+
+### NativeSelectOption
+
+select 내의 개별 옵션을 나타냅니다.
+
+| Prop       | 타입      | 기본값 |
+| ---------- | --------- | ------- |
+| `value`    | `string`  |         |
+| `disabled` | `boolean` | `false` |
+
+### NativeSelectOptGroup
+
+관련 옵션을 더 나은 조직을 위해 함께 그룹화합니다.
+
+| Prop       | 타입      | 기본값 |
+| ---------- | --------- | ------- |
+| `label`    | `string`  |         |
+| `disabled` | `boolean` | `false` |
+
+```tsx
+<NativeSelectOptGroup label="Fruits">
+  <NativeSelectOption value="apple">Apple</NativeSelectOption>
+  <NativeSelectOption value="banana">Banana</NativeSelectOption>
+</NativeSelectOptGroup>
+```

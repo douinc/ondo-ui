@@ -1,0 +1,159 @@
+---
+title: shimmer (시머)
+description: 텍스트 요소에 시머(shimmer) 효과를 추가하는 유틸리티입니다.
+---
+
+<ComponentPreview name="shimmer-demo" />
+
+## 설치
+
+shadcn CLI(`bunx shadcn@latest init`)로 설정된 프로젝트라면 `shimmer`가 이미 포함되어 있습니다. `shadcn` 패키지에 들어 있고, CLI가 전역 CSS 파일에 import를 추가합니다.
+
+그렇지 않다면 `shadcn` 패키지를 설치하세요:
+
+```bash
+npm install shadcn
+```
+
+그다음 전역 CSS 파일에서 공용 유틸리티를 import 합니다:
+
+```css
+@import "tailwindcss";
+@import "shadcn/tailwind.css";
+```
+
+## 사용법
+
+| 클래스                        | 스타일                                                                                               |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------- |
+| `shimmer`                     | `background-clip: text;` <br /> `animation: tw-shimmer var(--shimmer-duration, 2s) linear infinite;` |
+| `shimmer-once`                | `animation-iteration-count: 1;`                                                                      |
+| `shimmer-reverse`             | `animation-direction: reverse;`                                                                      |
+| `shimmer-none`                | `--shimmer-image: none;` <br /> `--shimmer-text-fill: currentColor;`                                 |
+| `shimmer-color-<color>`       | `--shimmer-color: <color>;`                                                                          |
+| `shimmer-color-[<value>]`     | `--shimmer-color: <value>;`                                                                          |
+| `shimmer-color-<color>/<pct>` | `--shimmer-color: color-mix(in oklch, <color> <pct>, transparent);`                                  |
+| `shimmer-duration-<number>`   | `--shimmer-duration: calc(<number> * 1ms);`                                                          |
+| `shimmer-spread-<number>`     | `--shimmer-spread: calc(var(--spacing) * <number>);`                                                 |
+| `shimmer-spread-[<value>]`    | `--shimmer-spread: <value>;`                                                                         |
+| `shimmer-angle-<number>`      | `--shimmer-angle: calc(<number> * 1deg);`                                                           |
+
+텍스트 요소에 `shimmer`를 추가하세요.
+
+```tsx
+<p className="shimmer text-muted-foreground">Generating response&hellip;</p>
+```
+
+시머는 `currentColor` 기반이라 요소에 맞게 적응합니다:
+
+- 하이라이트가 텍스트 색상에서 파생되므로 별도 설정이 필요 없습니다.
+- `text-muted-foreground`부터 브랜드 컬러까지 어떤 색상에서도 동작합니다.
+- 다크 모드에서는 하이라이트가 자동으로 밝아져 잘 보이게 유지됩니다.
+
+효과는 순수 CSS입니다. 텍스트는 `background-clip: text`로 칠해지고, 하이라이트가 끊김 없는 루프로 텍스트를 훑고 지나갑니다.
+
+## Marker와 함께
+
+시머는 텍스트를 렌더링하는 어떤 컴포넌트와도 조합됩니다. 어시스턴트가 작업 중일 때 [Marker](/docs/components/marker)로 실시간 상태를 보여주는 것이 흔한 패턴입니다:
+
+<ComponentPreview name="shimmer-marker" />
+
+```tsx
+<Marker role="status">
+  <MarkerIcon>
+    <Spinner />
+  </MarkerIcon>
+  <MarkerContent className="shimmer">Thinking&hellip;</MarkerContent>
+</Marker>
+```
+
+## 색상
+
+`shimmer-color-<color>`로 하이라이트 색상을 직접 지정합니다. 테마 색상에 선택적 불투명도 수정자를 붙이거나 임의의 색상 값을 사용할 수 있습니다.
+
+<ComponentPreview name="shimmer-color" />
+
+```tsx
+<p className="shimmer shimmer-color-blue-500/60">Generating response&hellip;</p>
+<p className="shimmer shimmer-color-[#378ADD]">Generating response&hellip;</p>
+```
+
+## 지속 시간
+
+`shimmer-duration-<number>`로 한 번의 스윕 시간을 밀리초 단위로 지정합니다. 기본값은 `2000`, 즉 `2s`입니다.
+
+<ComponentPreview name="shimmer-duration" />
+
+```tsx
+<p className="shimmer shimmer-duration-1000">Generating response&hellip;</p>
+```
+
+## 스프레드
+
+`shimmer-spread-<number>`로 하이라이트 밴드의 너비를 spacing 스케일로 지정합니다. 기본값은 `calc(3ch + 40px)`로, 고정 값에 폰트 크기에 비례하는 `3ch` 항이 더해진 것입니다.
+
+<ComponentPreview name="shimmer-spread" />
+
+```tsx
+<p className="shimmer shimmer-spread-24">Generating response&hellip;</p>
+```
+
+일회성 값에는 임의의 길이나 백분율을 사용하세요:
+
+```tsx
+<p className="shimmer shimmer-spread-[5rem]">Generating response&hellip;</p>
+```
+
+## 각도
+
+`shimmer-angle-<number>`로 하이라이트 밴드의 기울기를 도 단위로 지정합니다. 기본값은 `20`입니다.
+
+<ComponentPreview name="shimmer-angle" />
+
+```tsx
+<p className="shimmer shimmer-angle-45">Generating response&hellip;</p>
+```
+
+## 역방향
+
+`shimmer-reverse`로 하이라이트가 반대 방향으로 흐르게 합니다.
+
+```tsx
+<p className="shimmer shimmer-reverse">Generating response&hellip;</p>
+```
+
+## 한 번만 재생
+
+`shimmer-once`는 루프 대신 스윕을 한 번만 재생합니다. 스트리밍이 끝났을 때의 리빌 효과로 유용합니다. `shimmer-duration-<number>`와 함께 사용해 스윕 시간을 조절하세요.
+
+<ComponentPreview name="shimmer-once" />
+
+```tsx
+<p className="shimmer shimmer-duration-1100 shimmer-once">
+  Response generated.
+</p>
+```
+
+## 시머 비활성화
+
+`shimmer-none`으로 효과를 끄고 텍스트를 일반적으로 렌더링합니다. 클래스 순서와 무관하게 동작하므로 보통 반응형이나 상태 기반으로 사용합니다:
+
+<ComponentPreview name="shimmer-none" />
+
+```tsx
+<p className="shimmer md:shimmer-none">Generating response&hellip;</p>
+```
+
+## 폴백
+
+시머는 최신 색상 기능인 [상대 색상 문법](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_colors/Relative_colors)과 `color-mix()`로 만들어졌으며, 현재 모든 최신 브라우저에서 지원됩니다. 지원하지 않는 구형 브라우저에서는 하이라이트 그라디언트가 제거되고 텍스트가 투명하게 렌더링될 수 있습니다. 구형 브라우저를 지원해야 한다면 `supports-*` 변형으로 `shimmer`를 조건부 적용하세요:
+
+```tsx
+<p className="supports-[color:oklch(from_white_l_c_h)]:shimmer">
+  Generating response&hellip;
+</p>
+```
+
+## 모션 감소
+
+사용자가 모션 감소를 선호하면 애니메이션이 자동으로 비활성화되고 텍스트가 일반적으로 렌더링됩니다. 별도로 설정할 것은 없습니다.

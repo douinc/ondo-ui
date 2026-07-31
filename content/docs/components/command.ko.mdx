@@ -1,0 +1,531 @@
+---
+title: Command (명령)
+description: 검색 및 빠른 작업을 위한 명령 메뉴입니다.
+---
+
+<ComponentPreview name="command-demo">
+
+```tsx
+import {
+  IconCalculator,
+  IconCalendar,
+  IconCreditCard,
+  IconMoodSmile,
+  IconSettings,
+  IconUser,
+} from "@tabler/icons-react"
+
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+} from "@/components/ui/command"
+
+export default function CommandDemo() {
+  return (
+    <Command className="max-w-sm rounded-lg border">
+      <CommandInput placeholder="명령을 입력하거나 검색하세요..." />
+      <CommandList>
+        <CommandEmpty>결과를 찾을 수 없습니다.</CommandEmpty>
+        <CommandGroup heading="제안">
+          <CommandItem>
+            <IconCalendar />
+            <span>달력</span>
+          </CommandItem>
+          <CommandItem>
+            <IconMoodSmile />
+            <span>이모지 검색</span>
+          </CommandItem>
+          <CommandItem disabled>
+            <IconCalculator />
+            <span>계산기</span>
+          </CommandItem>
+        </CommandGroup>
+        <CommandSeparator />
+        <CommandGroup heading="설정">
+          <CommandItem>
+            <IconUser />
+            <span>프로필</span>
+            <CommandShortcut>⌘P</CommandShortcut>
+          </CommandItem>
+          <CommandItem>
+            <IconCreditCard />
+            <span>청구</span>
+            <CommandShortcut>⌘B</CommandShortcut>
+          </CommandItem>
+          <CommandItem>
+            <IconSettings />
+            <span>설정</span>
+            <CommandShortcut>⌘S</CommandShortcut>
+          </CommandItem>
+        </CommandGroup>
+      </CommandList>
+    </Command>
+  )
+}
+```
+
+</ComponentPreview>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/command
+```
+
+## 사용법
+
+```tsx showLineNumbers
+import {
+  Command,
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+} from "@/components/ui/command"
+```
+
+```tsx showLineNumbers
+<Command className="max-w-sm rounded-lg border">
+  <CommandInput placeholder="Type a command or search..." />
+  <CommandList>
+    <CommandEmpty>No results found.</CommandEmpty>
+    <CommandGroup heading="Suggestions">
+      <CommandItem>Calendar</CommandItem>
+      <CommandItem>Search Emoji</CommandItem>
+      <CommandItem>Calculator</CommandItem>
+    </CommandGroup>
+    <CommandSeparator />
+    <CommandGroup heading="Settings">
+      <CommandItem>Profile</CommandItem>
+      <CommandItem>Billing</CommandItem>
+      <CommandItem>Settings</CommandItem>
+    </CommandGroup>
+  </CommandList>
+</Command>
+```
+
+## Composition
+
+`Command`를 구성하려면 다음 구조를 사용하세요:
+
+```text
+Command
+├── CommandInput
+└── CommandList
+    ├── CommandEmpty
+    ├── CommandGroup
+    │   ├── CommandItem
+    │   └── CommandItem
+    ├── CommandSeparator
+    └── CommandGroup
+        ├── CommandItem
+        └── CommandItem
+```
+
+## 예시
+
+### Basic
+
+대화상자의 간단한 명령 메뉴입니다.
+
+<ComponentPreview name="command-basic">
+
+```tsx
+"use client"
+
+import * as React from "react"
+
+import { Button } from "@/components/ui/button"
+import {
+  Command,
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command"
+
+export default function CommandBasic() {
+  const [open, setOpen] = React.useState(false)
+
+  return (
+    <div className="flex flex-col gap-4">
+      <Button onClick={() => setOpen(true)} variant="outline" className="w-fit">
+        메뉴 열기
+      </Button>
+      <CommandDialog open={open} onOpenChange={setOpen}>
+        <Command>
+          <CommandInput placeholder="명령을 입력하거나 검색하세요..." />
+          <CommandList>
+            <CommandEmpty>결과를 찾을 수 없습니다.</CommandEmpty>
+            <CommandGroup heading="제안">
+              <CommandItem>달력</CommandItem>
+              <CommandItem>이모지 검색</CommandItem>
+              <CommandItem>계산기</CommandItem>
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </CommandDialog>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Shortcuts
+
+<ComponentPreview name="command-shortcuts">
+
+```tsx
+"use client"
+
+import * as React from "react"
+import { IconCreditCard, IconSettings, IconUser } from "@tabler/icons-react"
+
+import { Button } from "@/components/ui/button"
+import {
+  Command,
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandShortcut,
+} from "@/components/ui/command"
+
+export default function CommandShortcuts() {
+  const [open, setOpen] = React.useState(false)
+
+  return (
+    <div className="flex flex-col gap-4">
+      <Button onClick={() => setOpen(true)} variant="outline" className="w-fit">
+        메뉴 열기
+      </Button>
+      <CommandDialog open={open} onOpenChange={setOpen}>
+        <Command>
+          <CommandInput placeholder="명령을 입력하거나 검색하세요..." />
+          <CommandList>
+            <CommandEmpty>결과를 찾을 수 없습니다.</CommandEmpty>
+            <CommandGroup heading="설정">
+              <CommandItem>
+                <IconUser />
+                <span>프로필</span>
+                <CommandShortcut>⌘P</CommandShortcut>
+              </CommandItem>
+              <CommandItem>
+                <IconCreditCard />
+                <span>청구</span>
+                <CommandShortcut>⌘B</CommandShortcut>
+              </CommandItem>
+              <CommandItem>
+                <IconSettings />
+                <span>설정</span>
+                <CommandShortcut>⌘S</CommandShortcut>
+              </CommandItem>
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </CommandDialog>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Groups
+
+그룹, 아이콘 및 구분자가 있는 명령 메뉴입니다.
+
+<ComponentPreview name="command-groups">
+
+```tsx
+"use client"
+
+import * as React from "react"
+import {
+  IconCalculator,
+  IconCalendar,
+  IconCreditCard,
+  IconMoodSmile,
+  IconSettings,
+  IconUser,
+} from "@tabler/icons-react"
+
+import { Button } from "@/components/ui/button"
+import {
+  Command,
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+} from "@/components/ui/command"
+
+export default function CommandGroups() {
+  const [open, setOpen] = React.useState(false)
+
+  return (
+    <div className="flex flex-col gap-4">
+      <Button onClick={() => setOpen(true)} variant="outline" className="w-fit">
+        메뉴 열기
+      </Button>
+      <CommandDialog open={open} onOpenChange={setOpen}>
+        <Command>
+          <CommandInput placeholder="명령을 입력하거나 검색하세요..." />
+          <CommandList>
+            <CommandEmpty>결과를 찾을 수 없습니다.</CommandEmpty>
+            <CommandGroup heading="제안">
+              <CommandItem>
+                <IconCalendar />
+                <span>달력</span>
+              </CommandItem>
+              <CommandItem>
+                <IconMoodSmile />
+                <span>이모지 검색</span>
+              </CommandItem>
+              <CommandItem>
+                <IconCalculator />
+                <span>계산기</span>
+              </CommandItem>
+            </CommandGroup>
+            <CommandSeparator />
+            <CommandGroup heading="설정">
+              <CommandItem>
+                <IconUser />
+                <span>프로필</span>
+                <CommandShortcut>⌘P</CommandShortcut>
+              </CommandItem>
+              <CommandItem>
+                <IconCreditCard />
+                <span>청구</span>
+                <CommandShortcut>⌘B</CommandShortcut>
+              </CommandItem>
+              <CommandItem>
+                <IconSettings />
+                <span>설정</span>
+                <CommandShortcut>⌘S</CommandShortcut>
+              </CommandItem>
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </CommandDialog>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Scrollable
+
+여러 항목이 있는 스크롤 가능한 명령 메뉴입니다.
+
+<ComponentPreview name="command-scrollable">
+
+```tsx
+"use client"
+
+import * as React from "react"
+import {
+  IconBell,
+  IconCalculator,
+  IconCalendar,
+  IconClipboard,
+  IconCode,
+  IconCopy,
+  IconCreditCard,
+  IconFileText,
+  IconFolder,
+  IconFolderPlus,
+  IconHelpCircle,
+  IconHome,
+  IconPhoto,
+  IconInbox,
+  IconLayoutGrid,
+  IconList,
+  IconPlus,
+  IconScissors,
+  IconSettings,
+  IconTrash,
+  IconUser,
+  IconZoomIn,
+  IconZoomOut,
+} from "@tabler/icons-react"
+
+import { Button } from "@/components/ui/button"
+import {
+  Command,
+  CommandDialog,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+  CommandShortcut,
+} from "@/components/ui/command"
+
+export default function CommandScrollable() {
+  const [open, setOpen] = React.useState(false)
+
+  return (
+    <div className="flex flex-col gap-4">
+      <Button onClick={() => setOpen(true)} variant="outline" className="w-fit">
+        메뉴 열기
+      </Button>
+      <CommandDialog open={open} onOpenChange={setOpen}>
+        <Command>
+          <CommandInput placeholder="명령을 입력하거나 검색하세요..." />
+          <CommandList>
+            <CommandEmpty>결과를 찾을 수 없습니다.</CommandEmpty>
+            <CommandGroup heading="네비게이션">
+              <CommandItem>
+                <IconHome />
+                <span>홈</span>
+                <CommandShortcut>⌘H</CommandShortcut>
+              </CommandItem>
+              <CommandItem>
+                <IconInbox />
+                <span>받은 편지함</span>
+                <CommandShortcut>⌘I</CommandShortcut>
+              </CommandItem>
+              <CommandItem>
+                <IconFileText />
+                <span>문서</span>
+                <CommandShortcut>⌘D</CommandShortcut>
+              </CommandItem>
+              <CommandItem>
+                <IconFolder />
+                <span>폴더</span>
+                <CommandShortcut>⌘F</CommandShortcut>
+              </CommandItem>
+            </CommandGroup>
+            <CommandSeparator />
+            <CommandGroup heading="작업">
+              <CommandItem>
+                <IconPlus />
+                <span>새 파일</span>
+                <CommandShortcut>⌘N</CommandShortcut>
+              </CommandItem>
+              <CommandItem>
+                <IconFolderPlus />
+                <span>새 폴더</span>
+                <CommandShortcut>⇧⌘N</CommandShortcut>
+              </CommandItem>
+              <CommandItem>
+                <IconCopy />
+                <span>복사</span>
+                <CommandShortcut>⌘C</CommandShortcut>
+              </CommandItem>
+              <CommandItem>
+                <IconScissors />
+                <span>잘라내기</span>
+                <CommandShortcut>⌘X</CommandShortcut>
+              </CommandItem>
+              <CommandItem>
+                <IconClipboard />
+                <span>붙여넣기</span>
+                <CommandShortcut>⌘V</CommandShortcut>
+              </CommandItem>
+              <CommandItem>
+                <IconTrash />
+                <span>삭제</span>
+                <CommandShortcut>⌫</CommandShortcut>
+              </CommandItem>
+            </CommandGroup>
+            <CommandSeparator />
+            <CommandGroup heading="보기">
+              <CommandItem>
+                <IconLayoutGrid />
+                <span>표 보기</span>
+              </CommandItem>
+              <CommandItem>
+                <IconList />
+                <span>목록 보기</span>
+              </CommandItem>
+              <CommandItem>
+                <IconZoomIn />
+                <span>확대</span>
+                <CommandShortcut>⌘+</CommandShortcut>
+              </CommandItem>
+              <CommandItem>
+                <IconZoomOut />
+                <span>축소</span>
+                <CommandShortcut>⌘-</CommandShortcut>
+              </CommandItem>
+            </CommandGroup>
+            <CommandSeparator />
+            <CommandGroup heading="계정">
+              <CommandItem>
+                <IconUser />
+                <span>프로필</span>
+                <CommandShortcut>⌘P</CommandShortcut>
+              </CommandItem>
+              <CommandItem>
+                <IconCreditCard />
+                <span>청구</span>
+                <CommandShortcut>⌘B</CommandShortcut>
+              </CommandItem>
+              <CommandItem>
+                <IconSettings />
+                <span>설정</span>
+                <CommandShortcut>⌘S</CommandShortcut>
+              </CommandItem>
+              <CommandItem>
+                <IconBell />
+                <span>알림</span>
+              </CommandItem>
+              <CommandItem>
+                <IconHelpCircle />
+                <span>도움말 및 지원</span>
+              </CommandItem>
+            </CommandGroup>
+            <CommandSeparator />
+            <CommandGroup heading="도구">
+              <CommandItem>
+                <IconCalculator />
+                <span>계산기</span>
+              </CommandItem>
+              <CommandItem>
+                <IconCalendar />
+                <span>달력</span>
+              </CommandItem>
+              <CommandItem>
+                <IconPhoto />
+                <span>이미지 편집기</span>
+              </CommandItem>
+              <CommandItem>
+                <IconCode />
+                <span>코드 편집기</span>
+              </CommandItem>
+            </CommandGroup>
+          </CommandList>
+        </Command>
+      </CommandDialog>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API 참고
+
+이 컴포넌트는 [Base UI Command](https://github.com/dip/cmdk)를 감싸며 해당 컴포넌트의 모든 prop을 받습니다.

@@ -1,0 +1,120 @@
+---
+title: Button
+description: Displays a button or a component that looks like a button.
+---
+
+<ComponentPreview name="button-demo">
+
+```tsx
+import { Button } from "@/components/ui/button"
+
+export default function ButtonDemo() {
+  return <Button>Button</Button>
+}
+```
+
+</ComponentPreview>
+
+## Installation
+
+```bash
+bunx shadcn@latest add @ondo-ui/button
+```
+
+## Usage
+
+```tsx
+import { Button } from "@/components/ui/button"
+```
+
+```tsx
+<Button variant="outline">Button</Button>
+```
+
+## Examples
+
+### Variants
+
+`default`, `outline`, `secondary`, `ghost`, `info`, `success`, `warning`, `destructive`, and `link`.
+
+<ComponentPreview name="button-variants">
+
+```tsx
+import { Button } from "@/components/ui/button"
+
+export default function ButtonVariants() {
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      <Button>Default</Button>
+      <Button variant="outline">Outline</Button>
+      <Button variant="secondary">Secondary</Button>
+      <Button variant="ghost">Ghost</Button>
+      <Button variant="info">Info</Button>
+      <Button variant="success">Success</Button>
+      <Button variant="warning">Warning</Button>
+      <Button variant="destructive">Destructive</Button>
+      <Button variant="link">Link</Button>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Sizes
+
+`xs`, `sm`, `default`, `lg`, `xl`, and `2xl`, plus icon-only sizes `icon-xs`, `icon-sm`, `icon`, `icon-lg`, `icon-xl`, and `icon-2xl`.
+
+<ComponentPreview name="button-sizes">
+
+```tsx
+import { IconPlus } from "@tabler/icons-react"
+
+import { Button } from "@/components/ui/button"
+
+export default function ButtonSizes() {
+  return (
+    <div className="flex flex-col items-start gap-4">
+      <div className="flex flex-wrap items-center gap-2">
+        <Button size="xs">Extra small</Button>
+        <Button size="sm">Small</Button>
+        <Button size="default">Default</Button>
+        <Button size="lg">Large</Button>
+        <Button size="xl">Extra large</Button>
+        <Button size="2xl">2X large</Button>
+      </div>
+      <div className="flex flex-wrap items-center gap-2">
+        <Button size="icon-xs" aria-label="Add">
+          <IconPlus />
+        </Button>
+        <Button size="icon-sm" aria-label="Add">
+          <IconPlus />
+        </Button>
+        <Button size="icon" aria-label="Add">
+          <IconPlus />
+        </Button>
+        <Button size="icon-lg" aria-label="Add">
+          <IconPlus />
+        </Button>
+        <Button size="icon-xl" aria-label="Add">
+          <IconPlus />
+        </Button>
+        <Button size="icon-2xl" aria-label="Add">
+          <IconPlus />
+        </Button>
+      </div>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API reference
+
+The component wraps [Base UI Button](https://base-ui.com/react/components/button) and accepts all of its props.
+
+| Prop      | Type                                                                          | Default     |
+| --------- | ----------------------------------------------------------------------------- | ----------- |
+| `variant` | `"default" \| "outline" \| "secondary" \| "ghost" \| "info" \| "success" \| "warning" \| "destructive" \| "link"` | `"default"` |
+| `size`    | `"default" \| "xs" \| "sm" \| "lg" \| "xl" \| "2xl" \| "icon" \| "icon-xs" \| "icon-sm" \| "icon-lg" \| "icon-xl" \| "icon-2xl"` | `"default"` |

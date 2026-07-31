@@ -1,0 +1,37 @@
+---
+title: xl and 2xl sizes across the scale
+description: Button, Input, Toggle, Select, and NativeSelect gain xl (44px) and 2xl (52px) steps.
+version: 0.6.0
+---
+
+**v0.6.0**
+
+[`Button`](/docs/components/button), [`Input`](/docs/components/input), [`Toggle`](/docs/components/toggle), [`Select`](/docs/components/select), and [`NativeSelect`](/docs/components/native-select) now accept `size="xl"` and `size="2xl"`. `Button` also gains `icon-xl` and `icon-2xl`.
+
+| size | height | text | icon | radius |
+| --- | --- | --- | --- | --- |
+| `xl` | 44px | `text-base` | 20px | `rounded-lg` |
+| `2xl` | 52px | `text-lg` | 24px | `rounded-xl` |
+
+```tsx
+<Button size="xl">Extra large</Button>
+<Button size="2xl">2X large</Button>
+<Button size="icon-2xl" aria-label="Add">
+  <IconPlus />
+</Button>
+<Input size="2xl" placeholder="2X large" />
+```
+
+`Select` and `NativeSelect` accepted only `sm` and `default`, so they gain `lg` in the same release rather than skipping a step. [`Textarea`](/docs/components/textarea) and [`InputGroup`](/docs/components/input-group) gain the full scale too — a textarea matches an input of the same size on horizontal padding, text, and radius, and an input group passes its size down to the control inside.
+
+Unlike the smaller sizes, `xl` and `2xl` keep their text size at every breakpoint instead of dropping to `text-sm` on desktop. `xl` sits only 4px above `lg`, and the text size is what tells them apart.
+
+These are the first sizes with a corner radius above `rounded-md`. `ButtonGroup` and `ToggleGroup` round their end caps to `md`, which would have squared off one side of an `xl` or `2xl` child; those rules now key off the child's own `data-size`, so each child keeps its radius and a group mixing sizes still resolves per child.
+
+`InputGroup`, `Combobox`, `Select`, and `NativeSelect` also gain `xs`, so the scale now runs `xs` through `2xl` everywhere `Input` does. An `xs` input group shrinks its addon padding to leave room for a control.
+
+`InputGroupButton` now takes every `Button` size, with each name meaning exactly what it means there. Omit `size` and the button fits itself to the group instead.
+
+`InputGroupButton`'s four named sizes are unchanged and still match upstream shadcn exactly. Omit `size` and the button now fits itself to the group instead; in a `default` group that is identical to `xs`, so nothing moves.
+
+The default size is unchanged, so this is a non-breaking update.

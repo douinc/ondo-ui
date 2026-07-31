@@ -1,0 +1,630 @@
+---
+title: Attachment (첨부파일)
+description: 미디어, 메타데이터, 업로드 상태 및 작업이 포함된 파일 또는 이미지 첨부파일을 표시합니다.
+---
+
+<ComponentPreview name="attachment-demo">
+
+```tsx
+import { IconFileCode, IconX } from "@tabler/icons-react"
+
+import {
+  Attachment,
+  AttachmentAction,
+  AttachmentActions,
+  AttachmentContent,
+  AttachmentDescription,
+  AttachmentGroup,
+  AttachmentMedia,
+  AttachmentTitle,
+} from "@/components/ui/attachment"
+import { Spinner } from "@/components/ui/spinner"
+
+const images = [
+  {
+    name: "workspace.png",
+    meta: "PNG · 820 KB",
+    src: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=900&auto=format&fit=crop&q=80",
+    alt: "Workspace",
+  },
+  {
+    name: "desk-reference.jpg",
+    meta: "JPG · 1.1 MB",
+    src: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=900&auto=format&fit=crop&q=80",
+    alt: "Desk",
+  },
+  {
+    name: "office-reference.jpg",
+    meta: "JPG · 940 KB",
+    src: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=900&auto=format&fit=crop&q=80",
+    alt: "Office",
+  },
+]
+
+export default function AttachmentDemo() {
+  return (
+    <div className="mx-auto flex w-full max-w-sm flex-col gap-3 py-12">
+      <AttachmentGroup>
+        {images.map((image) => (
+          <Attachment key={image.name} orientation="vertical">
+            <AttachmentMedia variant="image">
+              <img src={image.src} alt={image.alt} />
+            </AttachmentMedia>
+            <AttachmentContent>
+              <AttachmentTitle>{image.name}</AttachmentTitle>
+              <AttachmentDescription>{image.meta}</AttachmentDescription>
+            </AttachmentContent>
+          </Attachment>
+        ))}
+      </AttachmentGroup>
+      <Attachment state="uploading" className="w-full">
+        <AttachmentMedia>
+          <Spinner />
+        </AttachmentMedia>
+        <AttachmentContent>
+          <AttachmentTitle>sales-dashboard.pdf</AttachmentTitle>
+          <AttachmentDescription>Uploading · 64%</AttachmentDescription>
+        </AttachmentContent>
+        <AttachmentActions>
+          <AttachmentAction aria-label="Cancel upload">
+            <IconX />
+          </AttachmentAction>
+        </AttachmentActions>
+      </Attachment>
+      <Attachment className="w-full">
+        <AttachmentMedia>
+          <IconFileCode />
+        </AttachmentMedia>
+        <AttachmentContent>
+          <AttachmentTitle>message-renderer.tsx</AttachmentTitle>
+          <AttachmentDescription>TypeScript · 12 KB</AttachmentDescription>
+        </AttachmentContent>
+        <AttachmentActions>
+          <AttachmentAction aria-label="Remove message-renderer.tsx">
+            <IconX />
+          </AttachmentAction>
+        </AttachmentActions>
+      </Attachment>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/attachment
+```
+
+## 사용법
+
+```tsx
+import {
+  Attachment,
+  AttachmentAction,
+  AttachmentActions,
+  AttachmentContent,
+  AttachmentDescription,
+  AttachmentMedia,
+  AttachmentTitle,
+} from "@/components/ui/attachment"
+```
+
+```tsx
+<Attachment>
+  <AttachmentMedia>
+    <FileTextIcon />
+  </AttachmentMedia>
+  <AttachmentContent>
+    <AttachmentTitle>sales-dashboard.pdf</AttachmentTitle>
+    <AttachmentDescription>PDF · 2.4 MB</AttachmentDescription>
+  </AttachmentContent>
+  <AttachmentActions>
+    <AttachmentAction aria-label="Remove sales-dashboard.pdf">
+      <XIcon />
+    </AttachmentAction>
+  </AttachmentActions>
+</Attachment>
+```
+
+## Composition
+
+첨부파일을 구성하려면 다음 구조를 사용하세요:
+
+```text
+Attachment
+├── AttachmentMedia
+├── AttachmentContent
+│   ├── AttachmentTitle
+│   └── AttachmentDescription
+├── AttachmentActions
+│   └── AttachmentAction
+└── AttachmentTrigger
+```
+
+`AttachmentGroup`을 사용하여 여러 첨부파일을 스크롤 가능한 행으로 배치하세요:
+
+```text
+AttachmentGroup
+├── Attachment
+└── Attachment
+```
+
+## 예시
+
+### 이미지
+
+`AttachmentMedia`에 `variant="image"`를 설정하고 내부에 `<img>`를 렌더링하세요. `orientation="vertical"`을 사용하여 미디어를 콘텐츠 위에 배치하세요.
+
+<ComponentPreview name="attachment-image">
+
+```tsx
+import { IconX } from "@tabler/icons-react"
+
+import {
+  Attachment,
+  AttachmentAction,
+  AttachmentActions,
+  AttachmentContent,
+  AttachmentDescription,
+  AttachmentGroup,
+  AttachmentMedia,
+  AttachmentTitle,
+  AttachmentTrigger,
+} from "@/components/ui/attachment"
+
+const images = [
+  {
+    name: "workspace.png",
+    meta: "PNG · 820 KB",
+    src: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=900&auto=format&fit=crop&q=80",
+    alt: "Workspace",
+  },
+  {
+    name: "desk-reference.jpg",
+    meta: "JPG · 1.1 MB",
+    src: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=900&auto=format&fit=crop&q=80",
+    alt: "Desk",
+  },
+  {
+    name: "office-reference.jpg",
+    meta: "JPG · 940 KB",
+    src: "https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=900&auto=format&fit=crop&q=80",
+    alt: "Office",
+  },
+]
+
+export default function AttachmentImage() {
+  return (
+    <div className="mx-auto w-full max-w-sm py-12">
+      <AttachmentGroup className="w-full">
+        {images.map((image) => (
+          <Attachment key={image.name} orientation="vertical">
+            <AttachmentMedia variant="image">
+              <img src={image.src} alt={image.alt} />
+            </AttachmentMedia>
+            <AttachmentContent>
+              <AttachmentTitle>{image.name}</AttachmentTitle>
+              <AttachmentDescription>{image.meta}</AttachmentDescription>
+            </AttachmentContent>
+            <AttachmentActions>
+              <AttachmentAction aria-label={`Remove ${image.name}`}>
+                <IconX />
+              </AttachmentAction>
+            </AttachmentActions>
+            <AttachmentTrigger
+              render={
+                <a
+                  href={image.src}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={`Open ${image.name}`}
+                />
+              }
+            />
+          </Attachment>
+        ))}
+      </AttachmentGroup>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 상태
+
+`state`를 설정하여 업로드 생명주기를 반영하세요. `uploading`과 `processing`은 제목을 반짝이게 하고, `error`는 파괴적인 처리로 전환합니다.
+
+<ComponentPreview name="attachment-states">
+
+```tsx
+import {
+  IconCheck,
+  IconClock,
+  IconFileText,
+  IconFileAlert,
+  IconRefresh,
+  IconX,
+} from "@tabler/icons-react"
+
+import {
+  Attachment,
+  AttachmentAction,
+  AttachmentActions,
+  AttachmentContent,
+  AttachmentDescription,
+  AttachmentMedia,
+  AttachmentTitle,
+} from "@/components/ui/attachment"
+import { Spinner } from "@/components/ui/spinner"
+
+export default function AttachmentStates() {
+  return (
+    <div className="mx-auto flex w-full max-w-sm flex-col gap-2 py-12">
+      <Attachment state="idle" className="w-full">
+        <AttachmentMedia>
+          <IconClock />
+        </AttachmentMedia>
+        <AttachmentContent>
+          <AttachmentTitle>selected-file.pdf</AttachmentTitle>
+          <AttachmentDescription>Ready to upload</AttachmentDescription>
+        </AttachmentContent>
+        <AttachmentActions>
+          <AttachmentAction aria-label="Remove selected-file.pdf">
+            <IconX />
+          </AttachmentAction>
+        </AttachmentActions>
+      </Attachment>
+      <Attachment state="uploading" className="w-full">
+        <AttachmentMedia>
+          <Spinner />
+        </AttachmentMedia>
+        <AttachmentContent>
+          <AttachmentTitle>design-system.zip</AttachmentTitle>
+          <AttachmentDescription>Uploading · 64%</AttachmentDescription>
+        </AttachmentContent>
+        <AttachmentActions>
+          <AttachmentAction aria-label="Cancel upload">
+            <IconX />
+          </AttachmentAction>
+        </AttachmentActions>
+      </Attachment>
+      <Attachment state="processing" className="w-full">
+        <AttachmentMedia>
+          <IconFileText />
+        </AttachmentMedia>
+        <AttachmentContent>
+          <AttachmentTitle>market-research.pdf</AttachmentTitle>
+          <AttachmentDescription>Processing document</AttachmentDescription>
+        </AttachmentContent>
+        <AttachmentActions>
+          <AttachmentAction aria-label="Remove market-research.pdf">
+            <IconX />
+          </AttachmentAction>
+        </AttachmentActions>
+      </Attachment>
+      <Attachment state="error" className="w-full">
+        <AttachmentMedia>
+          <IconFileAlert />
+        </AttachmentMedia>
+        <AttachmentContent>
+          <AttachmentTitle>financial-model.xlsx</AttachmentTitle>
+          <AttachmentDescription>
+            Upload failed. Try again.
+          </AttachmentDescription>
+        </AttachmentContent>
+        <AttachmentActions>
+          <AttachmentAction aria-label="Retry upload">
+            <IconRefresh />
+          </AttachmentAction>
+          <AttachmentAction aria-label="Remove financial-model.xlsx">
+            <IconX />
+          </AttachmentAction>
+        </AttachmentActions>
+      </Attachment>
+      <Attachment state="done" className="w-full">
+        <AttachmentMedia>
+          <IconCheck />
+        </AttachmentMedia>
+        <AttachmentContent>
+          <AttachmentTitle>uploaded-report.pdf</AttachmentTitle>
+          <AttachmentDescription>Uploaded · 1.8 MB</AttachmentDescription>
+        </AttachmentContent>
+        <AttachmentActions>
+          <AttachmentAction aria-label="Remove uploaded-report.pdf">
+            <IconX />
+          </AttachmentAction>
+        </AttachmentActions>
+      </Attachment>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 크기
+
+`size`를 사용하여 `default`, `sm`, `xs` 사이를 전환하세요.
+
+<ComponentPreview name="attachment-sizes">
+
+```tsx
+import { IconFileText } from "@tabler/icons-react"
+
+import {
+  Attachment,
+  AttachmentContent,
+  AttachmentDescription,
+  AttachmentMedia,
+  AttachmentTitle,
+} from "@/components/ui/attachment"
+
+export default function AttachmentSizes() {
+  return (
+    <div className="mx-auto flex w-full max-w-sm flex-col gap-3 py-12">
+      <Attachment size="default" className="w-full">
+        <AttachmentMedia>
+          <IconFileText />
+        </AttachmentMedia>
+        <AttachmentContent>
+          <AttachmentTitle>Default attachment</AttachmentTitle>
+          <AttachmentDescription>PDF · 2.4 MB</AttachmentDescription>
+        </AttachmentContent>
+      </Attachment>
+      <Attachment size="sm" className="w-full">
+        <AttachmentMedia>
+          <IconFileText />
+        </AttachmentMedia>
+        <AttachmentContent>
+          <AttachmentTitle>Small attachment</AttachmentTitle>
+          <AttachmentDescription>PDF · 2.4 MB</AttachmentDescription>
+        </AttachmentContent>
+      </Attachment>
+      <Attachment size="xs" className="w-full">
+        <AttachmentMedia>
+          <IconFileText />
+        </AttachmentMedia>
+        <AttachmentContent>
+          <AttachmentTitle>Extra small attachment</AttachmentTitle>
+        </AttachmentContent>
+      </Attachment>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 그룹
+
+`AttachmentGroup`에서 첨부파일을 래핑하여 수평 스크롤 가능하고 스냅이 가능한 행으로 배치하세요.
+
+<ComponentPreview name="attachment-group">
+
+```tsx
+import { IconFileCode, IconFileText, IconTable, IconX } from "@tabler/icons-react"
+import { type FC, type SVGProps } from "react"
+
+import {
+  Attachment,
+  AttachmentAction,
+  AttachmentActions,
+  AttachmentContent,
+  AttachmentDescription,
+  AttachmentGroup as AttachmentGroupComponent,
+  AttachmentMedia,
+  AttachmentTitle,
+} from "@/components/ui/attachment"
+
+type TablerIcon = FC<SVGProps<SVGSVGElement>>
+
+type Item = {
+  name: string
+  meta: string
+  icon?: TablerIcon
+  src?: string
+}
+
+const items: Item[] = [
+  { name: "briefing-notes.pdf", meta: "PDF · 1.4 MB", icon: IconFileText },
+  {
+    name: "workspace.png",
+    meta: "PNG · 820 KB",
+    src: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=900&auto=format&fit=crop&q=80",
+  },
+  { name: "customers.csv", meta: "CSV · 18 KB", icon: IconTable },
+  { name: "renderer.tsx", meta: "TSX · 12 KB", icon: IconFileCode },
+]
+
+export default function AttachmentGroup() {
+  return (
+    <div className="mx-auto w-full max-w-sm py-12">
+      <AttachmentGroupComponent className="w-full">
+        {items.map((item) => {
+          const Icon = item.icon
+
+          return (
+            <Attachment key={item.name} className="w-64">
+              {item.src ? (
+                <AttachmentMedia variant="image">
+                  <img src={item.src} alt={item.name} />
+                </AttachmentMedia>
+              ) : Icon ? (
+                <AttachmentMedia>
+                  <Icon />
+                </AttachmentMedia>
+              ) : null}
+              <AttachmentContent>
+                <AttachmentTitle>{item.name}</AttachmentTitle>
+                <AttachmentDescription>{item.meta}</AttachmentDescription>
+              </AttachmentContent>
+              <AttachmentActions>
+                <AttachmentAction aria-label={`Remove ${item.name}`}>
+                  <IconX />
+                </AttachmentAction>
+              </AttachmentActions>
+            </Attachment>
+          )
+        })}
+      </AttachmentGroupComponent>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 트리거
+
+`AttachmentTrigger`를 추가하여 전체 카드를 열 링크 또는 대화상자로 만드세요. 작업이 독립적으로 클릭 가능한 상태로 유지되도록 카드 뒤를 채웁니다.
+
+<ComponentPreview name="attachment-trigger">
+
+```tsx
+import { IconCopy, IconFileSearch, IconX } from "@tabler/icons-react"
+
+import {
+  Attachment,
+  AttachmentAction,
+  AttachmentActions,
+  AttachmentContent,
+  AttachmentDescription,
+  AttachmentMedia,
+  AttachmentTitle,
+  AttachmentTrigger as AttachmentTriggerComponent,
+} from "@/components/ui/attachment"
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+
+export default function AttachmentTrigger() {
+  return (
+    <div className="mx-auto w-full max-w-sm py-12">
+      <Dialog>
+        <Attachment className="w-full">
+          <AttachmentMedia>
+            <IconFileSearch />
+          </AttachmentMedia>
+          <AttachmentContent>
+            <AttachmentTitle>research-summary.pdf</AttachmentTitle>
+            <AttachmentDescription>Open preview dialog</AttachmentDescription>
+          </AttachmentContent>
+          <AttachmentActions>
+            <AttachmentAction aria-label="Copy link">
+              <IconCopy />
+            </AttachmentAction>
+            <AttachmentAction aria-label="Remove research-summary.pdf">
+              <IconX />
+            </AttachmentAction>
+          </AttachmentActions>
+          <DialogTrigger
+            render={
+              <AttachmentTriggerComponent aria-label="Preview research-summary.pdf" />
+            }
+          />
+        </Attachment>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>research-summary.pdf</DialogTitle>
+            <DialogDescription>
+              The attachment trigger fills the card and opens the dialog, while
+              the actions stay independently clickable above it.
+            </DialogDescription>
+          </DialogHeader>
+        </DialogContent>
+      </Dialog>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API 참고
+
+### Attachment
+
+루트 첨부파일 컨테이너입니다.
+
+| Prop          | Type                                                         | Default        | Description                                       |
+| ------------- | ------------------------------------------------------------ | -------------- | ------------------------------------------------- |
+| `state`       | `"idle" \| "uploading" \| "processing" \| "error" \| "done"` | `"done"`       | The upload state. Drives styling and the shimmer. |
+| `size`        | `"default" \| "sm" \| "xs"`                                  | `"default"`    | The attachment size.                              |
+| `orientation` | `"horizontal" \| "vertical"`                                 | `"horizontal"` | Lay the media beside or above the content.        |
+| `className`   | `string`                                                     | -              | Additional classes to apply to the root element.  |
+
+### AttachmentMedia
+
+아이콘 또는 이미지 미리보기를 위한 미디어 슬롯입니다.
+
+| Prop        | Type                | Default  | Description                                    |
+| ----------- | ------------------- | -------- | ---------------------------------------------- |
+| `variant`   | `"icon" \| "image"` | `"icon"` | Whether the media holds an icon or an `<img>`. |
+| `className` | `string`            | -        | Additional classes to apply to the media slot. |
+
+### AttachmentContent
+
+제목과 설명을 래핑합니다.
+
+| Prop        | Type     | Default | Description                                      |
+| ----------- | -------- | ------- | ------------------------------------------------ |
+| `className` | `string` | -       | Additional classes to apply to the content slot. |
+
+### AttachmentTitle
+
+첨부파일 이름입니다. 첨부파일이 `uploading` 또는 `processing` 상태일 때 반짝입니다.
+
+| Prop        | Type     | Default | Description                               |
+| ----------- | -------- | ------- | ----------------------------------------- |
+| `className` | `string` | -       | Additional classes to apply to the title. |
+
+### AttachmentDescription
+
+파일 형식, 크기 또는 업로드 상태와 같은 보조 메타데이터입니다.
+
+| Prop        | Type     | Default | Description                                     |
+| ----------- | -------- | ------- | ----------------------------------------------- |
+| `className` | `string` | -       | Additional classes to apply to the description. |
+
+### AttachmentActions
+
+첨부파일의 끝에 정렬된 하나 이상의 작업에 대한 컨테이너입니다.
+
+| Prop        | Type     | Default | Description                                 |
+| ----------- | -------- | ------- | ------------------------------------------- |
+| `className` | `string` | -       | Additional classes to apply to the actions. |
+
+### AttachmentAction
+
+작업 버튼입니다. [`Button`](/docs/components/button)을 렌더링하며 모든 props를 허용합니다.
+
+| Prop       | Type                                  | Default     | Description                              |
+| ---------- | ------------------------------------- | ----------- | ---------------------------------------- |
+| `size`     | `Button["size"]`                      | `"icon-xs"` | The button size.                         |
+| `...props` | `React.ComponentProps<typeof Button>` | -           | Props spread to the underlying `Button`. |
+
+### AttachmentTrigger
+
+첨부파일을 활성화하는 전체 카드 오버레이입니다. 기본적으로 `<button>`을 렌더링합니다.
+
+| Prop       | Type                             | Default | Description                                    |
+| ---------- | -------------------------------- | ------- | ---------------------------------------------- |
+| `render`   | `ReactElement \| function`       | -       | Render as a different element, such as a link. |
+| `...props` | `React.ComponentProps<"button">` | -       | Props spread to the trigger element.           |
+
+### AttachmentGroup
+
+첨부파일을 수평 스크롤 가능하고 스냅이 가능한 행으로 배치합니다.
+
+| Prop        | Type     | Default | Description                               |
+| ----------- | -------- | ------- | ----------------------------------------- |
+| `className` | `string` | -       | Additional classes to apply to the group. |

@@ -1,0 +1,120 @@
+---
+title: Button (버튼)
+description: 버튼 또는 버튼처럼 보이는 컴포넌트를 표시합니다.
+---
+
+<ComponentPreview name="button-demo">
+
+```tsx
+import { Button } from "@/components/ui/button"
+
+export default function ButtonDemo() {
+  return <Button>Button</Button>
+}
+```
+
+</ComponentPreview>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/button
+```
+
+## 사용법
+
+```tsx
+import { Button } from "@/components/ui/button"
+```
+
+```tsx
+<Button variant="outline">Button</Button>
+```
+
+## 예시
+
+### Variants
+
+`default`, `outline`, `secondary`, `ghost`, `info`, `success`, `warning`, `destructive`, `link`를 지원합니다.
+
+<ComponentPreview name="button-variants">
+
+```tsx
+import { Button } from "@/components/ui/button"
+
+export default function ButtonVariants() {
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      <Button>Default</Button>
+      <Button variant="outline">Outline</Button>
+      <Button variant="secondary">Secondary</Button>
+      <Button variant="ghost">Ghost</Button>
+      <Button variant="info">Info</Button>
+      <Button variant="success">Success</Button>
+      <Button variant="warning">Warning</Button>
+      <Button variant="destructive">Destructive</Button>
+      <Button variant="link">Link</Button>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 크기
+
+`xs`, `sm`, `default`, `lg`, `xl`, `2xl`과 아이콘 전용 크기 `icon-xs`, `icon-sm`, `icon`, `icon-lg`, `icon-xl`, `icon-2xl`을 지원합니다.
+
+<ComponentPreview name="button-sizes">
+
+```tsx
+import { IconPlus } from "@tabler/icons-react"
+
+import { Button } from "@/components/ui/button"
+
+export default function ButtonSizes() {
+  return (
+    <div className="flex flex-col items-start gap-4">
+      <div className="flex flex-wrap items-center gap-2">
+        <Button size="xs">Extra small</Button>
+        <Button size="sm">Small</Button>
+        <Button size="default">Default</Button>
+        <Button size="lg">Large</Button>
+        <Button size="xl">Extra large</Button>
+        <Button size="2xl">2X large</Button>
+      </div>
+      <div className="flex flex-wrap items-center gap-2">
+        <Button size="icon-xs" aria-label="추가">
+          <IconPlus />
+        </Button>
+        <Button size="icon-sm" aria-label="추가">
+          <IconPlus />
+        </Button>
+        <Button size="icon" aria-label="추가">
+          <IconPlus />
+        </Button>
+        <Button size="icon-lg" aria-label="추가">
+          <IconPlus />
+        </Button>
+        <Button size="icon-xl" aria-label="추가">
+          <IconPlus />
+        </Button>
+        <Button size="icon-2xl" aria-label="추가">
+          <IconPlus />
+        </Button>
+      </div>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API 참고
+
+이 컴포넌트는 [Base UI Button](https://base-ui.com/react/components/button)을 감싸며 해당 컴포넌트의 모든 prop을 받습니다.
+
+| Prop      | 타입                                                                          | 기본값     |
+| --------- | ----------------------------------------------------------------------------- | ----------- |
+| `variant` | `"default" \| "outline" \| "secondary" \| "ghost" \| "info" \| "success" \| "warning" \| "destructive" \| "link"` | `"default"` |
+| `size`    | `"default" \| "xs" \| "sm" \| "lg" \| "xl" \| "2xl" \| "icon" \| "icon-xs" \| "icon-sm" \| "icon-lg" \| "icon-xl" \| "icon-2xl"` | `"default"` |

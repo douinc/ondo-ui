@@ -1,0 +1,288 @@
+---
+title: Native Select
+description: A styled native HTML select element with consistent design system integration.
+---
+
+import { IconInfoCircle } from "@tabler/icons-react"
+
+<Callout variant="info" icon={<IconInfoCircle className="translate-y-[3px]!" />}>
+  For a styled select component, see the [Select](/docs/components/select)
+  component.
+</Callout>
+
+<ComponentPreview name="native-select-demo">
+
+```tsx
+import {
+  NativeSelect,
+  NativeSelectOption,
+} from "@/components/ui/native-select"
+
+export default function NativeSelectDemo() {
+  return (
+    <NativeSelect>
+      <NativeSelectOption value="">Select status</NativeSelectOption>
+      <NativeSelectOption value="todo">Todo</NativeSelectOption>
+      <NativeSelectOption value="in-progress">In Progress</NativeSelectOption>
+      <NativeSelectOption value="done">Done</NativeSelectOption>
+      <NativeSelectOption value="cancelled">Cancelled</NativeSelectOption>
+    </NativeSelect>
+  )
+}
+```
+
+</ComponentPreview>
+
+## Installation
+
+```bash
+bunx shadcn@latest add @ondo-ui/native-select
+```
+
+## Usage
+
+```tsx showLineNumbers
+import {
+  NativeSelect,
+  NativeSelectOptGroup,
+  NativeSelectOption,
+} from "@/components/ui/native-select"
+```
+
+```tsx showLineNumbers
+<NativeSelect>
+  <NativeSelectOption value="">Select a fruit</NativeSelectOption>
+  <NativeSelectOption value="apple">Apple</NativeSelectOption>
+  <NativeSelectOption value="banana">Banana</NativeSelectOption>
+  <NativeSelectOption value="blueberry">Blueberry</NativeSelectOption>
+  <NativeSelectOption value="pineapple">Pineapple</NativeSelectOption>
+</NativeSelect>
+```
+
+## Composition
+
+### Simple
+
+Options placed directly under `NativeSelect` (no `NativeSelectOptGroup`).
+
+```text
+NativeSelect
+├── NativeSelectOption
+├── NativeSelectOption
+├── NativeSelectOption
+└── NativeSelectOption
+```
+
+### With groups
+
+Use `NativeSelectOptGroup` to organize options into categories.
+
+```text
+NativeSelect
+├── NativeSelectOptGroup
+│   ├── NativeSelectOption
+│   └── NativeSelectOption
+└── NativeSelectOptGroup
+    ├── NativeSelectOption
+    └── NativeSelectOption
+```
+
+## Examples
+
+### Size
+
+Use the `size` prop to change the height. `xs`, `sm`, `default`, `lg`, `xl`, and `2xl`.
+
+<ComponentPreview name="native-select-size">
+
+```tsx
+import {
+  NativeSelect,
+  NativeSelectOption,
+} from "@/components/ui/native-select"
+
+export default function NativeSelectSize() {
+  return (
+    <div className="flex flex-col items-start gap-2">
+      <NativeSelect size="xs" className="w-48">
+        <NativeSelectOption value="todo">Todo</NativeSelectOption>
+        <NativeSelectOption value="in-progress">In Progress</NativeSelectOption>
+        <NativeSelectOption value="done">Done</NativeSelectOption>
+      </NativeSelect>
+      <NativeSelect size="sm" className="w-48">
+        <NativeSelectOption value="todo">Todo</NativeSelectOption>
+        <NativeSelectOption value="in-progress">In Progress</NativeSelectOption>
+        <NativeSelectOption value="done">Done</NativeSelectOption>
+      </NativeSelect>
+      <NativeSelect size="default" className="w-48">
+        <NativeSelectOption value="todo">Todo</NativeSelectOption>
+        <NativeSelectOption value="in-progress">In Progress</NativeSelectOption>
+        <NativeSelectOption value="done">Done</NativeSelectOption>
+      </NativeSelect>
+      <NativeSelect size="lg" className="w-48">
+        <NativeSelectOption value="todo">Todo</NativeSelectOption>
+        <NativeSelectOption value="in-progress">In Progress</NativeSelectOption>
+        <NativeSelectOption value="done">Done</NativeSelectOption>
+      </NativeSelect>
+      <NativeSelect size="xl" className="w-48">
+        <NativeSelectOption value="todo">Todo</NativeSelectOption>
+        <NativeSelectOption value="in-progress">In Progress</NativeSelectOption>
+        <NativeSelectOption value="done">Done</NativeSelectOption>
+      </NativeSelect>
+      <NativeSelect size="2xl" className="w-48">
+        <NativeSelectOption value="todo">Todo</NativeSelectOption>
+        <NativeSelectOption value="in-progress">In Progress</NativeSelectOption>
+        <NativeSelectOption value="done">Done</NativeSelectOption>
+      </NativeSelect>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Groups
+
+Use `NativeSelectOptGroup` to organize options into categories.
+
+<ComponentPreview name="native-select-groups">
+
+```tsx
+import {
+  NativeSelect,
+  NativeSelectOptGroup,
+  NativeSelectOption,
+} from "@/components/ui/native-select"
+
+export default function NativeSelectGroups() {
+  return (
+    <NativeSelect>
+      <NativeSelectOption value="">Select department</NativeSelectOption>
+      <NativeSelectOptGroup label="Engineering">
+        <NativeSelectOption value="frontend">Frontend</NativeSelectOption>
+        <NativeSelectOption value="backend">Backend</NativeSelectOption>
+        <NativeSelectOption value="devops">DevOps</NativeSelectOption>
+      </NativeSelectOptGroup>
+      <NativeSelectOptGroup label="Sales">
+        <NativeSelectOption value="sales-rep">Sales Rep</NativeSelectOption>
+        <NativeSelectOption value="account-manager">
+          Account Manager
+        </NativeSelectOption>
+        <NativeSelectOption value="sales-director">
+          Sales Director
+        </NativeSelectOption>
+      </NativeSelectOptGroup>
+      <NativeSelectOptGroup label="Operations">
+        <NativeSelectOption value="support">
+          Customer Support
+        </NativeSelectOption>
+        <NativeSelectOption value="product-manager">
+          Product Manager
+        </NativeSelectOption>
+        <NativeSelectOption value="ops-manager">
+          Operations Manager
+        </NativeSelectOption>
+      </NativeSelectOptGroup>
+    </NativeSelect>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Disabled
+
+Add the `disabled` prop to the `NativeSelect` component to disable the select.
+
+<ComponentPreview name="native-select-disabled">
+
+```tsx
+import {
+  NativeSelect,
+  NativeSelectOption,
+} from "@/components/ui/native-select"
+
+export default function NativeSelectDisabled() {
+  return (
+    <NativeSelect disabled>
+      <NativeSelectOption value="">Disabled</NativeSelectOption>
+      <NativeSelectOption value="apple">Apple</NativeSelectOption>
+      <NativeSelectOption value="banana">Banana</NativeSelectOption>
+      <NativeSelectOption value="blueberry">Blueberry</NativeSelectOption>
+    </NativeSelect>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Invalid
+
+Use `aria-invalid` to show validation errors and the `data-invalid` attribute to the `Field` component for styling.
+
+<ComponentPreview name="native-select-invalid">
+
+```tsx
+import {
+  NativeSelect,
+  NativeSelectOption,
+} from "@/components/ui/native-select"
+
+export default function NativeSelectInvalid() {
+  return (
+    <NativeSelect aria-invalid="true">
+      <NativeSelectOption value="">Error state</NativeSelectOption>
+      <NativeSelectOption value="apple">Apple</NativeSelectOption>
+      <NativeSelectOption value="banana">Banana</NativeSelectOption>
+      <NativeSelectOption value="blueberry">Blueberry</NativeSelectOption>
+    </NativeSelect>
+  )
+}
+```
+
+</ComponentPreview>
+
+## Native Select vs Select
+
+- Use `NativeSelect` for native browser behavior, better performance, or mobile-optimized dropdowns.
+- Use `Select` for custom styling, animations, or complex interactions.
+
+## API reference
+
+### NativeSelect
+
+The main select component that wraps the native HTML select element.
+
+```tsx
+<NativeSelect>
+  <NativeSelectOption value="option1">Option 1</NativeSelectOption>
+  <NativeSelectOption value="option2">Option 2</NativeSelectOption>
+</NativeSelect>
+```
+
+Accepts every attribute of the native `<select>` element, plus `size` — `"xs" | "sm" | "default" | "lg" | "xl" | "2xl"`, default `"default"`.
+
+### NativeSelectOption
+
+Represents an individual option within the select.
+
+| Prop       | Type      | Default |
+| ---------- | --------- | ------- |
+| `value`    | `string`  |         |
+| `disabled` | `boolean` | `false` |
+
+### NativeSelectOptGroup
+
+Groups related options together for better organization.
+
+| Prop       | Type      | Default |
+| ---------- | --------- | ------- |
+| `label`    | `string`  |         |
+| `disabled` | `boolean` | `false` |
+
+```tsx
+<NativeSelectOptGroup label="Fruits">
+  <NativeSelectOption value="apple">Apple</NativeSelectOption>
+  <NativeSelectOption value="banana">Banana</NativeSelectOption>
+</NativeSelectOptGroup>
+```

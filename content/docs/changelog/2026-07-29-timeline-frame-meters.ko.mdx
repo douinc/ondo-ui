@@ -1,0 +1,80 @@
+---
+title: Timeline, Frame, 그리고 미터 패밀리
+description: 이력과 범위가 정해진 값을 전달하는 다섯 컴포넌트 — 그리고 모든 진행률·판독 표시에 공통으로 적용되는 색상 스케일.
+version: 1.1.0
+---
+
+**v1.1.0**
+
+다섯 컴포넌트를 함께 추가했습니다. 모두 같은 빈자리에서 나왔습니다 — ondo에는 *입력*과 *목록*을 위한 프리미티브는 충분했지만, **이력이나 범위가 정해진 값을 전달하기 위한** 컴포넌트가 없었습니다. 그래서 제품마다 `Card`와 직접 그린 SVG 위에 같은 모양을 반복해서 만들고 있었습니다.
+
+[`Timeline`](/docs/components/timeline)은 사건을 시간순으로, 세로 또는 가로로 보여줍니다. 각 항목이 `step`을 선언하고 타임라인의 `value`가 어디까지 진행됐는지를 나타냅니다 — `value` 이하인 항목은 완료 상태로 그려지고 축도 거기까지 채워집니다.
+
+```tsx
+<Timeline>
+  <TimelineItem step={1}>
+    <TimelineHeader>
+      <TimelineDate>2024년 3월</TimelineDate>
+      <TimelineTitle>프로젝트 시작</TimelineTitle>
+    </TimelineHeader>
+    <TimelineIndicator />
+    <TimelineSeparator />
+    <TimelineContent>
+      저장소와 초기 구조를 성공적으로 준비했습니다.
+    </TimelineContent>
+  </TimelineItem>
+</Timeline>
+```
+
+인디케이터와 연결선이 별도 파트라, 문서에 있는 좌우 교차·가로·인디케이터 커스터마이징 배치를 컴포넌트와 싸우지 않고 만들 수 있습니다.
+
+인디케이터는 색을 정하는 `variant`, 테두리 링으로 그릴지 채운 원으로 그릴지 정하는 `fill`, 진행 중인 단계에 `ping`이나 `pulse`를 거는 `animate`를 받습니다. 마지막 것은 `prefers-reduced-motion`을 존중합니다. 루트의 `size`는 점과 아이콘, 축 전체를 함께 조절합니다 — 항목의 여백과 연결선 길이가 인디케이터 크기에서 파생되므로 값을 따로 적어 둘 필요가 없습니다.
+
+```tsx
+<Timeline value={2} size="lg">
+  <TimelineItem step={2}>
+    <TimelineIndicator variant="warning" fill="solid" animate="ping" />
+    <TimelineSeparator />
+  </TimelineItem>
+</Timeline>
+```
+
+[`MeterRing`](/docs/components/meter-ring)은 범위가 정해진 값을 원형 눈금으로 보여줍니다. [Base UI Meter](https://base-ui.com/react/components/meter) 위에 만들어져 스크린 리더에도 올바르게 전달됩니다. 호는 원뿔형 그라디언트를 링으로 마스킹한 것이라 요소 두 개면 충분하고 SVG가 없으며, `currentColor`를 따르므로 `variant`로 색을 바꿉니다.
+
+```tsx
+<MeterRing value={0.68} max={1} format={{ style: "percent" }} variant="success">
+  <MeterRingLabel>커버리지</MeterRingLabel>
+</MeterRing>
+```
+
+숫자 서식으로 표현할 수 없는 가운데 값은 `formatValue`로 대신합니다 — "아직 측정값 없음"은 `0.00`을 당당히 보여주는 것보다 em-dash가 정확합니다.
+
+[`Meter`](/docs/components/meter)와 [`ProgressRing`](/docs/components/progress-ring)이 나머지 칸을 채웁니다. 답해야 할 질문은 둘입니다 — *끝나가는 작업인가, 그 자체로 하나의 상태인 값인가?* 그리고 *막대인가 링인가?* 이제 모든 조합에 컴포넌트가 있으므로, 고른 이름이 ARIA 역할까지 정해 줍니다.
+
+|  | 선형 | 원형 |
+| --- | --- | --- |
+| **작업 진행률** | [`Progress`](/docs/components/progress) | [`ProgressRing`](/docs/components/progress-ring) |
+| **범위가 정해진 값** | [`Meter`](/docs/components/meter) | [`MeterRing`](/docs/components/meter-ring) |
+
+이 중 진짜 새로운 것은 `ProgressRing`입니다. Base UI Progress 위에 만들어져 `value={null}`이면 진행률을 알 수 없는 상태가 되고, 호는 없는 숫자를 주장하는 대신 회전하는 스피너가 됩니다.
+
+```tsx
+<ProgressRing value={null}>
+  <ProgressRingLabel>연결 중</ProgressRingLabel>
+</ProgressRing>
+```
+
+마지막으로 네 컴포넌트가 하나의 색상 스케일을 공유합니다. `variant` — `default`, `info`, `success`, `warning`, `destructive` — 가 루트에 텍스트 색을 지정하고 채움은 `currentColor`로 칠해지므로, `className="text-…"` 재정의도 어디서나 통합니다. 이 과정에서 `Progress`도 이 prop을 갖게 됐습니다. 이전에는 채움 색이 고정돼 있었습니다.
+
+[`Frame`](/docs/components/frame)은 Timeline의 가로 배치 예시가 올라앉은 표면입니다. 패널을 안에 품는 테두리 컨테이너로, 패널의 모서리 반경이 프레임 값에서 파생되므로 모서리가 겹쳐 보이지 않고 동심원처럼 맞물립니다. 둘 다 `--frame-radius` 하나로 조절합니다.
+
+```tsx
+<Frame stacked>
+  <FramePanel>
+    <FrameHeader>
+      <FrameTitle>배포</FrameTitle>
+    </FrameHeader>
+  </FramePanel>
+  <FramePanel>첫 번째 패널에 이어 붙은 두 번째 패널.</FramePanel>
+</Frame>
+```

@@ -1,0 +1,19 @@
+---
+title: 시맨틱 컬러 variant
+description: info, success, warning이 destructive에 이어 Button, Badge, Alert, Sonner의 일급 variant로 추가됩니다.
+version: 0.2.1
+---
+
+**v0.2.1**
+
+`destructive` 외의 시맨틱 컬러입니다. `info`, `success`, `warning` 토큰이 이제
+레지스트리 전반에서 일급 variant로 노출됩니다:
+
+- [`Button`](/docs/components/button), [`Badge`](/docs/components/badge),
+  [`Alert`](/docs/components/alert)에 `info`, `success`, `warning` variant가
+  추가됩니다 — `destructive`와 동일한 soft-tint 방식입니다.
+- [`Alert`](/docs/components/alert) variant는 이제 배경과 테두리를 시맨틱 tint로
+  채우며, 새로운 `primary` variant가 추가됩니다.
+- [`Toast`](/docs/components/toast) 메시지
+  (`toast.success` / `.info` / `.warning` / `.error`)가 시맨틱 토큰으로
+  테마링됩니다.

@@ -1,0 +1,322 @@
+---
+title: Live Waveform
+description: A canvas-based real-time audio waveform visualizer with microphone input and customizable rendering modes.
+---
+
+<ComponentPreview name="live-waveform-demo">
+
+```tsx
+"use client"
+
+import * as React from "react"
+import { IconMicrophone, IconMicrophoneOff } from "@tabler/icons-react"
+
+import { LiveWaveform } from "@/components/ui/live-waveform"
+import { Button } from "@/components/ui/button"
+
+export default function LiveWaveformDemo() {
+  const [active, setActive] = React.useState(false)
+
+  return (
+    <div className="flex w-full max-w-sm flex-col items-center gap-4">
+      <LiveWaveform active={active} className="text-foreground" height={64} />
+      <Button
+        variant={active ? "default" : "outline"}
+        size="sm"
+        onClick={() => setActive((v) => !v)}
+      >
+        {active ? <IconMicrophoneOff /> : <IconMicrophone />}
+        {active ? "Stop" : "Start listening"}
+      </Button>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+<Callout>
+  `LiveWaveform` requests microphone access when `active` is `true`. Only enable
+  it in response to a user gesture, and provide a clear way to stop listening.
+</Callout>
+
+## Installation
+
+```bash
+bunx shadcn@latest add @ondo-ui/live-waveform
+```
+
+## Usage
+
+```tsx
+import { LiveWaveform } from "@/components/ui/live-waveform"
+```
+
+```tsx
+<LiveWaveform active={true} />
+```
+
+The bars default to the `primary` color. Override with any `text-*` utility via
+`className`, or set `barColor` for an arbitrary value:
+
+```tsx
+<LiveWaveform active={true} className="text-emerald-500" />
+<LiveWaveform active={true} barColor="#3b82f6" />
+```
+
+## Examples
+
+### Static mode
+
+Symmetric bars across the frequency bands, updated in place. This is the default.
+
+<ComponentPreview name="live-waveform-static">
+
+```tsx
+import { LiveWaveform } from "@/components/ui/live-waveform"
+
+export default function LiveWaveformStatic() {
+  return (
+    <div className="w-full max-w-sm">
+      <LiveWaveform active mode="static" className="text-foreground" />
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Scrolling mode
+
+Historical average volume scrolling from right to left, so the waveform reads as
+a timeline. History fills in gradually as audio arrives.
+
+<ComponentPreview name="live-waveform-scrolling">
+
+```tsx
+import { LiveWaveform } from "@/components/ui/live-waveform"
+
+export default function LiveWaveformScrolling() {
+  return (
+    <div className="w-full max-w-sm">
+      <LiveWaveform active mode="scrolling" className="text-foreground" />
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Processing state
+
+Set `processing` to show an animated wave while waiting for input — for example
+between the moment a user stops speaking and the model's reply. It respects
+`prefers-reduced-motion` and settles to a calm static frame instead of looping.
+
+<ComponentPreview name="live-waveform-processing">
+
+```tsx
+"use client"
+
+import * as React from "react"
+
+import { LiveWaveform } from "@/components/ui/live-waveform"
+import { Button } from "@/components/ui/button"
+
+export default function LiveWaveformProcessing() {
+  const [processing, setProcessing] = React.useState(true)
+
+  return (
+    <div className="flex w-full max-w-sm flex-col items-center gap-4">
+      <LiveWaveform
+        processing={processing}
+        mode="static"
+        className="text-foreground"
+      />
+      <Button
+        variant="outline"
+        size="sm"
+        onClick={() => setProcessing((v) => !v)}
+      >
+        {processing ? "Stop" : "Start"} processing
+      </Button>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Bar geometry
+
+`barWidth`, `barGap`, `barRadius`, and `barHeight` (the minimum bar height)
+shape the bars — widen them with more gap for a chunky look, set `barRadius` to
+half the width for pills or `0` for hard edges. `fadeEdges` controls whether the
+ends soften or run to the border.
+
+Start listening to drive every preset from one shared microphone (passed via
+`stream`). The `processing` shape is only the pre-recording state — once
+listening, every bar stays `active` and follows the live signal, silence
+included.
+
+<ComponentPreview name="live-waveform-geometry">
+
+```tsx
+"use client"
+
+import * as React from "react"
+import { IconMicrophone, IconMicrophoneOff } from "@tabler/icons-react"
+
+import { LiveWaveform } from "@/components/ui/live-waveform"
+import { Button } from "@/components/ui/button"
+
+const presets = [
+  { label: "Default", barWidth: 4, barGap: 2, barRadius: 2, barHeight: 4 },
+  { label: "Hairline", barWidth: 1, barGap: 2, barRadius: 0, barHeight: 2 },
+  { label: "Pill", barWidth: 8, barGap: 5, barRadius: 4, barHeight: 8 },
+  { label: "Blocks", barWidth: 6, barGap: 2, barRadius: 0, barHeight: 6 },
+  { label: "Tall & sparse", barWidth: 2, barGap: 4, barRadius: 1, barHeight: 14 },
+  {
+    label: "No fade",
+    barWidth: 4,
+    barGap: 2,
+    barRadius: 2,
+    barHeight: 5,
+    fadeEdges: false,
+  },
+]
+
+export default function LiveWaveformGeometry() {
+  const [stream, setStream] = React.useState<MediaStream | null>(null)
+  const listening = stream !== null
+
+  const start = async () => {
+    try {
+      setStream(await navigator.mediaDevices.getUserMedia({ audio: true }))
+    } catch {
+      // Permission denied — stay in the idle processing state.
+    }
+  }
+
+  const stop = () => {
+    stream?.getTracks().forEach((track) => track.stop())
+    setStream(null)
+  }
+
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-6">
+      {presets.map(({ label, ...geometry }) => (
+        <div key={label} className="flex flex-col gap-1">
+          <span className="text-xs text-muted-foreground">{label}</span>
+          {/* One shared microphone drives every preset. The processing shape is
+              only the pre-recording state — once listening, the bars follow the
+              live signal even through silence. */}
+          <LiveWaveform
+            stream={stream}
+            active={listening}
+            processing={!listening}
+            height={48}
+            {...geometry}
+          />
+        </div>
+      ))}
+      <Button
+        variant={listening ? "default" : "outline"}
+        size="sm"
+        onClick={listening ? stop : start}
+        className="self-center"
+      >
+        {listening ? <IconMicrophoneOff /> : <IconMicrophone />}
+        {listening ? "Stop" : "Start listening"}
+      </Button>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Custom styling
+
+Bar geometry, color, height, and edge fading are all configurable.
+
+<ComponentPreview name="live-waveform-custom">
+
+```tsx
+import { LiveWaveform } from "@/components/ui/live-waveform"
+
+export default function LiveWaveformCustom() {
+  return (
+    <div className="w-full max-w-sm">
+      <LiveWaveform
+        active
+        mode="static"
+        barWidth={4}
+        barGap={2}
+        barRadius={2}
+        barColor="#8b5cf6"
+        height={100}
+        fadeEdges
+      />
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Bring your own stream
+
+Pass a `stream` to visualize audio you already have — a shared microphone track,
+or an agent's response audio routed through a `MediaStreamAudioDestinationNode`.
+When `stream` is set, `LiveWaveform` uses it instead of calling `getUserMedia`,
+and leaves the stream's lifecycle to you (it never stops tracks it did not open).
+
+```tsx
+<LiveWaveform active stream={myStream} />
+```
+
+## API reference
+
+### LiveWaveform
+
+A canvas-based real-time audio visualizer with microphone input support.
+
+| Prop                    | Type                            | Default    | Description                                             |
+| ----------------------- | ------------------------------- | ---------- | ------------------------------------------------------- |
+| `active`                | `boolean`                       | `false`    | Whether to actively listen to audio input.              |
+| `processing`            | `boolean`                       | `false`    | Show a processing animation when not active.            |
+| `stream`                | `MediaStream \| null`           | `null`     | Use an existing stream instead of the microphone.       |
+| `deviceId`              | `string`                        | —          | Specific input device to request from `getUserMedia`.   |
+| `barWidth`              | `number`                        | `4`        | Width of each bar in pixels.                            |
+| `barHeight`             | `number`                        | `4`        | Minimum bar height in pixels.                           |
+| `barGap`                | `number`                        | `2`        | Gap between bars in pixels.                             |
+| `barRadius`             | `number`                        | `2`        | Corner radius of bars.                                  |
+| `barColor`              | `string`                        | —          | Bar color. Defaults to the current text color.          |
+| `fadeEdges`             | `boolean`                       | `true`     | Fade the left and right edges of the waveform.          |
+| `fadeWidth`             | `number`                        | `24`       | Width of the fade in pixels.                            |
+| `height`                | `string \| number`              | `64`       | Height of the waveform.                                 |
+| `sensitivity`           | `number`                        | `1`        | Audio sensitivity multiplier.                           |
+| `smoothingTimeConstant` | `number`                        | `0.8`      | Analyser smoothing, `0`–`1`.                            |
+| `fftSize`               | `number`                        | `256`      | FFT size for frequency analysis.                        |
+| `historySize`           | `number`                        | `60`       | Bars kept in history (scrolling mode).                  |
+| `updateRate`            | `number`                        | `30`       | Audio update interval in milliseconds.                  |
+| `mode`                  | `"scrolling" \| "static"`       | `"static"` | Visualization mode.                                     |
+| `onError`               | `(error: Error) => void`        | —          | Called when microphone access fails.                    |
+| `onStreamReady`         | `(stream: MediaStream) => void` | —          | Called when the audio stream is ready.                  |
+| `onStreamEnd`           | `() => void`                    | —          | Called when a microphone stream this component owns ends.|
+| `className`             | `string`                        | —          | Merged onto the wrapper element.                        |
+| `...props`              | `HTMLDivElement`                | —          | All standard div element props.                         |
+
+## Notes
+
+- Uses the [Web Audio API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Audio_API)
+  for real-time frequency analysis, rendered to a canvas with HiDPI support.
+- Microphone permission is requested when `active` becomes `true`; streams and
+  audio contexts are cleaned up on unmount and when `active` turns off.
+- The render loop parks itself when idle and wakes only for live audio,
+  processing, resizes, and transitions — it does not burn a frame budget at rest.
+- **Static mode** shows symmetric bars across the frequency bands; **scrolling
+  mode** shows historical average volume scrolling from right to left.
+- Callbacks are read from a ref, so passing new inline `onError` / `onStreamReady`
+  / `onStreamEnd` functions on each render does not re-acquire the microphone.

@@ -1,0 +1,991 @@
+---
+title: Combobox
+description: Autocomplete input with a list of suggestions.
+---
+
+<ComponentPreview name="combobox-demo">
+
+```tsx
+"use client"
+
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "@/components/ui/combobox"
+
+const frameworks = [
+  "Next.js",
+  "SvelteKit",
+  "Nuxt.js",
+  "Remix",
+  "Astro",
+] as const
+
+export default function ComboboxDemo() {
+  return (
+    <Combobox items={frameworks}>
+      <ComboboxInput placeholder="Select a framework" />
+      <ComboboxContent>
+        <ComboboxEmpty>No items found.</ComboboxEmpty>
+        <ComboboxList>
+          {(item) => (
+            <ComboboxItem key={item} value={item}>
+              {item}
+            </ComboboxItem>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+  )
+}
+```
+
+</ComponentPreview>
+
+## Installation
+
+```bash
+bunx shadcn@latest add @ondo-ui/combobox
+```
+
+## Usage
+
+```tsx showLineNumbers
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "@/components/ui/combobox"
+```
+
+```tsx showLineNumbers
+const frameworks = ["Next.js", "SvelteKit", "Nuxt.js", "Remix", "Astro"]
+
+export function ExampleCombobox() {
+  return (
+    <Combobox items={frameworks}>
+      <ComboboxInput placeholder="Select a framework" />
+      <ComboboxContent>
+        <ComboboxEmpty>No items found.</ComboboxEmpty>
+        <ComboboxList>
+          {(item) => (
+            <ComboboxItem key={item} value={item}>
+              {item}
+            </ComboboxItem>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+  )
+}
+```
+
+## Composition
+
+### Simple
+
+A single-line input and a flat list (see [Basic](#basic)).
+
+```text
+Combobox
+├── ComboboxInput
+└── ComboboxContent
+    ├── ComboboxEmpty
+    └── ComboboxList
+        ├── ComboboxItem
+        └── ComboboxItem
+```
+
+### With chips
+
+Multi-select with `multiple`, chips, and a chips input (see [Multiple](#multiple)).
+
+```text
+Combobox
+├── ComboboxChips
+│   ├── ComboboxValue
+│   │   └── ComboboxChip
+│   └── ComboboxChipsInput
+└── ComboboxContent
+    ├── ComboboxEmpty
+    └── ComboboxList
+        ├── ComboboxItem
+        └── ComboboxItem
+```
+
+### With groups and collection
+
+Nested items per group using `ComboboxCollection` inside each `ComboboxGroup`, with a separator between groups (see [Groups](#groups)).
+
+```text
+Combobox
+├── ComboboxInput
+└── ComboboxContent
+    ├── ComboboxEmpty
+    └── ComboboxList
+        ├── ComboboxGroup
+        │   ├── ComboboxLabel
+        │   └── ComboboxCollection
+        │       ├── ComboboxItem
+        │       └── ComboboxItem
+        ├── ComboboxSeparator
+        └── ComboboxGroup
+            ├── ComboboxLabel
+            └── ComboboxCollection
+                ├── ComboboxItem
+                └── ComboboxItem
+```
+
+## Examples
+
+### Basic
+
+A simple combobox with a list of frameworks.
+
+<ComponentPreview name="combobox-basic">
+
+```tsx
+"use client"
+
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "@/components/ui/combobox"
+
+const frameworks = [
+  "Next.js",
+  "SvelteKit",
+  "Nuxt.js",
+  "Remix",
+  "Astro",
+] as const
+
+export default function ComboboxBasic() {
+  return (
+    <Combobox items={frameworks}>
+      <ComboboxInput placeholder="Select a framework" />
+      <ComboboxContent>
+        <ComboboxEmpty>No items found.</ComboboxEmpty>
+        <ComboboxList>
+          {(item) => (
+            <ComboboxItem key={item} value={item}>
+              {item}
+            </ComboboxItem>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Size
+
+Use the `size` prop on `Combobox` to scale the whole control. `xs`, `sm`, `default`, `lg`, `xl`, and `2xl`.
+
+At `xl` and `2xl` the popup scales with the input — item text, padding, and the check indicator grow, and the corner radius matches the input that opened it. Chips scale too when using `ComboboxChips`.
+
+<ComponentPreview name="combobox-size">
+
+```tsx
+"use client"
+
+import * as React from "react"
+
+import {
+  Combobox,
+  ComboboxChip,
+  ComboboxChips,
+  ComboboxChipsInput,
+  ComboboxCollection,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxGroup,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxLabel,
+  ComboboxList,
+  ComboboxSeparator,
+  ComboboxValue,
+  useComboboxAnchor,
+} from "@/components/ui/combobox"
+
+const timezones = [
+  {
+    value: "Americas",
+    items: [
+      "(GMT-5) New York",
+      "(GMT-8) Los Angeles",
+      "(GMT-6) Chicago",
+      "(GMT-3) São Paulo",
+    ],
+  },
+  {
+    value: "Europe",
+    items: ["(GMT+0) London", "(GMT+1) Paris", "(GMT+1) Berlin"],
+  },
+  {
+    value: "Asia/Pacific",
+    items: [
+      "(GMT+9) Tokyo",
+      "(GMT+8) Singapore",
+      "(GMT+11) Sydney",
+      "(GMT+9) Seoul",
+    ],
+  },
+] as const
+
+const frameworks = ["Next.js", "SvelteKit", "Nuxt.js", "Remix"] as const
+
+const sizes = ["xs", "sm", "default", "lg", "xl", "2xl"] as const
+
+function ComboboxSizeMultiple({ size }: { size: (typeof sizes)[number] }) {
+  const anchor = useComboboxAnchor()
+
+  return (
+    <Combobox
+      multiple
+      autoHighlight
+      size={size}
+      items={frameworks}
+      defaultValue={[frameworks[0], frameworks[1]]}
+    >
+      <ComboboxChips ref={anchor}>
+        <ComboboxValue>
+          {(values) => (
+            <React.Fragment>
+              {values.map((value: string) => (
+                <ComboboxChip key={value}>{value}</ComboboxChip>
+              ))}
+              <ComboboxChipsInput placeholder={`Size ${size}`} />
+            </React.Fragment>
+          )}
+        </ComboboxValue>
+      </ComboboxChips>
+      <ComboboxContent anchor={anchor}>
+        <ComboboxEmpty>No items found.</ComboboxEmpty>
+        <ComboboxList>
+          {(item: string) => (
+            <ComboboxItem key={item} value={item}>
+              {item}
+            </ComboboxItem>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+  )
+}
+
+export default function ComboboxSize() {
+  return (
+    <div className="flex w-full max-w-72 flex-col gap-6">
+      <div className="flex flex-col gap-3">
+        {sizes.map((size) => (
+          <Combobox key={size} items={timezones} size={size}>
+            <ComboboxInput placeholder={`Size ${size}`} showClear />
+            <ComboboxContent>
+              <ComboboxEmpty>No timezones found.</ComboboxEmpty>
+              <ComboboxList>
+                {(group: (typeof timezones)[number], index: number) => (
+                  <ComboboxGroup key={group.value} items={group.items}>
+                    <ComboboxLabel>{group.value}</ComboboxLabel>
+                    <ComboboxCollection>
+                      {(item: string) => (
+                        <ComboboxItem key={item} value={item}>
+                          {item}
+                        </ComboboxItem>
+                      )}
+                    </ComboboxCollection>
+                    {index < timezones.length - 1 && <ComboboxSeparator />}
+                  </ComboboxGroup>
+                )}
+              </ComboboxList>
+            </ComboboxContent>
+          </Combobox>
+        ))}
+      </div>
+      <div className="flex flex-col gap-3">
+        {sizes.map((size) => (
+          <ComboboxSizeMultiple key={size} size={size} />
+        ))}
+      </div>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Multiple
+
+A combobox with multiple selection using `multiple` and `ComboboxChips`.
+
+<ComponentPreview name="combobox-multiple">
+
+```tsx
+"use client"
+
+import * as React from "react"
+
+import {
+  Combobox,
+  ComboboxChip,
+  ComboboxChips,
+  ComboboxChipsInput,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxItem,
+  ComboboxList,
+  ComboboxValue,
+  useComboboxAnchor,
+} from "@/components/ui/combobox"
+
+const frameworks = [
+  "Next.js",
+  "SvelteKit",
+  "Nuxt.js",
+  "Remix",
+  "Astro",
+] as const
+
+export default function ComboboxMultiple() {
+  const anchor = useComboboxAnchor()
+
+  return (
+    <Combobox
+      multiple
+      autoHighlight
+      items={frameworks}
+      defaultValue={[frameworks[0]]}
+    >
+      <ComboboxChips ref={anchor} className="w-full max-w-xs">
+        <ComboboxValue>
+          {(values) => (
+            <React.Fragment>
+              {values.map((value: string) => (
+                <ComboboxChip key={value}>{value}</ComboboxChip>
+              ))}
+              <ComboboxChipsInput />
+            </React.Fragment>
+          )}
+        </ComboboxValue>
+      </ComboboxChips>
+      <ComboboxContent anchor={anchor}>
+        <ComboboxEmpty>No items found.</ComboboxEmpty>
+        <ComboboxList>
+          {(item) => (
+            <ComboboxItem key={item} value={item}>
+              {item}
+            </ComboboxItem>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Clear Button
+
+Use the `showClear` prop to show a clear button.
+
+<ComponentPreview name="combobox-clear-button">
+
+```tsx
+"use client"
+
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "@/components/ui/combobox"
+
+const frameworks = [
+  "Next.js",
+  "SvelteKit",
+  "Nuxt.js",
+  "Remix",
+  "Astro",
+] as const
+
+export default function ComboboxClearButton() {
+  return (
+    <Combobox items={frameworks} defaultValue={frameworks[0]}>
+      <ComboboxInput placeholder="Select a framework" showClear />
+      <ComboboxContent>
+        <ComboboxEmpty>No items found.</ComboboxEmpty>
+        <ComboboxList>
+          {(item) => (
+            <ComboboxItem key={item} value={item}>
+              {item}
+            </ComboboxItem>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Groups
+
+Use `ComboboxGroup` and `ComboboxSeparator` to group items.
+
+<ComponentPreview name="combobox-groups">
+
+```tsx
+"use client"
+
+import {
+  Combobox,
+  ComboboxCollection,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxGroup,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxLabel,
+  ComboboxList,
+  ComboboxSeparator,
+} from "@/components/ui/combobox"
+
+const timezones = [
+  {
+    value: "Americas",
+    items: [
+      "(GMT-5) New York",
+      "(GMT-8) Los Angeles",
+      "(GMT-6) Chicago",
+      "(GMT-5) Toronto",
+      "(GMT-8) Vancouver",
+      "(GMT-3) São Paulo",
+    ],
+  },
+  {
+    value: "Europe",
+    items: [
+      "(GMT+0) London",
+      "(GMT+1) Paris",
+      "(GMT+1) Berlin",
+      "(GMT+1) Rome",
+      "(GMT+1) Madrid",
+      "(GMT+1) Amsterdam",
+    ],
+  },
+  {
+    value: "Asia/Pacific",
+    items: [
+      "(GMT+9) Tokyo",
+      "(GMT+8) Shanghai",
+      "(GMT+8) Singapore",
+      "(GMT+4) Dubai",
+      "(GMT+11) Sydney",
+      "(GMT+9) Seoul",
+    ],
+  },
+] as const
+
+export default function ComboboxGroups() {
+  return (
+    <Combobox items={timezones}>
+      <ComboboxInput placeholder="Select a timezone" />
+      <ComboboxContent>
+        <ComboboxEmpty>No timezones found.</ComboboxEmpty>
+        <ComboboxList>
+          {(group, index) => (
+            <ComboboxGroup key={group.value} items={group.items}>
+              <ComboboxLabel>{group.value}</ComboboxLabel>
+              <ComboboxCollection>
+                {(item) => (
+                  <ComboboxItem key={item} value={item}>
+                    {item}
+                  </ComboboxItem>
+                )}
+              </ComboboxCollection>
+              {index < timezones.length - 1 && <ComboboxSeparator />}
+            </ComboboxGroup>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Custom Items
+
+You can render a custom component inside `ComboboxItem`.
+
+<ComponentPreview name="combobox-custom-items">
+
+```tsx
+"use client"
+
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "@/components/ui/combobox"
+import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemTitle,
+} from "@/components/ui/item"
+
+const countries = [
+  { code: "", value: "", continent: "", label: "Select country" },
+  {
+    code: "ar",
+    value: "argentina",
+    label: "Argentina",
+    continent: "South America",
+  },
+  { code: "au", value: "australia", label: "Australia", continent: "Oceania" },
+  { code: "br", value: "brazil", label: "Brazil", continent: "South America" },
+  { code: "ca", value: "canada", label: "Canada", continent: "North America" },
+  { code: "cn", value: "china", label: "China", continent: "Asia" },
+  {
+    code: "co",
+    value: "colombia",
+    label: "Colombia",
+    continent: "South America",
+  },
+  { code: "eg", value: "egypt", label: "Egypt", continent: "Africa" },
+  { code: "fr", value: "france", label: "France", continent: "Europe" },
+  { code: "de", value: "germany", label: "Germany", continent: "Europe" },
+  { code: "it", value: "italy", label: "Italy", continent: "Europe" },
+  { code: "jp", value: "japan", label: "Japan", continent: "Asia" },
+  { code: "ke", value: "kenya", label: "Kenya", continent: "Africa" },
+  { code: "mx", value: "mexico", label: "Mexico", continent: "North America" },
+  {
+    code: "nz",
+    value: "new-zealand",
+    label: "New Zealand",
+    continent: "Oceania",
+  },
+  { code: "ng", value: "nigeria", label: "Nigeria", continent: "Africa" },
+  {
+    code: "za",
+    value: "south-africa",
+    label: "South Africa",
+    continent: "Africa",
+  },
+  { code: "kr", value: "south-korea", label: "South Korea", continent: "Asia" },
+  {
+    code: "gb",
+    value: "united-kingdom",
+    label: "United Kingdom",
+    continent: "Europe",
+  },
+  {
+    code: "us",
+    value: "united-states",
+    label: "United States",
+    continent: "North America",
+  },
+]
+
+export default function ComboboxCustomItems() {
+  return (
+    <Combobox
+      items={countries.filter((country) => country.code !== "")}
+      itemToStringValue={(country: (typeof countries)[number]) => country.label}
+    >
+      <ComboboxInput placeholder="Search countries..." />
+      <ComboboxContent>
+        <ComboboxEmpty>No countries found.</ComboboxEmpty>
+        <ComboboxList>
+          {(country) => (
+            <ComboboxItem key={country.code} value={country}>
+              <Item size="xs" className="p-0">
+                <ItemContent>
+                  <ItemTitle className="whitespace-nowrap">
+                    {country.label}
+                  </ItemTitle>
+                  <ItemDescription>
+                    {country.continent} ({country.code})
+                  </ItemDescription>
+                </ItemContent>
+              </Item>
+            </ComboboxItem>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Invalid
+
+Use the `aria-invalid` prop to make the combobox invalid.
+
+<ComponentPreview name="combobox-invalid">
+
+```tsx
+"use client"
+
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "@/components/ui/combobox"
+
+const frameworks = [
+  "Next.js",
+  "SvelteKit",
+  "Nuxt.js",
+  "Remix",
+  "Astro",
+] as const
+
+export default function ComboboxInvalid() {
+  return (
+    <Combobox items={frameworks}>
+      <ComboboxInput placeholder="Select a framework" aria-invalid="true" />
+      <ComboboxContent>
+        <ComboboxEmpty>No items found.</ComboboxEmpty>
+        <ComboboxList>
+          {(item) => (
+            <ComboboxItem key={item} value={item}>
+              {item}
+            </ComboboxItem>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Disabled
+
+Use the `disabled` prop to disable the combobox.
+
+<ComponentPreview name="combobox-disabled">
+
+```tsx
+"use client"
+
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "@/components/ui/combobox"
+
+const frameworks = [
+  "Next.js",
+  "SvelteKit",
+  "Nuxt.js",
+  "Remix",
+  "Astro",
+] as const
+
+export default function ComboboxDisabled() {
+  return (
+    <Combobox items={frameworks}>
+      <ComboboxInput placeholder="Select a framework" disabled />
+      <ComboboxContent>
+        <ComboboxEmpty>No items found.</ComboboxEmpty>
+        <ComboboxList>
+          {(item) => (
+            <ComboboxItem key={item} value={item}>
+              {item}
+            </ComboboxItem>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Auto Highlight
+
+Use the `autoHighlight` prop to automatically highlight the first item on filter.
+
+<ComponentPreview name="combobox-auto-highlight">
+
+```tsx
+"use client"
+
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+} from "@/components/ui/combobox"
+
+const frameworks = [
+  "Next.js",
+  "SvelteKit",
+  "Nuxt.js",
+  "Remix",
+  "Astro",
+] as const
+
+export default function ComboboxAutoHighlight() {
+  return (
+    <Combobox items={frameworks} autoHighlight>
+      <ComboboxInput placeholder="Select a framework" />
+      <ComboboxContent>
+        <ComboboxEmpty>No items found.</ComboboxEmpty>
+        <ComboboxList>
+          {(item) => (
+            <ComboboxItem key={item} value={item}>
+              {item}
+            </ComboboxItem>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Popup
+
+You can trigger the combobox from a button or any other component by using the `render` prop. Move the `ComboboxInput` inside the `ComboboxContent`.
+
+<ComponentPreview name="combobox-popup">
+
+```tsx
+"use client"
+
+import { Button } from "@/components/ui/button"
+import {
+  Combobox,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxList,
+  ComboboxTrigger,
+  ComboboxValue,
+} from "@/components/ui/combobox"
+
+const countries = [
+  { code: "", value: "", continent: "", label: "Select country" },
+  {
+    code: "ar",
+    value: "argentina",
+    label: "Argentina",
+    continent: "South America",
+  },
+  { code: "au", value: "australia", label: "Australia", continent: "Oceania" },
+  { code: "br", value: "brazil", label: "Brazil", continent: "South America" },
+  { code: "ca", value: "canada", label: "Canada", continent: "North America" },
+  { code: "cn", value: "china", label: "China", continent: "Asia" },
+  {
+    code: "co",
+    value: "colombia",
+    label: "Colombia",
+    continent: "South America",
+  },
+  { code: "eg", value: "egypt", label: "Egypt", continent: "Africa" },
+  { code: "fr", value: "france", label: "France", continent: "Europe" },
+  { code: "de", value: "germany", label: "Germany", continent: "Europe" },
+  { code: "it", value: "italy", label: "Italy", continent: "Europe" },
+  { code: "jp", value: "japan", label: "Japan", continent: "Asia" },
+  { code: "ke", value: "kenya", label: "Kenya", continent: "Africa" },
+  { code: "mx", value: "mexico", label: "Mexico", continent: "North America" },
+  {
+    code: "nz",
+    value: "new-zealand",
+    label: "New Zealand",
+    continent: "Oceania",
+  },
+  { code: "ng", value: "nigeria", label: "Nigeria", continent: "Africa" },
+  {
+    code: "za",
+    value: "south-africa",
+    label: "South Africa",
+    continent: "Africa",
+  },
+  { code: "kr", value: "south-korea", label: "South Korea", continent: "Asia" },
+  {
+    code: "gb",
+    value: "united-kingdom",
+    label: "United Kingdom",
+    continent: "Europe",
+  },
+  {
+    code: "us",
+    value: "united-states",
+    label: "United States",
+    continent: "North America",
+  },
+]
+
+export default function ComboboxPopup() {
+  return (
+    <>
+      <Combobox items={countries} defaultValue={countries[0]}>
+        <ComboboxTrigger
+          render={
+            <Button
+              variant="outline"
+              className="w-64 justify-between font-normal"
+            />
+          }
+        >
+          <ComboboxValue />
+        </ComboboxTrigger>
+        <ComboboxContent>
+          <ComboboxInput showTrigger={false} placeholder="Search" />
+          <ComboboxEmpty>No items found.</ComboboxEmpty>
+          <ComboboxList>
+            {(item) => (
+              <ComboboxItem key={item.code} value={item}>
+                {item.label}
+              </ComboboxItem>
+            )}
+          </ComboboxList>
+        </ComboboxContent>
+      </Combobox>
+    </>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Input Group
+
+You can add an addon to the combobox by using the `InputGroupAddon` component inside the `ComboboxInput`.
+
+<ComponentPreview name="combobox-input-group">
+
+```tsx
+"use client"
+
+import { IconGlobe } from "@tabler/icons-react"
+
+import {
+  Combobox,
+  ComboboxCollection,
+  ComboboxContent,
+  ComboboxEmpty,
+  ComboboxGroup,
+  ComboboxInput,
+  ComboboxItem,
+  ComboboxLabel,
+  ComboboxList,
+} from "@/components/ui/combobox"
+import { InputGroupAddon } from "@/components/ui/input-group"
+
+const timezones = [
+  {
+    value: "Americas",
+    items: [
+      "(GMT-5) New York",
+      "(GMT-8) Los Angeles",
+      "(GMT-6) Chicago",
+      "(GMT-5) Toronto",
+      "(GMT-8) Vancouver",
+      "(GMT-3) São Paulo",
+    ],
+  },
+  {
+    value: "Europe",
+    items: [
+      "(GMT+0) London",
+      "(GMT+1) Paris",
+      "(GMT+1) Berlin",
+      "(GMT+1) Rome",
+      "(GMT+1) Madrid",
+      "(GMT+1) Amsterdam",
+    ],
+  },
+  {
+    value: "Asia/Pacific",
+    items: [
+      "(GMT+9) Tokyo",
+      "(GMT+8) Shanghai",
+      "(GMT+8) Singapore",
+      "(GMT+4) Dubai",
+      "(GMT+11) Sydney",
+      "(GMT+9) Seoul",
+    ],
+  },
+] as const
+
+export default function ComboboxInputGroup() {
+  return (
+    <Combobox items={timezones}>
+      <ComboboxInput placeholder="Select a timezone">
+        <InputGroupAddon>
+          <IconGlobe />
+        </InputGroupAddon>
+      </ComboboxInput>
+      <ComboboxContent alignOffset={-28} className="w-60">
+        <ComboboxEmpty>No timezones found.</ComboboxEmpty>
+        <ComboboxList>
+          {(group) => (
+            <ComboboxGroup key={group.value} items={group.items}>
+              <ComboboxLabel>{group.value}</ComboboxLabel>
+              <ComboboxCollection>
+                {(item) => (
+                  <ComboboxItem key={item} value={item}>
+                    {item}
+                  </ComboboxItem>
+                )}
+              </ComboboxCollection>
+            </ComboboxGroup>
+          )}
+        </ComboboxList>
+      </ComboboxContent>
+    </Combobox>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API Reference
+
+The component wraps [Base UI Combobox](https://base-ui.com/react/components/combobox) and accepts all of its props.
+
+`Combobox` also accepts `size` — `"xs" | "sm" | "default" | "lg" | "xl" | "2xl"`, default `"default"` — which scales the input, the popup, and any chips together.

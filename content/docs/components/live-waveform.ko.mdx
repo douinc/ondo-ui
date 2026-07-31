@@ -1,0 +1,322 @@
+---
+title: Live Waveform (실시간 파형)
+description: 마이크 입력과 커스터마이즈 가능한 렌더링 모드를 갖춘 캔버스 기반 실시간 오디오 파형 시각화 컴포넌트입니다.
+---
+
+<ComponentPreview name="live-waveform-demo">
+
+```tsx
+"use client"
+
+import * as React from "react"
+import { IconMicrophone, IconMicrophoneOff } from "@tabler/icons-react"
+
+import { LiveWaveform } from "@/components/ui/live-waveform"
+import { Button } from "@/components/ui/button"
+
+export default function LiveWaveformDemo() {
+  const [active, setActive] = React.useState(false)
+
+  return (
+    <div className="flex w-full max-w-sm flex-col items-center gap-4">
+      <LiveWaveform active={active} className="text-foreground" height={64} />
+      <Button
+        variant={active ? "default" : "outline"}
+        size="sm"
+        onClick={() => setActive((v) => !v)}
+      >
+        {active ? <IconMicrophoneOff /> : <IconMicrophone />}
+        {active ? "정지" : "듣기 시작"}
+      </Button>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+<Callout>
+  `LiveWaveform`은 `active`가 `true`가 되면 마이크 권한을 요청합니다. 사용자
+  동작에 반응해서만 켜고, 듣기를 멈출 방법을 분명히 제공하세요.
+</Callout>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/live-waveform
+```
+
+## 사용법
+
+```tsx
+import { LiveWaveform } from "@/components/ui/live-waveform"
+```
+
+```tsx
+<LiveWaveform active={true} />
+```
+
+막대는 기본적으로 `primary` 색으로 칠해집니다. `className`의 `text-*` 유틸리티로
+덮어쓰거나, 임의 색상은 `barColor`로 지정하세요:
+
+```tsx
+<LiveWaveform active={true} className="text-emerald-500" />
+<LiveWaveform active={true} barColor="#3b82f6" />
+```
+
+## 예시
+
+### 정적(static) 모드
+
+주파수 대역에 걸쳐 대칭 막대를 제자리에서 갱신합니다. 기본값입니다.
+
+<ComponentPreview name="live-waveform-static">
+
+```tsx
+import { LiveWaveform } from "@/components/ui/live-waveform"
+
+export default function LiveWaveformStatic() {
+  return (
+    <div className="w-full max-w-sm">
+      <LiveWaveform active mode="static" className="text-foreground" />
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 스크롤(scrolling) 모드
+
+과거 평균 볼륨을 오른쪽에서 왼쪽으로 흘려보내, 파형을 타임라인처럼 보여줍니다.
+오디오가 들어오면서 히스토리가 점진적으로 채워집니다.
+
+<ComponentPreview name="live-waveform-scrolling">
+
+```tsx
+import { LiveWaveform } from "@/components/ui/live-waveform"
+
+export default function LiveWaveformScrolling() {
+  return (
+    <div className="w-full max-w-sm">
+      <LiveWaveform active mode="scrolling" className="text-foreground" />
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 처리(processing) 상태
+
+`processing`을 켜면 입력을 기다리는 동안 움직이는 파형을 보여줍니다. 예를 들어
+사용자가 말을 멈춘 순간부터 모델 응답 사이입니다. `prefers-reduced-motion`을
+존중해, 반복 애니메이션 대신 잔잔한 정적 프레임으로 안착합니다.
+
+<ComponentPreview name="live-waveform-processing">
+
+```tsx
+"use client"
+
+import * as React from "react"
+
+import { LiveWaveform } from "@/components/ui/live-waveform"
+import { Button } from "@/components/ui/button"
+
+export default function LiveWaveformProcessing() {
+  const [processing, setProcessing] = React.useState(true)
+
+  return (
+    <div className="flex w-full max-w-sm flex-col items-center gap-4">
+      <LiveWaveform
+        processing={processing}
+        mode="static"
+        className="text-foreground"
+      />
+      <Button
+        variant="outline"
+        size="sm"
+        onClick={() => setProcessing((v) => !v)}
+      >
+        {processing ? "처리 정지" : "처리 시작"}
+      </Button>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 막대 형태
+
+`barWidth`, `barGap`, `barRadius`, `barHeight`(막대의 최소 높이)로 막대 모양을
+바꿉니다. 너비와 간격을 키우면 두툼해지고, `barRadius`를 너비의 절반으로 두면
+알약 모양, `0`으로 두면 각진 막대가 됩니다. `fadeEdges`는 끝을 부드럽게 흐릴지,
+가장자리까지 꽉 채울지를 정합니다.
+
+듣기를 시작하면 하나의 마이크(`stream`으로 전달)로 모든 프리셋을 구동합니다.
+`processing` 형태는 듣기 시작 전 상태에만 쓰이고, 듣기를 시작한 뒤에는 조용한
+구간을 포함해 모든 막대가 `active` 상태로 실시간 신호를 따릅니다.
+
+<ComponentPreview name="live-waveform-geometry">
+
+```tsx
+"use client"
+
+import * as React from "react"
+import { IconMicrophone, IconMicrophoneOff } from "@tabler/icons-react"
+
+import { LiveWaveform } from "@/components/ui/live-waveform"
+import { Button } from "@/components/ui/button"
+
+const presets = [
+  { label: "기본", barWidth: 4, barGap: 2, barRadius: 2, barHeight: 4 },
+  { label: "가는 선", barWidth: 1, barGap: 2, barRadius: 0, barHeight: 2 },
+  { label: "알약", barWidth: 8, barGap: 5, barRadius: 4, barHeight: 8 },
+  { label: "블록", barWidth: 6, barGap: 2, barRadius: 0, barHeight: 6 },
+  { label: "높고 성기게", barWidth: 2, barGap: 4, barRadius: 1, barHeight: 14 },
+  {
+    label: "페이드 없음",
+    barWidth: 4,
+    barGap: 2,
+    barRadius: 2,
+    barHeight: 5,
+    fadeEdges: false,
+  },
+]
+
+export default function LiveWaveformGeometry() {
+  const [stream, setStream] = React.useState<MediaStream | null>(null)
+  const listening = stream !== null
+
+  const start = async () => {
+    try {
+      setStream(await navigator.mediaDevices.getUserMedia({ audio: true }))
+    } catch {
+      // 권한 거부 — 유휴 processing 상태를 유지합니다.
+    }
+  }
+
+  const stop = () => {
+    stream?.getTracks().forEach((track) => track.stop())
+    setStream(null)
+  }
+
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-6">
+      {presets.map(({ label, ...geometry }) => (
+        <div key={label} className="flex flex-col gap-1">
+          <span className="text-xs text-muted-foreground">{label}</span>
+          {/* 하나의 마이크를 모든 프리셋이 공유합니다. processing 형태는 듣기
+              시작 전 상태 전용이며, 듣기를 시작하면 조용한 구간에도 막대가
+              실시간 신호를 그대로 따릅니다. */}
+          <LiveWaveform
+            stream={stream}
+            active={listening}
+            processing={!listening}
+            height={48}
+            {...geometry}
+          />
+        </div>
+      ))}
+      <Button
+        variant={listening ? "default" : "outline"}
+        size="sm"
+        onClick={listening ? stop : start}
+        className="self-center"
+      >
+        {listening ? <IconMicrophoneOff /> : <IconMicrophone />}
+        {listening ? "정지" : "듣기 시작"}
+      </Button>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 커스텀 스타일
+
+막대 형태, 색상, 높이, 가장자리 페이드까지 모두 조절할 수 있습니다.
+
+<ComponentPreview name="live-waveform-custom">
+
+```tsx
+import { LiveWaveform } from "@/components/ui/live-waveform"
+
+export default function LiveWaveformCustom() {
+  return (
+    <div className="w-full max-w-sm">
+      <LiveWaveform
+        active
+        mode="static"
+        barWidth={4}
+        barGap={2}
+        barRadius={2}
+        barColor="#8b5cf6"
+        height={100}
+        fadeEdges
+      />
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 직접 스트림 전달
+
+이미 가지고 있는 오디오를 시각화하려면 `stream`을 넘기세요. 공유 마이크 트랙이나
+`MediaStreamAudioDestinationNode`로 라우팅한 에이전트 응답 오디오 등입니다.
+`stream`을 지정하면 `LiveWaveform`은 `getUserMedia`를 호출하지 않고 그 스트림을
+사용하며, 스트림의 수명은 호출자에게 맡깁니다(직접 연 것이 아닌 트랙은 절대
+멈추지 않습니다).
+
+```tsx
+<LiveWaveform active stream={myStream} />
+```
+
+## API 참고
+
+### LiveWaveform
+
+마이크 입력을 지원하는 캔버스 기반 실시간 오디오 시각화 컴포넌트입니다.
+
+| Prop                    | 타입                            | 기본값     | 설명                                                     |
+| ----------------------- | ------------------------------- | ---------- | -------------------------------------------------------- |
+| `active`                | `boolean`                       | `false`    | 오디오 입력을 실제로 청취할지 여부.                      |
+| `processing`            | `boolean`                       | `false`    | 활성 상태가 아닐 때 처리 애니메이션 표시.               |
+| `stream`                | `MediaStream \| null`           | `null`     | 마이크 대신 기존 스트림을 사용.                          |
+| `deviceId`              | `string`                        | —          | `getUserMedia`에 요청할 특정 입력 장치.                 |
+| `barWidth`              | `number`                        | `4`        | 각 막대의 너비(px).                                     |
+| `barHeight`             | `number`                        | `4`        | 막대의 최소 높이(px).                                   |
+| `barGap`                | `number`                        | `2`        | 막대 사이 간격(px).                                     |
+| `barRadius`             | `number`                        | `2`        | 막대의 모서리 반경.                                     |
+| `barColor`              | `string`                        | —          | 막대 색상. 기본값은 현재 텍스트 색.                     |
+| `fadeEdges`             | `boolean`                       | `true`     | 파형의 좌우 가장자리 페이드.                            |
+| `fadeWidth`             | `number`                        | `24`       | 페이드 너비(px).                                        |
+| `height`                | `string \| number`              | `64`       | 파형 높이.                                              |
+| `sensitivity`           | `number`                        | `1`        | 오디오 민감도 배율.                                     |
+| `smoothingTimeConstant` | `number`                        | `0.8`      | 분석기 스무딩, `0`–`1`.                                 |
+| `fftSize`               | `number`                        | `256`      | 주파수 분석용 FFT 크기.                                 |
+| `historySize`           | `number`                        | `60`       | 히스토리로 유지할 막대 수(스크롤 모드).                |
+| `updateRate`            | `number`                        | `30`       | 오디오 갱신 주기(ms).                                   |
+| `mode`                  | `"scrolling" \| "static"`       | `"static"` | 시각화 모드.                                            |
+| `onError`               | `(error: Error) => void`        | —          | 마이크 접근 실패 시 호출.                               |
+| `onStreamReady`         | `(stream: MediaStream) => void` | —          | 오디오 스트림 준비 시 호출.                             |
+| `onStreamEnd`           | `() => void`                    | —          | 이 컴포넌트가 소유한 마이크 스트림이 끝날 때 호출.      |
+| `className`             | `string`                        | —          | 래퍼 엘리먼트에 병합됩니다.                             |
+| `...props`              | `HTMLDivElement`                | —          | 모든 표준 div 엘리먼트 props.                           |
+
+## 참고
+
+- [Web Audio API](https://developer.mozilla.org/ko/docs/Web/API/Web_Audio_API)로
+  실시간 주파수 분석을 하고, HiDPI를 지원하는 캔버스에 렌더링합니다.
+- `active`가 `true`가 되면 마이크 권한을 요청하며, 언마운트 시와 `active`가
+  꺼질 때 스트림과 오디오 컨텍스트를 정리합니다.
+- 렌더 루프는 유휴 상태에서 스스로 멈추고, 실시간 오디오·처리·리사이즈·전환에서만
+  깨어납니다. 대기 중에 프레임을 낭비하지 않습니다.
+- **정적 모드**는 주파수 대역에 걸친 대칭 막대를, **스크롤 모드**는 과거 평균
+  볼륨을 오른쪽에서 왼쪽으로 흘려 보여줍니다.
+- 콜백은 ref에서 읽으므로, 매 렌더마다 새 인라인 `onError` / `onStreamReady` /
+  `onStreamEnd` 함수를 넘겨도 마이크를 다시 획득하지 않습니다.

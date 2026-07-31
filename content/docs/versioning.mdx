@@ -1,0 +1,28 @@
+---
+title: Versioning
+description: How ondo-ui's version number works and how it relates to the Changelog.
+---
+
+ondo-ui uses a `MAJOR.MINOR.PATCH` version number (tracked in `package.json`), but the digits don't follow standard semver — each one maps to a specific kind of change to the registry.
+
+## What each digit means
+
+| Digit | Bumps when...                                            | Example                                                          |
+| ----- | --------------------------------------------------------- | ----------------------------------------------------------------- |
+| MAJOR | A major upstream shadcn/ui change is adopted              | Migrating the CLI schema, or a breaking restructure across many components |
+| MINOR | A new item is added to the registry                       | A new component, [composition](/compositions), or util ships      |
+| PATCH | An existing registry item's code changes                  | A prop is added, a bug is fixed, styles are tweaked                |
+
+Bumping a higher digit resets every digit below it to `0` — same as standard semver (`1.2.3` → a MAJOR change → `2.0.0`).
+
+## One release, one bump
+
+Each dated [Changelog](/docs/changelog) entry corresponds to exactly one version bump. If a release mixes multiple kinds of change (say, a new component ships alongside a fix to an existing one), only the **highest-ranked** digit bumps — MAJOR beats MINOR beats PATCH. You don't stack multiple bumps into one entry.
+
+The version goes in the entry's frontmatter as `version: 0.1.0`, and is repeated at the top of the body (e.g. `v0.1.0`) so it reads well on the page.
+
+The frontmatter field is what orders the Changelog. The filename only carries the date, and two releases can land on the same day — when they do, the version decides which comes first.
+
+## Source of truth
+
+`package.json`'s `version` field is the single source of truth. When you add a Changelog entry, bump it according to the table above, and reference the same number in the entry.

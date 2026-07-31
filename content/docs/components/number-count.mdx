@@ -1,0 +1,139 @@
+---
+title: NumberCount
+description: An animated number whose digits roll between values, built on NumberFlow.
+---
+
+<Callout>
+  Building a notification counter? [`NumberBadge`](/docs/compositions/number-badge)
+  wraps `NumberCount` in a self-anchoring badge with `99+` overflow.
+</Callout>
+
+<ComponentPreview name="number-count-demo">
+
+```tsx
+"use client"
+
+import * as React from "react"
+import { IconMinus, IconPlus } from "@tabler/icons-react"
+
+import { NumberCount } from "@/components/ui/number-count"
+import { Button } from "@/components/ui/button"
+
+export default function NumberCountDemo() {
+  const [value, setValue] = React.useState(100)
+
+  return (
+    <div className="flex items-center gap-4">
+      <Button
+        variant="outline"
+        size="icon-sm"
+        onClick={() => setValue((v) => v - 1)}
+        aria-label="Decrease"
+      >
+        <IconMinus />
+      </Button>
+      <NumberCount value={value} className="text-3xl font-semibold" />
+      <Button
+        variant="outline"
+        size="icon-sm"
+        onClick={() => setValue((v) => v + 1)}
+        aria-label="Increase"
+      >
+        <IconPlus />
+      </Button>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## Installation
+
+```bash
+bunx shadcn@latest add @ondo-ui/number-count
+```
+
+This installs `NumberCount` along with its `@number-flow/react` dependency.
+
+## Usage
+
+```tsx
+import { NumberCount } from "@/components/ui/number-count"
+```
+
+```tsx
+<NumberCount value={1234} />
+```
+
+## Examples
+
+### Formatting
+
+`NumberCount` forwards NumberFlow's `format` prop (`Intl.NumberFormat` options),
+so compact notation, currency, and percent all work out of the box.
+
+<ComponentPreview name="number-count-format">
+
+```tsx
+"use client"
+
+import * as React from "react"
+
+import { NumberCount } from "@/components/ui/number-count"
+import { Button } from "@/components/ui/button"
+
+const values = [1234, 56789, 1200000, 42]
+
+export default function NumberCountFormat() {
+  const [index, setIndex] = React.useState(0)
+  const value = values[index]
+
+  return (
+    <div className="flex flex-col items-center gap-4">
+      <div className="flex items-center gap-6 text-2xl font-semibold">
+        <NumberCount value={value} format={{ notation: "compact" }} />
+        <NumberCount
+          value={value}
+          format={{
+            style: "currency",
+            currency: "USD",
+            trailingZeroDisplay: "stripIfInteger",
+          }}
+        />
+      </div>
+      <Button
+        variant="outline"
+        size="sm"
+        onClick={() => setIndex((i) => (i + 1) % values.length)}
+      >
+        Change value
+      </Button>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API reference
+
+`NumberCount` accepts every [`NumberFlow`](https://number-flow.barvian.me) prop
+(it spreads `...props` onto the underlying element). The most common:
+
+| Prop        | Type                       | Default | Description                                             |
+| ----------- | -------------------------- | ------- | ------------------------------------------------------- |
+| `value`     | `number`                   | —       | Required. The number to display; changes animate.       |
+| `format`    | `Intl.NumberFormatOptions` | —       | e.g. `{ notation: "compact" }`, currency, percent.      |
+| `prefix`    | `string`                   | —       | Rendered before the number.                             |
+| `suffix`    | `string`                   | —       | Rendered after the number.                              |
+| `className` | `string`                   | —       | Merged onto the NumberFlow host (after `tabular-nums`). |
+
+## Built on
+
+`NumberCount` is a thin wrapper over [`NumberFlow`](https://number-flow.barvian.me)
+from `@number-flow/react`, adding ondo's `tabular-nums` default. Need the raw
+component? Use `NumberFlow` directly.
+
+Looking for a ready-made count badge? See
+[`NumberBadge`](/docs/compositions/number-badge).

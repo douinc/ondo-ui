@@ -1,0 +1,18 @@
+---
+title: Input에 크기(size) variant 추가
+description: Input이 Button의 xs/sm/default/lg 크기 스케일과 동일하게 맞춰집니다.
+version: 0.1.1
+---
+
+**v0.1.1**
+
+[`Input`](/docs/components/input)이 이제 `size` prop을 지원합니다 — `xs`, `sm`, `default`, `lg` — [`Button`](/docs/components/button)에서 이미 쓰던 높이·패딩·라운드 스케일과 동일합니다. 컴팩트한 `Input`을 `Button size="sm"`(또는 다른 크기)과 나란히 배치해도 높이가 맞습니다.
+
+```tsx
+<Input size="xs" placeholder="Extra small" />
+<Input size="sm" placeholder="Small" />
+<Input size="default" placeholder="Default" />
+<Input size="lg" placeholder="Large" />
+```
+
+기본(default) 크기는 변경되지 않았으므로, 이번 업데이트는 기존 코드를 깨뜨리지 않습니다.

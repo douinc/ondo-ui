@@ -1,0 +1,362 @@
+---
+title: Alert (알림)
+description: 사용자의 주의를 끌기 위한 콜아웃을 표시합니다.
+---
+
+<ComponentPreview name="alert-demo">
+
+```tsx
+import { IconCircleCheck, IconInfoCircle } from "@tabler/icons-react"
+
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert"
+
+export default function AlertDemo() {
+  return (
+    <div className="grid w-full max-w-md items-start gap-4">
+      <Alert>
+        <IconCircleCheck />
+        <AlertTitle>결제 완료</AlertTitle>
+        <AlertDescription>
+          $29.99의 결제가 처리되었습니다. 이메일로 영수증이 전송되었습니다.
+        </AlertDescription>
+      </Alert>
+      <Alert>
+        <IconInfoCircle />
+        <AlertTitle>새로운 기능이 추가되었습니다</AlertTitle>
+        <AlertDescription>
+          다크 모드가 추가되었습니다. 계정 설정에서 활성화할 수 있습니다.
+        </AlertDescription>
+      </Alert>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/alert
+```
+
+## 사용법
+
+```tsx showLineNumbers
+import {
+  Alert,
+  AlertAction,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert"
+```
+
+```tsx showLineNumbers
+<Alert>
+  <InfoIcon />
+  <AlertTitle>Heads up!</AlertTitle>
+  <AlertDescription>
+    You can add components and dependencies to your app using the cli.
+  </AlertDescription>
+  <AlertAction>
+    <Button variant="outline">Enable</Button>
+  </AlertAction>
+</Alert>
+```
+
+## Composition
+
+`Alert`을 구성하려면 다음 구조를 사용하세요:
+
+```text
+Alert
+├── Icon
+├── AlertTitle
+├── AlertDescription
+└── AlertAction
+```
+
+## 예시
+
+### Basic
+
+아이콘, 제목, 설명이 있는 기본 알림입니다.
+
+<ComponentPreview name="alert-basic">
+
+```tsx
+import { IconCircleCheck } from "@tabler/icons-react"
+
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert"
+
+export default function AlertBasic() {
+  return (
+    <Alert className="max-w-md">
+      <IconCircleCheck />
+      <AlertTitle>계정이 성공적으로 업데이트되었습니다</AlertTitle>
+      <AlertDescription>
+        프로필 정보가 저장되었습니다. 변경사항은 즉시 반영됩니다.
+      </AlertDescription>
+    </Alert>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Primary
+
+`variant="primary"`를 사용하여 주요 알림을 만들 수 있습니다.
+
+<ComponentPreview name="alert-primary">
+
+```tsx
+import { IconSparkles } from "@tabler/icons-react"
+
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert"
+
+export default function AlertPrimary() {
+  return (
+    <Alert variant="primary" className="max-w-md">
+      <IconSparkles />
+      <AlertTitle>Pro로 업그레이드하세요</AlertTitle>
+      <AlertDescription>
+        Pro 플랜으로 고급 기능과 우선 지원을 이용하세요.
+      </AlertDescription>
+    </Alert>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Info
+
+`variant="info"`를 사용하여 정보 알림을 만들 수 있습니다.
+
+<ComponentPreview name="alert-info">
+
+```tsx
+import { IconInfoCircle } from "@tabler/icons-react"
+
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert"
+
+export default function AlertInfo() {
+  return (
+    <Alert variant="info" className="max-w-md">
+      <IconInfoCircle />
+      <AlertTitle>새로운 소프트웨어 업데이트가 있습니다.</AlertTitle>
+      <AlertDescription>
+        버전 2.4.0에는 성능 개선과 버그 수정이 포함되어 있습니다. 편한 시간에
+        업데이트하세요.
+      </AlertDescription>
+    </Alert>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Success
+
+`variant="success"`를 사용하여 성공 알림을 만들 수 있습니다.
+
+<ComponentPreview name="alert-success">
+
+```tsx
+import { IconCircleCheck } from "@tabler/icons-react"
+
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert"
+
+export default function AlertSuccess() {
+  return (
+    <Alert variant="success" className="max-w-md">
+      <IconCircleCheck />
+      <AlertTitle>결제 완료</AlertTitle>
+      <AlertDescription>
+        $29.99 결제가 처리되었습니다. 영수증이 이메일로 발송되었습니다.
+      </AlertDescription>
+    </Alert>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Warning
+
+`variant="warning"`를 사용하여 주의 알림을 만들 수 있습니다.
+
+<ComponentPreview name="alert-warning">
+
+```tsx
+import { IconAlertTriangle } from "@tabler/icons-react"
+
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert"
+
+export default function AlertWarning() {
+  return (
+    <Alert variant="warning" className="max-w-md">
+      <IconAlertTriangle />
+      <AlertTitle>구독이 3일 후 만료됩니다.</AlertTitle>
+      <AlertDescription>
+        서비스 중단을 방지하려면 지금 갱신하거나 유료 플랜으로 업그레이드하세요.
+      </AlertDescription>
+    </Alert>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Destructive
+
+`variant="destructive"`를 사용하여 경고 알림을 만들 수 있습니다.
+
+<ComponentPreview name="alert-destructive">
+
+```tsx
+import { IconAlertCircle } from "@tabler/icons-react"
+
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert"
+
+export default function AlertDestructive() {
+  return (
+    <Alert variant="destructive" className="max-w-md">
+      <IconAlertCircle />
+      <AlertTitle>결제 실패</AlertTitle>
+      <AlertDescription>
+        결제를 처리할 수 없었습니다. 결제 방법을 확인하고 다시 시도해주세요.
+      </AlertDescription>
+    </Alert>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Action
+
+`AlertAction`을 사용하여 버튼이나 기타 작업 요소를 알림에 추가할 수 있습니다.
+
+<ComponentPreview name="alert-action">
+
+```tsx
+import {
+  Alert,
+  AlertAction,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert"
+import { Button } from "@/components/ui/button"
+
+export default function AlertAction() {
+  return (
+    <Alert className="max-w-md">
+      <AlertTitle>다크 모드가 이제 사용 가능합니다</AlertTitle>
+      <AlertDescription>
+        프로필 설정에서 활성화하여 시작하세요.
+      </AlertDescription>
+      <AlertAction>
+        <Button size="xs" variant="default">
+          활성화
+        </Button>
+      </AlertAction>
+    </Alert>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Custom Colors
+
+`Alert` 컴포넌트에 `bg-amber-50 dark:bg-amber-950`과 같은 커스텀 클래스를 추가하여 알림의 색상을 커스터마이징할 수 있습니다.
+
+<ComponentPreview name="alert-custom-colors">
+
+```tsx
+import { IconAlertTriangle } from "@tabler/icons-react"
+
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert"
+
+export default function AlertCustomColors() {
+  return (
+    <Alert className="max-w-md border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-50">
+      <IconAlertTriangle />
+      <AlertTitle>구독이 3일 후에 만료됩니다.</AlertTitle>
+      <AlertDescription>
+        서비스 중단을 피하기 위해 지금 갱신하거나 유료 요금제로 업그레이드하세요.
+      </AlertDescription>
+    </Alert>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API 참고
+
+### Alert
+
+`Alert` 컴포넌트는 사용자의 주의를 끌기 위한 콜아웃을 표시합니다.
+
+| Prop      | Type                         | Default     |
+| --------- | ---------------------------- | ----------- |
+| `variant` | `"default" \| "primary" \| "info" \| "success" \| "warning" \| "destructive"` | `"default"` |
+
+### AlertTitle
+
+`AlertTitle` 컴포넌트는 알림의 제목을 표시합니다.
+
+| Prop        | Type     | Default |
+| ----------- | -------- | ------- |
+| `className` | `string` | -       |
+
+### AlertDescription
+
+`AlertDescription` 컴포넌트는 알림의 설명이나 내용을 표시합니다.
+
+| Prop        | Type     | Default |
+| ----------- | -------- | ------- |
+| `className` | `string` | -       |
+
+### AlertAction
+
+`AlertAction` 컴포넌트는 알림의 오른쪽 상단에 절대 위치로 배치된 버튼이나 기타 작업 요소를 표시합니다.
+
+| Prop        | Type     | Default |
+| ----------- | -------- | ------- |
+| `className` | `string` | -       |

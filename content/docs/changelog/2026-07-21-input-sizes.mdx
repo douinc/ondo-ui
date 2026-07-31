@@ -1,0 +1,18 @@
+---
+title: Input gets size variants
+description: Input now matches Button's xs/sm/default/lg size scale.
+version: 0.1.1
+---
+
+**v0.1.1**
+
+[`Input`](/docs/components/input) now accepts a `size` prop — `xs`, `sm`, `default`, and `lg` — matching the height, padding, and radius scale already used by [`Button`](/docs/components/button). Pair a compact `Input` with a `Button size="sm"` (or any other size) and they'll line up.
+
+```tsx
+<Input size="xs" placeholder="Extra small" />
+<Input size="sm" placeholder="Small" />
+<Input size="default" placeholder="Default" />
+<Input size="lg" placeholder="Large" />
+```
+
+The default size is unchanged, so this is a non-breaking update.

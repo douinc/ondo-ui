@@ -1,0 +1,215 @@
+---
+title: Meter Ring
+description: A radial reading of a bounded value, such as a score, a utilization, or a fill level.
+---
+
+<ComponentPreview name="meter-ring-demo">
+
+```tsx
+import { MeterRing } from "@/components/ui/meter-ring"
+
+export default function MeterRingDemo() {
+  return <MeterRing value={72} />
+}
+```
+
+</ComponentPreview>
+
+<Callout>
+  Four components cover this ground. `MeterRing` and
+  [`Meter`](/docs/components/meter) report a value that simply *is* what it is —
+  a score, a utilization, a fill level;
+  [`Progress`](/docs/components/progress) and
+  [`ProgressRing`](/docs/components/progress-ring) report a task climbing toward
+  completion. Pick the shape — ring or bar — second.
+</Callout>
+
+## Installation
+
+```bash
+bunx shadcn@latest add @ondo-ui/meter-ring
+```
+
+## Usage
+
+```tsx
+import { MeterRing, MeterRingLabel } from "@/components/ui/meter-ring"
+```
+
+```tsx
+<MeterRing value={72} min={0} max={100} size="sm | default | lg" variant="default">
+  <MeterRingLabel>Health</MeterRingLabel>
+</MeterRing>
+```
+
+`MeterRing` builds on Base UI's `Meter`, so it is announced as a meter with the
+right `aria-valuenow` and `aria-valuetext`. The dial always renders; anything you
+pass as children sits under it, which is where `MeterRingLabel` goes.
+
+`format` shapes the centered number. When the center needs something a number
+format cannot express, `formatValue` replaces it outright.
+
+The arc is a conic gradient masked into a ring — two elements, no SVG — and it
+takes its color from `currentColor`, so `variant` (or any text-color utility in
+`className`) recolors it.
+
+When the reading changes the arc sweeps rather than jumping, because the
+component registers its fraction with `@property` — that is what makes a number
+inside a gradient interpolable. That registration ships inside the component
+file — React hoists it into `<head>` once, however many rings are on the page —
+so there is nothing to add to your CSS.
+
+## Examples
+
+### Sizes
+
+<ComponentPreview name="meter-ring-sizes">
+
+```tsx
+import { MeterRing } from "@/components/ui/meter-ring"
+
+export default function MeterRingSizes() {
+  return (
+    <div className="flex flex-wrap items-end gap-8">
+      <MeterRing size="sm" value={38} />
+      <MeterRing value={62} />
+      <MeterRing size="lg" value={86} />
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Variants
+
+`variant` picks the arc color from the theme's semantic set. Which band a
+reading falls into is yours to decide, so pick the variant from the value at the
+call site.
+
+<ComponentPreview name="meter-ring-variants">
+
+```tsx
+import { MeterRing, MeterRingLabel } from "@/components/ui/meter-ring"
+
+export default function MeterRingVariants() {
+  return (
+    <div className="flex flex-wrap items-start gap-8">
+      <MeterRing variant="destructive" value={18}>
+        <MeterRingLabel>Critical</MeterRingLabel>
+      </MeterRing>
+      <MeterRing variant="info" value={34}>
+        <MeterRingLabel>Nominal</MeterRingLabel>
+      </MeterRing>
+      <MeterRing variant="warning" value={46}>
+        <MeterRingLabel>At risk</MeterRingLabel>
+      </MeterRing>
+      <MeterRing variant="success" value={91}>
+        <MeterRingLabel>Healthy</MeterRingLabel>
+      </MeterRing>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Formatting the value
+
+`format` takes `Intl.NumberFormat` options and shapes both the centered text and
+the value announced to screen readers.
+
+<ComponentPreview name="meter-ring-format">
+
+```tsx
+import { MeterRing, MeterRingLabel } from "@/components/ui/meter-ring"
+
+export default function MeterRingFormat() {
+  return (
+    <div className="flex flex-wrap items-start gap-8">
+      <MeterRing value={0.68} max={1} format={{ style: "percent" }}>
+        <MeterRingLabel>Coverage</MeterRingLabel>
+      </MeterRing>
+      <MeterRing
+        value={412}
+        max={500}
+        format={{ maximumFractionDigits: 0 }}
+        variant="info"
+      >
+        <MeterRingLabel>412 of 500 seats</MeterRingLabel>
+      </MeterRing>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### A center that isn't a number
+
+`formatValue` takes over the centered text. Reach for it when there is no reading
+yet — a ring that shows `0.00` for "not scored" is stating something false — or
+when the value is better read as a grade or an icon. The announced value is
+unchanged, so the meter still reports the truth to assistive tech.
+
+It is a function prop, so the component passing it has to be a Client Component.
+
+<ComponentPreview name="meter-ring-custom-value">
+
+```tsx
+import { MeterRing, MeterRingLabel } from "@/components/ui/meter-ring"
+
+export default function MeterRingCustomValue() {
+  return (
+    <div className="flex flex-wrap items-start gap-8">
+      <MeterRing
+        value={0}
+        max={1}
+        className="text-muted-foreground"
+        formatValue={() => "—"}
+      >
+        <MeterRingLabel>Not scored yet</MeterRingLabel>
+      </MeterRing>
+      <MeterRing
+        value={0.92}
+        max={1}
+        variant="success"
+        formatValue={(_, value) => (value >= 0.9 ? "A" : value >= 0.7 ? "B" : "C")}
+      >
+        <MeterRingLabel>Grade</MeterRingLabel>
+      </MeterRing>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API reference
+
+### MeterRing
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `value` | `number` | – |
+| `min` | `number` | `0` |
+| `max` | `number` | `100` |
+| `size` | `"sm" \| "default" \| "lg"` | `"default"` |
+| `variant` | `"default" \| "info" \| "success" \| "warning" \| "destructive"` | `"default"` |
+| `format` | `Intl.NumberFormatOptions` | – |
+| `formatValue` | `(formatted: string, value: number) => ReactNode` | – |
+| `locale` | `Intl.LocalesArgument` | runtime locale |
+| `getAriaValueText` | `(formatted: string, value: number) => string` | – |
+
+Plus the rest of Base UI's [`Meter.Root`](https://base-ui.com/react/components/meter) props.
+
+### MeterRingDial, MeterRingTrack, MeterRingIndicator
+
+The ring and its parts. `MeterRing` composes them for you; reach for them only to
+restyle the ring or to put something other than the value in the middle.
+
+### MeterRingValue, MeterRingLabel
+
+Base UI's `Meter.Value` and `Meter.Label` with ondo styling. `MeterRingValue`
+takes a render function (`(formatted, value) => ReactNode`) when `format` alone
+is not enough.

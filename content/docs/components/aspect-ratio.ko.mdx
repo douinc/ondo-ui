@@ -1,0 +1,118 @@
+---
+title: Aspect Ratio (가로세로 비율)
+description: 원하는 비율 내에서 콘텐츠를 표시합니다.
+---
+
+<ComponentPreview name="aspect-ratio-demo">
+
+```tsx
+import Image from "next/image"
+
+import { AspectRatio } from "@/components/ui/aspect-ratio"
+
+export default function AspectRatioDemo() {
+  return (
+    <AspectRatio ratio={16 / 9} className="w-full max-w-sm rounded-lg bg-muted">
+      <Image
+        src="https://avatar.vercel.sh/shadcn1"
+        alt="Photo"
+        fill
+        className="rounded-lg object-cover grayscale dark:brightness-20"
+      />
+    </AspectRatio>
+  )
+}
+```
+
+</ComponentPreview>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/aspect-ratio
+```
+
+## 사용법
+
+```tsx showLineNumbers
+import { AspectRatio } from "@/components/ui/aspect-ratio"
+```
+
+```tsx showLineNumbers
+<AspectRatio ratio={16 / 9}>
+  <Image src="..." alt="Image" className="rounded-md object-cover" />
+</AspectRatio>
+```
+
+## 예시
+
+### Square
+
+`ratio={1 / 1}` 프로퍼티를 사용하는 정사각형 가로세로 비율 컴포넌트입니다. 정사각형 형식으로 이미지를 표시할 때 유용합니다.
+
+<ComponentPreview name="aspect-ratio-square">
+
+```tsx
+import Image from "next/image"
+
+import { AspectRatio } from "@/components/ui/aspect-ratio"
+
+export default function AspectRatioSquare() {
+  return (
+    <AspectRatio
+      ratio={1 / 1}
+      className="w-full max-w-[12rem] rounded-lg bg-muted"
+    >
+      <Image
+        src="https://avatar.vercel.sh/shadcn1"
+        alt="Photo"
+        fill
+        className="rounded-lg object-cover grayscale dark:brightness-20"
+      />
+    </AspectRatio>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Portrait
+
+`ratio={9 / 16}` 프로퍼티를 사용하는 세로형 가로세로 비율 컴포넌트입니다. 세로 형식으로 이미지를 표시할 때 유용합니다.
+
+<ComponentPreview name="aspect-ratio-portrait">
+
+```tsx
+import Image from "next/image"
+
+import { AspectRatio } from "@/components/ui/aspect-ratio"
+
+export default function AspectRatioPortrait() {
+  return (
+    <AspectRatio
+      ratio={9 / 16}
+      className="w-full max-w-[10rem] rounded-lg bg-muted"
+    >
+      <Image
+        src="https://avatar.vercel.sh/shadcn1"
+        alt="Photo"
+        fill
+        className="rounded-lg object-cover grayscale dark:brightness-20"
+      />
+    </AspectRatio>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API 참고
+
+`AspectRatio` 컴포넌트는 원하는 비율 내에서 콘텐츠를 표시합니다.
+
+| Prop        | Type     | Default | Required |
+| ----------- | -------- | ------- | -------- |
+| `ratio`     | `number` | -       | Yes      |
+| `className` | `string` | -       | No       |
+
+더 자세한 정보는 [Base UI 문서](https://base-ui.com/react/components/aspect-ratio#api-reference)를 참고하세요.

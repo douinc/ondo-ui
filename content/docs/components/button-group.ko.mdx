@@ -1,0 +1,802 @@
+---
+title: Button Group (버튼 그룹)
+description: 관련 버튼들을 일관된 스타일로 함께 묶는 컨테이너.
+---
+
+<ComponentPreview name="button-group-demo">
+
+```tsx
+"use client"
+
+import * as React from "react"
+import {
+  IconArchive,
+  IconArrowLeft,
+  IconCalendarPlus,
+  IconClock,
+  IconFilter,
+  IconMailCheck,
+  IconDots,
+  IconTag,
+  IconTrash,
+} from "@tabler/icons-react"
+
+import { Button } from "@/components/ui/button"
+import { ButtonGroup } from "@/components/ui/button-group"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
+export default function ButtonGroupDemo() {
+  const [label, setLabel] = React.useState("personal")
+
+  return (
+    <ButtonGroup>
+      <ButtonGroup className="hidden sm:flex">
+        <Button variant="outline" size="icon" aria-label="Go Back">
+          <IconArrowLeft />
+        </Button>
+      </ButtonGroup>
+      <ButtonGroup>
+        <Button variant="outline">Archive</Button>
+        <Button variant="outline">Report</Button>
+      </ButtonGroup>
+      <ButtonGroup>
+        <Button variant="outline">Snooze</Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger
+            render={
+              <Button variant="outline" size="icon" aria-label="More Options" />
+            }
+          >
+            <IconDots />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end" className="w-40">
+            <DropdownMenuGroup>
+              <DropdownMenuItem>
+                <IconMailCheck />
+                Mark as Read
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <IconArchive />
+                Archive
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator />
+            <DropdownMenuGroup>
+              <DropdownMenuItem>
+                <IconClock />
+                Snooze
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <IconCalendarPlus />
+                Add to Calendar
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <IconFilter />
+                Add to List
+              </DropdownMenuItem>
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger>
+                  <IconTag />
+                  Label As...
+                </DropdownMenuSubTrigger>
+                <DropdownMenuSubContent>
+                  <DropdownMenuRadioGroup
+                    value={label}
+                    onValueChange={setLabel}
+                  >
+                    <DropdownMenuRadioItem value="personal">
+                      Personal
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="work">
+                      Work
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="other">
+                      Other
+                    </DropdownMenuRadioItem>
+                  </DropdownMenuRadioGroup>
+                </DropdownMenuSubContent>
+              </DropdownMenuSub>
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator />
+            <DropdownMenuGroup>
+              <DropdownMenuItem variant="destructive">
+                <IconTrash />
+                Trash
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </ButtonGroup>
+    </ButtonGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/button-group
+```
+
+## 사용법
+
+```tsx
+import {
+  ButtonGroup,
+  ButtonGroupSeparator,
+  ButtonGroupText,
+} from "@/components/ui/button-group"
+```
+
+```tsx
+<ButtonGroup>
+  <Button>Button 1</Button>
+  <Button>Button 2</Button>
+</ButtonGroup>
+```
+
+## Composition
+
+`ButtonGroup`을 구성하려면 다음과 같이 조합하세요:
+
+```text
+ButtonGroup
+├── Button or Input
+├── ButtonGroupSeparator
+└── ButtonGroupText
+```
+
+## 접근성
+
+- `ButtonGroup` 컴포넌트는 `role` 속성이 `group`으로 설정되어 있습니다.
+- `Tab`을 사용하여 그룹 내 버튼 간 탐색할 수 있습니다.
+- 버튼 그룹에 레이블을 지정하려면 `aria-label` 또는 `aria-labelledby`를 사용하세요.
+
+```tsx
+<ButtonGroup aria-label="Button group">
+  <Button>버튼 1</Button>
+  <Button>버튼 2</Button>
+</ButtonGroup>
+```
+
+## ButtonGroup vs ToggleGroup
+
+- 작업을 수행하는 버튼들을 그룹화하려면 `ButtonGroup` 컴포넌트를 사용합니다.
+- 상태를 토글하는 버튼들을 그룹화하려면 `ToggleGroup` 컴포넌트를 사용합니다.
+
+## 예시
+
+### 방향
+
+`orientation` prop을 사용하여 버튼 그룹의 레이아웃을 변경합니다.
+
+<ComponentPreview name="button-group-orientation">
+
+```tsx
+import { IconMinus, IconPlus } from "@tabler/icons-react"
+
+import { Button } from "@/components/ui/button"
+import { ButtonGroup } from "@/components/ui/button-group"
+
+export default function ButtonGroupOrientation() {
+  return (
+    <ButtonGroup
+      orientation="vertical"
+      aria-label="Media controls"
+      className="h-fit"
+    >
+      <Button variant="outline" size="icon">
+        <IconPlus />
+      </Button>
+      <Button variant="outline" size="icon">
+        <IconMinus />
+      </Button>
+    </ButtonGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 크기
+
+개별 버튼의 `size` prop을 사용하여 버튼의 크기를 제어합니다.
+
+<ComponentPreview name="button-group-size">
+
+```tsx
+import { IconPlus } from "@tabler/icons-react"
+
+import { Button } from "@/components/ui/button"
+import { ButtonGroup } from "@/components/ui/button-group"
+
+export default function ButtonGroupSize() {
+  return (
+    <div className="flex flex-col items-start gap-8">
+      <ButtonGroup>
+        <Button variant="outline" size="sm">
+          Small
+        </Button>
+        <Button variant="outline" size="sm">
+          Button
+        </Button>
+        <Button variant="outline" size="sm">
+          Group
+        </Button>
+        <Button variant="outline" size="icon-sm">
+          <IconPlus />
+        </Button>
+      </ButtonGroup>
+      <ButtonGroup>
+        <Button variant="outline">Default</Button>
+        <Button variant="outline">Button</Button>
+        <Button variant="outline">Group</Button>
+        <Button variant="outline" size="icon">
+          <IconPlus />
+        </Button>
+      </ButtonGroup>
+      <ButtonGroup>
+        <Button variant="outline" size="lg">
+          Large
+        </Button>
+        <Button variant="outline" size="lg">
+          Button
+        </Button>
+        <Button variant="outline" size="lg">
+          Group
+        </Button>
+        <Button variant="outline" size="icon-lg">
+          <IconPlus />
+        </Button>
+      </ButtonGroup>
+      <ButtonGroup>
+        <Button variant="outline" size="xl">
+          Extra large
+        </Button>
+        <Button variant="outline" size="xl">
+          Button
+        </Button>
+        <Button variant="outline" size="xl">
+          Group
+        </Button>
+        <Button variant="outline" size="icon-xl">
+          <IconPlus />
+        </Button>
+      </ButtonGroup>
+      <ButtonGroup>
+        <Button variant="outline" size="2xl">
+          2X large
+        </Button>
+        <Button variant="outline" size="2xl">
+          Button
+        </Button>
+        <Button variant="outline" size="2xl">
+          Group
+        </Button>
+        <Button variant="outline" size="icon-2xl">
+          <IconPlus />
+        </Button>
+      </ButtonGroup>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 중첩
+
+`<ButtonGroup>` 컴포넌트를 중첩하여 간격이 있는 버튼 그룹을 만듭니다.
+
+<ComponentPreview name="button-group-nested">
+
+```tsx
+import { IconActivity, IconPlus } from "@tabler/icons-react"
+
+import { Button } from "@/components/ui/button"
+import { ButtonGroup } from "@/components/ui/button-group"
+import { Input } from "@/components/ui/input"
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+
+export default function ButtonGroupNested() {
+  return (
+    <ButtonGroup>
+      <ButtonGroup>
+        <Button variant="outline" size="icon">
+          <IconPlus />
+        </Button>
+      </ButtonGroup>
+      <ButtonGroup>
+        <InputGroup>
+          <InputGroupInput placeholder="Send a message..." />
+          <Tooltip>
+            <TooltipTrigger render={<InputGroupAddon align="inline-end" />}>
+              <IconActivity />
+            </TooltipTrigger>
+            <TooltipContent>Voice Mode</TooltipContent>
+          </Tooltip>
+        </InputGroup>
+      </ButtonGroup>
+    </ButtonGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 구분선
+
+`ButtonGroupSeparator` 컴포넌트는 그룹 내 버튼들을 시각적으로 구분합니다.
+
+`outline` 변형의 버튼은 이미 테두리가 있으므로 구분선이 필요하지 않습니다. 다른 변형의 경우 시각적 계층 구조를 개선하기 위해 구분선을 권장합니다.
+
+<ComponentPreview name="button-group-separator">
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  ButtonGroup,
+  ButtonGroupSeparator as ButtonGroupSeparatorComponent,
+} from "@/components/ui/button-group"
+
+export default function ButtonGroupSeparator() {
+  return (
+    <ButtonGroup>
+      <Button variant="secondary" size="sm">
+        Copy
+      </Button>
+      <ButtonGroupSeparatorComponent />
+      <Button variant="secondary" size="sm">
+        Paste
+      </Button>
+    </ButtonGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 스플릿
+
+`ButtonGroupSeparator`로 구분된 두 개의 버튼을 추가하여 스플릿 버튼 그룹을 만듭니다.
+
+<ComponentPreview name="button-group-split">
+
+```tsx
+import { IconPlus } from "@tabler/icons-react"
+
+import { Button } from "@/components/ui/button"
+import {
+  ButtonGroup,
+  ButtonGroupSeparator,
+} from "@/components/ui/button-group"
+
+export default function ButtonGroupSplit() {
+  return (
+    <ButtonGroup>
+      <Button variant="secondary">Button</Button>
+      <ButtonGroupSeparator />
+      <Button size="icon" variant="secondary">
+        <IconPlus />
+      </Button>
+    </ButtonGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 입력
+
+`Input` 컴포넌트를 버튼으로 감싸기.
+
+<ComponentPreview name="button-group-input">
+
+```tsx
+import { IconSearch } from "@tabler/icons-react"
+
+import { Button } from "@/components/ui/button"
+import { ButtonGroup } from "@/components/ui/button-group"
+import { Input } from "@/components/ui/input"
+
+export default function ButtonGroupInput() {
+  return (
+    <ButtonGroup>
+      <Input placeholder="Search..." />
+      <Button variant="outline" aria-label="Search">
+        <IconSearch />
+      </Button>
+    </ButtonGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 입력 그룹
+
+`InputGroup` 컴포넌트를 감싸서 복잡한 입력 레이아웃을 만듭니다.
+
+<ComponentPreview name="button-group-input-group">
+
+```tsx
+"use client"
+
+import * as React from "react"
+import { IconActivity, IconPlus } from "@tabler/icons-react"
+
+import { Button } from "@/components/ui/button"
+import { ButtonGroup } from "@/components/ui/button-group"
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from "@/components/ui/input-group"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+
+export default function ButtonGroupInputGroup() {
+  const [voiceEnabled, setVoiceEnabled] = React.useState(false)
+
+  return (
+    <ButtonGroup className="[--radius:9999rem]">
+      <ButtonGroup>
+        <Button variant="outline" size="icon">
+          <IconPlus />
+        </Button>
+      </ButtonGroup>
+      <ButtonGroup>
+        <InputGroup>
+          <InputGroupInput
+            placeholder={
+              voiceEnabled ? "Record and send audio..." : "Send a message..."
+            }
+            disabled={voiceEnabled}
+          />
+          <InputGroupAddon align="inline-end">
+            <Tooltip>
+              <TooltipTrigger
+                render={
+                  <InputGroupButton
+                    onClick={() => setVoiceEnabled(!voiceEnabled)}
+                    size="icon-xs"
+                    data-active={voiceEnabled}
+                    className="data-[active=true]:bg-orange-100 data-[active=true]:text-orange-700 dark:data-[active=true]:bg-orange-800 dark:data-[active=true]:text-orange-100"
+                    aria-pressed={voiceEnabled}
+                  />
+                }
+              >
+                <IconActivity />
+              </TooltipTrigger>
+              <TooltipContent>Voice Mode</TooltipContent>
+            </Tooltip>
+          </InputGroupAddon>
+        </InputGroup>
+      </ButtonGroup>
+    </ButtonGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 드롭다운 메뉴
+
+`DropdownMenu` 컴포넌트를 사용하여 스플릿 버튼 그룹을 만듭니다.
+
+<ComponentPreview name="button-group-dropdown-menu">
+
+```tsx
+"use client"
+
+import {
+  IconAlertTriangle,
+  IconCheck,
+  IconChevronDown,
+  IconCopy,
+  IconShare,
+  IconTrash,
+  IconUserX,
+  IconVolumeOff,
+} from "@tabler/icons-react"
+
+import { Button } from "@/components/ui/button"
+import { ButtonGroup } from "@/components/ui/button-group"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
+export default function ButtonGroupDropdownMenu() {
+  return (
+    <ButtonGroup>
+      <Button variant="outline">Follow</Button>
+      <DropdownMenu>
+        <DropdownMenuTrigger
+          render={<Button variant="outline" className="pl-2!" />}
+        >
+          <IconChevronDown />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-44">
+          <DropdownMenuGroup>
+            <DropdownMenuItem>
+              <IconVolumeOff />
+              Mute Conversation
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <IconCheck />
+              Mark as Read
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <IconAlertTriangle />
+              Report Conversation
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <IconUserX />
+              Block User
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <IconShare />
+              Share Conversation
+            </DropdownMenuItem>
+            <DropdownMenuItem>
+              <IconCopy />
+              Copy Conversation
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator />
+          <DropdownMenuGroup>
+            <DropdownMenuItem variant="destructive">
+              <IconTrash />
+              Delete Conversation
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    </ButtonGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 선택
+
+`Select` 컴포넌트와 함께 사용합니다.
+
+<ComponentPreview name="button-group-select">
+
+```tsx
+"use client"
+
+import * as React from "react"
+import { IconArrowRight } from "@tabler/icons-react"
+
+import { Button } from "@/components/ui/button"
+import { ButtonGroup } from "@/components/ui/button-group"
+import { Input } from "@/components/ui/input"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+} from "@/components/ui/select"
+
+const CURRENCIES = [
+  { label: "US Dollar", value: "$" },
+  { label: "Euro", value: "€" },
+  { label: "British Pound", value: "£" },
+]
+
+export default function ButtonGroupSelect() {
+  const [currency, setCurrency] = React.useState("$")
+
+  return (
+    <ButtonGroup>
+      <ButtonGroup>
+        <Select
+          items={CURRENCIES}
+          value={currency}
+          onValueChange={(value) => setCurrency(value as string)}
+        >
+          <SelectTrigger className="font-mono">{currency}</SelectTrigger>
+          <SelectContent alignItemWithTrigger={false} align="start">
+            <SelectGroup>
+              {CURRENCIES.map((item) => (
+                <SelectItem key={item.value} value={item.value}>
+                  {item.value}{" "}
+                  <span className="text-muted-foreground">{item.label}</span>
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+        <Input placeholder="10.00" pattern="[0-9]*" />
+      </ButtonGroup>
+      <ButtonGroup>
+        <Button aria-label="Send" size="icon" variant="outline">
+          <IconArrowRight />
+        </Button>
+      </ButtonGroup>
+    </ButtonGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 팝오버
+
+`Popover` 컴포넌트와 함께 사용합니다.
+
+<ComponentPreview name="button-group-popover">
+
+```tsx
+import { IconRobot, IconChevronDown } from "@tabler/icons-react"
+
+import { Button } from "@/components/ui/button"
+import { ButtonGroup } from "@/components/ui/button-group"
+import {
+  Field,
+  FieldDescription,
+  FieldLabel,
+} from "@/components/ui/field"
+import {
+  Popover,
+  PopoverContent,
+  PopoverDescription,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import { Textarea } from "@/components/ui/textarea"
+
+export default function ButtonGroupPopover() {
+  return (
+    <ButtonGroup>
+      <Button variant="outline">
+        <IconRobot /> Copilot
+      </Button>
+      <Popover>
+        <PopoverTrigger
+          render={
+            <Button variant="outline" size="icon" aria-label="Open Popover" />
+          }
+        >
+          <IconChevronDown />
+        </PopoverTrigger>
+        <PopoverContent align="end" className="rounded-xl text-sm">
+          <PopoverHeader>
+            <PopoverTitle>Start a new task with Copilot</PopoverTitle>
+            <PopoverDescription>
+              Describe your task in natural language.
+            </PopoverDescription>
+          </PopoverHeader>
+          <Field>
+            <FieldLabel htmlFor="task" className="sr-only">
+              Task Description
+            </FieldLabel>
+            <Textarea
+              id="task"
+              placeholder="I need to..."
+              className="resize-none"
+            />
+            <FieldDescription>
+              Copilot will open a pull request for review.
+            </FieldDescription>
+          </Field>
+        </PopoverContent>
+      </Popover>
+    </ButtonGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API 참고
+
+### ButtonGroup
+
+`ButtonGroup` 컴포넌트는 관련 버튼들을 일관된 스타일로 함께 묶는 컨테이너입니다.
+
+| Prop          | Type                         | Default        |
+| ------------- | ---------------------------- | -------------- |
+| `orientation` | `"horizontal" \| "vertical"` | `"horizontal"` |
+
+```tsx
+<ButtonGroup>
+  <Button>버튼 1</Button>
+  <Button>버튼 2</Button>
+</ButtonGroup>
+```
+
+여러 버튼 그룹을 중첩하여 간격이 있는 복잡한 레이아웃을 만듭니다. 자세한 내용은 [중첩](#중첩) 예시를 참조하세요.
+
+```tsx
+<ButtonGroup>
+  <ButtonGroup />
+  <ButtonGroup />
+</ButtonGroup>
+```
+
+### ButtonGroupSeparator
+
+`ButtonGroupSeparator` 컴포넌트는 그룹 내 버튼들을 시각적으로 구분합니다.
+
+| Prop          | Type                         | Default      |
+| ------------- | ---------------------------- | ------------ |
+| `orientation` | `"horizontal" \| "vertical"` | `"vertical"` |
+
+```tsx
+<ButtonGroup>
+  <Button>버튼 1</Button>
+  <ButtonGroupSeparator />
+  <Button>버튼 2</Button>
+</ButtonGroup>
+```
+
+### ButtonGroupText
+
+버튼 그룹 내에서 텍스트를 표시하려면 이 컴포넌트를 사용합니다.
+
+| Prop      | Type      | Default |
+| --------- | --------- | ------- |
+| `asChild` | `boolean` | `false` |
+
+```tsx
+<ButtonGroup>
+  <ButtonGroupText>Text</ButtonGroupText>
+  <Button>버튼</Button>
+</ButtonGroup>
+```
+
+`asChild` prop을 사용하여 라벨 같은 커스텀 컴포넌트를 텍스트로 렌더링할 수 있습니다.
+
+```tsx
+import { ButtonGroupText } from "@/components/ui/button-group"
+import { Label } from "@/components/ui/label"
+
+export default function ButtonGroupTextDemo() {
+  return (
+    <ButtonGroup>
+      <ButtonGroupText asChild>
+        <Label htmlFor="name">Text</Label>
+      </ButtonGroupText>
+      <Input placeholder="Type something here..." id="name" />
+    </ButtonGroup>
+  )
+}
+```

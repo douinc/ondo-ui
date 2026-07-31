@@ -1,0 +1,258 @@
+---
+title: Desktop Window
+description: Wraps content in static macOS, Windows 11, or Ubuntu window chrome.
+---
+
+<ComponentPreview name="desktop-window-demo">
+
+```tsx
+import {
+  DesktopWindow,
+  DesktopWindowContent,
+  DesktopWindowControls,
+  DesktopWindowTitle,
+  DesktopWindowTitlebar,
+} from "@/components/ui/desktop-window"
+
+export default function DesktopWindowDemo() {
+  return (
+    <DesktopWindow os="macos">
+      <DesktopWindowTitlebar>
+        <DesktopWindowControls />
+        <DesktopWindowTitle>Release Notes</DesktopWindowTitle>
+      </DesktopWindowTitlebar>
+      <DesktopWindowContent className="space-y-2 p-6">
+        <p className="text-sm font-medium">Version 0.5.0</p>
+        <p className="text-sm text-muted-foreground">
+          Wrap a screenshot, a code sample, or a live component in window
+          chrome. The frame is decoration — it does not drag or resize.
+        </p>
+      </DesktopWindowContent>
+    </DesktopWindow>
+  )
+}
+```
+
+</ComponentPreview>
+
+`DesktopWindow` makes any content look like it is running inside a desktop application window. It is chrome only: it does not drag, resize, minimise, maximise, or track focus. Use it for screenshots, marketing heroes, product mockups, and docs illustrations.
+
+## Installation
+
+```bash
+bunx shadcn@latest add @ondo-ui/desktop-window
+```
+
+## Usage
+
+```tsx showLineNumbers
+import {
+  DesktopWindow,
+  DesktopWindowContent,
+  DesktopWindowControls,
+  DesktopWindowTitle,
+  DesktopWindowTitlebar,
+} from "@/components/ui/desktop-window"
+```
+
+```tsx showLineNumbers
+<DesktopWindow os="macos">
+  <DesktopWindowTitlebar>
+    <DesktopWindowControls />
+    <DesktopWindowTitle>Finder</DesktopWindowTitle>
+  </DesktopWindowTitlebar>
+  <DesktopWindowContent>Your content</DesktopWindowContent>
+</DesktopWindow>
+```
+
+## Switching platforms
+
+`os` accepts `"macos"` (the default), `"windows"`, and `"ubuntu"`. **It flips CSS, not the DOM** — write `DesktopWindowControls` before `DesktopWindowTitle` on every platform and the layout rearranges itself.
+
+The demo below maps one array over one piece of markup, so the only thing that varies between the three windows is the `os` value:
+
+<ComponentPreview name="desktop-window-platforms">
+
+```tsx
+import {
+  DesktopWindow,
+  DesktopWindowContent,
+  DesktopWindowControls,
+  DesktopWindowTitle,
+  DesktopWindowTitlebar,
+  type DesktopWindowOs,
+} from "@/components/ui/desktop-window"
+
+const PLATFORMS: DesktopWindowOs[] = ["macos", "windows", "ubuntu"]
+
+export default function DesktopWindowPlatforms() {
+  return (
+    <div className="flex flex-col gap-6">
+      {PLATFORMS.map((os) => (
+        <DesktopWindow key={os} os={os}>
+          <DesktopWindowTitlebar>
+            <DesktopWindowControls />
+            <DesktopWindowTitle>Release Notes</DesktopWindowTitle>
+          </DesktopWindowTitlebar>
+          <DesktopWindowContent className="p-6">
+            <p className="font-mono text-sm text-muted-foreground">
+              os=&quot;{os}&quot;
+            </p>
+          </DesktopWindowContent>
+        </DesktopWindow>
+      ))}
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+What each value gives you:
+
+| | Controls | Title | Titlebar |
+| --- | --- | --- | --- |
+| `macos` | three 12px circles, left | centered, 13px semibold | 28px, hairline below |
+| `windows` | three 46×32 buttons, flush top-right | left, 12px | 32px, no separator |
+| `ubuntu` | three 24px gray circles, right | centered, 14px bold | 48px, hairline below |
+
+The platforms also differ in a way that is easy to mistake for a bug: macOS reveals the `✕ − ⤢` glyphs only while the titlebar is hovered, whereas Windows 11 and Ubuntu always show `— □ ✕`. That is how each system behaves. Ubuntu's close button is a gray circle like its neighbours — the red close button is a Windows trait, not a universal one.
+
+`"ubuntu"` renders the Yaru/GNOME headerbar that Ubuntu ships by default. Other Linux desktops — KDE Plasma, Xfce, elementary — draw their windows differently and are not covered by this value.
+
+## Color and theming
+
+The chrome is deliberately **not** themed. Titlebar backgrounds, traffic light colors, corner radii, and the Windows close-button red are fixed to the real platform values, so the frame reads as that operating system in any project you install it into.
+
+Only `DesktopWindowContent` follows your theme — it uses `bg-background`. If you want the body to match a surface other than the page background, override it:
+
+```tsx showLineNumbers
+<DesktopWindowContent className="bg-muted p-6">Your content</DesktopWindowContent>
+```
+
+## Interactive controls
+
+Controls are decorative by default: each renders as an `aria-hidden` span, so a mockup does not add three no-op stops to the tab order. Pass a handler and that control — and only that control — becomes a real `<button>` with an `aria-label` and a focus ring.
+
+<ComponentPreview name="desktop-window-interactive">
+
+```tsx
+"use client"
+
+import * as React from "react"
+
+import {
+  DesktopWindow,
+  DesktopWindowContent,
+  DesktopWindowControls,
+  DesktopWindowTitle,
+  DesktopWindowTitlebar,
+} from "@/components/ui/desktop-window"
+
+export default function DesktopWindowInteractive() {
+  const [action, setAction] = React.useState<string | null>(null)
+
+  return (
+    <DesktopWindow os="macos">
+      <DesktopWindowTitlebar>
+        <DesktopWindowControls
+          onClose={() => setAction("close")}
+          onMinimize={() => setAction("minimize")}
+          onMaximize={() => setAction("zoom")}
+        />
+        <DesktopWindowTitle>Inspector</DesktopWindowTitle>
+      </DesktopWindowTitlebar>
+      <DesktopWindowContent className="p-6">
+        <p className="text-sm text-muted-foreground">
+          {action
+            ? `You pressed ${action}.`
+            : "Press a control, or tab into the window."}
+        </p>
+      </DesktopWindowContent>
+    </DesktopWindow>
+  )
+}
+```
+
+</ComponentPreview>
+
+## Toolbars, icons, and sidebars
+
+There is no `DesktopWindowToolbar` or `DesktopWindowSidebar`. Anything beyond the core anatomy goes in as children. On macOS the title is absolutely positioned across the full titlebar, so a trailing action needs `z-10` to stay above it.
+
+<ComponentPreview name="desktop-window-titlebar-children">
+
+```tsx
+import { IconFolder, IconLayoutSidebar } from "@tabler/icons-react"
+
+import { Button } from "@/components/ui/button"
+import {
+  DesktopWindow,
+  DesktopWindowContent,
+  DesktopWindowControls,
+  DesktopWindowTitle,
+  DesktopWindowTitlebar,
+} from "@/components/ui/desktop-window"
+
+export default function DesktopWindowTitlebarChildren() {
+  return (
+    <DesktopWindow os="macos">
+      <DesktopWindowTitlebar>
+        <DesktopWindowControls />
+        <DesktopWindowTitle className="flex items-center justify-center gap-1.5">
+          <IconFolder className="size-3.5" />
+          Documents
+        </DesktopWindowTitle>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="z-10 ms-auto size-6"
+          aria-label="Toggle sidebar"
+        >
+          <IconLayoutSidebar className="size-4" />
+        </Button>
+      </DesktopWindowTitlebar>
+      <DesktopWindowContent className="p-6">
+        <p className="text-sm text-muted-foreground">
+          Toolbars, app icons, and sidebars are not separate parts. Put them in
+          the titlebar as children.
+        </p>
+      </DesktopWindowContent>
+    </DesktopWindow>
+  )
+}
+```
+
+</ComponentPreview>
+
+## Sizing
+
+`DesktopWindow` has no intrinsic width. It fills its container, so set the size from outside with `className`:
+
+```tsx showLineNumbers
+<DesktopWindow className="h-96 w-full max-w-3xl">Your content</DesktopWindow>
+```
+
+## API Reference
+
+### DesktopWindow
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `os` | `"macos" \| "windows" \| "ubuntu"` | `"macos"` | Which platform's chrome to render. Published to every child through context. |
+
+Also accepts every `div` prop.
+
+### DesktopWindowControls
+
+| Prop | Type | Default | Description |
+| --- | --- | --- | --- |
+| `onClose` | `() => void` | — | Promotes the close control to a labeled button. |
+| `onMinimize` | `() => void` | — | Promotes the minimise control to a labeled button. |
+| `onMaximize` | `() => void` | — | Promotes the zoom (macOS) or maximise (Windows, Ubuntu) control. |
+
+Also accepts every `div` prop.
+
+### DesktopWindowTitlebar, DesktopWindowTitle, DesktopWindowContent
+
+Accept every `div` prop. `DesktopWindowTitle` is presentational text, not a heading — the frame is decoration and should not add a heading level to your document outline.

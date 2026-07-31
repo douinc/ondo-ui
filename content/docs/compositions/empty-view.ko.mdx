@@ -1,0 +1,139 @@
+---
+title: EmptyView (빈 상태 뷰)
+description: Empty와 Button으로 미리 조합한 빈 상태 컴포넌트입니다.
+---
+
+<ComponentPreview name="empty-view-demo">
+
+```tsx
+import { IconArrowUpRight, IconFolderCode } from "@tabler/icons-react"
+
+import { EmptyView } from "@/components/compositions/empty-view"
+import { Button } from "@/components/ui/button"
+
+export default function EmptyViewDemo() {
+  return (
+    <EmptyView
+      icon={<IconFolderCode />}
+      title="No Projects Yet"
+      description="You haven't created any projects yet. Get started by creating your first project."
+      actions={
+        <>
+          <div className="flex flex-row justify-center gap-2">
+            <Button>Create Project</Button>
+            <Button variant="outline">Import Project</Button>
+          </div>
+          <Button
+            variant="link"
+            render={<a href="#" />}
+            className="text-muted-foreground"
+            size="sm"
+            nativeButton={false}
+          >
+            Learn More <IconArrowUpRight />
+          </Button>
+        </>
+      }
+    />
+  )
+}
+```
+
+</ComponentPreview>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/empty-view
+```
+
+`EmptyView`와 함께 의존성인 `empty`, `button`이 설치됩니다.
+
+## 사용법
+
+```tsx
+import { EmptyView } from "@/components/compositions/empty-view"
+```
+
+```tsx
+<EmptyView
+  icon={<Icon />}
+  title="데이터 없음"
+  description="데이터를 찾을 수 없습니다."
+  actions={<Button>데이터 추가</Button>}
+/>
+```
+
+## 예시
+
+### 기본
+
+`title`만 필수입니다. `icon`과 `actions`를 생략하면 가장 단순한 빈 상태가 됩니다.
+
+<ComponentPreview name="empty-view-basic">
+
+```tsx
+import { EmptyView } from "@/components/compositions/empty-view"
+
+export default function EmptyViewBasic() {
+  return (
+    <EmptyView
+      title="No notifications"
+      description="You're all caught up. New notifications will appear here."
+    />
+  )
+}
+```
+
+</ComponentPreview>
+
+### 액션 포함
+
+버튼이나 링크를 `actions` 슬롯으로 전달합니다.
+
+<ComponentPreview name="empty-view-actions">
+
+```tsx
+import { IconCloud } from "@tabler/icons-react"
+
+import { EmptyView } from "@/components/compositions/empty-view"
+import { Button } from "@/components/ui/button"
+
+export default function EmptyViewActions() {
+  return (
+    <EmptyView
+      icon={<IconCloud />}
+      title="Cloud Storage Empty"
+      description="Upload files to your cloud storage to access them anywhere."
+      actions={
+        <Button variant="outline" size="sm">
+          Upload Files
+        </Button>
+      }
+    />
+  )
+}
+```
+
+</ComponentPreview>
+
+## API 참고
+
+`EmptyView`는 [`Empty`](/docs/components/empty)의 모든 prop을 받고(루트에 `...props`로 전달), 다음을 추가로 받습니다:
+
+| Prop          | 타입              | 기본값 | 설명                                                      |
+| ------------- | ----------------- | ------ | --------------------------------------------------------- |
+| `title`       | `React.ReactNode` | —      | 필수 제목 텍스트.                                         |
+| `description` | `React.ReactNode` | —      | 선택 설명 텍스트. 없으면 렌더링하지 않습니다.             |
+| `icon`        | `React.ReactNode` | —      | 선택 미디어. `EmptyMedia`(icon variant) 안에 렌더링됩니다. |
+| `actions`     | `React.ReactNode` | —      | 선택 버튼/링크. `EmptyContent` 안에 렌더링됩니다.         |
+| `className`   | `string`          | —      | 루트 `Empty`로 전달됩니다.                                |
+
+## 기반 컴포넌트
+
+`EmptyView`는 다음 프리미티브로 조합됩니다:
+
+- [`Empty`](/docs/components/empty) — 빈 상태 컨테이너와 하위 파트.
+- [`Button`](/docs/components/button) — actions 슬롯에 사용.
+
+`EmptyView`로 표현되지 않는 레이아웃이 필요하면 [`Empty`](/docs/components/empty)를 직접 조합해 파트를 완전히 제어하세요.

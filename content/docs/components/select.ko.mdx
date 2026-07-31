@@ -1,0 +1,578 @@
+---
+title: Select (선택)
+description: 사용자가 선택할 수 있는 옵션 목록을 버튼으로 표시합니다.
+---
+
+<ComponentPreview name="select-demo">
+
+```tsx
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
+const items = [
+  { label: "Select a fruit", value: null },
+  { label: "Apple", value: "apple" },
+  { label: "Banana", value: "banana" },
+  { label: "Blueberry", value: "blueberry" },
+  { label: "Grapes", value: "grapes" },
+  { label: "Pineapple", value: "pineapple" },
+]
+
+export default function SelectDemo() {
+  return (
+    <Select items={items}>
+      <SelectTrigger className="w-full max-w-48">
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          <SelectLabel>Fruits</SelectLabel>
+          {items.map((item) => (
+            <SelectItem key={item.value} value={item.value}>
+              {item.label}
+            </SelectItem>
+          ))}
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+  )
+}
+```
+
+</ComponentPreview>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/select
+```
+
+## 사용법
+
+```tsx showLineNumbers
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+```
+
+```tsx showLineNumbers
+const items = [
+  { label: "Light", value: "light" },
+  { label: "Dark", value: "dark" },
+  { label: "System", value: "system" },
+]
+
+<Select items={items}>
+  <SelectTrigger className="w-[180px]">
+    <SelectValue placeholder="Theme" />
+  </SelectTrigger>
+  <SelectContent>
+    <SelectGroup>
+      {items.map((item) => (
+        <SelectItem key={item.value} value={item.value}>
+          {item.label}
+        </SelectItem>
+      ))}
+    </SelectGroup>
+  </SelectContent>
+</Select>
+```
+
+## Composition
+
+`Select`를 빌드하려면 다음 구조를 사용하세요:
+
+```text
+Select
+├── SelectTrigger
+│   └── SelectValue
+└── SelectContent
+    ├── SelectGroup
+    │   ├── SelectLabel
+    │   ├── SelectItem
+    │   └── SelectItem
+    ├── SelectSeparator
+    └── SelectGroup
+        ├── SelectLabel
+        ├── SelectItem
+        └── SelectItem
+```
+
+## 예시
+
+### 크기
+
+`Select`의 `size` prop으로 컨트롤 전체 크기를 조절합니다. `xs`, `sm`, `default`, `lg`, `xl`, `2xl`을 지원합니다.
+
+`xl`과 `2xl`에서는 팝업도 트리거를 따라갑니다 — 항목 글자·패딩·체크 표시가 함께 커져서 목록이 그것을 연 컨트롤과 맞아떨어집니다. 그보다 작은 크기는 트리거 높이만 바꾸고 팝업은 기본 크기로 둡니다.
+
+`SelectTrigger`도 `size`를 받습니다. 이 경우 트리거에만 적용되고 팝업은 그대로입니다.
+
+<ComponentPreview name="select-size">
+
+```tsx
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectSeparator,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
+const northAmerica = [
+  { label: "Eastern Standard Time", value: "est" },
+  { label: "Central Standard Time", value: "cst" },
+  { label: "Mountain Standard Time", value: "mst" },
+  { label: "Pacific Standard Time", value: "pst" },
+]
+
+const europe = [
+  { label: "Greenwich Mean Time", value: "gmt" },
+  { label: "Central European Time", value: "cet" },
+  { label: "Eastern European Time", value: "eet" },
+]
+
+const asiaPacific = [
+  { label: "India Standard Time", value: "ist" },
+  { label: "China Standard Time", value: "cst_china" },
+  { label: "Japan Standard Time", value: "jst" },
+  { label: "Korea Standard Time", value: "kst" },
+]
+
+const items = [
+  { label: "Select a timezone", value: null },
+  ...northAmerica,
+  ...europe,
+  ...asiaPacific,
+]
+
+const sizes = ["xs", "sm", "default", "lg", "xl", "2xl"] as const
+
+export default function SelectSize() {
+  return (
+    <div className="flex flex-col items-start gap-3">
+      {sizes.map((size) => (
+        <Select key={size} items={items} size={size}>
+          <SelectTrigger className="w-64">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>North America</SelectLabel>
+              {northAmerica.map((item) => (
+                <SelectItem key={item.value} value={item.value}>
+                  {item.label}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+            <SelectSeparator />
+            <SelectGroup>
+              <SelectLabel>Europe</SelectLabel>
+              {europe.map((item) => (
+                <SelectItem key={item.value} value={item.value}>
+                  {item.label}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+            <SelectSeparator />
+            <SelectGroup>
+              <SelectLabel>Asia / Pacific</SelectLabel>
+              {asiaPacific.map((item) => (
+                <SelectItem key={item.value} value={item.value}>
+                  {item.label}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      ))}
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Align Item With Trigger
+
+`SelectContent`에서 `alignItemWithTrigger`를 사용하여 선택한 항목을 트리거와 정렬할지 여부를 제어합니다. `true`(기본값)일 때는 팝업이 선택한 항목이 트리거 위에 나타나도록 배치됩니다. `false`일 때는 팝업이 트리거 가장자리에 정렬됩니다.
+
+<ComponentPreview name="select-align-item-with-trigger">
+
+```tsx
+"use client"
+
+import * as React from "react"
+
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field"
+import { Label } from "@/components/ui/label"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { Switch } from "@/components/ui/switch"
+
+const items = [
+  { label: "Select a fruit", value: null },
+  { label: "Apple", value: "apple" },
+  { label: "Banana", value: "banana" },
+  { label: "Blueberry", value: "blueberry" },
+  { label: "Grapes", value: "grapes" },
+  { label: "Pineapple", value: "pineapple" },
+]
+
+export default function SelectAlignItemWithTrigger() {
+  const [alignItemWithTrigger, setAlignItemWithTrigger] = React.useState(true)
+
+  return (
+    <FieldGroup className="w-full max-w-xs">
+      <Field orientation="horizontal">
+        <FieldContent>
+          <FieldLabel htmlFor="align-item">Align Item</FieldLabel>
+          <FieldDescription>
+            Toggle to align the item with the trigger.
+          </FieldDescription>
+        </FieldContent>
+        <Switch
+          id="align-item"
+          checked={alignItemWithTrigger}
+          onCheckedChange={setAlignItemWithTrigger}
+        />
+      </Field>
+      <Field>
+        <Select items={items} defaultValue="banana">
+          <SelectTrigger>
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent alignItemWithTrigger={alignItemWithTrigger}>
+            <SelectGroup>
+              {items.map((item) => (
+                <SelectItem key={item.value} value={item.value}>
+                  {item.label}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </Field>
+    </FieldGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Groups
+
+`SelectGroup`, `SelectLabel`, `SelectSeparator`를 사용하여 항목을 구성합니다.
+
+<ComponentPreview name="select-groups">
+
+```tsx
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectSeparator,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
+export default function SelectGroups() {
+  const fruits = [
+    { label: "Apple", value: "apple" },
+    { label: "Banana", value: "banana" },
+    { label: "Blueberry", value: "blueberry" },
+  ]
+  const vegetables = [
+    { label: "Carrot", value: "carrot" },
+    { label: "Broccoli", value: "broccoli" },
+    { label: "Spinach", value: "spinach" },
+  ]
+  const allItems = [
+    { label: "Select a fruit", value: null },
+    ...fruits,
+    ...vegetables,
+  ]
+  return (
+    <Select items={allItems}>
+      <SelectTrigger className="w-full max-w-48">
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          <SelectLabel>Fruits</SelectLabel>
+          {fruits.map((item) => (
+            <SelectItem key={item.value} value={item.value}>
+              {item.label}
+            </SelectItem>
+          ))}
+        </SelectGroup>
+        <SelectSeparator />
+        <SelectGroup>
+          <SelectLabel>Vegetables</SelectLabel>
+          {vegetables.map((item) => (
+            <SelectItem key={item.value} value={item.value}>
+              {item.label}
+            </SelectItem>
+          ))}
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Scrollable
+
+많은 항목이 포함된 스크롤 가능한 선택입니다.
+
+<ComponentPreview name="select-scrollable">
+
+```tsx
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
+const northAmerica = [
+  { label: "Eastern Standard Time", value: "est" },
+  { label: "Central Standard Time", value: "cst" },
+  { label: "Mountain Standard Time", value: "mst" },
+  { label: "Pacific Standard Time", value: "pst" },
+  { label: "Alaska Standard Time", value: "akst" },
+  { label: "Hawaii Standard Time", value: "hst" },
+]
+
+const europeAfrica = [
+  { label: "Greenwich Mean Time", value: "gmt" },
+  { label: "Central European Time", value: "cet" },
+  { label: "Eastern European Time", value: "eet" },
+  { label: "Western European Summer Time", value: "west" },
+  { label: "Central Africa Time", value: "cat" },
+  { label: "East Africa Time", value: "eat" },
+]
+
+const asia = [
+  { label: "Moscow Time", value: "msk" },
+  { label: "India Standard Time", value: "ist" },
+  { label: "China Standard Time", value: "cst_china" },
+  { label: "Japan Standard Time", value: "jst" },
+  { label: "Korea Standard Time", value: "kst" },
+  { label: "Indonesia Central Standard Time", value: "ist_indonesia" },
+]
+
+const australiaPacific = [
+  { label: "Australian Western Standard Time", value: "awst" },
+  { label: "Australian Central Standard Time", value: "acst" },
+  { label: "Australian Eastern Standard Time", value: "aest" },
+  { label: "New Zealand Standard Time", value: "nzst" },
+  { label: "Fiji Time", value: "fjt" },
+]
+
+const southAmerica = [
+  { label: "Argentina Time", value: "art" },
+  { label: "Bolivia Time", value: "bot" },
+  { label: "Brasilia Time", value: "brt" },
+  { label: "Chile Standard Time", value: "clt" },
+]
+
+const items = [
+  { label: "Select a timezone", value: null },
+  ...northAmerica,
+  ...europeAfrica,
+  ...asia,
+  ...australiaPacific,
+  ...southAmerica,
+]
+
+export default function SelectScrollable() {
+  return (
+    <Select items={items}>
+      <SelectTrigger className="w-full max-w-64">
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          <SelectLabel>North America</SelectLabel>
+          {northAmerica.map((item) => (
+            <SelectItem key={item.value} value={item.value}>
+              {item.label}
+            </SelectItem>
+          ))}
+        </SelectGroup>
+        <SelectGroup>
+          <SelectLabel>Europe & Africa</SelectLabel>
+          {europeAfrica.map((item) => (
+            <SelectItem key={item.value} value={item.value}>
+              {item.label}
+            </SelectItem>
+          ))}
+        </SelectGroup>
+        <SelectGroup>
+          <SelectLabel>Asia</SelectLabel>
+          {asia.map((item) => (
+            <SelectItem key={item.value} value={item.value}>
+              {item.label}
+            </SelectItem>
+          ))}
+        </SelectGroup>
+        <SelectGroup>
+          <SelectLabel>Australia & Pacific</SelectLabel>
+          {australiaPacific.map((item) => (
+            <SelectItem key={item.value} value={item.value}>
+              {item.label}
+            </SelectItem>
+          ))}
+        </SelectGroup>
+        <SelectGroup>
+          <SelectLabel>South America</SelectLabel>
+          {southAmerica.map((item) => (
+            <SelectItem key={item.value} value={item.value}>
+              {item.label}
+            </SelectItem>
+          ))}
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Disabled
+
+<ComponentPreview name="select-disabled">
+
+```tsx
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
+export default function SelectDisabled() {
+  const items = [
+    { label: "Select a fruit", value: null },
+    { label: "Apple", value: "apple" },
+    { label: "Banana", value: "banana" },
+    { label: "Blueberry", value: "blueberry" },
+    { label: "Grapes", value: "grapes", disabled: true },
+    { label: "Pineapple", value: "pineapple" },
+  ]
+  return (
+    <Select items={items} disabled>
+      <SelectTrigger className="w-full max-w-48">
+        <SelectValue />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          {items.map((item) => (
+            <SelectItem
+              key={item.value}
+              value={item.value}
+              disabled={item.disabled}
+            >
+              {item.label}
+            </SelectItem>
+          ))}
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Invalid
+
+오류 상태를 표시하려면 `Field` 컴포넌트에 `data-invalid` 속성을 추가하고 `SelectTrigger` 컴포넌트에 `aria-invalid` 속성을 추가합니다.
+
+<ComponentPreview name="select-invalid">
+
+```tsx
+import { Field, FieldError, FieldLabel } from "@/components/ui/field"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
+const items = [
+  { label: "Select a fruit", value: null },
+  { label: "Apple", value: "apple" },
+  { label: "Banana", value: "banana" },
+  { label: "Blueberry", value: "blueberry" },
+]
+
+export default function SelectInvalid() {
+  return (
+    <Field data-invalid className="w-full max-w-48">
+      <FieldLabel>Fruit</FieldLabel>
+      <Select items={items}>
+        <SelectTrigger aria-invalid>
+          <SelectValue />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            {items.map((item) => (
+              <SelectItem key={item.value} value={item.value}>
+                {item.label}
+              </SelectItem>
+            ))}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+      <FieldError>Please select a fruit.</FieldError>
+    </Field>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API 참고
+
+이 컴포넌트는 [Base UI Select](https://base-ui.com/react/components/select)을 감싸며 해당 컴포넌트의 모든 prop을 받습니다.

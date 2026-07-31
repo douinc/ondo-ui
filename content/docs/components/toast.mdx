@@ -1,0 +1,212 @@
+---
+title: Toast
+description: A succinct message that is displayed temporarily.
+---
+
+<ComponentPreview name="toast-demo">
+
+```tsx
+"use client"
+
+import { Button } from "@/components/ui/button"
+import { toast } from "@/components/ui/toast"
+
+export default function ToastDemo() {
+  function showToast() {
+    const id = toast.add({
+      title: "Event created",
+      description: "Sunday, December 3 at 9:00 AM",
+      actionProps: {
+        children: "Undo",
+        onClick() {
+          toast.close(id)
+        },
+      },
+    })
+  }
+
+  return (
+    <Button variant="outline" onClick={showToast}>
+      Show Toast
+    </Button>
+  )
+}
+```
+
+</ComponentPreview>
+
+## Installation
+
+```bash
+bunx shadcn@latest add @ondo-ui/toast
+```
+
+## Usage
+
+Mount `Toaster` once, near the root of your app.
+
+```tsx showLineNumbers
+import { Toaster } from "@/components/ui/toast"
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        {children}
+        <Toaster />
+      </body>
+    </html>
+  )
+}
+```
+
+Then call `toast` from anywhere — it is a standalone manager, so the caller does
+not need to be inside the provider.
+
+```tsx showLineNumbers
+import { toast } from "@/components/ui/toast"
+
+toast.add({
+  title: "Event created",
+  description: "Sunday, December 3 at 9:00 AM",
+})
+```
+
+## Examples
+
+### Types
+
+Set `type` to render a status icon. The built-in renderer recognizes `success`, `info`, `warning`, `error`, and `loading`.
+
+<ComponentPreview name="toast-types">
+
+```tsx
+"use client"
+
+import { Button } from "@/components/ui/button"
+import { toast } from "@/components/ui/toast"
+
+export default function ToastTypes() {
+  return (
+    <div className="flex flex-wrap gap-2">
+      <Button
+        variant="outline"
+        onClick={() => toast.add({ description: "Event has been created." })}
+      >
+        Default
+      </Button>
+      <Button
+        variant="outline"
+        onClick={() =>
+          toast.add({ type: "success", description: "Event has been created." })
+        }
+      >
+        Success
+      </Button>
+      <Button
+        variant="outline"
+        onClick={() =>
+          toast.add({
+            type: "info",
+            description: "Arrive 10 minutes before the event.",
+          })
+        }
+      >
+        Info
+      </Button>
+      <Button
+        variant="outline"
+        onClick={() =>
+          toast.add({
+            type: "warning",
+            description: "The event cannot start before 8:00 AM.",
+          })
+        }
+      >
+        Warning
+      </Button>
+      <Button
+        variant="outline"
+        onClick={() =>
+          toast.add({
+            type: "error",
+            description: "The event could not be created.",
+            priority: "high",
+          })
+        }
+      >
+        Error
+      </Button>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Action
+
+Pass button props with `actionProps` to render an action. `toast.add` returns the id, so the action can close its own toast.
+
+```tsx showLineNumbers
+const id = toast.add({
+  title: "Event created",
+  actionProps: {
+    children: "Undo",
+    onClick() {
+      toast.close(id)
+    },
+  },
+})
+```
+
+### Promise
+
+Use `toast.promise` to move a single toast through loading, success, and error as an async task settles.
+
+<ComponentPreview name="toast-promise">
+
+```tsx
+"use client"
+
+import { Button } from "@/components/ui/button"
+import { toast } from "@/components/ui/toast"
+
+export default function ToastPromise() {
+  function showToast() {
+    toast.promise(
+      new Promise<{ name: string }>((resolve) => {
+        window.setTimeout(() => resolve({ name: "Event" }), 2000)
+      }),
+      {
+        loading: "Creating event…",
+        success: (data) => `${data.name} created.`,
+        error: "Could not create event.",
+      }
+    )
+  }
+
+  return (
+    <Button variant="outline" onClick={showToast}>
+      Create Event
+    </Button>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API reference
+
+The component wraps [Base UI Toast](https://base-ui.com/react/components/toast) and accepts all of its props.
+
+| Export | Description |
+| --- | --- |
+| `Toaster` | Provider, portal, viewport, and the default toast list in one. Mount once. |
+| `toast` | The default toast manager — `add`, `close`, `update`, `promise`. |
+| `createToastManager` | Creates an additional manager for a separate `Toaster`. |
+| `useToastManager` | Reads the toasts of the nearest provider, for a custom list. |
+| `Toast` | A single toast root. |
+| `ToastPortal`, `ToastProvider`, `ToastViewport` | The pieces `Toaster` composes, exported for custom layouts. |
+| `ToastContent`, `ToastTitle`, `ToastDescription` | Toast body slots. |
+| `ToastAction`, `ToastClose` | Action and dismiss buttons. |

@@ -1,0 +1,145 @@
+---
+title: Separator (구분선)
+description: 콘텐츠를 시각적으로 또는 의미적으로 구분합니다.
+---
+
+<ComponentPreview name="separator-demo">
+
+```tsx
+import { Separator } from "@/components/ui/separator"
+
+export function SeparatorDemo() {
+  return (
+    <div className="flex max-w-sm flex-col gap-4 text-sm">
+      <div className="flex flex-col gap-1.5">
+        <div className="leading-none font-medium">shadcn/ui</div>
+        <div className="text-muted-foreground">
+          디자인 시스템의 기초
+        </div>
+      </div>
+      <Separator />
+      <div>
+        아름답게 디자인된 컴포넌트 모음으로, 커스터마이징, 확장, 그리고 빌드할 수 있습니다.
+      </div>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/separator
+```
+
+## 사용법
+
+```tsx showLineNumbers
+import { Separator } from "@/components/ui/separator"
+```
+
+```tsx showLineNumbers
+<Separator />
+```
+
+## 예시
+
+### Vertical
+
+`orientation="vertical"`을 사용하여 수직 구분선을 만듭니다.
+
+<ComponentPreview name="separator-vertical">
+
+```tsx
+import { Separator } from "@/components/ui/separator"
+
+export function SeparatorVertical() {
+  return (
+    <div className="flex h-5 items-center gap-4 text-sm">
+      <div>Blog</div>
+      <Separator orientation="vertical" />
+      <div>Docs</div>
+      <Separator orientation="vertical" />
+      <div>Source</div>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Menu
+
+메뉴 항목 간의 수직 구분선과 설명입니다.
+
+<ComponentPreview name="separator-menu">
+
+```tsx
+import { Separator } from "@/components/ui/separator"
+
+export function SeparatorMenu() {
+  return (
+    <div className="flex items-center gap-2 text-sm md:gap-4">
+      <div className="flex flex-col gap-1">
+        <span className="font-medium">Settings</span>
+        <span className="text-xs text-muted-foreground">
+          Manage preferences
+        </span>
+      </div>
+      <Separator orientation="vertical" />
+      <div className="flex flex-col gap-1">
+        <span className="font-medium">Account</span>
+        <span className="text-xs text-muted-foreground">
+          Profile & security
+        </span>
+      </div>
+      <Separator orientation="vertical" className="hidden md:block" />
+      <div className="hidden flex-col gap-1 md:flex">
+        <span className="font-medium">Help</span>
+        <span className="text-xs text-muted-foreground">Support & docs</span>
+      </div>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### List
+
+목록 항목 간의 수평 구분선입니다.
+
+<ComponentPreview name="separator-list">
+
+```tsx
+import { Separator } from "@/components/ui/separator"
+
+export function SeparatorList() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-2 text-sm">
+      <dl className="flex items-center justify-between">
+        <dt>Item 1</dt>
+        <dd className="text-muted-foreground">Value 1</dd>
+      </dl>
+      <Separator />
+      <dl className="flex items-center justify-between">
+        <dt>Item 2</dt>
+        <dd className="text-muted-foreground">Value 2</dd>
+      </dl>
+      <Separator />
+      <dl className="flex items-center justify-between">
+        <dt>Item 3</dt>
+        <dd className="text-muted-foreground">Value 3</dd>
+      </dl>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API 참고
+
+이 컴포넌트는 [Base UI Separator](https://base-ui.com/react/components/separator)를 감싸며 해당 컴포넌트의 모든 prop을 받습니다.

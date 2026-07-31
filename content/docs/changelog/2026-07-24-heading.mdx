@@ -1,0 +1,24 @@
+---
+title: Heading
+description: A new Heading component that keeps a heading's semantic level and its visual size independent.
+version: 0.3.0
+---
+
+**v0.3.0**
+
+[`Heading`](/docs/components/heading) renders an `h1`–`h6` for application UI,
+keeping the document outline and the visual scale apart:
+
+- `level` sets the rendered tag and, on its own, the matching size.
+- `size` overrides that scale independently, so an `h2` can carry `h1` weight
+  when the design asks for it while the outline stays correct. Sizes `1`–`6` are
+  a single bold ramp from `2.25rem` down to `1.125rem`, sized in `rem` with
+  unitless line-height ratios and `em` tracking, composed from utilities with no
+  theme token behind them.
+- `wrap` maps to the Tailwind `text-wrap` utilities (`normal`, `nowrap`,
+  `balance`, `pretty`) to control how a heading breaks across lines.
+- `render` swaps the element while keeping the styles, for cases like a `legend`
+  inside a `fieldset`.
+
+Rendered markdown and MDX already get their heading styles from the `typeset`
+layer, so this component is meant for application UI rather than prose.

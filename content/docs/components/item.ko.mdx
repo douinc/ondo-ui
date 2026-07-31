@@ -1,0 +1,716 @@
+---
+title: Item (아이템)
+description: 미디어, 제목, 설명 및 작업을 포함한 콘텐츠를 표시하기 위한 다목적 구성 요소입니다.
+---
+
+<ComponentPreview name="item-demo">
+
+```tsx
+import { IconCircleCheck, IconChevronRight } from "@tabler/icons-react"
+
+import { Button } from "@/components/ui/button"
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemMedia,
+  ItemTitle,
+} from "@/components/ui/item"
+
+export default function ItemDemo() {
+  return (
+    <div className="flex w-full max-w-md flex-col gap-6">
+      <Item variant="outline">
+        <ItemContent>
+          <ItemTitle>기본 항목</ItemTitle>
+          <ItemDescription>
+            제목과 설명이 있는 간단한 항목입니다.
+          </ItemDescription>
+        </ItemContent>
+        <ItemActions>
+          <Button variant="outline" size="sm">
+            작업
+          </Button>
+        </ItemActions>
+      </Item>
+      <Item variant="outline" size="sm" render={<a href="#" />}>
+        <ItemMedia>
+          <IconCircleCheck className="size-5" />
+        </ItemMedia>
+        <ItemContent>
+          <ItemTitle>프로필이 확인되었습니다.</ItemTitle>
+        </ItemContent>
+        <ItemActions>
+          <IconChevronRight className="size-4" />
+        </ItemActions>
+      </Item>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+`Item` 구성 요소는 거의 모든 유형의 콘텐츠를 포함할 수 있는 간단한 flex 컨테이너입니다. 제목, 설명 및 작업을 표시하는 데 사용하세요. `ItemGroup` 구성 요소와 함께 그룹화하여 항목 목록을 만드세요.
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/item
+```
+
+## 사용법
+
+```tsx showLineNumbers
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemMedia,
+  ItemTitle,
+} from "@/components/ui/item"
+```
+
+```tsx showLineNumbers
+<Item>
+  <ItemMedia variant="icon">
+    <Icon />
+  </ItemMedia>
+  <ItemContent>
+    <ItemTitle>Title</ItemTitle>
+    <ItemDescription>Description</ItemDescription>
+  </ItemContent>
+  <ItemActions>
+    <Button>Action</Button>
+  </ItemActions>
+</Item>
+```
+
+## Composition
+
+`Item`을 구성하려면 다음 구성을 사용하세요:
+
+```text
+ItemGroup
+└── Item
+    ├── ItemHeader
+    ├── ItemMedia
+    ├── ItemContent
+    │   ├── ItemTitle
+    │   └── ItemDescription
+    ├── ItemActions
+    └── ItemFooter
+```
+
+## 예시
+
+### Icon
+
+`variant="icon"`을 사용하는 `ItemMedia`로 아이콘을 표시합니다.
+
+<ComponentPreview name="item-icon">
+
+```tsx
+import { IconAlertCircle } from "@tabler/icons-react"
+
+import { Button } from "@/components/ui/button"
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemMedia,
+  ItemTitle,
+} from "@/components/ui/item"
+
+export default function ItemIcon() {
+  return (
+    <div className="flex w-full max-w-lg flex-col gap-6">
+      <Item variant="outline">
+        <ItemMedia variant="icon">
+          <IconAlertCircle />
+        </ItemMedia>
+        <ItemContent>
+          <ItemTitle>보안 알림</ItemTitle>
+          <ItemDescription>
+            알 수 없는 기기에서 새로운 로그인이 감지되었습니다.
+          </ItemDescription>
+        </ItemContent>
+        <ItemActions>
+          <Button size="sm" variant="outline">
+            확인
+          </Button>
+        </ItemActions>
+      </Item>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Avatar
+
+`variant="avatar"`를 사용하는 `ItemMedia`로 아바타를 표시할 수 있습니다.
+
+<ComponentPreview name="item-avatar">
+
+```tsx
+import { IconPlus } from "@tabler/icons-react"
+
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemMedia,
+  ItemTitle,
+} from "@/components/ui/item"
+
+export default function ItemAvatar() {
+  return (
+    <div className="flex w-full max-w-lg flex-col gap-6">
+      <Item variant="outline">
+        <ItemMedia>
+          <Avatar className="size-10">
+            <AvatarImage src="https://github.com/evilrabbit.png" />
+            <AvatarFallback>ER</AvatarFallback>
+          </Avatar>
+        </ItemMedia>
+        <ItemContent>
+          <ItemTitle>Evil Rabbit</ItemTitle>
+          <ItemDescription>5개월 전 마지막 접속</ItemDescription>
+        </ItemContent>
+        <ItemActions>
+          <Button
+            size="icon-sm"
+            variant="outline"
+            className="rounded-full"
+            aria-label="초대"
+          >
+            <IconPlus />
+          </Button>
+        </ItemActions>
+      </Item>
+      <Item variant="outline">
+        <ItemMedia>
+          <div className="flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background *:data-[slot=avatar]:grayscale">
+            <Avatar className="hidden sm:flex">
+              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+            <Avatar className="hidden sm:flex">
+              <AvatarImage
+                src="https://github.com/maxleiter.png"
+                alt="@maxleiter"
+              />
+              <AvatarFallback>LR</AvatarFallback>
+            </Avatar>
+            <Avatar>
+              <AvatarImage
+                src="https://github.com/evilrabbit.png"
+                alt="@evilrabbit"
+              />
+              <AvatarFallback>ER</AvatarFallback>
+            </Avatar>
+          </div>
+        </ItemMedia>
+        <ItemContent>
+          <ItemTitle>팀 멤버 없음</ItemTitle>
+          <ItemDescription>
+            팀을 초대하여 이 프로젝트에서 협업하세요.
+          </ItemDescription>
+        </ItemContent>
+        <ItemActions>
+          <Button size="sm" variant="outline">
+            초대
+          </Button>
+        </ItemActions>
+      </Item>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Image
+
+`variant="image"`를 사용하는 `ItemMedia`로 이미지를 표시합니다.
+
+<ComponentPreview name="item-image">
+
+```tsx
+import Image from "next/image"
+
+import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemGroup,
+  ItemMedia,
+  ItemTitle,
+} from "@/components/ui/item"
+
+const music = [
+  {
+    title: "Midnight City Lights",
+    artist: "Neon Dreams",
+    album: "Electric Nights",
+    duration: "3:45",
+  },
+  {
+    title: "Coffee Shop Conversations",
+    artist: "The Morning Brew",
+    album: "Urban Stories",
+    duration: "4:05",
+  },
+  {
+    title: "Digital Rain",
+    artist: "Cyber Symphony",
+    album: "Binary Beats",
+    duration: "3:30",
+  },
+]
+
+export default function ItemImage() {
+  return (
+    <div className="flex w-full max-w-md flex-col gap-6">
+      <ItemGroup className="gap-4">
+        {music.map((song) => (
+          <Item
+            key={song.title}
+            variant="outline"
+            render={<a href="#" />}
+            role="listitem"
+          >
+            <ItemMedia variant="image">
+              <Image
+                src={`https://avatar.vercel.sh/${song.title}`}
+                alt={song.title}
+                width={32}
+                height={32}
+                className="object-cover grayscale"
+              />
+            </ItemMedia>
+            <ItemContent>
+              <ItemTitle className="line-clamp-1">
+                {song.title} -{" "}
+                <span className="text-muted-foreground">{song.album}</span>
+              </ItemTitle>
+              <ItemDescription>{song.artist}</ItemDescription>
+            </ItemContent>
+            <ItemContent className="flex-none text-center">
+              <ItemDescription>{song.duration}</ItemDescription>
+            </ItemContent>
+          </Item>
+        ))}
+      </ItemGroup>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Group
+
+`ItemGroup`을 사용하여 관련 항목을 함께 그룹화합니다.
+
+<ComponentPreview name="item-group">
+
+```tsx
+import * as React from "react"
+import { IconPlus } from "@tabler/icons-react"
+
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemGroup as ItemGroupComponent,
+  ItemMedia,
+  ItemSeparator,
+  ItemTitle,
+} from "@/components/ui/item"
+
+const people = [
+  {
+    username: "shadcn",
+    avatar: "https://github.com/shadcn.png",
+    email: "shadcn@vercel.com",
+  },
+  {
+    username: "maxleiter",
+    avatar: "https://github.com/maxleiter.png",
+    email: "maxleiter@vercel.com",
+  },
+  {
+    username: "evilrabbit",
+    avatar: "https://github.com/evilrabbit.png",
+    email: "evilrabbit@vercel.com",
+  },
+]
+
+export default function ItemGroup() {
+  return (
+    <ItemGroupComponent className="max-w-sm">
+      {people.map((person, index) => (
+        <Item key={person.username} variant="outline">
+          <ItemMedia>
+            <Avatar>
+              <AvatarImage src={person.avatar} className="grayscale" />
+              <AvatarFallback>{person.username.charAt(0)}</AvatarFallback>
+            </Avatar>
+          </ItemMedia>
+          <ItemContent className="gap-1">
+            <ItemTitle>{person.username}</ItemTitle>
+            <ItemDescription>{person.email}</ItemDescription>
+          </ItemContent>
+          <ItemActions>
+            <Button variant="ghost" size="icon" className="rounded-full">
+              <IconPlus />
+            </Button>
+          </ItemActions>
+        </Item>
+      ))}
+    </ItemGroupComponent>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Header
+
+`ItemHeader`를 사용하여 항목 콘텐츠 위에 헤더를 추가합니다.
+
+<ComponentPreview name="item-header">
+
+```tsx
+import Image from "next/image"
+
+import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemGroup,
+  ItemHeader as ItemHeaderComponent,
+  ItemTitle,
+} from "@/components/ui/item"
+
+const models = [
+  {
+    name: "v0-1.5-sm",
+    description: "Everyday tasks and UI generation.",
+    image:
+      "https://images.unsplash.com/photo-1650804068570-7fb2e3dbf888?q=80&w=640&auto=format&fit=crop",
+    credit: "Valeria Reverdo on Unsplash",
+  },
+  {
+    name: "v0-1.5-lg",
+    description: "Advanced thinking or reasoning.",
+    image:
+      "https://images.unsplash.com/photo-1610280777472-54133d004c8c?q=80&w=640&auto=format&fit=crop",
+    credit: "Michael Oeser on Unsplash",
+  },
+  {
+    name: "v0-2.0-mini",
+    description: "Open Source model for everyone.",
+    image:
+      "https://images.unsplash.com/photo-1602146057681-08560aee8cde?q=80&w=640&auto=format&fit=crop",
+    credit: "Cherry Laithang on Unsplash",
+  },
+]
+
+export default function ItemHeader() {
+  return (
+    <div className="flex w-full max-w-xl flex-col gap-6">
+      <ItemGroup className="grid grid-cols-3 gap-4">
+        {models.map((model) => (
+          <Item key={model.name} variant="outline">
+            <ItemHeaderComponent>
+              <Image
+                src={model.image}
+                alt={model.name}
+                width={128}
+                height={128}
+                className="aspect-square w-full rounded-sm object-cover"
+              />
+            </ItemHeaderComponent>
+            <ItemContent>
+              <ItemTitle>{model.name}</ItemTitle>
+              <ItemDescription>{model.description}</ItemDescription>
+            </ItemContent>
+          </Item>
+        ))}
+      </ItemGroup>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Link
+
+`render` prop을 사용하여 항목을 링크로 렌더링합니다. 호버 및 포커스 상태가 앵커 요소에 적용됩니다.
+
+<ComponentPreview name="item-link">
+
+```tsx
+import { IconChevronRight, IconExternalLink } from "@tabler/icons-react"
+
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemTitle,
+} from "@/components/ui/item"
+
+export default function ItemLink() {
+  return (
+    <div className="flex w-full max-w-md flex-col gap-4">
+      <Item render={<a href="#" />}>
+        <ItemContent>
+          <ItemTitle>설명서 방문</ItemTitle>
+          <ItemDescription>
+            구성 요소를 시작하는 방법을 알아보세요.
+          </ItemDescription>
+        </ItemContent>
+        <ItemActions>
+          <IconChevronRight className="size-4" />
+        </ItemActions>
+      </Item>
+      <Item
+        variant="outline"
+        render={<a href="#" target="_blank" rel="noopener noreferrer" />}
+      >
+        <ItemContent>
+          <ItemTitle>외부 리소스</ItemTitle>
+          <ItemDescription>
+            보안 속성이 있는 새 탭에서 열립니다.
+          </ItemDescription>
+        </ItemContent>
+        <ItemActions>
+          <IconExternalLink className="size-4" />
+        </ItemActions>
+      </Item>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Dropdown
+
+<ComponentPreview name="item-dropdown">
+
+```tsx
+"use client"
+
+import { IconChevronDown } from "@tabler/icons-react"
+
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemMedia,
+  ItemTitle,
+} from "@/components/ui/item"
+
+const people = [
+  {
+    username: "shadcn",
+    avatar: "https://github.com/shadcn.png",
+    email: "shadcn@vercel.com",
+  },
+  {
+    username: "maxleiter",
+    avatar: "https://github.com/maxleiter.png",
+    email: "maxleiter@vercel.com",
+  },
+  {
+    username: "evilrabbit",
+    avatar: "https://github.com/evilrabbit.png",
+    email: "evilrabbit@vercel.com",
+  },
+]
+
+export default function ItemDropdown() {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger render={<Button variant="outline" />}>
+        선택 <IconChevronDown />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-48" align="end">
+        <DropdownMenuGroup>
+          {people.map((person) => (
+            <DropdownMenuItem key={person.username}>
+              <Item size="xs" className="w-full p-2">
+                <ItemMedia>
+                  <Avatar className="size-[--spacing(6.5)]">
+                    <AvatarImage src={person.avatar} className="grayscale" />
+                    <AvatarFallback>{person.username.charAt(0)}</AvatarFallback>
+                  </Avatar>
+                </ItemMedia>
+                <ItemContent className="gap-0">
+                  <ItemTitle>{person.username}</ItemTitle>
+                  <ItemDescription className="leading-none">
+                    {person.email}
+                  </ItemDescription>
+                </ItemContent>
+              </Item>
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API 참고
+
+### Item
+
+미디어, 제목, 설명 및 작업이 있는 콘텐츠를 표시하기 위한 기본 구성 요소입니다.
+
+| Prop      | Type                                | Default     |
+| --------- | ----------------------------------- | ----------- |
+| `variant` | `"default" \| "outline" \| "muted"` | `"default"` |
+| `size`    | `"default" \| "sm" \| "xs"`         | `"default"` |
+| `render`  | `React.ReactElement`                |             |
+
+### ItemGroup
+
+관련 항목을 일관된 스타일로 함께 그룹화하는 컨테이너입니다.
+
+```tsx
+<ItemGroup>
+  <Item />
+  <Item />
+</ItemGroup>
+```
+
+### ItemSeparator
+
+그룹의 항목 사이의 구분선입니다.
+
+```tsx
+<ItemGroup>
+  <Item />
+  <ItemSeparator />
+  <Item />
+</ItemGroup>
+```
+
+### ItemMedia
+
+`ItemMedia`를 사용하여 아이콘, 이미지 또는 아바타와 같은 미디어 콘텐츠를 표시합니다.
+
+| Prop      | Type                             | Default     |
+| --------- | -------------------------------- | ----------- |
+| `variant` | `"default" \| "icon" \| "image"` | `"default"` |
+
+```tsx
+<ItemMedia variant="icon">
+  <Icon />
+</ItemMedia>
+```
+
+```tsx
+<ItemMedia variant="image">
+  <img src="..." alt="..." />
+</ItemMedia>
+```
+
+### ItemContent
+
+항목의 제목과 설명을 감쌉니다.
+
+```tsx
+<ItemContent>
+  <ItemTitle>제목</ItemTitle>
+  <ItemDescription>설명</ItemDescription>
+</ItemContent>
+```
+
+### ItemTitle
+
+항목의 제목을 표시합니다.
+
+```tsx
+<ItemTitle>항목 제목</ItemTitle>
+```
+
+### ItemDescription
+
+항목의 설명을 표시합니다.
+
+```tsx
+<ItemDescription>항목 설명</ItemDescription>
+```
+
+### ItemActions
+
+작업 버튼 또는 기타 상호 작용 요소의 컨테이너입니다.
+
+```tsx
+<ItemActions>
+  <Button>작업</Button>
+</ItemActions>
+```
+
+### ItemHeader
+
+항목 콘텐츠 위에 헤더를 표시합니다.
+
+```tsx
+<Item>
+  <ItemHeader>헤더</ItemHeader>
+  <ItemContent>...</ItemContent>
+</Item>
+```
+
+### ItemFooter
+
+항목 콘텐츠 아래에 푸터를 표시합니다.
+
+```tsx
+<Item>
+  <ItemContent>...</ItemContent>
+  <ItemFooter>푸터</ItemFooter>
+</Item>
+```

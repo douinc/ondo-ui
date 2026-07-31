@@ -1,0 +1,548 @@
+---
+title: Input
+description: A text input component for forms and user data entry with built-in styling and accessibility features.
+---
+
+<ComponentPreview name="input-demo">
+
+```tsx
+import {
+  Field,
+  FieldDescription,
+  FieldLabel,
+} from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+
+export default function InputDemo() {
+  return (
+    <Field>
+      <FieldLabel htmlFor="input-demo-api-key">API Key</FieldLabel>
+      <Input id="input-demo-api-key" type="password" placeholder="sk-..." />
+      <FieldDescription>
+        Your API key is encrypted and stored securely.
+      </FieldDescription>
+    </Field>
+  )
+}
+```
+
+</ComponentPreview>
+
+## Installation
+
+```bash
+bunx shadcn@latest add @ondo-ui/input
+```
+
+## Usage
+
+```tsx
+import { Input } from "@/components/ui/input"
+```
+
+```tsx
+<Input />
+```
+
+## Composition
+
+Use the following composition to build an `Input`:
+
+```text
+Input
+```
+
+## Examples
+
+### Basic
+
+A basic input with a placeholder.
+
+<ComponentPreview name="input-basic">
+
+```tsx
+import { Input } from "@/components/ui/input"
+
+export default function InputBasic() {
+  return <Input placeholder="Enter text" />
+}
+```
+
+</ComponentPreview>
+
+### Sizes
+
+`xs`, `sm`, `default`, `lg`, `xl`, and `2xl`.
+
+<ComponentPreview name="input-sizes">
+
+```tsx
+import { Input } from "@/components/ui/input"
+
+export default function InputSizes() {
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      <Input size="xs" placeholder="Extra small" className="w-40" />
+      <Input size="sm" placeholder="Small" className="w-40" />
+      <Input size="default" placeholder="Default" className="w-40" />
+      <Input size="lg" placeholder="Large" className="w-40" />
+      <Input size="xl" placeholder="Extra large" className="w-40" />
+      <Input size="2xl" placeholder="2X large" className="w-40" />
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+`InputGroup` does not support sizing. It is fixed at the `default` height and strips the `size` prop from the input it wraps, so an `xl` input cannot be placed inside one.
+
+### Field
+
+Use `Field`, `FieldLabel`, and `FieldDescription` to create an input with a label and description.
+
+<ComponentPreview name="input-field">
+
+```tsx
+import {
+  Field,
+  FieldDescription,
+  FieldLabel,
+} from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+
+export default function InputField() {
+  return (
+    <Field>
+      <FieldLabel htmlFor="input-field-username">Username</FieldLabel>
+      <Input
+        id="input-field-username"
+        type="text"
+        placeholder="Enter your username"
+      />
+      <FieldDescription>
+        Choose a unique username for your account.
+      </FieldDescription>
+    </Field>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Field Group
+
+Use `FieldGroup` to show multiple `Field` blocks and to build forms.
+
+<ComponentPreview name="input-field-group">
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+
+export default function InputFieldGroup() {
+  return (
+    <FieldGroup>
+      <Field>
+        <FieldLabel htmlFor="fieldgroup-name">Name</FieldLabel>
+        <Input id="fieldgroup-name" placeholder="Jordan Lee" />
+      </Field>
+      <Field>
+        <FieldLabel htmlFor="fieldgroup-email">Email</FieldLabel>
+        <Input
+          id="fieldgroup-email"
+          type="email"
+          placeholder="name@example.com"
+        />
+        <FieldDescription>
+          We&apos;ll send updates to this address.
+        </FieldDescription>
+      </Field>
+      <Field orientation="horizontal">
+        <Button type="reset" variant="outline">
+          Reset
+        </Button>
+        <Button type="submit">Submit</Button>
+      </Field>
+    </FieldGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Disabled
+
+Use the `disabled` prop to disable the input. To style the disabled state, add the `data-disabled` attribute to the `Field` component.
+
+<ComponentPreview name="input-disabled">
+
+```tsx
+import {
+  Field,
+  FieldDescription,
+  FieldLabel,
+} from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+
+export default function InputDisabled() {
+  return (
+    <Field data-disabled>
+      <FieldLabel htmlFor="input-demo-disabled">Email</FieldLabel>
+      <Input
+        id="input-demo-disabled"
+        type="email"
+        placeholder="Email"
+        disabled
+      />
+      <FieldDescription>This field is currently disabled.</FieldDescription>
+    </Field>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Invalid
+
+Use the `aria-invalid` prop to mark the input as invalid. To style the invalid state, add the `data-invalid` attribute to the `Field` component.
+
+<ComponentPreview name="input-invalid">
+
+```tsx
+import {
+  Field,
+  FieldDescription,
+  FieldLabel,
+} from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+
+export default function InputInvalid() {
+  return (
+    <Field data-invalid>
+      <FieldLabel htmlFor="input-invalid">Invalid Input</FieldLabel>
+      <Input id="input-invalid" placeholder="Error" aria-invalid />
+      <FieldDescription>
+        This field contains validation errors.
+      </FieldDescription>
+    </Field>
+  )
+}
+```
+
+</ComponentPreview>
+
+### File
+
+Use the `type="file"` prop to create a file input.
+
+<ComponentPreview name="input-file">
+
+```tsx
+import {
+  Field,
+  FieldDescription,
+  FieldLabel,
+} from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+
+export default function InputFile() {
+  return (
+    <Field>
+      <FieldLabel htmlFor="picture">Picture</FieldLabel>
+      <Input id="picture" type="file" />
+      <FieldDescription>Select a picture to upload.</FieldDescription>
+    </Field>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Inline
+
+Use `Field` with `orientation="horizontal"` to create an inline input. Pair with `Button` to create a search input with a button.
+
+<ComponentPreview name="input-inline">
+
+```tsx
+import { Button } from "@/components/ui/button"
+import { Field } from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+
+export default function InputInline() {
+  return (
+    <Field orientation="horizontal">
+      <Input type="search" placeholder="Search..." />
+      <Button>Search</Button>
+    </Field>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Grid
+
+Use a grid layout to place multiple inputs side by side.
+
+<ComponentPreview name="input-grid">
+
+```tsx
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+
+export default function InputGrid() {
+  return (
+    <FieldGroup className="grid max-w-sm grid-cols-2">
+      <Field>
+        <FieldLabel htmlFor="first-name">First Name</FieldLabel>
+        <Input id="first-name" placeholder="Jordan" />
+      </Field>
+      <Field>
+        <FieldLabel htmlFor="last-name">Last Name</FieldLabel>
+        <Input id="last-name" placeholder="Lee" />
+      </Field>
+    </FieldGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Required
+
+Use the `required` attribute to indicate required inputs.
+
+<ComponentPreview name="input-required">
+
+```tsx
+import {
+  Field,
+  FieldDescription,
+  FieldLabel,
+} from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+
+export default function InputRequired() {
+  return (
+    <Field>
+      <FieldLabel htmlFor="input-required">
+        Required Field <span className="text-destructive">*</span>
+      </FieldLabel>
+      <Input
+        id="input-required"
+        placeholder="This field is required"
+        required
+      />
+      <FieldDescription>This field must be filled out.</FieldDescription>
+    </Field>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Badge
+
+Use `Badge` in the label to highlight a recommended field.
+
+<ComponentPreview name="input-badge">
+
+```tsx
+import { Badge } from "@/components/ui/badge"
+import { Field, FieldLabel } from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+
+export default function InputBadge() {
+  return (
+    <Field>
+      <FieldLabel htmlFor="input-badge">
+        Webhook URL{" "}
+        <Badge variant="secondary" className="ml-auto">
+          Beta
+        </Badge>
+      </FieldLabel>
+      <Input
+        id="input-badge"
+        type="url"
+        placeholder="https://api.example.com/webhook"
+      />
+    </Field>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Input Group
+
+To add icons, text, or buttons inside an input, use the `InputGroup` component. See the [Input Group](/docs/components/input-group) component for more examples.
+
+<ComponentPreview name="input-input-group">
+
+```tsx
+import { IconInfoCircle } from "@tabler/icons-react"
+
+import { Field, FieldLabel } from "@/components/ui/field"
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+  InputGroupText,
+} from "@/components/ui/input-group"
+
+export default function InputInputGroup() {
+  return (
+    <Field>
+      <FieldLabel htmlFor="input-group-url">Website URL</FieldLabel>
+      <InputGroup>
+        <InputGroupInput id="input-group-url" placeholder="example.com" />
+        <InputGroupAddon>
+          <InputGroupText>https://</InputGroupText>
+        </InputGroupAddon>
+        <InputGroupAddon align="inline-end">
+          <IconInfoCircle />
+        </InputGroupAddon>
+      </InputGroup>
+    </Field>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Button Group
+
+To add buttons to an input, use the `ButtonGroup` component. See the [Button Group](/docs/components/button-group) component for more examples.
+
+<ComponentPreview name="input-button-group">
+
+```tsx
+import { Button } from "@/components/ui/button"
+import { ButtonGroup } from "@/components/ui/button-group"
+import { Field, FieldLabel } from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+
+export default function InputButtonGroup() {
+  return (
+    <Field>
+      <FieldLabel htmlFor="input-button-group">Search</FieldLabel>
+      <ButtonGroup>
+        <Input id="input-button-group" placeholder="Type to search..." />
+        <Button variant="outline">Search</Button>
+      </ButtonGroup>
+    </Field>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Form
+
+A full form example with multiple inputs, a select, and a button.
+
+<ComponentPreview name="input-form">
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
+export default function InputForm() {
+  const countries = [
+    { label: "United States", value: "us" },
+    { label: "United Kingdom", value: "uk" },
+    { label: "Canada", value: "ca" },
+  ]
+  return (
+    <form className="w-full max-w-sm">
+      <FieldGroup>
+        <Field>
+          <FieldLabel htmlFor="form-name">Name</FieldLabel>
+          <Input
+            id="form-name"
+            type="text"
+            placeholder="Evil Rabbit"
+            required
+          />
+        </Field>
+        <Field>
+          <FieldLabel htmlFor="form-email">Email</FieldLabel>
+          <Input id="form-email" type="email" placeholder="john@example.com" />
+          <FieldDescription>
+            We&apos;ll never share your email with anyone.
+          </FieldDescription>
+        </Field>
+        <div className="grid grid-cols-2 gap-4">
+          <Field>
+            <FieldLabel htmlFor="form-phone">Phone</FieldLabel>
+            <Input id="form-phone" type="tel" placeholder="+1 (555) 123-4567" />
+          </Field>
+          <Field>
+            <FieldLabel htmlFor="form-country">Country</FieldLabel>
+            <Select items={countries} defaultValue="us">
+              <SelectTrigger id="form-country">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {countries.map((country) => (
+                    <SelectItem key={country.value} value={country.value}>
+                      {country.label}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </Field>
+        </div>
+        <Field>
+          <FieldLabel htmlFor="form-address">Address</FieldLabel>
+          <Input id="form-address" type="text" placeholder="123 Main St" />
+        </Field>
+        <Field orientation="horizontal">
+          <Button type="button" variant="outline">
+            Cancel
+          </Button>
+          <Button type="submit">Submit</Button>
+        </Field>
+      </FieldGroup>
+    </form>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API reference
+
+The component is a styled wrapper around the standard HTML `<input>` element and accepts all of its attributes. Common props include:
+
+- `type` - The input type (text, email, password, number, etc.)
+- `size` - `"default" | "xs" | "sm" | "lg" | "xl" | "2xl"`, default `"default"`. Controls the input's height, padding, text size, and corner radius. `xl` and `2xl` keep their text size at every breakpoint; the smaller sizes drop to `text-sm` on desktop
+- `placeholder` - Placeholder text shown when the input is empty
+- `disabled` - Disables the input
+- `required` - Marks the input as required
+- `aria-invalid` - Marks the input as invalid for accessibility
+- `id` - Unique identifier for the input

@@ -1,0 +1,432 @@
+---
+title: Breadcrumb (브레드크럼)
+description: 계층 구조의 링크를 사용하여 현재 리소스의 경로를 표시합니다.
+---
+
+<ComponentPreview name="breadcrumb-demo">
+
+```tsx
+import Link from "next/link"
+
+import {
+  Breadcrumb,
+  BreadcrumbEllipsis,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
+export default function BreadcrumbDemo() {
+  return (
+    <Breadcrumb>
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink render={<a href="#" />}>Home</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              render={<Button size="icon-sm" variant="ghost" />}
+            >
+              <BreadcrumbEllipsis />
+              <span className="sr-only">Toggle menu</span>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              <DropdownMenuGroup>
+                <DropdownMenuItem>Documentation</DropdownMenuItem>
+                <DropdownMenuItem>Themes</DropdownMenuItem>
+                <DropdownMenuItem>GitHub</DropdownMenuItem>
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbLink render={<a href="#" />}>Components</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+  )
+}
+```
+
+</ComponentPreview>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/breadcrumb
+```
+
+## 사용법
+
+```tsx showLineNumbers
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+```
+
+```tsx showLineNumbers
+<Breadcrumb>
+  <BreadcrumbList>
+    <BreadcrumbItem>
+      <BreadcrumbLink render={<a href="/" />}>Home</BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbLink render={<a href="/components" />}>
+        Components
+      </BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+    </BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>
+```
+
+## Composition
+
+`Breadcrumb`를 빌드하려면 다음 조합을 사용하세요:
+
+```text
+Breadcrumb
+└── BreadcrumbList
+    ├── BreadcrumbItem
+    │   └── BreadcrumbLink
+    ├── BreadcrumbSeparator
+    ├── BreadcrumbItem
+    │   └── BreadcrumbLink
+    ├── BreadcrumbSeparator
+    └── BreadcrumbItem
+        └── BreadcrumbPage
+```
+
+## 예시
+
+### Basic
+
+홈 링크와 컴포넌트 링크가 있는 기본 breadcrumb입니다.
+
+<ComponentPreview name="breadcrumb-basic">
+
+```tsx
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+
+export default function BreadcrumbBasic() {
+  return (
+    <Breadcrumb>
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink href="#">Home</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbLink href="#">Components</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Custom separator
+
+`<BreadcrumbSeparator />`의 `children`으로 커스텀 컴포넌트를 사용하여 커스텀 구분기호를 만듭니다.
+
+<ComponentPreview name="breadcrumb-custom-separator">
+
+```tsx
+import Link from "next/link"
+import { IconDots } from "@tabler/icons-react"
+
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+
+export default function BreadcrumbCustomSeparator() {
+  return (
+    <Breadcrumb>
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink render={<Link href="/" />}>Home</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator>
+          <IconDots />
+        </BreadcrumbSeparator>
+        <BreadcrumbItem>
+          <BreadcrumbLink render={<Link href="/components" />}>
+            Components
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator>
+          <IconDots />
+        </BreadcrumbSeparator>
+        <BreadcrumbItem>
+          <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Dropdown
+
+`<BreadcrumbItem />`와 `<DropdownMenu />`를 조합하여 breadcrumb에 드롭다운을 만들 수 있습니다.
+
+<ComponentPreview name="breadcrumb-dropdown">
+
+```tsx
+import Link from "next/link"
+import { IconChevronDown, IconDots } from "@tabler/icons-react"
+
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
+export default function BreadcrumbDropdown() {
+  return (
+    <Breadcrumb>
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink render={<Link href="/" />}>Home</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator>
+          <IconDots />
+        </BreadcrumbSeparator>
+        <BreadcrumbItem>
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              render={<button className="flex items-center gap-1" />}
+            >
+              Components
+              <IconChevronDown data-icon="inline-end" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              <DropdownMenuGroup>
+                <DropdownMenuItem>Documentation</DropdownMenuItem>
+                <DropdownMenuItem>Themes</DropdownMenuItem>
+                <DropdownMenuItem>GitHub</DropdownMenuItem>
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator>
+          <IconDots />
+        </BreadcrumbSeparator>
+        <BreadcrumbItem>
+          <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Collapsed
+
+breadcrumb이 너무 길 때 축소된 상태를 표시하기 위해 `<BreadcrumbEllipsis />` 컴포넌트를 제공합니다.
+
+<ComponentPreview name="breadcrumb-collapsed">
+
+```tsx
+import Link from "next/link"
+
+import {
+  Breadcrumb,
+  BreadcrumbEllipsis,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+
+export default function BreadcrumbCollapsed() {
+  return (
+    <Breadcrumb>
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink render={<Link href="/" />}>Home</BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbEllipsis />
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbLink render={<Link href="/components" />}>
+            Components
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Link component
+
+라우팅 라이브러리의 커스텀 링크 컴포넌트를 사용하려면 `<BreadcrumbLink />`에서 `render` prop을 사용할 수 있습니다.
+
+<ComponentPreview name="breadcrumb-link-component">
+
+```tsx
+import Link from "next/link"
+
+import {
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+
+export default function BreadcrumbLinkComponent() {
+  return (
+    <Breadcrumb>
+      <BreadcrumbList>
+        <BreadcrumbItem>
+          <BreadcrumbLink render={<Link href="#link-component" />}>
+            Home
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbLink render={<Link href="#link-component" />}>
+            Components
+          </BreadcrumbLink>
+        </BreadcrumbItem>
+        <BreadcrumbSeparator />
+        <BreadcrumbItem>
+          <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+        </BreadcrumbItem>
+      </BreadcrumbList>
+    </Breadcrumb>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API 참고
+
+### Breadcrumb
+
+`Breadcrumb` 컴포넌트는 모든 breadcrumb 컴포넌트를 래핑하는 루트 네비게이션 요소입니다.
+
+| Prop        | Type     | Default |
+| ----------- | -------- | ------- |
+| `className` | `string` | -       |
+
+### BreadcrumbList
+
+`BreadcrumbList` 컴포넌트는 breadcrumb 항목의 정렬된 목록을 표시합니다.
+
+| Prop        | Type     | Default |
+| ----------- | -------- | ------- |
+| `className` | `string` | -       |
+
+### BreadcrumbItem
+
+`BreadcrumbItem` 컴포넌트는 개별 breadcrumb 항목을 래핑합니다.
+
+| Prop        | Type     | Default |
+| ----------- | -------- | ------- |
+| `className` | `string` | -       |
+
+### BreadcrumbLink
+
+`BreadcrumbLink` 컴포넌트는 breadcrumb에서 클릭 가능한 링크를 표시합니다.
+
+| Prop        | Type     | Default |
+| ----------- | -------- | ------- |
+| `className` | `string` | -       |
+
+### BreadcrumbPage
+
+`BreadcrumbPage` 컴포넌트는 breadcrumb에서 현재 페이지를 표시합니다(클릭할 수 없음).
+
+| Prop        | Type     | Default |
+| ----------- | -------- | ------- |
+| `className` | `string` | -       |
+
+### BreadcrumbSeparator
+
+`BreadcrumbSeparator` 컴포넌트는 breadcrumb 항목 사이의 구분기호를 표시합니다. 기본 구분기호를 재정의하기 위해 커스텀 자식을 전달할 수 있습니다.
+
+| Prop        | Type              | Default |
+| ----------- | ----------------- | ------- |
+| `children`  | `React.ReactNode` | -       |
+| `className` | `string`          | -       |
+
+### BreadcrumbEllipsis
+
+`BreadcrumbEllipsis` 컴포넌트는 축소된 breadcrumb 항목에 대한 줄임표 표시기를 표시합니다.
+
+| Prop        | Type     | Default |
+| ----------- | -------- | ------- |
+| `className` | `string` | -       |

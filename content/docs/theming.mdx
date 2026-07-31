@@ -1,0 +1,37 @@
+---
+title: Theming
+description: Fonts, oklch color tokens, and dark mode.
+---
+
+The `@ondo-ui/theme` registry item configures typography and color tokens, and `@ondo-ui/theme-provider` wires up dark mode.
+
+## Typography
+
+The theme installs two font families from Fontsource:
+
+- **Pretendard** — `--font-sans` and `--font-heading`, with full Korean glyph coverage.
+- **Monaspace Neon** — `--font-mono` for code.
+
+## Color tokens
+
+All colors are defined as CSS variables in the [oklch](https://developer.mozilla.org/en-US/docs/Web/CSS/color_value/oklch) color space, following the shadcn token convention (`--background`, `--foreground`, `--primary`, and so on). Light values live on `:root`, dark values on `.dark`. Browse them on the [Colors](/colors) page.
+
+## Dark mode
+
+`ThemeProvider` wraps [next-themes](https://github.com/pacocoursey/next-themes) with class-based switching:
+
+```tsx title="app/layout.tsx"
+import { ThemeProvider } from "@/components/theme-provider"
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <body>
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
+    </html>
+  )
+}
+```
+
+It also registers a keyboard shortcut: press <kbd>d</kbd> anywhere to toggle between light and dark mode.

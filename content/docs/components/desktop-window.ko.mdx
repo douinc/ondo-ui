@@ -1,0 +1,258 @@
+---
+title: Desktop Window (데스크톱 창)
+description: 콘텐츠를 macOS·Windows 11·Ubuntu 데스크톱 창으로 감쌉니다.
+---
+
+<ComponentPreview name="desktop-window-demo">
+
+```tsx
+import {
+  DesktopWindow,
+  DesktopWindowContent,
+  DesktopWindowControls,
+  DesktopWindowTitle,
+  DesktopWindowTitlebar,
+} from "@/components/ui/desktop-window"
+
+export default function DesktopWindowDemo() {
+  return (
+    <DesktopWindow os="macos">
+      <DesktopWindowTitlebar>
+        <DesktopWindowControls />
+        <DesktopWindowTitle>릴리스 노트</DesktopWindowTitle>
+      </DesktopWindowTitlebar>
+      <DesktopWindowContent className="space-y-2 p-6">
+        <p className="text-sm font-medium">버전 0.5.0</p>
+        <p className="text-sm text-muted-foreground">
+          스크린샷, 코드 예제, 실제 컴포넌트를 데스크톱 창으로 감쌉니다. 이 프레임은
+          장식이며 드래그나 리사이즈를 하지 않습니다.
+        </p>
+      </DesktopWindowContent>
+    </DesktopWindow>
+  )
+}
+```
+
+</ComponentPreview>
+
+`DesktopWindow`은 콘텐츠가 데스크톱 애플리케이션 창 안에서 실행되는 것처럼 보이게 합니다. 크롬만 제공하며 드래그·리사이즈·최소화·최대화·포커스 추적은 하지 않습니다. 스크린샷, 마케팅 히어로, 제품 목업, 문서 삽화에 사용하십시오.
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/desktop-window
+```
+
+## 사용법
+
+```tsx showLineNumbers
+import {
+  DesktopWindow,
+  DesktopWindowContent,
+  DesktopWindowControls,
+  DesktopWindowTitle,
+  DesktopWindowTitlebar,
+} from "@/components/ui/desktop-window"
+```
+
+```tsx showLineNumbers
+<DesktopWindow os="macos">
+  <DesktopWindowTitlebar>
+    <DesktopWindowControls />
+    <DesktopWindowTitle>Finder</DesktopWindowTitle>
+  </DesktopWindowTitlebar>
+  <DesktopWindowContent>내 콘텐츠</DesktopWindowContent>
+</DesktopWindow>
+```
+
+## 플랫폼 전환
+
+`os`는 `"macos"`(기본값)·`"windows"`·`"ubuntu"`를 받습니다. **DOM이 아니라 CSS를 뒤집습니다** — 어느 플랫폼이든 `DesktopWindowControls`를 `DesktopWindowTitle`보다 먼저 쓰면 레이아웃이 알아서 재배치됩니다.
+
+아래 데모는 배열 하나를 마크업 하나에 map으로 돌립니다. 세 창 사이에서 달라지는 것은 `os` 값뿐입니다:
+
+<ComponentPreview name="desktop-window-platforms">
+
+```tsx
+import {
+  DesktopWindow,
+  DesktopWindowContent,
+  DesktopWindowControls,
+  DesktopWindowTitle,
+  DesktopWindowTitlebar,
+  type DesktopWindowOs,
+} from "@/components/ui/desktop-window"
+
+const PLATFORMS: DesktopWindowOs[] = ["macos", "windows", "ubuntu"]
+
+export default function DesktopWindowPlatforms() {
+  return (
+    <div className="flex flex-col gap-6">
+      {PLATFORMS.map((os) => (
+        <DesktopWindow key={os} os={os}>
+          <DesktopWindowTitlebar>
+            <DesktopWindowControls />
+            <DesktopWindowTitle>릴리스 노트</DesktopWindowTitle>
+          </DesktopWindowTitlebar>
+          <DesktopWindowContent className="p-6">
+            <p className="font-mono text-sm text-muted-foreground">
+              os=&quot;{os}&quot;
+            </p>
+          </DesktopWindowContent>
+        </DesktopWindow>
+      ))}
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+각 값이 주는 것:
+
+| | 컨트롤 | 제목 | 타이틀바 |
+| --- | --- | --- | --- |
+| `macos` | 12px 원 3개, 좌측 | 중앙, 13px semibold | 28px, 하단 헤어라인 |
+| `windows` | 46×32 버튼 3개, 우측 상단 밀착 | 좌측, 12px | 32px, 구분선 없음 |
+| `ubuntu` | 24px 회색 원 3개, 우측 | 중앙, 14px bold | 48px, 하단 헤어라인 |
+
+버그로 오해하기 쉬운 차이도 있습니다. macOS는 타이틀바에 커서를 올려야 `✕ − ⤢` 글리프가 나타나지만, Windows 11과 Ubuntu는 `— □ ✕`를 항상 보여줍니다. 각 운영체제의 실제 동작입니다. Ubuntu의 닫기 버튼은 옆 버튼들과 똑같은 회색 원입니다 — 빨간 닫기 버튼은 Windows의 특징이지 보편적인 것이 아닙니다.
+
+`"ubuntu"`는 Ubuntu가 기본으로 탑재하는 Yaru/GNOME 헤더바를 렌더링합니다. KDE Plasma, Xfce, elementary 등 다른 리눅스 데스크톱은 창을 다르게 그리며 이 값이 다루지 않습니다.
+
+## 색상과 테마
+
+크롬은 의도적으로 테마를 따르지 않습니다. 타이틀바 배경, 신호등 색, 모서리 반경, Windows 닫기 버튼의 빨강은 실제 플랫폼 값으로 고정되어 있어서, 어떤 프로젝트에 설치해도 그 운영체제의 창으로 읽힙니다.
+
+테마를 따르는 것은 `DesktopWindowContent` 하나뿐이며 `bg-background`를 씁니다. 본문을 다른 표면 색에 맞추고 싶다면 덮어쓰십시오:
+
+```tsx showLineNumbers
+<DesktopWindowContent className="bg-muted p-6">내 콘텐츠</DesktopWindowContent>
+```
+
+## 상호작용 컨트롤
+
+컨트롤은 기본적으로 장식입니다. 각각 `aria-hidden` span으로 렌더링되므로 목업이 탭 순회에 아무 동작 없는 정거장을 세 개 추가하지 않습니다. 핸들러를 넘기면 그 컨트롤만 `aria-label`과 포커스 링을 갖춘 실제 `<button>`이 됩니다.
+
+<ComponentPreview name="desktop-window-interactive">
+
+```tsx
+"use client"
+
+import * as React from "react"
+
+import {
+  DesktopWindow,
+  DesktopWindowContent,
+  DesktopWindowControls,
+  DesktopWindowTitle,
+  DesktopWindowTitlebar,
+} from "@/components/ui/desktop-window"
+
+export default function DesktopWindowInteractive() {
+  const [action, setAction] = React.useState<string | null>(null)
+
+  return (
+    <DesktopWindow os="macos">
+      <DesktopWindowTitlebar>
+        <DesktopWindowControls
+          onClose={() => setAction("close")}
+          onMinimize={() => setAction("minimize")}
+          onMaximize={() => setAction("zoom")}
+        />
+        <DesktopWindowTitle>인스펙터</DesktopWindowTitle>
+      </DesktopWindowTitlebar>
+      <DesktopWindowContent className="p-6">
+        <p className="text-sm text-muted-foreground">
+          {action
+            ? `${action} 컨트롤을 눌렀습니다.`
+            : "컨트롤을 누르거나 창으로 탭 이동해 보십시오."}
+        </p>
+      </DesktopWindowContent>
+    </DesktopWindow>
+  )
+}
+```
+
+</ComponentPreview>
+
+## 툴바·아이콘·사이드바
+
+`DesktopWindowToolbar`나 `DesktopWindowSidebar`는 없습니다. 코어 해부 구조를 벗어난 것은 전부 자식으로 넣습니다. macOS에서는 제목이 타이틀바 전체에 절대 위치로 놓이므로, 오른쪽 액션이 클릭 가능하려면 `z-10`이 필요합니다.
+
+<ComponentPreview name="desktop-window-titlebar-children">
+
+```tsx
+import { IconFolder, IconLayoutSidebar } from "@tabler/icons-react"
+
+import { Button } from "@/components/ui/button"
+import {
+  DesktopWindow,
+  DesktopWindowContent,
+  DesktopWindowControls,
+  DesktopWindowTitle,
+  DesktopWindowTitlebar,
+} from "@/components/ui/desktop-window"
+
+export default function DesktopWindowTitlebarChildren() {
+  return (
+    <DesktopWindow os="macos">
+      <DesktopWindowTitlebar>
+        <DesktopWindowControls />
+        <DesktopWindowTitle className="flex items-center justify-center gap-1.5">
+          <IconFolder className="size-3.5" />
+          문서
+        </DesktopWindowTitle>
+        <Button
+          variant="ghost"
+          size="icon"
+          className="z-10 ms-auto size-6"
+          aria-label="사이드바 토글"
+        >
+          <IconLayoutSidebar className="size-4" />
+        </Button>
+      </DesktopWindowTitlebar>
+      <DesktopWindowContent className="p-6">
+        <p className="text-sm text-muted-foreground">
+          툴바, 앱 아이콘, 사이드바는 별도 파트가 아닙니다. 타이틀바에 자식으로
+          넣으십시오.
+        </p>
+      </DesktopWindowContent>
+    </DesktopWindow>
+  )
+}
+```
+
+</ComponentPreview>
+
+## 크기
+
+`DesktopWindow`은 고유 너비가 없습니다. 컨테이너를 채우므로 크기는 바깥에서 `className`으로 지정하십시오:
+
+```tsx showLineNumbers
+<DesktopWindow className="h-96 w-full max-w-3xl">내 콘텐츠</DesktopWindow>
+```
+
+## API 참고
+
+### DesktopWindow
+
+| Prop | 타입 | 기본값 | 설명 |
+| --- | --- | --- | --- |
+| `os` | `"macos" \| "windows" \| "ubuntu"` | `"macos"` | 어느 플랫폼의 크롬을 렌더링할지. 컨텍스트로 모든 자식에게 전달됩니다. |
+
+`div`의 모든 prop도 받습니다.
+
+### DesktopWindowControls
+
+| Prop | 타입 | 기본값 | 설명 |
+| --- | --- | --- | --- |
+| `onClose` | `() => void` | — | 닫기 컨트롤을 레이블이 붙은 버튼으로 승격합니다. |
+| `onMinimize` | `() => void` | — | 최소화 컨트롤을 레이블이 붙은 버튼으로 승격합니다. |
+| `onMaximize` | `() => void` | — | 확대(macOS) 또는 최대화(Windows·Ubuntu) 컨트롤을 승격합니다. |
+
+`div`의 모든 prop도 받습니다.
+
+### DesktopWindowTitlebar, DesktopWindowTitle, DesktopWindowContent
+
+`div`의 모든 prop을 받습니다. `DesktopWindowTitle`은 heading이 아니라 표현용 텍스트입니다 — 프레임은 장식이므로 사용자의 문서 개요에 제목 레벨을 끼워넣지 않습니다.

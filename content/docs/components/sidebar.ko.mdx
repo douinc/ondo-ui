@@ -1,0 +1,526 @@
+---
+title: Sidebar (사이드바)
+description: 조합 가능하고 테마를 적용할 수 있는 사이드바 컴포넌트입니다.
+---
+
+<ComponentPreview name="sidebar-demo">
+
+```tsx
+"use client"
+
+import * as React from "react"
+import { IconChevronRight, IconSelector } from "@tabler/icons-react"
+
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarInset,
+  SidebarProvider,
+  SidebarRail,
+  SidebarTrigger,
+} from "@/components/ui/sidebar"
+
+export default function AppSidebar({
+  ...props
+}: React.ComponentProps<typeof Sidebar>) {
+  return (
+    <div className="relative h-[30rem] w-full overflow-hidden rounded-lg border [transform:translateZ(0)]">
+      <SidebarProvider className="min-h-full">
+        <Sidebar collapsible="icon" {...props}>
+          <SidebarHeader>
+            <TeamSwitcher teams={data.teams} />
+          </SidebarHeader>
+          <SidebarContent>
+            <NavMain items={data.navMain} />
+            <NavProjects projects={data.projects} />
+          </SidebarContent>
+          <SidebarFooter>
+            <NavUser user={data.user} />
+          </SidebarFooter>
+          <SidebarRail />
+        </Sidebar>
+        <SidebarInset>
+          <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+            <div className="flex items-center gap-2 px-4">
+              <SidebarTrigger className="-ml-1" />
+            </div>
+          </header>
+        </SidebarInset>
+      </SidebarProvider>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+사이드바는 만들기 가장 까다로운 컴포넌트 중 하나입니다. 어떤 애플리케이션에서든 중심에 있고, 움직이는 부분이 많습니다.
+
+이제 그 위에 쌓아 올릴 탄탄한 토대가 생겼습니다. 조합 가능하고, 테마를 입힐 수 있으며, 자유롭게 커스터마이즈할 수 있습니다.
+
+<Callout>
+  `Sidebar`는 `fixed`로 뷰포트에 고정됩니다. 위 미리보기는 문서 페이지 안에 머무르도록
+  `transform`이 적용된 컨테이너로 감쌌습니다. 실제 앱에서는 레이아웃 루트에
+  렌더링하세요.
+</Callout>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/sidebar
+```
+
+## 사용법
+
+```tsx showLineNumbers title="app/layout.tsx"
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import { AppSidebar } from "@/components/app-sidebar"
+
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return (
+    <SidebarProvider>
+      <AppSidebar />
+      <main>
+        <SidebarTrigger />
+        {children}
+      </main>
+    </SidebarProvider>
+  )
+}
+```
+
+```tsx showLineNumbers title="components/app-sidebar.tsx"
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarHeader,
+} from "@/components/ui/sidebar"
+
+export function AppSidebar() {
+  return (
+    <Sidebar>
+      <SidebarHeader />
+      <SidebarContent>
+        <SidebarGroup />
+        <SidebarGroup />
+      </SidebarContent>
+      <SidebarFooter />
+    </Sidebar>
+  )
+}
+```
+
+## Composition
+
+`Sidebar` 레이아웃은 다음과 같이 구성합니다:
+
+```text
+SidebarProvider
+├── Sidebar
+│   ├── SidebarHeader
+│   ├── SidebarContent
+│   │   ├── SidebarGroup
+│   │   │   ├── SidebarGroupLabel
+│   │   │   ├── SidebarGroupAction
+│   │   │   ├── SidebarGroupContent
+│   │   │   └── SidebarMenu
+│   │   │       ├── SidebarMenuItem
+│   │   │       │   ├── SidebarMenuButton
+│   │   │       │   ├── SidebarMenuAction
+│   │   │       │   └── SidebarMenuBadge
+│   │   │       └── SidebarMenuItem
+│   │   │           ├── SidebarMenuButton
+│   │   │           └── SidebarMenuSub
+│   │   │               ├── SidebarMenuSubItem
+│   │   │               └── SidebarMenuSubItem
+│   │   └── SidebarGroup
+│   │       └── SidebarMenu
+│   │           ├── SidebarMenuItem
+│   │           └── SidebarMenuItem
+│   ├── SidebarFooter
+│   └── SidebarRail
+├── SidebarInset
+└── SidebarTrigger
+```
+
+## 구조
+
+- **SidebarProvider** — 접힘 상태를 관리하고 하위 컴포넌트에 사이드바 컨텍스트를 제공합니다.
+- **Sidebar** — 접히는 메인 사이드바 패널입니다.
+- **SidebarHeader** — 상단에 고정됩니다. 브랜딩, 제목, 워크스페이스 전환기에 사용하세요.
+- **SidebarFooter** — 하단에 고정됩니다. 사용자 메뉴, 설정, 액션에 사용하세요.
+- **SidebarContent** — 헤더와 푸터 사이의 스크롤 가능한 영역입니다.
+- **SidebarGroup** — 관련된 내비게이션을 묶으며 라벨, 액션, 콘텐츠 영역을 선택적으로 가집니다.
+- **SidebarMenu** / **SidebarMenuItem** — 링크, 배지, 액션, 중첩 하위 메뉴를 위한 메뉴 구조입니다.
+- **SidebarRail** — 필요할 때 사이드바 너비를 조절하는 핸들입니다.
+- **SidebarInset** — `inset` 변형을 사용할 때 메인 콘텐츠를 감쌉니다.
+- **SidebarTrigger** — 사이드바를 펼치고 접는 컨트롤입니다.
+
+## SidebarProvider
+
+`SidebarProvider`는 `Sidebar` 컴포넌트에 사이드바 컨텍스트를 제공합니다. 애플리케이션은 항상 `SidebarProvider`로 감싸야 합니다.
+
+### 프롭
+
+| 이름           | 타입                      | 설명                                          |
+| -------------- | ------------------------- | -------------------------------------------- |
+| `defaultOpen`  | `boolean`                 | 사이드바의 기본 열림 상태입니다.               |
+| `open`         | `boolean`                 | 사이드바의 열림 상태입니다(제어형).            |
+| `onOpenChange` | `(open: boolean) => void` | 사이드바의 열림 상태를 설정합니다(제어형).      |
+
+### 너비
+
+애플리케이션에 사이드바가 하나뿐이라면 `sidebar.tsx`의 `SIDEBAR_WIDTH`와 `SIDEBAR_WIDTH_MOBILE` 변수로 너비를 지정할 수 있습니다.
+
+```tsx showLineNumbers title="components/ui/sidebar.tsx"
+const SIDEBAR_WIDTH = "16rem"
+const SIDEBAR_WIDTH_MOBILE = "18rem"
+```
+
+사이드바가 여러 개라면 `style` 프롭에서 `--sidebar-width`와 `--sidebar-width-icon` CSS 변수를 사용하세요.
+
+```tsx showLineNumbers
+<SidebarProvider
+  style={
+    {
+      "--sidebar-width": "20rem",
+      "--sidebar-width-icon": "4rem",
+    } as React.CSSProperties
+  }
+>
+  <Sidebar />
+</SidebarProvider>
+```
+
+### 키보드 단축키
+
+사이드바는 macOS에서 `cmd+b`, Windows에서 `ctrl+b` 단축키로 토글합니다.
+
+```tsx showLineNumbers title="components/ui/sidebar.tsx"
+const SIDEBAR_KEYBOARD_SHORTCUT = "b"
+```
+
+## Sidebar
+
+접히는 사이드바를 렌더링하는 메인 `Sidebar` 컴포넌트입니다.
+
+### 프롭
+
+| 속성          | 타입                              | 설명                              |
+| ------------- | --------------------------------- | --------------------------------- |
+| `side`        | `left` 또는 `right`               | 사이드바가 붙는 방향입니다.        |
+| `variant`     | `sidebar`, `floating`, `inset`    | 사이드바의 변형입니다.             |
+| `collapsible` | `offcanvas`, `icon`, `none`       | 사이드바의 접힘 방식입니다.        |
+
+| 프롭        | 설명                                                          |
+| ----------- | ------------------------------------------------------------ |
+| `offcanvas` | 좌우에서 밀려 들어오는 접이식 사이드바입니다.                  |
+| `icon`      | 아이콘만 남기고 접히는 사이드바입니다.                         |
+| `none`      | 접히지 않는 사이드바입니다.                                    |
+
+<Callout>
+  **참고:** `inset` 변형을 사용한다면 메인 콘텐츠를 `SidebarInset` 컴포넌트로
+  감싸는 것을 잊지 마세요.
+</Callout>
+
+```tsx showLineNumbers
+<SidebarProvider>
+  <Sidebar variant="inset" />
+  <SidebarInset>
+    <main>{children}</main>
+  </SidebarInset>
+</SidebarProvider>
+```
+
+## useSidebar
+
+`useSidebar` 훅으로 사이드바를 제어합니다.
+
+```tsx showLineNumbers
+import { useSidebar } from "@/components/ui/sidebar"
+
+export function AppSidebar() {
+  const {
+    state,
+    open,
+    setOpen,
+    openMobile,
+    setOpenMobile,
+    isMobile,
+    toggleSidebar,
+  } = useSidebar()
+}
+```
+
+| 속성            | 타입                      | 설명                                          |
+| --------------- | ------------------------- | --------------------------------------------- |
+| `state`         | `expanded` 또는 `collapsed` | 사이드바의 현재 상태입니다.                  |
+| `open`          | `boolean`                 | 사이드바가 열려 있는지 여부입니다.             |
+| `setOpen`       | `(open: boolean) => void` | 사이드바의 열림 상태를 설정합니다.             |
+| `openMobile`    | `boolean`                 | 모바일에서 사이드바가 열려 있는지 여부입니다.   |
+| `setOpenMobile` | `(open: boolean) => void` | 모바일에서의 열림 상태를 설정합니다.           |
+| `isMobile`      | `boolean`                 | 모바일 환경인지 여부입니다.                    |
+| `toggleSidebar` | `() => void`              | 데스크톱과 모바일 모두에서 사이드바를 토글합니다. |
+
+## SidebarHeader
+
+`SidebarHeader`로 사이드바 상단에 고정 헤더를 추가합니다.
+
+```tsx showLineNumbers title="components/app-sidebar.tsx"
+<Sidebar>
+  <SidebarHeader>
+    <SidebarMenu>
+      <SidebarMenuItem>
+        <DropdownMenu>
+          <DropdownMenuTrigger render={<SidebarMenuButton />}>
+            워크스페이스 선택
+            <IconChevronDown className="ml-auto" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-(--anchor-width)">
+            <DropdownMenuItem>
+              <span>Acme Inc</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </SidebarMenuItem>
+    </SidebarMenu>
+  </SidebarHeader>
+</Sidebar>
+```
+
+## SidebarFooter
+
+`SidebarFooter`로 사이드바 하단에 고정 푸터를 추가합니다.
+
+```tsx showLineNumbers
+<Sidebar>
+  <SidebarFooter>
+    <SidebarMenu>
+      <SidebarMenuItem>
+        <SidebarMenuButton>
+          <IconUser /> 사용자 이름
+        </SidebarMenuButton>
+      </SidebarMenuItem>
+    </SidebarMenu>
+  </SidebarFooter>
+</Sidebar>
+```
+
+## SidebarContent
+
+`SidebarContent`는 사이드바의 콘텐츠를 감쌉니다. `SidebarGroup` 컴포넌트를 이곳에 추가하며, 스크롤됩니다.
+
+```tsx showLineNumbers
+<Sidebar>
+  <SidebarContent>
+    <SidebarGroup />
+    <SidebarGroup />
+  </SidebarContent>
+</Sidebar>
+```
+
+## SidebarGroup
+
+`SidebarGroup`으로 사이드바 안에 섹션을 만듭니다.
+
+`SidebarGroup`은 `SidebarGroupLabel`, `SidebarGroupContent`, 그리고 선택적인 `SidebarGroupAction`으로 구성됩니다.
+
+```tsx showLineNumbers
+<SidebarGroup>
+  <SidebarGroupLabel>애플리케이션</SidebarGroupLabel>
+  <SidebarGroupAction>
+    <IconPlus /> <span className="sr-only">프로젝트 추가</span>
+  </SidebarGroupAction>
+  <SidebarGroupContent></SidebarGroupContent>
+</SidebarGroup>
+```
+
+`SidebarGroup`을 접히게 하려면 `Collapsible`로 감싸세요.
+
+```tsx showLineNumbers
+<Collapsible defaultOpen className="group/collapsible">
+  <SidebarGroup>
+    <SidebarGroupLabel render={<CollapsibleTrigger />}>
+      도움말
+      <IconChevronDown className="ml-auto transition-transform group-data-open/collapsible:rotate-180" />
+    </SidebarGroupLabel>
+    <CollapsibleContent>
+      <SidebarGroupContent />
+    </CollapsibleContent>
+  </SidebarGroup>
+</Collapsible>
+```
+
+## SidebarMenu
+
+`SidebarMenu`는 `SidebarGroup` 안에 메뉴를 만들 때 사용합니다.
+
+```tsx showLineNumbers
+<SidebarMenu>
+  {projects.map((project) => (
+    <SidebarMenuItem key={project.name}>
+      <SidebarMenuButton render={<a href={project.url} />}>
+        <project.icon />
+        <span>{project.name}</span>
+      </SidebarMenuButton>
+    </SidebarMenuItem>
+  ))}
+</SidebarMenu>
+```
+
+## SidebarMenuButton
+
+`SidebarMenuButton`은 `SidebarMenuItem` 안에 메뉴 버튼을 렌더링합니다.
+
+`SidebarMenuButton`은 기본적으로 버튼을 렌더링하지만, `render` 프롭으로 `Link`나 `a` 태그 같은 다른 컴포넌트를 렌더링할 수 있습니다.
+
+`isActive` 프롭으로 활성 메뉴 항목을 표시합니다.
+
+```tsx showLineNumbers
+<SidebarMenuButton isActive render={<a href="#" />}>
+  홈
+</SidebarMenuButton>
+```
+
+## SidebarMenuAction
+
+`SidebarMenuAction`은 `SidebarMenuItem` 안에 메뉴 액션을 렌더링합니다.
+
+```tsx showLineNumbers
+<SidebarMenuItem>
+  <SidebarMenuButton render={<a href="#" />}>
+    <IconHome />
+    <span>홈</span>
+  </SidebarMenuButton>
+  <SidebarMenuAction>
+    <IconPlus /> <span className="sr-only">프로젝트 추가</span>
+  </SidebarMenuAction>
+</SidebarMenuItem>
+```
+
+## SidebarMenuSub
+
+`SidebarMenuSub`은 `SidebarMenu` 안에 하위 메뉴를 렌더링합니다.
+
+```tsx showLineNumbers
+<SidebarMenuItem>
+  <SidebarMenuButton />
+  <SidebarMenuSub>
+    <SidebarMenuSubItem>
+      <SidebarMenuSubButton />
+    </SidebarMenuSubItem>
+  </SidebarMenuSub>
+</SidebarMenuItem>
+```
+
+## SidebarMenuBadge
+
+`SidebarMenuBadge`는 `SidebarMenuItem` 안에 배지를 렌더링합니다.
+
+```tsx showLineNumbers
+<SidebarMenuItem>
+  <SidebarMenuButton />
+  <SidebarMenuBadge>24</SidebarMenuBadge>
+</SidebarMenuItem>
+```
+
+## SidebarMenuSkeleton
+
+`SidebarMenuSkeleton`은 `SidebarMenu`의 스켈레톤을 렌더링합니다.
+
+```tsx showLineNumbers
+<SidebarMenu>
+  {Array.from({ length: 5 }).map((_, index) => (
+    <SidebarMenuItem key={index}>
+      <SidebarMenuSkeleton />
+    </SidebarMenuItem>
+  ))}
+</SidebarMenu>
+```
+
+## SidebarTrigger
+
+`SidebarTrigger`로 사이드바를 토글하는 버튼을 렌더링합니다.
+
+```tsx showLineNumbers
+import { useSidebar } from "@/components/ui/sidebar"
+
+export function CustomTrigger() {
+  const { toggleSidebar } = useSidebar()
+
+  return <button onClick={toggleSidebar}>사이드바 토글</button>
+}
+```
+
+## SidebarRail
+
+`SidebarRail`은 `Sidebar` 안에 레일을 렌더링합니다. 이 레일로 사이드바를 토글할 수 있습니다.
+
+```tsx showLineNumbers
+<Sidebar>
+  <SidebarHeader />
+  <SidebarContent>
+    <SidebarGroup />
+  </SidebarContent>
+  <SidebarFooter />
+  <SidebarRail />
+</Sidebar>
+```
+
+## 제어되는 사이드바
+
+`open`과 `onOpenChange` 프롭으로 사이드바를 제어합니다.
+
+```tsx showLineNumbers
+export function AppSidebar() {
+  const [open, setOpen] = React.useState(false)
+
+  return (
+    <SidebarProvider open={open} onOpenChange={setOpen}>
+      <Sidebar />
+    </SidebarProvider>
+  )
+}
+```
+
+## 테마
+
+사이드바 테마에는 다음 CSS 변수를 사용합니다.
+
+```css
+@layer base {
+  :root {
+    --sidebar: oklch(98.5% 0 0);
+    --sidebar-foreground: oklch(0.141 0.005 285.823);
+    --sidebar-primary: oklch(62.3% 0.214 259.815);
+    --sidebar-primary-foreground: oklch(1 0 0);
+    --sidebar-accent: oklch(96.7% 0.001 286.375);
+    --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
+    --sidebar-border: oklch(92% 0.004 286.32);
+    --sidebar-ring: oklch(62.3% 0.214 259.815);
+  }
+}
+```
+
+## 스타일링
+
+상태에 따라 사이드바를 스타일링하는 몇 가지 팁입니다.
+
+```tsx
+<Sidebar collapsible="icon">
+  <SidebarContent>
+    <SidebarGroup className="group-data-[collapsible=icon]:hidden" />
+  </SidebarContent>
+</Sidebar>
+```
+
+```tsx
+<SidebarMenuItem>
+  <SidebarMenuButton />
+  <SidebarMenuAction className="peer-data-active/menu-button:opacity-100" />
+</SidebarMenuItem>
+```

@@ -1,0 +1,213 @@
+---
+title: Meter Ring (미터 링)
+description: 점수, 사용률, 잔량처럼 범위가 정해진 값을 원형 눈금으로 보여줍니다.
+---
+
+<ComponentPreview name="meter-ring-demo">
+
+```tsx
+import { MeterRing } from "@/components/ui/meter-ring"
+
+export default function MeterRingDemo() {
+  return <MeterRing value={72} />
+}
+```
+
+</ComponentPreview>
+
+<Callout>
+  이 영역은 네 컴포넌트가 나눠 맡습니다. `MeterRing`과
+  [`Meter`](/docs/components/meter)는 점수, 사용률, 잔량처럼 그 자체로 하나의
+  상태인 값을, [`Progress`](/docs/components/progress)와
+  [`ProgressRing`](/docs/components/progress-ring)은 끝을 향해 올라가는 작업을
+  보여줍니다. 링이냐 막대냐는 그다음에 고르세요.
+</Callout>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/meter-ring
+```
+
+## 사용법
+
+```tsx
+import { MeterRing, MeterRingLabel } from "@/components/ui/meter-ring"
+```
+
+```tsx
+<MeterRing value={72} min={0} max={100} size="sm | default | lg" variant="default">
+  <MeterRingLabel>상태</MeterRingLabel>
+</MeterRing>
+```
+
+`MeterRing`은 Base UI의 `Meter` 위에 만들어져 있어, 올바른 `aria-valuenow`와
+`aria-valuetext`를 가진 미터로 읽힙니다. 눈금판은 항상 렌더링되고, children으로
+넘긴 내용은 그 아래에 놓입니다 — `MeterRingLabel`이 들어갈 자리입니다.
+
+가운데 숫자의 서식은 `format`으로 정합니다. 숫자 서식으로는 표현할 수 없는
+내용이 필요하다면 `formatValue`로 가운데 내용을 통째로 바꿉니다.
+
+호는 원뿔형 그라디언트를 링 모양으로 마스킹한 것이라 요소 두 개면 충분하고 SVG가
+없습니다. 색은 `currentColor`를 따르므로 `variant`(또는 `className`의 텍스트 색상
+유틸리티)으로 바꿀 수 있습니다.
+
+값이 바뀌면 호가 뚝 끊기지 않고 이어집니다. 컴포넌트가 비율을 `@property`로
+등록하기 때문인데, 그래야 그라디언트 안의 숫자가 보간됩니다. 이 등록은 컴포넌트
+파일 안에 들어 있고 React가 `<head>`로 한 번만 올려 주므로 — 링이 몇 개든
+한 번입니다 — CSS에 따로 추가할 것이 없습니다.
+
+## 예시
+
+### 크기
+
+<ComponentPreview name="meter-ring-sizes">
+
+```tsx
+import { MeterRing } from "@/components/ui/meter-ring"
+
+export default function MeterRingSizes() {
+  return (
+    <div className="flex flex-wrap items-end gap-8">
+      <MeterRing size="sm" value={38} />
+      <MeterRing value={62} />
+      <MeterRing size="lg" value={86} />
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Variants
+
+`variant`는 테마의 시맨틱 색상에서 호의 색을 고릅니다. 어떤 값이 어느 구간인지는
+제품마다 다르므로, 호출하는 쪽에서 값에 맞춰 variant를 정하세요.
+
+<ComponentPreview name="meter-ring-variants">
+
+```tsx
+import { MeterRing, MeterRingLabel } from "@/components/ui/meter-ring"
+
+export default function MeterRingVariants() {
+  return (
+    <div className="flex flex-wrap items-start gap-8">
+      <MeterRing variant="destructive" value={18}>
+        <MeterRingLabel>위험</MeterRingLabel>
+      </MeterRing>
+      <MeterRing variant="info" value={34}>
+        <MeterRingLabel>정상</MeterRingLabel>
+      </MeterRing>
+      <MeterRing variant="warning" value={46}>
+        <MeterRingLabel>주의</MeterRingLabel>
+      </MeterRing>
+      <MeterRing variant="success" value={91}>
+        <MeterRingLabel>양호</MeterRingLabel>
+      </MeterRing>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 값 서식
+
+`format`은 `Intl.NumberFormat` 옵션을 받아 가운데 표시되는 문구와 스크린 리더가
+읽는 값을 함께 결정합니다.
+
+<ComponentPreview name="meter-ring-format">
+
+```tsx
+import { MeterRing, MeterRingLabel } from "@/components/ui/meter-ring"
+
+export default function MeterRingFormat() {
+  return (
+    <div className="flex flex-wrap items-start gap-8">
+      <MeterRing value={0.68} max={1} format={{ style: "percent" }}>
+        <MeterRingLabel>커버리지</MeterRingLabel>
+      </MeterRing>
+      <MeterRing
+        value={412}
+        max={500}
+        format={{ maximumFractionDigits: 0 }}
+        variant="info"
+      >
+        <MeterRingLabel>500석 중 412석</MeterRingLabel>
+      </MeterRing>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 숫자가 아닌 가운데 값
+
+`formatValue`는 가운데 표시되는 내용을 대신합니다. 아직 값이 없을 때 —
+"측정 전"을 `0.00`으로 보여주는 링은 사실이 아닌 것을 말하는 셈입니다 —
+또는 값이 등급이나 아이콘으로 읽히는 편이 나을 때 사용하세요. 스크린 리더에
+전달되는 값은 그대로이므로 미터는 여전히 사실을 보고합니다.
+
+함수 prop이므로, 이를 넘기는 컴포넌트는 클라이언트 컴포넌트여야 합니다.
+
+<ComponentPreview name="meter-ring-custom-value">
+
+```tsx
+import { MeterRing, MeterRingLabel } from "@/components/ui/meter-ring"
+
+export default function MeterRingCustomValue() {
+  return (
+    <div className="flex flex-wrap items-start gap-8">
+      <MeterRing
+        value={0}
+        max={1}
+        className="text-muted-foreground"
+        formatValue={() => "—"}
+      >
+        <MeterRingLabel>측정 전</MeterRingLabel>
+      </MeterRing>
+      <MeterRing
+        value={0.92}
+        max={1}
+        variant="success"
+        formatValue={(_, value) => (value >= 0.9 ? "A" : value >= 0.7 ? "B" : "C")}
+      >
+        <MeterRingLabel>등급</MeterRingLabel>
+      </MeterRing>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API 참고
+
+### MeterRing
+
+| Prop | 타입 | 기본값 |
+| --- | --- | --- |
+| `value` | `number` | – |
+| `min` | `number` | `0` |
+| `max` | `number` | `100` |
+| `size` | `"sm" \| "default" \| "lg"` | `"default"` |
+| `variant` | `"default" \| "info" \| "success" \| "warning" \| "destructive"` | `"default"` |
+| `format` | `Intl.NumberFormatOptions` | – |
+| `formatValue` | `(formatted: string, value: number) => ReactNode` | – |
+| `locale` | `Intl.LocalesArgument` | 런타임 로캘 |
+| `getAriaValueText` | `(formatted: string, value: number) => string` | – |
+
+이 외에 Base UI [`Meter.Root`](https://base-ui.com/react/components/meter)의
+속성을 그대로 받습니다.
+
+### MeterRingDial, MeterRingTrack, MeterRingIndicator
+
+눈금판과 그 구성 요소입니다. `MeterRing`이 알아서 조합하므로, 링의 스타일을 바꾸거나
+가운데에 값이 아닌 다른 것을 넣을 때만 직접 사용하세요.
+
+### MeterRingValue, MeterRingLabel
+
+Base UI의 `Meter.Value`와 `Meter.Label`에 ondo 스타일을 입힌 것입니다.
+`format`만으로 부족하다면 `MeterRingValue`에 렌더 함수
+(`(formatted, value) => ReactNode`)를 넘길 수 있습니다.

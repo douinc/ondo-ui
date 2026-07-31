@@ -1,0 +1,24 @@
+---
+title: Live Waveform
+description: A canvas-based real-time audio waveform visualizer with microphone input, static and scrolling modes, and a processing state.
+version: 0.4.0
+---
+
+**v0.4.0**
+
+[`LiveWaveform`](/docs/components/live-waveform) visualizes audio in real time on
+a canvas, for voice and multimodal UIs:
+
+- **Two modes.** `static` paints symmetric bars across the frequency bands;
+  `scrolling` shows historical average volume moving right to left like a
+  timeline.
+- **Processing state.** `processing` animates a wave while you wait for input —
+  and settles to a calm static frame under `prefers-reduced-motion`.
+- **Bring your own stream.** Pass a `stream` to visualize audio you already have
+  (a shared mic track, or an agent's response audio); otherwise it requests the
+  microphone itself and cleans the stream up on unmount.
+- The render loop parks itself when idle, callbacks are read from refs so inline
+  handlers don't re-acquire the microphone, and the bars default to the
+  `primary` color — `className`'s `text-*` or `barColor` override it.
+
+Adapted from ElevenLabs UI's `live-waveform` to Base UI-era ondo conventions.

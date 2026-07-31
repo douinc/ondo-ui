@@ -1,0 +1,693 @@
+---
+title: Bubble (버블)
+description: 메시지 버블 형태로 대화 콘텐츠를 표시합니다. 다양한 스타일, 정렬, 그룹화, 반응, 축소 가능 콘텐츠를 지원합니다.
+---
+
+<ComponentPreview name="bubble-demo">
+
+```tsx
+import {
+  Bubble,
+  BubbleContent,
+  BubbleGroup,
+  BubbleReactions,
+} from "@/components/ui/bubble"
+
+export default function BubbleDemo() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-8 py-12">
+      <Bubble align="end">
+        <BubbleContent>안녕! 뭐하고 있어?</BubbleContent>
+      </Bubble>
+      <BubbleGroup>
+        <Bubble variant="muted">
+          <BubbleContent>안녕! 채팅 버블을 보고 싶어?</BubbleContent>
+        </Bubble>
+        <Bubble variant="muted">
+          <BubbleContent>
+            메시지를 그룹화하고, 좌우로 정렬하고, 전체 스레드를 쉽게 읽을 수
+            있어.
+          </BubbleContent>
+          <BubbleReactions role="img" aria-label="Reaction: thumbs up">
+            <span>👍</span>
+          </BubbleReactions>
+        </Bubble>
+      </BubbleGroup>
+      <Bubble align="end">
+        <BubbleContent>좋지. 최고의 데모를 보여줘.</BubbleContent>
+      </Bubble>
+      <Bubble variant="muted">
+        <BubbleContent>
+          맞아. 자기 자신을 데모하는 데모를 보고 있어. 정말 메타야. 정말 우리
+          스타일이야.
+        </BubbleContent>
+        <BubbleReactions
+          role="img"
+          aria-label="Reactions: thumbs up, fire, eyes, and 2 more"
+        >
+          <span>👍</span>
+          <span>🔥</span>
+          <span>👀</span>
+          <span>+2</span>
+        </BubbleReactions>
+      </Bubble>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+`Bubble` 컴포넌트는 프레임 처리된 대화 콘텐츠를 표시합니다. 채팅 텍스트, 짧은 구조화된 출력, 인용된 답장, 제안 및 반응에 사용하세요.
+
+전체 기능의 채팅 인터페이스를 위해서는 [`Message`](/docs/components/message) 컴포넌트를 사용하세요. `Bubble`은 의도적으로 버블 표면으로 범위가 제한되어 있습니다. 아바타, 이름, 타임스탬프, 메타데이터 및 메시지 레벨의 작업은 [`Message`](/docs/components/message)에 배치하세요.
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/bubble
+```
+
+## 사용법
+
+```tsx showLineNumbers
+import { Bubble, BubbleContent, BubbleReactions } from "@/components/ui/bubble"
+```
+
+```tsx showLineNumbers
+<Bubble>
+  <BubbleContent>
+    I checked the registry output and removed the stale route.
+  </BubbleContent>
+  <BubbleReactions>
+    <span>👍</span>
+  </BubbleReactions>
+</Bubble>
+```
+
+## Composition
+
+버블을 구성하려면 다음 구조를 사용하세요:
+
+```text
+Bubble
+├── BubbleContent
+└── BubbleReactions
+```
+
+같은 발신자의 연속된 버블을 그룹화하려면 `BubbleGroup`을 사용하세요:
+
+```text
+BubbleGroup
+├── Bubble
+│   └── BubbleContent
+└── Bubble
+    └── BubbleContent
+```
+
+## Features
+
+- 강력한 주요 버블에서 프레임 없는 유령 콘텐츠까지 7가지 시각적 변형
+- 발신자 및 수신자 버블에 대한 시작 및 끝 정렬
+- 구성 가능한 측면 및 정렬로 버블 가장자리에 고정되는 반응
+- 버블은 콘텐츠에 맞춰지며, 컨테이너 너비의 최대 80%까지
+- 링크 및 버튼 버블을 위한 `render`를 통한 다형성 콘텐츠
+- 모든 부분의 `className` prop을 통한 사용자 정의 스타일링
+
+## 예시
+
+### Variants
+
+`variant`를 사용하여 버블의 시각적 처리를 변경하세요.
+
+<ComponentPreview name="bubble-variants">
+
+```tsx
+import { Markdown } from "@/components/markdown"
+import {
+  Bubble,
+  BubbleContent,
+  BubbleReactions,
+} from "@/components/ui/bubble"
+
+export default function BubbleVariants() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-12 py-12">
+      <Bubble>
+        <BubbleContent>이것은 기본 주요 버블입니다.</BubbleContent>
+      </Bubble>
+      <Bubble variant="secondary" align="end">
+        <BubbleContent>이것은 보조 변형입니다.</BubbleContent>
+      </Bubble>
+      <Bubble variant="muted">
+        <BubbleContent>
+          이것은 음소거된 것입니다. 채팅 버블에 낮은 강조 색상을 사용합니다.
+        </BubbleContent>
+        <BubbleReactions role="img" aria-label="Reaction: thumbs up">
+          <span>👍</span>
+        </BubbleReactions>
+      </Bubble>
+      <Bubble variant="tinted" align="end">
+        <BubbleContent>
+          이것은 색조가 지정된 것입니다. 색조는 주요 색상에서 파생된 더 부드러운
+          색상입니다.
+        </BubbleContent>
+      </Bubble>
+      <Bubble variant="outline">
+        <BubbleContent>테두리가 있는 변형도 사용할 수 있습니다.</BubbleContent>
+      </Bubble>
+      <Bubble variant="destructive" align="end">
+        <BubbleContent>또는 반응이 있는 파괴적인 변형입니다.</BubbleContent>
+        <BubbleReactions role="img" aria-label="Reaction: fire">
+          <span>🔥</span>
+        </BubbleReactions>
+      </Bubble>
+      <Bubble variant="ghost">
+        <BubbleContent>
+          <Markdown>{`유령 버블은 어시스턴트 텍스트, **마크다운** 및 프레임이 없어야 하는 기타 콘텐츠에 작동합니다.
+
+이는 프레임이 없어야 하고 컨테이너의 전체 너비를 차지할 수 있는 어시스턴트 메시지에 완벽합니다. 여기에서 \`코드\`를 렌더링할 수도 있습니다.
+
+유령 버블은 전체 너비이며 컨테이너의 전체 너비를 차지할 수 있습니다.
+`}</Markdown>
+        </BubbleContent>
+      </Bubble>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+| 변형       | 설명                                    |
+| ---------- | --------------------------------------- |
+| `default`  | 일반적으로 현재 사용자를 위한 강력한 주요 버블입니다. |
+| `secondary` | 대화 콘텐츠를 위한 표준 중립 버블입니다. |
+| `muted`    | 조용한 보조 콘텐츠를 위한 낮은 강조 버블입니다. |
+| `tinted`   | 미묘한 주요 색조 버블입니다.           |
+| `outline`  | 보조 또는 풍부한 콘텐츠를 위한 테두리 버블입니다. |
+| `ghost`    | 어시스턴트 텍스트 또는 풍부한 콘텐츠를 위한 프레임 없는 콘텐츠입니다. |
+| `destructive` | 오류 또는 실패한 작업을 위한 파괴적인 버블입니다. |
+
+버블은 콘텐츠에 맞춰지며, 컨테이너 너비의 최대 80%까지입니다. `ghost` 변형은 최대 너비를 제거하므로 어시스턴트 텍스트 및 풍부한 콘텐츠가 전체 행을 차지할 수 있습니다.
+
+### Alignment
+
+`Bubble`의 `align`을 사용하여 대화의 시작 또는 끝으로 버블을 정렬하세요.
+
+<ComponentPreview name="bubble-alignment">
+
+```tsx
+import { Bubble, BubbleContent } from "@/components/ui/bubble"
+
+export default function BubbleAlignment() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-8 py-12">
+      <Bubble variant="muted">
+        <BubbleContent>
+          이 버블은 시작 부분에 정렬되어 있습니다. 이것이 기본 정렬입니다.
+        </BubbleContent>
+      </Bubble>
+      <Bubble align="end">
+        <BubbleContent>
+          이 버블은 끝 부분에 정렬되어 있습니다. 사용자 메시지에 이를 사용하세요.
+        </BubbleContent>
+      </Bubble>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+| 정렬    | 설명                                      |
+| ------- | ----------------------------------------- |
+| `start` | 버블을 대화 시작 부분에 정렬합니다.    |
+| `end`   | 버블을 대화 끝 부분에 정렬합니다.      |
+
+**주의:** 채팅 인터페이스를 구축할 때 `Bubble` 컴포넌트가 아닌 `Message` 컴포넌트 자체에서 정렬을 사용하고 싶을 것입니다. `Message` 컴포넌트의 `role` prop을 사용하여 버블을 대화의 시작 또는 끝으로 자동으로 정렬할 수 있습니다.
+
+### Bubble Group
+
+`BubbleGroup`을 사용하여 같은 발신자의 연속된 버블을 그룹화하세요. `align` prop은 `BubbleGroup` 컴포넌트가 아닌 `Bubble` 컴포넌트 자체에 설정되어야 합니다.
+
+```text
+BubbleGroup
+├── Bubble
+│   └── BubbleContent
+└── Bubble
+    └── BubbleContent
+```
+
+<ComponentPreview name="bubble-bubble-group">
+
+```tsx
+import {
+  Bubble,
+  BubbleContent,
+  BubbleGroup,
+  BubbleReactions,
+} from "@/components/ui/bubble"
+
+export default function BubbleBubbleGroup() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-8 py-12">
+      <Bubble variant="muted">
+        <BubbleContent>뭐가 문제야?</BubbleContent>
+      </Bubble>
+      <BubbleGroup>
+        <Bubble align="end">
+          <BubbleContent>넌 말해봐!</BubbleContent>
+        </Bubble>
+        <Bubble align="end">
+          <BubbleContent>어제는 작동했는데. 넌 망가뜨렸어!</BubbleContent>
+        </Bubble>
+        <Bubble align="end">
+          <BubbleContent>버그를 찾고 고쳐.</BubbleContent>
+          <BubbleReactions aria-label="Reactions: eyes" align="start">
+            <span>👀</span>
+          </BubbleReactions>
+        </Bubble>
+      </BubbleGroup>
+      <Bubble variant="muted">
+        <BubbleContent>
+          어제의 너를 오늘의 너와 비교해 줄까? 좀 창피하지만.
+        </BubbleContent>
+      </Bubble>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Links and Buttons
+
+`BubbleContent`의 `render` prop을 사용하여 버블을 링크 또는 버튼으로 변환할 수 있습니다.
+
+<ComponentPreview name="bubble-links-and-buttons">
+
+```tsx
+"use client"
+
+import { toast } from "@/components/ui/toast"
+
+import {
+  Bubble,
+  BubbleContent,
+  BubbleGroup,
+} from "@/components/ui/bubble"
+
+export default function BubbleLinksAndButtons() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-8 py-12">
+      <Bubble variant="muted">
+        <BubbleContent>How can I help you today?</BubbleContent>
+      </Bubble>
+      <BubbleGroup>
+        <Bubble variant="tinted" align="end">
+          <BubbleContent
+            render={
+              <button onClick={() => toast.add({ title: "You clicked forgot password" })} />
+            }
+          >
+            I forgot my password
+          </BubbleContent>
+        </Bubble>
+        <Bubble variant="tinted" align="end">
+          <BubbleContent
+            render={
+              <button
+                onClick={() => toast.add({ title: "You clicked help with subscription" })}
+              />
+            }
+          >
+            I need help with my subscription
+          </BubbleContent>
+        </Bubble>
+        <Bubble variant="tinted" align="end">
+          <BubbleContent
+            render={
+              <button
+                onClick={() =>
+                  toast.add({ title: "You clicked something else. Talk to a human." })
+                }
+              />
+            }
+          >
+            Something else. Talk to a human.
+          </BubbleContent>
+        </Bubble>
+      </BubbleGroup>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Reactions
+
+버블 반응에 `BubbleReactions`를 사용하세요. 이를 사용하여 반응 또는 빠른 작업 버튼을 표시할 수 있습니다. `side`와 `align`을 사용하여 행을 위치시키세요. `side="top"`은 상단 가장자리에 고정됩니다. 반응은 버블 가장자리와 겹치므로 행 사이에 수직 공간을 남겨두세요. 아래 예시는 이 이유로 더 큰 `gap`을 사용합니다.
+
+<ComponentPreview name="bubble-reactions">
+
+```tsx
+"use client"
+
+import { toast } from "@/components/ui/toast"
+
+import {
+  Bubble,
+  BubbleContent,
+  BubbleReactions as BubbleReactionsComponent,
+} from "@/components/ui/bubble"
+import { Button } from "@/components/ui/button"
+
+export default function BubbleReactions() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-12 py-12">
+      <Bubble variant="muted" align="end">
+        <BubbleContent>
+          I don&apos;t need tests, I know my code works.
+        </BubbleContent>
+        <BubbleReactionsComponent
+          align="start"
+          role="img"
+          aria-label="Reactions: thumbs up, surprised"
+        >
+          <span>👍</span>
+          <span>😮</span>
+        </BubbleReactionsComponent>
+      </Bubble>
+      <Bubble variant="muted">
+        <BubbleContent>
+          Bold. Fine I&apos;ll add some tests. I&apos;ll let you know when
+          they&apos;re done.
+        </BubbleContent>
+        <BubbleReactionsComponent
+          role="img"
+          aria-label="Reactions: eyes, rocket, and 2 more"
+        >
+          <span>👀</span>
+          <span>🚀</span>
+          <span>+2</span>
+        </BubbleReactionsComponent>
+      </Bubble>
+      <Bubble variant="default" align="end">
+        <BubbleContent>
+          Tests passed on the first try. All 142 of them. Looking good!
+        </BubbleContent>
+        <BubbleReactionsComponent
+          side="top"
+          align="start"
+          role="img"
+          aria-label="Reactions: party popper, clapping hands"
+        >
+          <span>🎉</span>
+          <span>👏</span>
+        </BubbleReactionsComponent>
+      </Bubble>
+      <Bubble variant="destructive">
+        <BubbleContent>Are you sure I can run this command?</BubbleContent>
+        <BubbleReactionsComponent>
+          <Button
+            variant="ghost"
+            size="xs"
+            onClick={() => toast.add({
+                type: "success",
+                title: "You clicked yes, running command...",
+              })}
+          >
+            Yes, run it
+          </Button>
+        </BubbleReactionsComponent>
+      </Bubble>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Show More / Collapsible
+
+긴 버블 콘텐츠는 [`Collapsible`](/docs/components/collapsible)로 구성하여 더 보기 또는 닫기 상호작용을 허용할 수 있습니다. `CollapsibleTrigger` 컴포넌트를 사용하여 축소 가능한 콘텐츠를 트리거하세요.
+
+<ComponentPreview name="bubble-show-more-collapsible">
+
+```tsx
+"use client"
+
+import * as React from "react"
+import { IconChevronDown } from "@tabler/icons-react"
+
+import { Bubble, BubbleContent } from "@/components/ui/bubble"
+import { Button } from "@/components/ui/button"
+import {
+  Collapsible,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible"
+
+const text = `접근성 검토는 다크 모드에서 시각적으로 너무 미묘한 두 개의 포커스 상태를 발견했습니다.
+
+각각 레이어된 표면 내에 포커스 가능한 컨트롤을 렌더링하기 때문에 대화, 메뉴 및 드로어 경로를 확인했습니다.
+
+대화 및 드로어는 괜찮습니다. 메뉴는 호버 및 포커스 토큰을 분할해야 키보드 포커스가 포인터와 관련 없을 때 표시된 상태로 유지됩니다.
+
+또한 다른 테마가 나중에 자신의 포커스 처리를 선택할 수 있도록 변경 사항을 기본 파일이 아닌 스타일 파일에 유지하는 것을 권장합니다.`
+
+const previewLength = 180
+
+export default function BubbleShowMoreCollapsible() {
+  const [open, setOpen] = React.useState(false)
+  const isLong = text.length > previewLength
+  const preview = `${text.slice(0, previewLength)}...`
+
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-8 py-12">
+      <Bubble variant="muted">
+        <BubbleContent>뭘 도와줄까?</BubbleContent>
+      </Bubble>
+
+      <Bubble variant="muted" align="end">
+        <BubbleContent className="whitespace-pre-line">
+          <Collapsible open={open} onOpenChange={setOpen}>
+            <div>{open || !isLong ? text : preview}</div>
+            {isLong ? (
+              <CollapsibleTrigger
+                render={
+                  <Button
+                    variant="link"
+                    className="gap-1 p-0 text-muted-foreground"
+                  />
+                }
+              >
+                {open ? "접기" : "더 보기"}
+                <IconChevronDown
+                  data-icon="inline-end"
+                  className="group-data-panel-open/button:rotate-180"
+                />
+              </CollapsibleTrigger>
+            ) : null}
+          </Collapsible>
+        </BubbleContent>
+      </Bubble>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Tooltip
+
+버블을 [`Tooltip`](/docs/components/tooltip)으로 감싸 메시지를 언제 읽었는지 등의 메타데이터를 호버 시 표시하세요.
+
+<ComponentPreview name="bubble-tooltip">
+
+```tsx
+import { IconCheck } from "@tabler/icons-react"
+
+import {
+  Bubble,
+  BubbleContent,
+  BubbleReactions,
+} from "@/components/ui/bubble"
+import { Button } from "@/components/ui/button"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+
+export default function BubbleTooltip() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-4 py-12">
+      <Bubble variant="secondary">
+        <BubbleContent>오래된 경로를 제거했어?</BubbleContent>
+      </Bubble>
+      <Bubble align="end">
+        <BubbleContent>응, 레지스트리에서 제거했어.</BubbleContent>
+        <BubbleReactions>
+          <Tooltip>
+            <TooltipTrigger render={<Button variant="ghost" size="icon-xs" />}>
+              <IconCheck />
+            </TooltipTrigger>
+            <TooltipContent>1월 5일, 2026년 오후 4:32에 읽음</TooltipContent>
+          </Tooltip>
+        </BubbleReactions>
+      </Bubble>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Popover
+
+버블과 [`Popover`](/docs/components/popover)를 짝지어 실패한 작업에 대한 전체 오류 메시지 같은 정보를 필요에 따라 표시하세요.
+
+<ComponentPreview name="bubble-popover">
+
+```tsx
+import { IconInfoCircle } from "@tabler/icons-react"
+
+import {
+  Bubble,
+  BubbleContent,
+  BubbleReactions,
+} from "@/components/ui/bubble"
+import { Button } from "@/components/ui/button"
+import {
+  Popover,
+  PopoverContent,
+  PopoverDescription,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+
+export default function BubblePopover() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-4 py-12">
+      <Bubble align="end">
+        <BubbleContent>빌드 스크립트를 실행해.</BubbleContent>
+      </Bubble>
+      <Bubble variant="destructive">
+        <BubbleContent>명령어 실행에 실패했어.</BubbleContent>
+        <BubbleReactions>
+          <Popover>
+            <PopoverTrigger
+              render={
+                <Button
+                  variant="ghost"
+                  size="icon-xs"
+                  aria-label="오류 세부사항 표시"
+                  className="aria-expanded:text-destructive"
+                />
+              }
+            >
+              <IconInfoCircle />
+            </PopoverTrigger>
+            <PopoverContent>
+              <PopoverHeader>
+                <PopoverTitle className="text-sm">
+                  명령어가 종료 코드 1로 실패했습니다
+                </PopoverTitle>
+                <PopoverDescription className="text-sm">
+                  ENOENT: 그런 파일이나 디렉토리가 없습니다. pnpm-lock.yaml 열기
+                </PopoverDescription>
+              </PopoverHeader>
+            </PopoverContent>
+          </Popover>
+        </BubbleReactions>
+      </Bubble>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## Accessibility
+
+`Bubble`은 표시 메시지 표면을 렌더링합니다. 주변 컨테이너에 대화 레벨 의미론을 유지하고 아래 지침을 따르세요.
+
+### Labeling Reactions
+
+반응은 이모지 행으로 렌더링됩니다. 스크린 리더는 맥락 없이 각 문자를 읽으며, `+8` 같은 카운터는 "8 더하기"로 읽힙니다. 행을 한 번에 읽을 수 있도록 설명적인 `aria-label`이 있는 단일 이미지로 그룹화하세요. `role="img"`은 또한 어시스턴스 기술에서 개별 이모지를 숨기므로 `aria-hidden`이 필요하지 않습니다.
+
+```tsx showLineNumbers
+<BubbleReactions role="img" aria-label="Reactions: thumbs up, fire, and 8 more">
+  <span>👍</span>
+  <span>🔥</span>
+  <span>+8</span>
+</BubbleReactions>
+```
+
+반응이 상호 작용할 때는 대신 버튼을 렌더링하고 아이콘 전용 버튼에 `aria-label`을 지정하세요.
+
+```tsx showLineNumbers
+<BubbleReactions>
+  <Button aria-label="Thumbs up" variant="secondary" size="icon-xs">
+    <ThumbsUpIcon />
+  </Button>
+</BubbleReactions>
+```
+
+### Interactive Bubbles
+
+버블이 클릭 가능할 때, `render` prop으로 실제 `<button>` 또는 `<a>`로 렌더링하여 포커스 가능하고 올바른 역할을 표시합니다. `BubbleContent`는 대화식 요소에 대한 표시된 포커스 링을 제공하며, 접근 가능한 이름은 버블 텍스트에서 옵니다. 추가 라벨은 필요하지 않습니다.
+
+```tsx showLineNumbers
+<Bubble variant="muted" align="end">
+  <BubbleContent render={<button type="button" onClick={onReply} />}>
+    비밀번호를 까먹었어
+  </BubbleContent>
+</Bubble>
+```
+
+### Meaning Beyond Color
+
+버블 변형은 색상으로 역할과 톤을 신호합니다. 색상만으로 의미가 전달되지 않도록 텍스트, 정렬 또는 아이콘과 쌍을 이루세요. `destructive` 버블의 경우, 색상 처리에 의존하기보다는 메시지 텍스트에서 오류 상황을 유지하세요.
+
+## API 참고
+
+### Bubble
+
+루트 버블 래퍼입니다.
+
+| 속성      | 유형                                                                                       | 기본값      | 설명                                      |
+| --------- | ------------------------------------------------------------------------------------------ | ----------- | ----------------------------------------- |
+| `variant` | `"default" \| "secondary" \| "muted" \| "tinted" \| "outline" \| "ghost" \| "destructive"` | `"default"` | 버블 시각적 처리입니다.                  |
+| `align`   | `"start" \| "end"`                                                                         | `"start"`   | 버블의 인라인 정렬입니다.                |
+| `className` | `string`                                                                                   | -           | 루트 요소에 적용할 추가 클래스입니다.    |
+
+### BubbleContent
+
+버블 콘텐츠 래퍼입니다.
+
+| 속성      | 유형                       | 기본값 | 설명                                               |
+| --------- | -------------------------- | ------ | -------------------------------------------------- |
+| `render`  | `ReactElement \| function` | -      | 링크와 같은 다른 요소로 콘텐츠를 렌더링합니다.   |
+| `className` | `string`                   | -      | 콘텐츠 요소에 적용할 추가 클래스입니다.          |
+
+### BubbleReactions
+
+버블에 대한 겹친 반응을 표시합니다.
+
+| 속성      | 유형                | 기본값     | 설명                                      |
+| --------- | ------------------- | ---------- | ----------------------------------------- |
+| `side`    | `"top" \| "bottom"` | `"bottom"` | 반응을 고정할 버블의 측면입니다.         |
+| `align`   | `"start" \| "end"`  | `"end"`    | 반응의 인라인 정렬입니다.                |
+| `className` | `string`            | -          | 반응 행에 적용할 추가 클래스입니다.      |
+
+### BubbleGroup
+
+같은 발신자의 연속된 버블을 그룹화합니다.
+
+| 속성      | 유형     | 기본값 | 설명                                      |
+| --------- | -------- | ------ | ----------------------------------------- |
+| `className` | `string` | -      | 그룹 루트에 적용할 추가 클래스입니다.    |

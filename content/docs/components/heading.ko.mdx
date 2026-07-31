@@ -1,0 +1,279 @@
+---
+title: Heading (제목)
+description: 시맨틱 레벨과 시각적 크기를 따로 지정할 수 있는 제목 컴포넌트입니다.
+---
+
+<ComponentPreview name="heading-demo">
+
+```tsx
+import { Heading } from "@/components/ui/heading"
+
+export default function HeadingDemo() {
+  return (
+    <div className="flex w-full max-w-md flex-col gap-3">
+      <Heading level={1}>Build faster with ondo</Heading>
+      <p className="text-muted-foreground">
+        Components you own, styled with your own theme tokens.
+      </p>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+<Callout>
+  `Heading`은 애플리케이션 UI를 위한 컴포넌트입니다. 마크다운과 MDX로 렌더링되는
+  본문은 이미 `typeset` 레이어에서 제목 스타일을 받으므로, 프로즈 안에서는 이
+  컴포넌트가 필요하지 않습니다.
+</Callout>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/heading
+```
+
+## 사용법
+
+```tsx
+import { Heading } from "@/components/ui/heading"
+```
+
+```tsx
+<Heading
+  level={1 | 2 | 3 | 4 | 5 | 6}
+  size="1 | 2 | 3 | 4 | 5 | 6"
+  wrap="normal | nowrap | balance | pretty"
+>
+  Heading
+</Heading>
+```
+
+`level`은 렌더링할 태그를 정합니다. `size`는 시각적 크기를 정하며 기본값이
+`level`이므로, 대부분의 경우 `level`만 넘기면 됩니다.
+
+## 예시
+
+### Levels
+
+`level`은 대응하는 `h1`~`h6` 태그를 렌더링하고 같은 번호의 크기를 적용합니다.
+
+<ComponentPreview name="heading-levels">
+
+```tsx
+import { Heading } from "@/components/ui/heading"
+
+export default function HeadingLevels() {
+  return (
+    <div className="flex w-full flex-col gap-4">
+      <Heading level={1}>Heading level 1</Heading>
+      <Heading level={2}>Heading level 2</Heading>
+      <Heading level={3}>Heading level 3</Heading>
+      <Heading level={4}>Heading level 4</Heading>
+      <Heading level={5}>Heading level 5</Heading>
+      <Heading level={6}>Heading level 6</Heading>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Sizes
+
+`size`로 스케일 단계를 직접 고를 수 있습니다. `1`이 가장 크고 `6`이 가장
+작습니다.
+
+<ComponentPreview name="heading-sizes">
+
+```tsx
+import { Heading } from "@/components/ui/heading"
+
+export default function HeadingSizes() {
+  return (
+    <div className="flex w-full flex-col gap-4">
+      <Heading level={2} size={1}>
+        Size 1
+      </Heading>
+      <Heading level={2} size={2}>
+        Size 2
+      </Heading>
+      <Heading level={2} size={3}>
+        Size 3
+      </Heading>
+      <Heading level={2} size={4}>
+        Size 4
+      </Heading>
+      <Heading level={2} size={5}>
+        Size 5
+      </Heading>
+      <Heading level={2} size={6}>
+        Size 6
+      </Heading>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 레벨과 크기 분리
+
+문서 구조상의 제목 순서와 디자인상의 크기가 항상 일치하지는 않습니다. `size`를
+지정하면 페이지에 필요한 제목 레벨은 유지하면서 디자인에 필요한 크기로 보여줄 수
+있습니다.
+
+<ComponentPreview name="heading-level-and-size">
+
+```tsx
+import { Heading } from "@/components/ui/heading"
+
+export default function HeadingLevelAndSize() {
+  return (
+    <div className="flex w-full flex-col gap-8">
+      <div className="flex flex-col gap-2">
+        <span className="font-mono text-xs text-muted-foreground">
+          &lt;h2&gt; rendered large, for a hero
+        </span>
+        <Heading level={2} size={1}>
+          Ship faster
+        </Heading>
+      </div>
+      <div className="flex flex-col gap-2">
+        <span className="font-mono text-xs text-muted-foreground">
+          &lt;h1&gt; rendered small, for a sidebar
+        </span>
+        <Heading level={1} size={5}>
+          Recent activity
+        </Heading>
+      </div>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 줄바꿈
+
+`wrap`은 텍스트가 줄 사이에서 어떻게 나뉘는지를 정합니다. 기본값은 브라우저 기본
+줄바꿈인 `normal`입니다. `nowrap`은 제목을 한 줄로 유지합니다. `balance`는 *모든*
+줄의 길이를 고르게 맞춰 짧은 제목에 어울립니다. 반면 `pretty`는 줄을 평소대로
+채우고 마지막 줄만 정리하므로, 사실상 마지막에 단어 하나만 남는 것을 막아주는
+정도입니다.
+
+두 줄짜리 짧은 제목에서는 `balance`와 `pretty`의 결과가 같습니다. 아래 예시처럼
+세 줄 이상이 되어야 차이가 드러납니다.
+
+<ComponentPreview name="heading-wrap">
+
+```tsx
+import { Heading } from "@/components/ui/heading"
+
+export default function HeadingWrap() {
+  return (
+    <div className="flex w-full max-w-[15rem] flex-col gap-8">
+      <div className="flex flex-col gap-2">
+        <span className="font-mono text-xs text-muted-foreground">
+          wrap=&quot;normal&quot; (default)
+        </span>
+        <Heading level={2} size={3} wrap="normal">
+          Build a design system your whole team enjoys using
+        </Heading>
+      </div>
+      <div className="flex flex-col gap-2">
+        <span className="font-mono text-xs text-muted-foreground">
+          wrap=&quot;nowrap&quot;
+        </span>
+        <div className="overflow-x-auto">
+          <Heading level={2} size={3} wrap="nowrap">
+            Build a design system your whole team enjoys using
+          </Heading>
+        </div>
+      </div>
+      <div className="flex flex-col gap-2">
+        <span className="font-mono text-xs text-muted-foreground">
+          wrap=&quot;balance&quot;
+        </span>
+        <Heading level={2} size={3} wrap="balance">
+          Build a design system your whole team enjoys using
+        </Heading>
+      </div>
+      <div className="flex flex-col gap-2">
+        <span className="font-mono text-xs text-muted-foreground">
+          wrap=&quot;pretty&quot;
+        </span>
+        <Heading level={2} size={3} wrap="pretty">
+          Build a design system your whole team enjoys using
+        </Heading>
+      </div>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+브레이크포인트별로 줄바꿈을 다르게 하려면 `className`을 쓰세요. `text-*` 줄바꿈
+유틸리티는 서로 깔끔하게 병합되므로,
+`<Heading wrap="pretty" className="md:text-balance" />`는 작은 화면에서는
+`pretty`, `md` 이상에서는 `balance`가 됩니다.
+
+각 값은 대응하는 Tailwind 유틸리티로 그대로 매핑됩니다. 자세한 사항은
+[`text-wrap` 문서](https://tailwindcss.com/docs/text-wrap)에서 확인할 수 있습니다.
+
+### 다른 엘리먼트로 렌더링
+
+마크업상 다른 엘리먼트가 필요하지만 — 예를 들어 `fieldset` 안의 `legend` — 제목
+스타일은 그대로 쓰고 싶을 때 `render` prop을 사용합니다.
+
+<ComponentPreview name="heading-render">
+
+```tsx
+import { Heading } from "@/components/ui/heading"
+
+export default function HeadingRender() {
+  return (
+    <fieldset className="w-full max-w-md rounded-xl border p-4">
+      <Heading level={2} size={4} render={<legend />} className="px-1">
+        Billing details
+      </Heading>
+      <p className="mt-2 text-sm text-muted-foreground">
+        The render prop keeps the heading styles while swapping the element for
+        the one the markup actually needs.
+      </p>
+    </fieldset>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API 참고
+
+### Heading
+
+제목 스케일에 맞춰 스타일링된 `h1`~`h6` 엘리먼트를 렌더링합니다.
+
+| Prop        | Type                                                       | Default |
+| ----------- | ---------------------------------------------------------- | ------- |
+| `level`     | `1 \| 2 \| 3 \| 4 \| 5 \| 6`                               | `1`     |
+| `size`      | `1 \| 2 \| 3 \| 4 \| 5 \| 6`                               | `level`   |
+| `wrap`      | `"normal" \| "nowrap" \| "balance" \| "pretty"`            | `normal`  |
+| `render`    | `ReactElement \| (props, state) => ReactElement`            | -         |
+| `className` | `string`                                                   | -         |
+
+### 스케일
+
+| Size | Classes                                          |
+| ---- | ------------------------------------------------ |
+| `1`  | `text-[2.25rem]/[1.25] font-bold tracking-[-0.02em]`   |
+| `2`  | `text-[1.75rem]/[1.3] font-bold tracking-[-0.017em]`   |
+| `3`  | `text-[1.5rem]/[1.35] font-bold tracking-[-0.014em]`   |
+| `4`  | `text-[1.375rem]/[1.4] font-bold tracking-[-0.011em]`  |
+| `5`  | `text-[1.25rem]/[1.4] font-bold tracking-[-0.008em]`   |
+| `6`  | `text-[1.125rem]/[1.45] font-bold tracking-[-0.005em]` |
+
+모든 크기에 `font-heading text-foreground`가 함께 적용되며, `wrap`에 따라
+줄바꿈 유틸리티가 추가됩니다 (기본값 `text-wrap`).

@@ -1,0 +1,423 @@
+---
+title: Card (카드)
+description: 헤더, 콘텐츠 및 바닥글이 있는 카드를 표시합니다.
+---
+
+<ComponentPreview name="card-demo">
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+
+export default function CardDemo() {
+  return (
+    <Card className="w-full max-w-sm">
+      <CardHeader>
+        <CardTitle>계정에 로그인</CardTitle>
+        <CardDescription>
+          아래에 이메일을 입력하여 계정에 로그인하세요
+        </CardDescription>
+        <CardAction>
+          <Button variant="link">가입하기</Button>
+        </CardAction>
+      </CardHeader>
+      <CardContent>
+        <form>
+          <div className="flex flex-col gap-6">
+            <div className="grid gap-2">
+              <Label htmlFor="email">이메일</Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="m@example.com"
+                required
+              />
+            </div>
+            <div className="grid gap-2">
+              <div className="flex items-center">
+                <Label htmlFor="password">비밀번호</Label>
+                <a
+                  href="#"
+                  className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                >
+                  비밀번호를 잊으셨나요?
+                </a>
+              </div>
+              <Input id="password" type="password" required />
+            </div>
+          </div>
+        </form>
+      </CardContent>
+      <CardFooter className="flex-col gap-2">
+        <Button type="submit" className="w-full">
+          로그인
+        </Button>
+        <Button variant="outline" className="w-full">
+          Google로 로그인
+        </Button>
+      </CardFooter>
+    </Card>
+  )
+}
+```
+
+</ComponentPreview>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/card
+```
+
+## 사용법
+
+```tsx showLineNumbers
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+```
+
+```tsx showLineNumbers
+<Card>
+  <CardHeader>
+    <CardTitle>Card Title</CardTitle>
+    <CardDescription>Card Description</CardDescription>
+    <CardAction>Card Action</CardAction>
+  </CardHeader>
+  <CardContent>
+    <p>Card Content</p>
+  </CardContent>
+  <CardFooter>
+    <p>Card Footer</p>
+  </CardFooter>
+</Card>
+```
+
+## Composition
+
+다음 구성을 사용하여 `Card`를 빌드하세요:
+
+```text
+Card
+├── CardHeader
+│   ├── CardTitle
+│   ├── CardDescription
+│   └── CardAction
+├── CardContent
+└── CardFooter
+```
+
+## 예시
+
+### Size
+
+`size="sm"` prop을 사용하여 카드의 크기를 작게 설정하세요. 작은 크기 변형은 더 작은 간격을 사용합니다.
+
+<ComponentPreview name="card-size">
+
+```tsx
+import { IconChevronRight } from "@tabler/icons-react"
+
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+
+export default function CardSize() {
+  const featureName = "예약 보고서"
+
+  return (
+    <Card size="sm" className="mx-auto w-full max-w-xs">
+      <CardHeader>
+        <CardTitle>{featureName}</CardTitle>
+        <CardDescription>
+          주간 스냅샷. 더 이상 수동으로 내보내지 않습니다.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <ul className="grid gap-2 py-2 text-sm">
+          <li className="flex gap-2">
+            <IconChevronRight className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
+            <span>일정을 선택하세요 (매일 또는 매주).</span>
+          </li>
+          <li className="flex gap-2">
+            <IconChevronRight className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
+            <span>채널 또는 특정 팀원에게 보냅니다.</span>
+          </li>
+          <li className="flex gap-2">
+            <IconChevronRight className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
+            <span>차트, 표 및 핵심 지표를 포함합니다.</span>
+          </li>
+        </ul>
+      </CardContent>
+      <CardFooter className="flex-col gap-2">
+        <Button size="sm" className="w-full">
+          예약 보고서 설정
+        </Button>
+        <Button variant="outline" size="sm" className="w-full">
+          새로운 기능 보기
+        </Button>
+      </CardFooter>
+    </Card>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Spacing
+
+`size` prop 외에도 `--card-spacing` CSS 변수를 사용하여 섹션 간의 간격과 카드 부분의 삽입을 제어할 수 있습니다.
+
+<ComponentPreview name="card-spacing">
+
+```tsx
+"use client"
+
+import * as React from "react"
+
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from "@/components/ui/toggle-group"
+
+const spacingOptions = [
+  {
+    className: "[--card-spacing:--spacing(4)]",
+    label: "16px",
+    value: "4",
+  },
+  {
+    className: "[--card-spacing:--spacing(5)]",
+    label: "20px",
+    value: "5",
+  },
+  {
+    className: "[--card-spacing:--spacing(6)]",
+    label: "24px",
+    value: "6",
+  },
+  {
+    className: "[--card-spacing:--spacing(8)]",
+    label: "32px",
+    value: "8",
+  },
+]
+
+export default function CardSpacing() {
+  const [spacing, setSpacing] = React.useState("4")
+  const selectedSpacing = spacingOptions.find(
+    (option) => option.value === spacing
+  )
+
+  return (
+    <div className="mx-auto grid w-full max-w-sm gap-4">
+      <ToggleGroup
+        value={[spacing]}
+        onValueChange={(value) => {
+          if (value[0]) {
+            setSpacing(value[0])
+          }
+        }}
+        variant="outline"
+        size="sm"
+        className="justify-center"
+      >
+        {spacingOptions.map((option) => (
+          <ToggleGroupItem key={option.value} value={option.value}>
+            {option.label}
+          </ToggleGroupItem>
+        ))}
+      </ToggleGroup>
+      <Card className={selectedSpacing?.className}>
+        <CardHeader>
+          <CardTitle>계정에 로그인</CardTitle>
+          <CardDescription>
+            아래에 이메일을 입력하여 계정에 로그인하세요
+          </CardDescription>
+          <CardAction>
+            <Button variant="link">가입하기</Button>
+          </CardAction>
+        </CardHeader>
+        <CardContent>
+          <form>
+            <div className="flex flex-col gap-6">
+              <div className="grid gap-2">
+                <Label htmlFor="email-spacing">이메일</Label>
+                <Input
+                  id="email-spacing"
+                  type="email"
+                  placeholder="m@example.com"
+                  required
+                />
+              </div>
+              <div className="grid gap-2">
+                <div className="flex items-center">
+                  <Label htmlFor="password-spacing">비밀번호</Label>
+                  <a
+                    href="#"
+                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                  >
+                    비밀번호를 잊으셨나요?
+                  </a>
+                </div>
+                <Input id="password-spacing" type="password" required />
+              </div>
+            </div>
+          </form>
+        </CardContent>
+        <CardFooter className="flex-col gap-2">
+          <Button type="submit" className="w-full">
+            로그인
+          </Button>
+          <Button variant="outline" className="w-full">
+            Google로 로그인
+          </Button>
+        </CardFooter>
+      </Card>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+`-mx-(--card-spacing)`과 함께 음수 여백을 사용하여 콘텐츠가 가장자리까지 표시되도록 하면서 카드 삽입과 정렬된 상태를 유지하세요. 가장자리까지 확장된 콘텐츠가 바닥글 위에 있을 때, `CardContent`에 `-mb-(--card-spacing)`을 사용하여 섹션 간격을 제거하세요.
+
+### Image
+
+카드 헤더 앞에 이미지를 추가하여 이미지가 있는 카드를 만들어보세요.
+
+<ComponentPreview name="card-image">
+
+```tsx
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardAction,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+
+export default function CardImage() {
+  return (
+    <Card className="relative mx-auto w-full max-w-sm pt-0">
+      <div className="absolute inset-0 z-30 aspect-video bg-black/35" />
+      <img
+        src="https://avatar.vercel.sh/shadcn1"
+        alt="이벤트 커버"
+        className="relative z-20 aspect-video w-full object-cover brightness-60 grayscale dark:brightness-40"
+      />
+      <CardHeader>
+        <CardAction>
+          <Badge variant="secondary">추천</Badge>
+        </CardAction>
+        <CardTitle>디자인 시스템 미팅</CardTitle>
+        <CardDescription>
+          컴포넌트 API, 접근성 및 더 빠른 배포에 대한 실용적인 이야기입니다.
+        </CardDescription>
+      </CardHeader>
+      <CardFooter>
+        <Button className="w-full">이벤트 보기</Button>
+      </CardFooter>
+    </Card>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API 참고
+
+### Card
+
+`Card` 컴포넌트는 카드 콘텐츠의 루트 컨테이너입니다.
+
+| Prop        | 타입                | 기본값      |
+| ----------- | ------------------- | ----------- |
+| `size`      | `"default" \| "sm"` | `"default"` |
+| `className` | `string`            | -           |
+
+### CardHeader
+
+`CardHeader` 컴포넌트는 제목, 설명 및 선택적 액션에 사용됩니다.
+
+| Prop        | 타입     | 기본값 |
+| ----------- | -------- | ------- |
+| `className` | `string` | -       |
+
+### CardTitle
+
+`CardTitle` 컴포넌트는 카드 제목에 사용됩니다.
+
+| Prop        | 타입     | 기본값 |
+| ----------- | -------- | ------- |
+| `className` | `string` | -       |
+
+### CardDescription
+
+`CardDescription` 컴포넌트는 제목 아래의 도움말 텍스트에 사용됩니다.
+
+| Prop        | 타입     | 기본값 |
+| ----------- | -------- | ------- |
+| `className` | `string` | -       |
+
+### CardAction
+
+`CardAction` 컴포넌트는 헤더의 오른쪽 위에 콘텐츠를 배치합니다 (예: 버튼 또는 배지).
+
+| Prop        | 타입     | 기본값 |
+| ----------- | -------- | ------- |
+| `className` | `string` | -       |
+
+### CardContent
+
+`CardContent` 컴포넌트는 카드의 주요 본문에 사용됩니다.
+
+| Prop        | 타입     | 기본값 |
+| ----------- | -------- | ------- |
+| `className` | `string` | -       |
+
+### CardFooter
+
+`CardFooter` 컴포넌트는 카드 하단의 액션과 보조 콘텐츠에 사용됩니다.
+
+| Prop        | 타입     | 기본값 |
+| ----------- | -------- | ------- |
+| `className` | `string` | -       |

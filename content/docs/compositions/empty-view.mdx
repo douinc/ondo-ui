@@ -1,0 +1,139 @@
+---
+title: EmptyView
+description: A ready-made empty state composed from Empty and Button.
+---
+
+<ComponentPreview name="empty-view-demo">
+
+```tsx
+import { IconArrowUpRight, IconFolderCode } from "@tabler/icons-react"
+
+import { EmptyView } from "@/components/compositions/empty-view"
+import { Button } from "@/components/ui/button"
+
+export default function EmptyViewDemo() {
+  return (
+    <EmptyView
+      icon={<IconFolderCode />}
+      title="No Projects Yet"
+      description="You haven't created any projects yet. Get started by creating your first project."
+      actions={
+        <>
+          <div className="flex flex-row justify-center gap-2">
+            <Button>Create Project</Button>
+            <Button variant="outline">Import Project</Button>
+          </div>
+          <Button
+            variant="link"
+            render={<a href="#" />}
+            className="text-muted-foreground"
+            size="sm"
+            nativeButton={false}
+          >
+            Learn More <IconArrowUpRight />
+          </Button>
+        </>
+      }
+    />
+  )
+}
+```
+
+</ComponentPreview>
+
+## Installation
+
+```bash
+bunx shadcn@latest add @ondo-ui/empty-view
+```
+
+This installs `EmptyView` along with its `empty` and `button` dependencies.
+
+## Usage
+
+```tsx
+import { EmptyView } from "@/components/compositions/empty-view"
+```
+
+```tsx
+<EmptyView
+  icon={<Icon />}
+  title="No data"
+  description="No data found."
+  actions={<Button>Add data</Button>}
+/>
+```
+
+## Examples
+
+### Basic
+
+Only `title` is required. Omit `icon` and `actions` for the simplest empty state.
+
+<ComponentPreview name="empty-view-basic">
+
+```tsx
+import { EmptyView } from "@/components/compositions/empty-view"
+
+export default function EmptyViewBasic() {
+  return (
+    <EmptyView
+      title="No notifications"
+      description="You're all caught up. New notifications will appear here."
+    />
+  )
+}
+```
+
+</ComponentPreview>
+
+### With actions
+
+Pass buttons or links through the `actions` slot.
+
+<ComponentPreview name="empty-view-actions">
+
+```tsx
+import { IconCloud } from "@tabler/icons-react"
+
+import { EmptyView } from "@/components/compositions/empty-view"
+import { Button } from "@/components/ui/button"
+
+export default function EmptyViewActions() {
+  return (
+    <EmptyView
+      icon={<IconCloud />}
+      title="Cloud Storage Empty"
+      description="Upload files to your cloud storage to access them anywhere."
+      actions={
+        <Button variant="outline" size="sm">
+          Upload Files
+        </Button>
+      }
+    />
+  )
+}
+```
+
+</ComponentPreview>
+
+## API reference
+
+`EmptyView` accepts every prop of [`Empty`](/docs/components/empty) (it spreads `...props` onto the root), plus:
+
+| Prop          | Type              | Default | Description                                                        |
+| ------------- | ----------------- | ------- | ------------------------------------------------------------------ |
+| `title`       | `React.ReactNode` | —       | Required heading text.                                             |
+| `description` | `React.ReactNode` | —       | Optional supporting text. Omitted when not provided.              |
+| `icon`        | `React.ReactNode` | —       | Optional media, rendered inside `EmptyMedia` (icon variant).      |
+| `actions`     | `React.ReactNode` | —       | Optional buttons/links, rendered inside `EmptyContent`.           |
+| `className`   | `string`          | —       | Passed through to the root `Empty`.                               |
+
+## Built on
+
+`EmptyView` composes these primitives:
+
+- [`Empty`](/docs/components/empty) — the underlying empty-state container and its parts.
+- [`Button`](/docs/components/button) — used for the actions slot.
+
+Need a layout `EmptyView` doesn't cover? Compose [`Empty`](/docs/components/empty) directly for full control over the parts.

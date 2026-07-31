@@ -1,0 +1,528 @@
+---
+title: Sidebar
+description: A composable, themeable and customizable sidebar component.
+---
+
+<ComponentPreview name="sidebar-demo">
+
+```tsx
+"use client"
+
+import * as React from "react"
+import { IconChevronRight, IconSelector } from "@tabler/icons-react"
+
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+  SidebarInset,
+  SidebarProvider,
+  SidebarRail,
+  SidebarTrigger,
+} from "@/components/ui/sidebar"
+
+export default function AppSidebar({
+  ...props
+}: React.ComponentProps<typeof Sidebar>) {
+  return (
+    <div className="relative h-[30rem] w-full overflow-hidden rounded-lg border [transform:translateZ(0)]">
+      <SidebarProvider className="min-h-full">
+        <Sidebar collapsible="icon" {...props}>
+          <SidebarHeader>
+            <TeamSwitcher teams={data.teams} />
+          </SidebarHeader>
+          <SidebarContent>
+            <NavMain items={data.navMain} />
+            <NavProjects projects={data.projects} />
+          </SidebarContent>
+          <SidebarFooter>
+            <NavUser user={data.user} />
+          </SidebarFooter>
+          <SidebarRail />
+        </Sidebar>
+        <SidebarInset>
+          <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-12">
+            <div className="flex items-center gap-2 px-4">
+              <SidebarTrigger className="-ml-1" />
+            </div>
+          </header>
+        </SidebarInset>
+      </SidebarProvider>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+Sidebars are one of the most complex components to build. They are central
+to any application and often contain a lot of moving parts.
+
+We now have a solid foundation to build on top of. Composable. Themeable.
+Customizable.
+
+<Callout>
+  `Sidebar` pins itself to the viewport with `fixed`. The preview above wraps it
+  in a `transform`ed container so it stays inside the docs page — a real app
+  renders it at the root of the layout instead.
+</Callout>
+
+## Installation
+
+```bash
+bunx shadcn@latest add @ondo-ui/sidebar
+```
+
+## Usage
+
+```tsx showLineNumbers title="app/layout.tsx"
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
+import { AppSidebar } from "@/components/app-sidebar"
+
+export default function Layout({ children }: { children: React.ReactNode }) {
+  return (
+    <SidebarProvider>
+      <AppSidebar />
+      <main>
+        <SidebarTrigger />
+        {children}
+      </main>
+    </SidebarProvider>
+  )
+}
+```
+
+```tsx showLineNumbers title="components/app-sidebar.tsx"
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarHeader,
+} from "@/components/ui/sidebar"
+
+export function AppSidebar() {
+  return (
+    <Sidebar>
+      <SidebarHeader />
+      <SidebarContent>
+        <SidebarGroup />
+        <SidebarGroup />
+      </SidebarContent>
+      <SidebarFooter />
+    </Sidebar>
+  )
+}
+```
+
+## Composition
+
+Use the following composition to build a `Sidebar` layout:
+
+```text
+SidebarProvider
+├── Sidebar
+│   ├── SidebarHeader
+│   ├── SidebarContent
+│   │   ├── SidebarGroup
+│   │   │   ├── SidebarGroupLabel
+│   │   │   ├── SidebarGroupAction
+│   │   │   ├── SidebarGroupContent
+│   │   │   └── SidebarMenu
+│   │   │       ├── SidebarMenuItem
+│   │   │       │   ├── SidebarMenuButton
+│   │   │       │   ├── SidebarMenuAction
+│   │   │       │   └── SidebarMenuBadge
+│   │   │       └── SidebarMenuItem
+│   │   │           ├── SidebarMenuButton
+│   │   │           └── SidebarMenuSub
+│   │   │               ├── SidebarMenuSubItem
+│   │   │               └── SidebarMenuSubItem
+│   │   └── SidebarGroup
+│   │       └── SidebarMenu
+│   │           ├── SidebarMenuItem
+│   │           └── SidebarMenuItem
+│   ├── SidebarFooter
+│   └── SidebarRail
+├── SidebarInset
+└── SidebarTrigger
+```
+
+## Structure
+
+- **SidebarProvider** — Handles collapsible state and provides sidebar context to child components.
+- **Sidebar** — The main collapsible sidebar panel.
+- **SidebarHeader** — Sticky at the top; use for branding, titles, or workspace switchers.
+- **SidebarFooter** — Sticky at the bottom; use for user menus, settings, or actions.
+- **SidebarContent** — Scrollable region between the header and footer.
+- **SidebarGroup** — Groups related navigation with optional label, action, and content areas.
+- **SidebarMenu** / **SidebarMenuItem** — Menu structure for links, badges, actions, and nested submenus.
+- **SidebarRail** — Resize handle for adjusting sidebar width when applicable.
+- **SidebarInset** — Wraps main content when using the `inset` variant.
+- **SidebarTrigger** — Control that toggles the sidebar open or collapsed.
+
+## SidebarProvider
+
+The `SidebarProvider` component is used to provide the sidebar context to the `Sidebar` component. You should always wrap your application in a `SidebarProvider` component.
+
+### Props
+
+| Name           | Type                      | Description                                  |
+| -------------- | ------------------------- | -------------------------------------------- |
+| `defaultOpen`  | `boolean`                 | Default open state of the sidebar.           |
+| `open`         | `boolean`                 | Open state of the sidebar (controlled).      |
+| `onOpenChange` | `(open: boolean) => void` | Sets open state of the sidebar (controlled). |
+
+### Width
+
+If you have a single sidebar in your application, you can use the `SIDEBAR_WIDTH` and `SIDEBAR_WIDTH_MOBILE` variables in `sidebar.tsx` to set the width of the sidebar.
+
+```tsx showLineNumbers title="components/ui/sidebar.tsx"
+const SIDEBAR_WIDTH = "16rem"
+const SIDEBAR_WIDTH_MOBILE = "18rem"
+```
+
+For multiple sidebars in your application, you can use the `--sidebar-width` and `--sidebar-width-icon` CSS variables in the `style` prop.
+
+```tsx showLineNumbers
+<SidebarProvider
+  style={
+    {
+      "--sidebar-width": "20rem",
+      "--sidebar-width-icon": "4rem",
+    } as React.CSSProperties
+  }
+>
+  <Sidebar />
+</SidebarProvider>
+```
+
+### Keyboard Shortcut
+
+To trigger the sidebar, you use the `cmd+b` keyboard shortcut on Mac and `ctrl+b` on Windows.
+
+```tsx showLineNumbers title="components/ui/sidebar.tsx"
+const SIDEBAR_KEYBOARD_SHORTCUT = "b"
+```
+
+## Sidebar
+
+The main `Sidebar` component used to render a collapsible sidebar.
+
+### Props
+
+| Property      | Type                              | Description                       |
+| ------------- | --------------------------------- | --------------------------------- |
+| `side`        | `left` or `right`                 | The side of the sidebar.          |
+| `variant`     | `sidebar`, `floating`, or `inset` | The variant of the sidebar.       |
+| `collapsible` | `offcanvas`, `icon`, or `none`    | Collapsible state of the sidebar. |
+
+| Prop        | Description                                                  |
+| ----------- | ------------------------------------------------------------ |
+| `offcanvas` | A collapsible sidebar that slides in from the left or right. |
+| `icon`      | A sidebar that collapses to icons.                           |
+| `none`      | A non-collapsible sidebar.                                   |
+
+<Callout>
+  **Note:** If you use the `inset` variant, remember to wrap your main content
+  in a `SidebarInset` component.
+</Callout>
+
+```tsx showLineNumbers
+<SidebarProvider>
+  <Sidebar variant="inset" />
+  <SidebarInset>
+    <main>{children}</main>
+  </SidebarInset>
+</SidebarProvider>
+```
+
+## useSidebar
+
+The `useSidebar` hook is used to control the sidebar.
+
+```tsx showLineNumbers
+import { useSidebar } from "@/components/ui/sidebar"
+
+export function AppSidebar() {
+  const {
+    state,
+    open,
+    setOpen,
+    openMobile,
+    setOpenMobile,
+    isMobile,
+    toggleSidebar,
+  } = useSidebar()
+}
+```
+
+| Property        | Type                      | Description                                   |
+| --------------- | ------------------------- | --------------------------------------------- |
+| `state`         | `expanded` or `collapsed` | The current state of the sidebar.             |
+| `open`          | `boolean`                 | Whether the sidebar is open.                  |
+| `setOpen`       | `(open: boolean) => void` | Sets the open state of the sidebar.           |
+| `openMobile`    | `boolean`                 | Whether the sidebar is open on mobile.        |
+| `setOpenMobile` | `(open: boolean) => void` | Sets the open state of the sidebar on mobile. |
+| `isMobile`      | `boolean`                 | Whether the sidebar is on mobile.             |
+| `toggleSidebar` | `() => void`              | Toggles the sidebar. Desktop and mobile.      |
+
+## SidebarHeader
+
+Use the `SidebarHeader` component to add a sticky header to the sidebar.
+
+```tsx showLineNumbers title="components/app-sidebar.tsx"
+<Sidebar>
+  <SidebarHeader>
+    <SidebarMenu>
+      <SidebarMenuItem>
+        <DropdownMenu>
+          <DropdownMenuTrigger render={<SidebarMenuButton />}>
+            Select Workspace
+            <IconChevronDown className="ml-auto" />
+          </DropdownMenuTrigger>
+          <DropdownMenuContent className="w-(--anchor-width)">
+            <DropdownMenuItem>
+              <span>Acme Inc</span>
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </SidebarMenuItem>
+    </SidebarMenu>
+  </SidebarHeader>
+</Sidebar>
+```
+
+## SidebarFooter
+
+Use the `SidebarFooter` component to add a sticky footer to the sidebar.
+
+```tsx showLineNumbers
+<Sidebar>
+  <SidebarFooter>
+    <SidebarMenu>
+      <SidebarMenuItem>
+        <SidebarMenuButton>
+          <IconUser /> Username
+        </SidebarMenuButton>
+      </SidebarMenuItem>
+    </SidebarMenu>
+  </SidebarFooter>
+</Sidebar>
+```
+
+## SidebarContent
+
+The `SidebarContent` component is used to wrap the content of the sidebar. This is where you add your `SidebarGroup` components. It is scrollable.
+
+```tsx showLineNumbers
+<Sidebar>
+  <SidebarContent>
+    <SidebarGroup />
+    <SidebarGroup />
+  </SidebarContent>
+</Sidebar>
+```
+
+## SidebarGroup
+
+Use the `SidebarGroup` component to create a section within the sidebar.
+
+A `SidebarGroup` has a `SidebarGroupLabel`, a `SidebarGroupContent` and an optional `SidebarGroupAction`.
+
+```tsx showLineNumbers
+<SidebarGroup>
+  <SidebarGroupLabel>Application</SidebarGroupLabel>
+  <SidebarGroupAction>
+    <IconPlus /> <span className="sr-only">Add Project</span>
+  </SidebarGroupAction>
+  <SidebarGroupContent></SidebarGroupContent>
+</SidebarGroup>
+```
+
+To make a `SidebarGroup` collapsible, wrap it in a `Collapsible`.
+
+```tsx showLineNumbers
+<Collapsible defaultOpen className="group/collapsible">
+  <SidebarGroup>
+    <SidebarGroupLabel render={<CollapsibleTrigger />}>
+      Help
+      <IconChevronDown className="ml-auto transition-transform group-data-open/collapsible:rotate-180" />
+    </SidebarGroupLabel>
+    <CollapsibleContent>
+      <SidebarGroupContent />
+    </CollapsibleContent>
+  </SidebarGroup>
+</Collapsible>
+```
+
+## SidebarMenu
+
+The `SidebarMenu` component is used for building a menu within a `SidebarGroup`.
+
+```tsx showLineNumbers
+<SidebarMenu>
+  {projects.map((project) => (
+    <SidebarMenuItem key={project.name}>
+      <SidebarMenuButton render={<a href={project.url} />}>
+        <project.icon />
+        <span>{project.name}</span>
+      </SidebarMenuButton>
+    </SidebarMenuItem>
+  ))}
+</SidebarMenu>
+```
+
+## SidebarMenuButton
+
+The `SidebarMenuButton` component is used to render a menu button within a `SidebarMenuItem`.
+
+By default, the `SidebarMenuButton` renders a button but you can use the `render` prop to render a different component such as a `Link` or an `a` tag.
+
+Use the `isActive` prop to mark a menu item as active.
+
+```tsx showLineNumbers
+<SidebarMenuButton isActive render={<a href="#" />}>
+  Home
+</SidebarMenuButton>
+```
+
+## SidebarMenuAction
+
+The `SidebarMenuAction` component is used to render a menu action within a `SidebarMenuItem`.
+
+```tsx showLineNumbers
+<SidebarMenuItem>
+  <SidebarMenuButton render={<a href="#" />}>
+    <IconHome />
+    <span>Home</span>
+  </SidebarMenuButton>
+  <SidebarMenuAction>
+    <IconPlus /> <span className="sr-only">Add Project</span>
+  </SidebarMenuAction>
+</SidebarMenuItem>
+```
+
+## SidebarMenuSub
+
+The `SidebarMenuSub` component is used to render a submenu within a `SidebarMenu`.
+
+```tsx showLineNumbers
+<SidebarMenuItem>
+  <SidebarMenuButton />
+  <SidebarMenuSub>
+    <SidebarMenuSubItem>
+      <SidebarMenuSubButton />
+    </SidebarMenuSubItem>
+  </SidebarMenuSub>
+</SidebarMenuItem>
+```
+
+## SidebarMenuBadge
+
+The `SidebarMenuBadge` component is used to render a badge within a `SidebarMenuItem`.
+
+```tsx showLineNumbers
+<SidebarMenuItem>
+  <SidebarMenuButton />
+  <SidebarMenuBadge>24</SidebarMenuBadge>
+</SidebarMenuItem>
+```
+
+## SidebarMenuSkeleton
+
+The `SidebarMenuSkeleton` component is used to render a skeleton for a `SidebarMenu`.
+
+```tsx showLineNumbers
+<SidebarMenu>
+  {Array.from({ length: 5 }).map((_, index) => (
+    <SidebarMenuItem key={index}>
+      <SidebarMenuSkeleton />
+    </SidebarMenuItem>
+  ))}
+</SidebarMenu>
+```
+
+## SidebarTrigger
+
+Use the `SidebarTrigger` component to render a button that toggles the sidebar.
+
+```tsx showLineNumbers
+import { useSidebar } from "@/components/ui/sidebar"
+
+export function CustomTrigger() {
+  const { toggleSidebar } = useSidebar()
+
+  return <button onClick={toggleSidebar}>Toggle Sidebar</button>
+}
+```
+
+## SidebarRail
+
+The `SidebarRail` component is used to render a rail within a `Sidebar`. This rail can be used to toggle the sidebar.
+
+```tsx showLineNumbers
+<Sidebar>
+  <SidebarHeader />
+  <SidebarContent>
+    <SidebarGroup />
+  </SidebarContent>
+  <SidebarFooter />
+  <SidebarRail />
+</Sidebar>
+```
+
+## Controlled Sidebar
+
+Use the `open` and `onOpenChange` props to control the sidebar.
+
+```tsx showLineNumbers
+export function AppSidebar() {
+  const [open, setOpen] = React.useState(false)
+
+  return (
+    <SidebarProvider open={open} onOpenChange={setOpen}>
+      <Sidebar />
+    </SidebarProvider>
+  )
+}
+```
+
+## Theming
+
+We use the following CSS variables to theme the sidebar.
+
+```css
+@layer base {
+  :root {
+    --sidebar: oklch(98.5% 0 0);
+    --sidebar-foreground: oklch(0.141 0.005 285.823);
+    --sidebar-primary: oklch(62.3% 0.214 259.815);
+    --sidebar-primary-foreground: oklch(1 0 0);
+    --sidebar-accent: oklch(96.7% 0.001 286.375);
+    --sidebar-accent-foreground: oklch(0.21 0.006 285.885);
+    --sidebar-border: oklch(92% 0.004 286.32);
+    --sidebar-ring: oklch(62.3% 0.214 259.815);
+  }
+}
+```
+
+## Styling
+
+Here are some tips for styling the sidebar based on different states.
+
+```tsx
+<Sidebar collapsible="icon">
+  <SidebarContent>
+    <SidebarGroup className="group-data-[collapsible=icon]:hidden" />
+  </SidebarContent>
+</Sidebar>
+```
+
+```tsx
+<SidebarMenuItem>
+  <SidebarMenuButton />
+  <SidebarMenuAction className="peer-data-active/menu-button:opacity-100" />
+</SidebarMenuItem>
+```

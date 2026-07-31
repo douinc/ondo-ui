@@ -1,0 +1,209 @@
+---
+title: NumberBadge
+description: A self-anchoring count badge for avatars and icons with animated counts and 99+ overflow.
+---
+
+<ComponentPreview name="number-badge-demo">
+
+```tsx
+import { IconBell } from "@tabler/icons-react"
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { NumberBadge } from "@/components/compositions/number-badge"
+import { Button } from "@/components/ui/button"
+
+export default function NumberBadgeDemo() {
+  return (
+    <div className="flex items-center gap-8">
+      <NumberBadge value={5}>
+        <Avatar>
+          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
+      </NumberBadge>
+      <NumberBadge value={8}>
+        <Button variant="outline" size="icon">
+          <IconBell />
+        </Button>
+      </NumberBadge>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## Installation
+
+```bash
+bunx shadcn@latest add @ondo-ui/number-badge
+```
+
+This installs `NumberBadge` along with `badge`, `number-count`, and the
+`@number-flow/react` dependency.
+
+## Usage
+
+```tsx
+import { NumberBadge } from "@/components/compositions/number-badge"
+```
+
+```tsx
+<NumberBadge value={5}>
+  <Avatar>{/* … */}</Avatar>
+</NumberBadge>
+```
+
+`NumberBadge` wraps its `children` (the anchor) and overlays the count in a
+corner. Pass a `value` above `max` to get `99+`; a `value` of `0` hides the
+badge unless `showZero` is set.
+
+## Examples
+
+### Overflow and hide-on-zero
+
+`value` above `max` (default `99`) renders as `99+`; a `value` of `0` hides the
+badge. Step past both thresholds to see it.
+
+<ComponentPreview name="number-badge-overflow">
+
+```tsx
+"use client"
+
+import * as React from "react"
+import { IconBell } from "@tabler/icons-react"
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { NumberBadge } from "@/components/compositions/number-badge"
+import { Button } from "@/components/ui/button"
+
+export default function NumberBadgeOverflow() {
+  const [value, setValue] = React.useState(3)
+
+  return (
+    <div className="flex flex-col items-center gap-4">
+      <div className="flex items-center gap-8">
+        <NumberBadge value={value}>
+          <Avatar>
+            <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+            <AvatarFallback>CN</AvatarFallback>
+          </Avatar>
+        </NumberBadge>
+        <NumberBadge value={value}>
+          <Button variant="outline" size="icon">
+            <IconBell />
+          </Button>
+        </NumberBadge>
+      </div>
+      <div className="flex gap-2">
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setValue((v) => Math.max(0, v - 25))}
+        >
+          −25
+        </Button>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => setValue((v) => v + 25)}
+        >
+          +25
+        </Button>
+      </div>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Variants and placement
+
+`NumberBadge` supports every [`Badge`](/docs/components/badge) `variant` and all
+four `placement` corners.
+
+<ComponentPreview name="number-badge-variants">
+
+```tsx
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { NumberBadge } from "@/components/compositions/number-badge"
+
+const variants = [
+  "default",
+  "secondary",
+  "destructive",
+  "outline",
+  "ghost",
+] as const
+
+const placements = [
+  "top-right",
+  "top-left",
+  "bottom-right",
+  "bottom-left",
+] as const
+
+export default function NumberBadgeVariants() {
+  return (
+    <div className="flex flex-col items-center gap-10">
+      <div className="flex flex-wrap items-start justify-center gap-6">
+        {variants.map((variant) => (
+          <div key={variant} className="flex flex-col items-center gap-2">
+            <NumberBadge value={8} variant={variant}>
+              <Avatar>
+                <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+            </NumberBadge>
+            <span className="text-xs text-muted-foreground capitalize">
+              {variant}
+            </span>
+          </div>
+        ))}
+      </div>
+      <div className="flex flex-wrap items-start justify-center gap-6">
+        {placements.map((placement) => (
+          <div key={placement} className="flex flex-col items-center gap-2">
+            <NumberBadge value={8} placement={placement}>
+              <Avatar>
+                <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+                <AvatarFallback>CN</AvatarFallback>
+              </Avatar>
+            </NumberBadge>
+            <span className="text-xs text-muted-foreground">{placement}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API reference
+
+`NumberBadge` accepts every [`Badge`](/docs/components/badge) prop (except
+`children`, repurposed as the anchor), plus:
+
+| Prop        | Type                                                            | Default       | Description                                       |
+| ----------- | --------------------------------------------------------------- | ------------- | ------------------------------------------------- |
+| `value`     | `number`                                                        | —             | Required count. `> max` shows `{max}+`.           |
+| `max`       | `number`                                                        | `99`          | Overflow cap.                                     |
+| `showZero`  | `boolean`                                                       | `false`       | Render the badge when `value` is `0`.             |
+| `placement` | `"top-right" \| "top-left" \| "bottom-right" \| "bottom-left"`  | `"top-right"` | Corner over `children`.                           |
+| `variant`   | `Badge` variants                                                | `"default"`   | Passed to `Badge`. |
+| `children`  | `React.ReactNode`                                               | —             | Anchor element the badge floats over.             |
+| `className` | `string`                                                        | —             | Merged onto the overlaid `Badge`.                 |
+
+## Built on
+
+`NumberBadge` composes:
+
+- [`Badge`](/docs/components/badge) — the badge shell and its variants.
+- [`NumberCount`](/docs/components/number-count) — the animated count inside.
+
+Need an inline (non-anchored) numeric badge? Compose
+[`Badge`](/docs/components/badge) and
+[`NumberCount`](/docs/components/number-count) directly.

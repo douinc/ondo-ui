@@ -1,0 +1,280 @@
+---
+title: Progress Ring (프로그레스 링)
+description: 작업의 진행률을 원형 링으로 보여주며, 진행률을 알 수 없는 상태도 지원합니다.
+---
+
+<ComponentPreview name="progress-ring-demo">
+
+```tsx
+import { ProgressRing } from "@/components/ui/progress-ring"
+
+export default function ProgressRingDemo() {
+  return <ProgressRing value={72} />
+}
+```
+
+</ComponentPreview>
+
+<Callout>
+  이 영역은 네 컴포넌트가 나눠 맡습니다. `ProgressRing`과
+  [`Progress`](/docs/components/progress)는 끝을 향해 올라가는 작업을,
+  [`MeterRing`](/docs/components/meter-ring)과
+  [`Meter`](/docs/components/meter)는 그 자체로 하나의 상태인 값을 보여줍니다.
+  링이냐 막대냐는 그다음에 고르세요.
+</Callout>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/progress-ring
+```
+
+## 사용법
+
+```tsx
+import { ProgressRing, ProgressRingLabel } from "@/components/ui/progress-ring"
+```
+
+```tsx
+<ProgressRing value={72} min={0} max={100} size="sm | default | lg" variant="default">
+  <ProgressRingLabel>업로드 중</ProgressRingLabel>
+</ProgressRing>
+```
+
+`ProgressRing`은 Base UI의 `Progress` 위에 만들어져 있어 `progressbar`로
+읽힙니다. 눈금판은 항상 렌더링되고, children으로 넘긴 내용은 그 아래에 놓입니다
+— `ProgressRingLabel`이 들어갈 자리입니다.
+
+가운데 숫자의 서식은 `format`으로 정합니다. 숫자 서식으로는 표현할 수 없는
+내용이 필요하다면 `formatValue`로 가운데 내용을 통째로 바꿉니다.
+
+호는 원뿔형 그라디언트를 링 모양으로 마스킹한 것이라 요소 두 개면 충분하고 SVG가
+없습니다. 색은 `currentColor`를 따르므로 `variant`(또는 `className`의 텍스트
+색상 유틸리티)로 바꿀 수 있습니다.
+
+값이 바뀔 때 호가 뚝 끊기지 않고 이어지는 것은 컴포넌트가 비율을 `@property`로
+등록하기 때문입니다. 그래야 그라디언트 안의 숫자가 보간됩니다. 이 등록은 컴포넌트
+파일 안에 들어 있고 React가 `<head>`로 한 번만 올려 주므로 — 링이 몇 개든
+한 번입니다 — CSS에 따로 추가할 것이 없습니다.
+
+## 예시
+
+### Sizes
+
+<ComponentPreview name="progress-ring-sizes">
+
+```tsx
+import { ProgressRing } from "@/components/ui/progress-ring"
+
+export default function ProgressRingSizes() {
+  return (
+    <div className="flex flex-wrap items-end gap-8">
+      <ProgressRing size="sm" value={38} />
+      <ProgressRing value={62} />
+      <ProgressRing size="lg" value={86} />
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Indeterminate
+
+작업이 시작됐지만 얼마나 진행됐는지 알 수 없을 때 `value={null}`을 넘기세요.
+호는 없는 숫자를 주장하는 대신 회전하는 스피너가 되고, 보조 기술에도 진행률을
+알 수 없는 상태로 전달됩니다.
+
+이 상태에서는 정직하게 쓸 숫자가 없으므로 가운데가 비어 있습니다. 그래도 무언가
+넣고 싶다면 `formatValue`를 쓰세요.
+
+<ComponentPreview name="progress-ring-indeterminate">
+
+```tsx
+"use client"
+
+import { ProgressRing, ProgressRingLabel } from "@/components/ui/progress-ring"
+
+export default function ProgressRingIndeterminate() {
+  return (
+    <div className="flex flex-wrap items-start gap-8">
+      <ProgressRing value={null}>
+        <ProgressRingLabel>연결 중</ProgressRingLabel>
+      </ProgressRing>
+      <ProgressRing value={null} variant="info" formatValue={() => "…"}>
+        <ProgressRingLabel>서버 응답 대기</ProgressRingLabel>
+      </ProgressRing>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Variants
+
+`variant`는 테마의 시맨틱 색상에서 호의 색을 고릅니다. 작업이 멈췄는지, 다시
+시도 중인지, 깔끔하게 끝났는지를 알릴 때 유용합니다.
+
+<ComponentPreview name="progress-ring-variants">
+
+```tsx
+import { ProgressRing, ProgressRingLabel } from "@/components/ui/progress-ring"
+
+export default function ProgressRingVariants() {
+  return (
+    <div className="flex flex-wrap items-start gap-8">
+      <ProgressRing variant="destructive" value={18}>
+        <ProgressRingLabel>중단됨</ProgressRingLabel>
+      </ProgressRing>
+      <ProgressRing variant="info" value={34}>
+        <ProgressRingLabel>동기화 중</ProgressRingLabel>
+      </ProgressRing>
+      <ProgressRing variant="warning" value={46}>
+        <ProgressRingLabel>재시도 중</ProgressRingLabel>
+      </ProgressRing>
+      <ProgressRing variant="success" value={100}>
+        <ProgressRingLabel>완료</ProgressRingLabel>
+      </ProgressRing>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Label and center
+
+`ProgressRingLabel`은 눈금판 아래에 무슨 작업인지 적습니다. 가운데 숫자의 서식은
+`format`으로 정하고, 숫자 서식으로 말할 수 없는 내용 — 예를 들어 단계 수 — 은
+`formatValue`로 대신합니다.
+
+`formatValue`는 함수 prop이므로, 이를 넘기는 컴포넌트는 클라이언트 컴포넌트여야
+합니다.
+
+<ComponentPreview name="progress-ring-label">
+
+```tsx
+"use client"
+
+import { ProgressRing, ProgressRingLabel } from "@/components/ui/progress-ring"
+
+export default function ProgressRingLabelDemo() {
+  return (
+    <div className="flex flex-wrap items-start gap-8">
+      <ProgressRing value={0.42} max={1} format={{ style: "percent" }}>
+        <ProgressRingLabel>업로드 중</ProgressRingLabel>
+      </ProgressRing>
+      <ProgressRing
+        value={3}
+        max={5}
+        variant="info"
+        formatValue={(_, value) => `${value}/5`}
+      >
+        <ProgressRingLabel>완료한 단계</ProgressRingLabel>
+      </ProgressRing>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### An animated center
+
+`formatValue`는 무엇이든 반환할 수 있으므로, 값을
+[`NumberCount`](/docs/components/number-count)에 넘기면 숫자가 툭 바뀌지 않고
+굴러갑니다. Base UI가 이 부분을 `aria-hidden`으로 표시하므로 애니메이션은
+순수하게 시각적이고 — 읽히는 값은 여전히 루트에서 옵니다 — `NumberCount`는
+`prefers-reduced-motion`을 존중합니다.
+
+`formatValue`는 *서식이 적용된 문자열*과 원본 숫자를 받기 때문에, 서식은
+`ProgressRing`에서 상속되지 않고 `NumberCount`에 다시 지정해야 합니다. 이때 둘을
+헷갈리지 마세요. 0~100 스케일에는 `suffix="%"`를 쓰고,
+`format={{ style: "percent" }}`는 값이 이미 0~1 분수일 때 쓰는 것이라 여기서는
+`2400%`로 읽힙니다.
+
+<ComponentPreview name="progress-ring-number-count">
+
+```tsx
+"use client"
+
+import * as React from "react"
+
+import { Button } from "@/components/ui/button"
+import { NumberCount } from "@/components/ui/number-count"
+import { ProgressRing, ProgressRingLabel } from "@/components/ui/progress-ring"
+
+export default function ProgressRingNumberCount() {
+  const [value, setValue] = React.useState(24)
+
+  return (
+    <div className="flex flex-col items-center gap-4">
+      <ProgressRing
+        value={value}
+        variant="info"
+        formatValue={(_, v) =>
+          v == null ? null : <NumberCount value={v} suffix="%" />
+        }
+      >
+        <ProgressRingLabel>업로드 중</ProgressRingLabel>
+      </ProgressRing>
+      <div className="flex gap-2">
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={() => setValue((v) => Math.max(0, v - 17))}
+        >
+          −17
+        </Button>
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={() => setValue((v) => Math.min(100, v + 17))}
+        >
+          +17
+        </Button>
+      </div>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+값이 `null`일 때 `null`을 반환하면 호가 회전하는 동안 가운데가 비어 있게 되는데,
+이는 Base UI의 기본 동작과 같습니다.
+
+## API 참고
+
+### ProgressRing
+
+| Prop | 타입 | 기본값 |
+| --- | --- | --- |
+| `value` | `number \| null` | – |
+| `min` | `number` | `0` |
+| `max` | `number` | `100` |
+| `size` | `"sm" \| "default" \| "lg"` | `"default"` |
+| `variant` | `"default" \| "info" \| "success" \| "warning" \| "destructive"` | `"default"` |
+| `format` | `Intl.NumberFormatOptions` | – |
+| `formatValue` | `(formatted: string \| null, value: number \| null) => ReactNode` | – |
+| `locale` | `Intl.LocalesArgument` | 런타임 로캘 |
+| `getAriaValueText` | `(formatted: string \| null, value: number \| null) => string` | – |
+
+이 외에 Base UI [`Progress.Root`](https://base-ui.com/react/components/progress)의
+속성을 그대로 받습니다.
+
+루트에는 Base UI의 상태 속성인 `data-indeterminate`, `data-progressing`,
+`data-complete`가 붙으므로, 진행 상태를 따로 추적하지 않고도 링의 스타일을 바꿀
+수 있습니다.
+
+### ProgressRingDial, ProgressRingTrack, ProgressRingIndicator
+
+눈금판과 그 구성 요소입니다. `ProgressRing`이 알아서 조합하므로, 링의 스타일을
+바꾸거나 가운데에 값이 아닌 다른 것을 넣을 때만 직접 사용하세요.
+
+### ProgressRingValue, ProgressRingLabel
+
+Base UI의 `Progress.Value`와 `Progress.Label`에 ondo 스타일을 입힌 것입니다.
+`format`만으로 부족하다면 `ProgressRingValue`에 렌더 함수
+(`(formatted, value) => ReactNode`)를 넘길 수 있습니다.

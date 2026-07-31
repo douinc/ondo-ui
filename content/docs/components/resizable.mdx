@@ -1,0 +1,162 @@
+---
+title: Resizable
+description: Accessible resizable panel groups and layouts with keyboard support.
+---
+
+<ComponentPreview name="resizable-demo">
+
+```tsx
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable"
+
+export default function ResizableDemo() {
+  return (
+    <ResizablePanelGroup
+      orientation="horizontal"
+      className="max-w-sm rounded-lg border"
+    >
+      <ResizablePanel defaultSize="50%">
+        <div className="flex h-[200px] items-center justify-center p-6">
+          <span className="font-semibold">One</span>
+        </div>
+      </ResizablePanel>
+      <ResizableHandle withHandle />
+      <ResizablePanel defaultSize="50%">
+        <ResizablePanelGroup orientation="vertical">
+          <ResizablePanel defaultSize="25%">
+            <div className="flex h-full items-center justify-center p-6">
+              <span className="font-semibold">Two</span>
+            </div>
+          </ResizablePanel>
+          <ResizableHandle withHandle />
+          <ResizablePanel defaultSize="75%">
+            <div className="flex h-full items-center justify-center p-6">
+              <span className="font-semibold">Three</span>
+            </div>
+          </ResizablePanel>
+        </ResizablePanelGroup>
+      </ResizablePanel>
+    </ResizablePanelGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+## Installation
+
+```bash
+bunx shadcn@latest add @ondo-ui/resizable
+```
+
+## Usage
+
+```tsx showLineNumbers
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable"
+```
+
+```tsx showLineNumbers
+<ResizablePanelGroup orientation="horizontal">
+  <ResizablePanel>One</ResizablePanel>
+  <ResizableHandle />
+  <ResizablePanel>Two</ResizablePanel>
+</ResizablePanelGroup>
+```
+
+## Composition
+
+Use the following composition to build a `ResizablePanelGroup`:
+
+```text
+ResizablePanelGroup
+├── ResizablePanel
+├── ResizableHandle
+└── ResizablePanel
+```
+
+## Examples
+
+### Vertical
+
+Use `orientation="vertical"` for vertical resizing.
+
+<ComponentPreview name="resizable-vertical">
+
+```tsx
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable"
+
+export default function ResizableVertical() {
+  return (
+    <ResizablePanelGroup
+      orientation="vertical"
+      className="min-h-[200px] max-w-sm rounded-lg border"
+    >
+      <ResizablePanel defaultSize="25%">
+        <div className="flex h-full items-center justify-center p-6">
+          <span className="font-semibold">Header</span>
+        </div>
+      </ResizablePanel>
+      <ResizableHandle />
+      <ResizablePanel defaultSize="75%">
+        <div className="flex h-full items-center justify-center p-6">
+          <span className="font-semibold">Content</span>
+        </div>
+      </ResizablePanel>
+    </ResizablePanelGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Handle
+
+Use the `withHandle` prop on `ResizableHandle` to show a visible handle.
+
+<ComponentPreview name="resizable-handle">
+
+```tsx
+import {
+  ResizableHandle as ResizableHandleComponent,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable"
+
+export default function ResizableHandle() {
+  return (
+    <ResizablePanelGroup
+      orientation="horizontal"
+      className="min-h-[200px] max-w-sm rounded-lg border"
+    >
+      <ResizablePanel defaultSize="25%">
+        <div className="flex h-full items-center justify-center p-6">
+          <span className="font-semibold">Sidebar</span>
+        </div>
+      </ResizablePanel>
+      <ResizableHandleComponent withHandle />
+      <ResizablePanel defaultSize="75%">
+        <div className="flex h-full items-center justify-center p-6">
+          <span className="font-semibold">Content</span>
+        </div>
+      </ResizablePanel>
+    </ResizablePanelGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API reference
+
+The component wraps [Base UI Resizable](https://github.com/bvaughn/react-resizable-panels) and accepts all of its props.

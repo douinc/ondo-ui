@@ -1,0 +1,19 @@
+---
+title: 애니메이션 숫자 카운터
+description: NumberCount와 NumberBadge로 아바타·아이콘·통계에 굴러가는 숫자 카운트를 더합니다.
+version: 0.2.0
+---
+
+**v0.2.0**
+
+[`@number-flow/react`](https://number-flow.barvian.me) 기반의 새 아이템 두 개:
+
+- [`NumberCount`](/docs/components/number-count) — 새 **컴포넌트**: 값이 바뀔 때
+  자릿수가 굴러가는 애니메이션 숫자입니다. NumberFlow를 ondo 기본값으로 감싼 얇은
+  래퍼로, NumberFlow의 모든 prop(`format`, `prefix`, `suffix`, `spinTiming`,
+  `trend` 등)이 그대로 전달됩니다.
+- [`NumberBadge`](/docs/compositions/number-badge) — 새 **조합 컴포넌트**:
+  아바타·아이콘 위에 얹히는 self-anchor 카운트 뱃지입니다. `children`을 감싸
+  `99+` 오버플로·0 숨김·`placement`와 함께 애니메이션 카운트를 오버레이합니다.
+
+두 아이템 모두 `@number-flow/react` 의존성을 자동으로 설치합니다.

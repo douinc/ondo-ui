@@ -1,0 +1,385 @@
+---
+title: Checkbox (체크박스)
+description: 사용자가 선택 및 선택 해제 상태를 전환할 수 있는 컨트롤입니다.
+---
+
+<ComponentPreview name="checkbox-demo">
+
+```tsx
+"use client"
+
+import { Checkbox } from "@/components/ui/checkbox"
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+  FieldTitle,
+} from "@/components/ui/field"
+import { Label } from "@/components/ui/label"
+
+export default function CheckboxDemo() {
+  return (
+    <FieldGroup className="max-w-sm">
+      <Field orientation="horizontal">
+        <Checkbox id="terms-checkbox" name="terms-checkbox" />
+        <Label htmlFor="terms-checkbox">약관에 동의합니다</Label>
+      </Field>
+      <Field orientation="horizontal">
+        <Checkbox
+          id="terms-checkbox-2"
+          name="terms-checkbox-2"
+          defaultChecked
+        />
+        <FieldContent>
+          <FieldLabel htmlFor="terms-checkbox-2">
+            약관에 동의합니다
+          </FieldLabel>
+          <FieldDescription>
+            이 체크박스를 클릭하면 약관에 동의하는 것입니다.
+          </FieldDescription>
+        </FieldContent>
+      </Field>
+      <Field orientation="horizontal" data-disabled>
+        <Checkbox id="toggle-checkbox" name="toggle-checkbox" disabled />
+        <FieldLabel htmlFor="toggle-checkbox">알림 활성화</FieldLabel>
+      </Field>
+      <FieldLabel>
+        <Field orientation="horizontal">
+          <Checkbox id="toggle-checkbox-2" name="toggle-checkbox-2" />
+          <FieldContent>
+            <FieldTitle>알림 활성화</FieldTitle>
+            <FieldDescription>
+              언제든지 알림을 활성화하거나 비활성화할 수 있습니다.
+            </FieldDescription>
+          </FieldContent>
+        </Field>
+      </FieldLabel>
+    </FieldGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/checkbox
+```
+
+## 사용법
+
+```tsx
+import { Checkbox } from "@/components/ui/checkbox"
+```
+
+```tsx
+<Checkbox />
+```
+
+## 예시
+
+### Basic
+
+체크박스를 `Field`와 `FieldLabel`과 함께 사용하여 적절한 레이아웃과 라벨링을 제공합니다.
+
+<ComponentPreview name="checkbox-basic">
+
+```tsx
+import { Checkbox } from "@/components/ui/checkbox"
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
+
+export default function CheckboxBasic() {
+  return (
+    <FieldGroup className="mx-auto w-56">
+      <Field orientation="horizontal">
+        <Checkbox id="terms-checkbox-basic" name="terms-checkbox-basic" />
+        <FieldLabel htmlFor="terms-checkbox-basic">
+          약관에 동의합니다
+        </FieldLabel>
+      </Field>
+    </FieldGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Description
+
+헬퍼 텍스트를 표시하려면 `FieldContent`와 `FieldDescription`을 사용합니다.
+
+<ComponentPreview name="checkbox-description">
+
+```tsx
+import { Checkbox } from "@/components/ui/checkbox"
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field"
+
+export default function CheckboxDescription() {
+  return (
+    <FieldGroup className="mx-auto w-72">
+      <Field orientation="horizontal">
+        <Checkbox
+          id="terms-checkbox-desc"
+          name="terms-checkbox-desc"
+          defaultChecked
+        />
+        <FieldContent>
+          <FieldLabel htmlFor="terms-checkbox-desc">
+            약관에 동의합니다
+          </FieldLabel>
+          <FieldDescription>
+            이 체크박스를 클릭하면 약관 및 조건에 동의하는 것입니다.
+          </FieldDescription>
+        </FieldContent>
+      </Field>
+    </FieldGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Disabled
+
+`disabled` 속성을 사용하여 상호작용을 방지하고 `<Field>` 컴포넌트에 `data-disabled` 속성을 추가하여 비활성화 스타일을 적용합니다.
+
+<ComponentPreview name="checkbox-disabled">
+
+```tsx
+import { Checkbox } from "@/components/ui/checkbox"
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
+
+export default function CheckboxDisabled() {
+  return (
+    <FieldGroup className="mx-auto w-56">
+      <Field orientation="horizontal" data-disabled>
+        <Checkbox
+          id="toggle-checkbox-disabled"
+          name="toggle-checkbox-disabled"
+          disabled
+        />
+        <FieldLabel htmlFor="toggle-checkbox-disabled">
+          알림 활성화
+        </FieldLabel>
+      </Field>
+    </FieldGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Group
+
+여러 필드를 사용하여 체크박스 목록을 만듭니다.
+
+<ComponentPreview name="checkbox-group">
+
+```tsx
+import { Checkbox } from "@/components/ui/checkbox"
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+  FieldLegend,
+  FieldSet,
+} from "@/components/ui/field"
+
+export default function CheckboxGroup() {
+  return (
+    <FieldSet>
+      <FieldLegend variant="label">
+        바탕화면에 표시할 항목:
+      </FieldLegend>
+      <FieldDescription>
+        바탕화면에 표시할 항목을 선택합니다.
+      </FieldDescription>
+      <FieldGroup className="gap-3">
+        <Field orientation="horizontal">
+          <Checkbox
+            id="finder-pref-9k2-hard-disks-ljj-checkbox"
+            name="finder-pref-9k2-hard-disks-ljj-checkbox"
+            defaultChecked
+          />
+          <FieldLabel
+            htmlFor="finder-pref-9k2-hard-disks-ljj-checkbox"
+            className="font-normal"
+          >
+            하드 디스크
+          </FieldLabel>
+        </Field>
+        <Field orientation="horizontal">
+          <Checkbox
+            id="finder-pref-9k2-external-disks-1yg-checkbox"
+            name="finder-pref-9k2-external-disks-1yg-checkbox"
+            defaultChecked
+          />
+          <FieldLabel
+            htmlFor="finder-pref-9k2-external-disks-1yg-checkbox"
+            className="font-normal"
+          >
+            외부 디스크
+          </FieldLabel>
+        </Field>
+        <Field orientation="horizontal">
+          <Checkbox
+            id="finder-pref-9k2-cds-dvds-fzt-checkbox"
+            name="finder-pref-9k2-cds-dvds-fzt-checkbox"
+          />
+          <FieldLabel
+            htmlFor="finder-pref-9k2-cds-dvds-fzt-checkbox"
+            className="font-normal"
+          >
+            CD, DVD 및 iPod
+          </FieldLabel>
+        </Field>
+        <Field orientation="horizontal">
+          <Checkbox
+            id="finder-pref-9k2-connected-servers-6l2-checkbox"
+            name="finder-pref-9k2-connected-servers-6l2-checkbox"
+          />
+          <FieldLabel
+            htmlFor="finder-pref-9k2-connected-servers-6l2-checkbox"
+            className="font-normal"
+          >
+            연결된 서버
+          </FieldLabel>
+        </Field>
+      </FieldGroup>
+    </FieldSet>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Table
+
+<ComponentPreview name="checkbox-table">
+
+```tsx
+"use client"
+
+import * as React from "react"
+
+import { Checkbox } from "@/components/ui/checkbox"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+
+const tableData = [
+  {
+    id: "1",
+    name: "Sarah Chen",
+    email: "sarah.chen@example.com",
+    role: "Admin",
+  },
+  {
+    id: "2",
+    name: "Marcus Rodriguez",
+    email: "marcus.rodriguez@example.com",
+    role: "User",
+  },
+  {
+    id: "3",
+    name: "Priya Patel",
+    email: "priya.patel@example.com",
+    role: "User",
+  },
+  {
+    id: "4",
+    name: "David Kim",
+    email: "david.kim@example.com",
+    role: "Editor",
+  },
+]
+
+export default function CheckboxTable() {
+  const [selectedRows, setSelectedRows] = React.useState<Set<string>>(
+    new Set(["1"])
+  )
+
+  const selectAll = selectedRows.size === tableData.length
+
+  const handleSelectAll = (checked: boolean) => {
+    if (checked) {
+      setSelectedRows(new Set(tableData.map((row) => row.id)))
+    } else {
+      setSelectedRows(new Set())
+    }
+  }
+
+  const handleSelectRow = (id: string, checked: boolean) => {
+    const newSelected = new Set(selectedRows)
+    if (checked) {
+      newSelected.add(id)
+    } else {
+      newSelected.delete(id)
+    }
+    setSelectedRows(newSelected)
+  }
+
+  return (
+    <Table>
+      <TableHeader>
+        <TableRow>
+          <TableHead className="w-8">
+            <Checkbox
+              id="select-all-checkbox"
+              name="select-all-checkbox"
+              checked={selectAll}
+              onCheckedChange={handleSelectAll}
+            />
+          </TableHead>
+          <TableHead>이름</TableHead>
+          <TableHead>이메일</TableHead>
+          <TableHead>역할</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {tableData.map((row) => (
+          <TableRow
+            key={row.id}
+            data-state={selectedRows.has(row.id) ? "selected" : undefined}
+          >
+            <TableCell>
+              <Checkbox
+                id={`row-${row.id}-checkbox`}
+                name={`row-${row.id}-checkbox`}
+                checked={selectedRows.has(row.id)}
+                onCheckedChange={(checked) =>
+                  handleSelectRow(row.id, checked === true)
+                }
+              />
+            </TableCell>
+            <TableCell className="font-medium">{row.name}</TableCell>
+            <TableCell>{row.email}</TableCell>
+            <TableCell>{row.role}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API 참고
+
+이 컴포넌트는 [Base UI Checkbox](https://base-ui.com/react/components/checkbox)를 래핑하며 모든 Props를 지원합니다.

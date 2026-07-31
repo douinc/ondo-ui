@@ -1,0 +1,932 @@
+---
+title: Input Group (입력 그룹)
+description: 입력 필드에 애드온, 버튼 및 보조 콘텐츠를 추가합니다.
+---
+
+import { IconInfoCircle } from "@tabler/icons-react"
+
+<ComponentPreview name="input-group-demo">
+
+```tsx
+"use client"
+
+import { IconSearch } from "@tabler/icons-react"
+
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group"
+
+export default function InputGroupDemo() {
+  return (
+    <InputGroup className="max-w-xs">
+      <InputGroupInput placeholder="Search..." />
+      <InputGroupAddon>
+        <IconSearch />
+      </InputGroupAddon>
+      <InputGroupAddon align="inline-end">12 results</InputGroupAddon>
+    </InputGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/input-group
+```
+
+## 사용법
+
+```tsx showLineNumbers
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+  InputGroupText,
+  InputGroupTextarea,
+} from "@/components/ui/input-group"
+```
+
+```tsx showLineNumbers
+<InputGroup>
+  <InputGroupInput placeholder="Search..." />
+  <InputGroupAddon>
+    <SearchIcon />
+  </InputGroupAddon>
+</InputGroup>
+```
+
+## Composition
+
+`InputGroup`을 구성하려면 다음 구조를 사용하세요:
+
+```text
+InputGroup
+├── InputGroupInput or InputGroupTextarea
+├── InputGroupAddon
+├── InputGroupButton
+└── InputGroupText
+```
+
+## 정렬
+
+`InputGroupAddon`의 `align` 속성을 사용하여 입력 필드와 관계없이 애드온을 배치하세요.
+
+<Callout>
+  적절한 포커스 관리를 위해 `InputGroupAddon`은 DOM에서 항상 `InputGroupInput` 또는 `InputGroupTextarea` 뒤에 배치되어야 합니다. `align` 속성을 사용하여 애드온을 시각적으로 배치하세요.
+</Callout>
+
+### inline-start
+
+`align="inline-start"`를 사용하여 입력 필드의 시작 부분에 애드온을 배치하세요. 이것이 기본값입니다.
+
+<ComponentPreview name="input-group-inline-start">
+
+```tsx
+import { IconSearch } from "@tabler/icons-react"
+
+import {
+  Field,
+  FieldDescription,
+  FieldLabel,
+} from "@/components/ui/field"
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group"
+
+export default function InputGroupInlineStart() {
+  return (
+    <Field className="max-w-sm">
+      <FieldLabel htmlFor="inline-start-input">Input</FieldLabel>
+      <InputGroup>
+        <InputGroupInput id="inline-start-input" placeholder="Search..." />
+        <InputGroupAddon align="inline-start">
+          <IconSearch className="text-muted-foreground" />
+        </InputGroupAddon>
+      </InputGroup>
+      <FieldDescription>Icon positioned at the start.</FieldDescription>
+    </Field>
+  )
+}
+```
+
+</ComponentPreview>
+
+### inline-end
+
+`align="inline-end"`를 사용하여 입력 필드의 끝 부분에 애드온을 배치하세요.
+
+<ComponentPreview name="input-group-inline-end">
+
+```tsx
+import { IconEyeOff } from "@tabler/icons-react"
+
+import {
+  Field,
+  FieldDescription,
+  FieldLabel,
+} from "@/components/ui/field"
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group"
+
+export default function InputGroupInlineEnd() {
+  return (
+    <Field className="max-w-sm">
+      <FieldLabel htmlFor="inline-end-input">Input</FieldLabel>
+      <InputGroup>
+        <InputGroupInput
+          id="inline-end-input"
+          type="password"
+          placeholder="Enter password"
+        />
+        <InputGroupAddon align="inline-end">
+          <IconEyeOff />
+        </InputGroupAddon>
+      </InputGroup>
+      <FieldDescription>Icon positioned at the end.</FieldDescription>
+    </Field>
+  )
+}
+```
+
+</ComponentPreview>
+
+### block-start
+
+`align="block-start"`를 사용하여 입력 필드 위에 애드온을 배치하세요.
+
+<ComponentPreview name="input-group-block-start">
+
+```tsx
+import { IconCopy, IconFileCode } from "@tabler/icons-react"
+
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field"
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+  InputGroupText,
+  InputGroupTextarea,
+} from "@/components/ui/input-group"
+
+export default function InputGroupBlockStart() {
+  return (
+    <FieldGroup className="max-w-sm">
+      <Field>
+        <FieldLabel htmlFor="block-start-input">Input</FieldLabel>
+        <InputGroup className="h-auto">
+          <InputGroupInput
+            id="block-start-input"
+            placeholder="Enter your name"
+          />
+          <InputGroupAddon align="block-start">
+            <InputGroupText>Full Name</InputGroupText>
+          </InputGroupAddon>
+        </InputGroup>
+        <FieldDescription>Header positioned above the input.</FieldDescription>
+      </Field>
+      <Field>
+        <FieldLabel htmlFor="block-start-textarea">Textarea</FieldLabel>
+        <InputGroup>
+          <InputGroupTextarea
+            id="block-start-textarea"
+            placeholder="console.log('Hello, world!');"
+            className="font-mono text-sm"
+          />
+          <InputGroupAddon align="block-start">
+            <IconFileCode className="text-muted-foreground" />
+            <InputGroupText className="font-mono">script.js</InputGroupText>
+            <InputGroupButton size="icon-xs" className="ml-auto">
+              <IconCopy />
+              <span className="sr-only">Copy</span>
+            </InputGroupButton>
+          </InputGroupAddon>
+        </InputGroup>
+        <FieldDescription>
+          Header positioned above the textarea.
+        </FieldDescription>
+      </Field>
+    </FieldGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+### block-end
+
+`align="block-end"`를 사용하여 입력 필드 아래에 애드온을 배치하세요.
+
+<ComponentPreview name="input-group-block-end">
+
+```tsx
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field"
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+  InputGroupText,
+  InputGroupTextarea,
+} from "@/components/ui/input-group"
+
+export default function InputGroupBlockEnd() {
+  return (
+    <FieldGroup className="max-w-sm">
+      <Field>
+        <FieldLabel htmlFor="block-end-input">Input</FieldLabel>
+        <InputGroup className="h-auto">
+          <InputGroupInput id="block-end-input" placeholder="Enter amount" />
+          <InputGroupAddon align="block-end">
+            <InputGroupText>USD</InputGroupText>
+          </InputGroupAddon>
+        </InputGroup>
+        <FieldDescription>Footer positioned below the input.</FieldDescription>
+      </Field>
+      <Field>
+        <FieldLabel htmlFor="block-end-textarea">Textarea</FieldLabel>
+        <InputGroup>
+          <InputGroupTextarea
+            id="block-end-textarea"
+            placeholder="Write a comment..."
+          />
+          <InputGroupAddon align="block-end">
+            <InputGroupText>0/280</InputGroupText>
+            <InputGroupButton variant="default" size="sm" className="ml-auto">
+              Post
+            </InputGroupButton>
+          </InputGroupAddon>
+        </InputGroup>
+        <FieldDescription>
+          Footer positioned below the textarea.
+        </FieldDescription>
+      </Field>
+    </FieldGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+## 예시
+
+### 크기
+
+`size` prop으로 그룹 크기를 조절합니다. `xs`, `sm`, `default`, `lg`, `xl`, `2xl`을 지원합니다. 내부 컨트롤이 크기를 물려받아 입력의 높이와 글자가 그룹을 따라가고, `xl`과 `2xl`에서는 애드온 아이콘도 커집니다.
+
+<ComponentPreview name="input-group-size">
+
+```tsx
+import { IconSearch } from "@tabler/icons-react"
+
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+  InputGroupText,
+} from "@/components/ui/input-group"
+import { Kbd } from "@/components/ui/kbd"
+
+const sizes = ["xs", "sm", "default", "lg", "xl", "2xl"] as const
+
+export default function InputGroupSize() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-4">
+      {sizes.map((size) => (
+        <InputGroup key={size} size={size}>
+          <InputGroupAddon>
+            <IconSearch />
+          </InputGroupAddon>
+          <InputGroupInput placeholder={`Size ${size}`} />
+          <InputGroupAddon align="inline-end">
+            <Kbd>/</Kbd>
+          </InputGroupAddon>
+        </InputGroup>
+      ))}
+      {sizes.map((size) => (
+        <InputGroup key={`${size}-addons`} size={size}>
+          <InputGroupAddon>
+            <InputGroupText>https://</InputGroupText>
+          </InputGroupAddon>
+          <InputGroupInput placeholder="example.com" />
+          <InputGroupAddon align="inline-end">
+            <InputGroupButton>Copy</InputGroupButton>
+          </InputGroupAddon>
+        </InputGroup>
+      ))}
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Icon
+
+<ComponentPreview name="input-group-icon">
+
+```tsx
+"use client"
+
+import {
+  IconCheck,
+  IconCreditCard,
+  IconInfoCircle,
+  IconMail,
+  IconSearch,
+  IconStar,
+} from "@tabler/icons-react"
+
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group"
+
+export default function InputGroupIcon() {
+  return (
+    <div className="grid w-full max-w-sm gap-6">
+      <InputGroup>
+        <InputGroupInput placeholder="Search..." />
+        <InputGroupAddon>
+          <IconSearch />
+        </InputGroupAddon>
+      </InputGroup>
+      <InputGroup>
+        <InputGroupInput type="email" placeholder="Enter your email" />
+        <InputGroupAddon>
+          <IconMail />
+        </InputGroupAddon>
+      </InputGroup>
+      <InputGroup>
+        <InputGroupInput placeholder="Card number" />
+        <InputGroupAddon>
+          <IconCreditCard />
+        </InputGroupAddon>
+        <InputGroupAddon align="inline-end">
+          <IconCheck />
+        </InputGroupAddon>
+      </InputGroup>
+      <InputGroup>
+        <InputGroupInput placeholder="Card number" />
+        <InputGroupAddon align="inline-end">
+          <IconStar />
+          <IconInfoCircle />
+        </InputGroupAddon>
+      </InputGroup>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Text
+
+<ComponentPreview name="input-group-text">
+
+```tsx
+"use client"
+
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+  InputGroupText as InputGroupTextUI,
+  InputGroupTextarea,
+} from "@/components/ui/input-group"
+
+export default function InputGroupText() {
+  return (
+    <div className="grid w-full max-w-sm gap-6">
+      <InputGroup>
+        <InputGroupAddon>
+          <InputGroupTextUI>$</InputGroupTextUI>
+        </InputGroupAddon>
+        <InputGroupInput placeholder="0.00" />
+        <InputGroupAddon align="inline-end">
+          <InputGroupTextUI>USD</InputGroupTextUI>
+        </InputGroupAddon>
+      </InputGroup>
+      <InputGroup>
+        <InputGroupAddon>
+          <InputGroupTextUI>https://</InputGroupTextUI>
+        </InputGroupAddon>
+        <InputGroupInput placeholder="example.com" className="pl-0.5!" />
+        <InputGroupAddon align="inline-end">
+          <InputGroupTextUI>.com</InputGroupTextUI>
+        </InputGroupAddon>
+      </InputGroup>
+      <InputGroup>
+        <InputGroupInput placeholder="Enter your username" />
+        <InputGroupAddon align="inline-end">
+          <InputGroupTextUI>@company.com</InputGroupTextUI>
+        </InputGroupAddon>
+      </InputGroup>
+      <InputGroup>
+        <InputGroupTextarea placeholder="메시지를 입력하세요" />
+        <InputGroupAddon align="block-end">
+          <InputGroupTextUI className="text-xs text-muted-foreground">
+            120자 남음
+          </InputGroupTextUI>
+        </InputGroupAddon>
+      </InputGroup>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Button
+
+<ComponentPreview name="input-group-button">
+
+```tsx
+"use client"
+
+import * as React from "react"
+import {
+  IconCheck,
+  IconCopy,
+  IconInfoCircle,
+  IconStar,
+} from "@tabler/icons-react"
+
+import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard"
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton as InputGroupButtonUI,
+  InputGroupInput,
+} from "@/components/ui/input-group"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+
+export default function InputGroupButton() {
+  const { copyToClipboard, isCopied } = useCopyToClipboard()
+  const [isFavorite, setIsFavorite] = React.useState(false)
+
+  return (
+    <div className="grid w-full max-w-sm gap-6">
+      <InputGroup>
+        <InputGroupInput placeholder="https://x.com/shadcn" readOnly />
+        <InputGroupAddon align="inline-end">
+          <InputGroupButtonUI
+            aria-label="Copy"
+            title="Copy"
+            size="icon-xs"
+            onClick={() => {
+              copyToClipboard("https://x.com/shadcn")
+            }}
+          >
+            {isCopied ? <IconCheck /> : <IconCopy />}
+          </InputGroupButtonUI>
+        </InputGroupAddon>
+      </InputGroup>
+      <InputGroup className="[--radius:9999px]">
+        <InputGroupAddon>
+          <Popover>
+            <PopoverTrigger
+              render={
+                <InputGroupButtonUI
+                  variant="secondary"
+                  size="icon-xs"
+                  aria-label="Connection info"
+                />
+              }
+            >
+              <IconInfoCircle />
+            </PopoverTrigger>
+            <PopoverContent
+              align="start"
+              className="flex flex-col gap-1 rounded-xl text-sm"
+            >
+              <p className="font-medium">Your connection is not secure.</p>
+              <p>You should not enter any sensitive information on this site.</p>
+            </PopoverContent>
+          </Popover>
+        </InputGroupAddon>
+        <InputGroupAddon className="pl-1.5 text-muted-foreground">
+          https://
+        </InputGroupAddon>
+        <InputGroupInput id="input-secure-19" />
+        <InputGroupAddon align="inline-end">
+          <InputGroupButtonUI
+            onClick={() => setIsFavorite(!isFavorite)}
+            size="icon-xs"
+          >
+            <IconStar
+              data-favorite={isFavorite}
+              className="data-[favorite=true]:fill-blue-600 data-[favorite=true]:stroke-blue-600"
+            />
+          </InputGroupButtonUI>
+        </InputGroupAddon>
+      </InputGroup>
+      <InputGroup>
+        <InputGroupInput placeholder="Type to search..." />
+        <InputGroupAddon align="inline-end">
+          <InputGroupButtonUI variant="secondary">Search</InputGroupButtonUI>
+        </InputGroupAddon>
+      </InputGroup>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Kbd
+
+<ComponentPreview name="input-group-kbd">
+
+```tsx
+"use client"
+
+import { IconSearch } from "@tabler/icons-react"
+
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group"
+import { Kbd } from "@/components/ui/kbd"
+
+export default function InputGroupKbd() {
+  return (
+    <InputGroup className="max-w-sm">
+      <InputGroupInput placeholder="Search..." />
+      <InputGroupAddon>
+        <IconSearch className="text-muted-foreground" />
+      </InputGroupAddon>
+      <InputGroupAddon align="inline-end">
+        <Kbd>⌘K</Kbd>
+      </InputGroupAddon>
+    </InputGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Dropdown
+
+<ComponentPreview name="input-group-dropdown">
+
+```tsx
+"use client"
+
+import { IconChevronDown, IconDots } from "@tabler/icons-react"
+
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from "@/components/ui/input-group"
+
+export default function InputGroupDropdown() {
+  return (
+    <div className="grid w-full max-w-sm gap-4">
+      <InputGroup>
+        <InputGroupInput placeholder="파일명 입력" />
+        <InputGroupAddon align="inline-end">
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              render={
+                <InputGroupButton
+                  variant="ghost"
+                  aria-label="More"
+                  size="icon-xs"
+                />
+              }
+            >
+              <IconDots />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" sideOffset={8} alignOffset={-4}>
+              <DropdownMenuGroup>
+                <DropdownMenuItem>설정</DropdownMenuItem>
+                <DropdownMenuItem>경로 복사</DropdownMenuItem>
+                <DropdownMenuItem>위치 열기</DropdownMenuItem>
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </InputGroupAddon>
+      </InputGroup>
+      <InputGroup>
+        <InputGroupInput placeholder="검색 쿼리 입력" />
+        <InputGroupAddon align="inline-end">
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              render={
+                <InputGroupButton variant="ghost" className="pr-1.5! text-xs" />
+              }
+            >
+              검색 위치... <IconChevronDown className="size-3" />
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" sideOffset={8} alignOffset={-4}>
+              <DropdownMenuGroup>
+                <DropdownMenuItem>문서</DropdownMenuItem>
+                <DropdownMenuItem>블로그 게시글</DropdownMenuItem>
+                <DropdownMenuItem>변경 로그</DropdownMenuItem>
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </InputGroupAddon>
+      </InputGroup>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Spinner
+
+<ComponentPreview name="input-group-spinner">
+
+```tsx
+"use client"
+
+import { IconLoader } from "@tabler/icons-react"
+
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+  InputGroupText,
+} from "@/components/ui/input-group"
+import { Spinner } from "@/components/ui/spinner"
+
+export default function InputGroupSpinner() {
+  return (
+    <div className="grid w-full max-w-sm gap-4">
+      <InputGroup>
+        <InputGroupInput placeholder="검색 중..." />
+        <InputGroupAddon align="inline-end">
+          <Spinner />
+        </InputGroupAddon>
+      </InputGroup>
+      <InputGroup>
+        <InputGroupInput placeholder="처리 중..." />
+        <InputGroupAddon>
+          <Spinner />
+        </InputGroupAddon>
+      </InputGroup>
+      <InputGroup>
+        <InputGroupInput placeholder="변경 사항 저장 중..." />
+        <InputGroupAddon align="inline-end">
+          <InputGroupText>저장 중...</InputGroupText>
+          <Spinner />
+        </InputGroupAddon>
+      </InputGroup>
+      <InputGroup>
+        <InputGroupInput placeholder="데이터 새로고침 중..." />
+        <InputGroupAddon>
+          <IconLoader className="animate-spin" />
+        </InputGroupAddon>
+        <InputGroupAddon align="inline-end">
+          <InputGroupText className="text-muted-foreground">
+            잠시 기다려주세요...
+          </InputGroupText>
+        </InputGroupAddon>
+      </InputGroup>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Textarea
+
+<ComponentPreview name="input-group-textarea">
+
+```tsx
+"use client"
+
+import {
+  IconBrandJavascript,
+  IconCopy,
+  IconCornerDownLeft,
+  IconRefresh,
+} from "@tabler/icons-react"
+
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton as InputGroupButtonUI,
+  InputGroupText as InputGroupTextUI,
+  InputGroupTextarea as InputGroupTextareaUI,
+} from "@/components/ui/input-group"
+
+export default function InputGroupTextarea() {
+  return (
+    <div className="grid w-full max-w-md gap-4">
+      <InputGroup>
+        <InputGroupTextareaUI
+          id="textarea-code-32"
+          placeholder="console.log('Hello, world!');"
+          className="min-h-[200px]"
+        />
+        <InputGroupAddon align="block-end" className="border-t">
+          <InputGroupTextUI>Line 1, Column 1</InputGroupTextUI>
+          <InputGroupButtonUI size="sm" className="ml-auto" variant="default">
+            Run <IconCornerDownLeft />
+          </InputGroupButtonUI>
+        </InputGroupAddon>
+        <InputGroupAddon align="block-start" className="border-b">
+          <InputGroupTextUI className="font-mono font-medium">
+            <IconBrandJavascript />
+            script.js
+          </InputGroupTextUI>
+          <InputGroupButtonUI className="ml-auto" size="icon-xs">
+            <IconRefresh />
+          </InputGroupButtonUI>
+          <InputGroupButtonUI variant="ghost" size="icon-xs">
+            <IconCopy />
+          </InputGroupButtonUI>
+        </InputGroupAddon>
+      </InputGroup>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Custom Input
+
+`data-slot="input-group-control"` 속성을 사용자 지정 입력에 추가하여 자동 포커스 상태 처리를 활성화하세요.
+
+<ComponentPreview name="input-group-custom-input">
+
+```tsx
+"use client"
+
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+} from "@/components/ui/input-group"
+
+export default function InputGroupCustomInput() {
+  return (
+    <div className="grid w-full max-w-sm gap-6">
+      <InputGroup>
+        <textarea
+          data-slot="input-group-control"
+          className="flex min-h-16 w-full resize-none rounded-md bg-transparent px-3 py-2.5 text-base transition-[color,box-shadow] outline-none md:text-sm"
+          placeholder="Custom textarea..."
+        />
+        <InputGroupAddon align="block-end">
+          <InputGroupButton className="ml-auto" size="sm" variant="default">
+            Submit
+          </InputGroupButton>
+        </InputGroupAddon>
+      </InputGroup>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API 참고
+
+### InputGroup
+
+입력과 애드온을 래핑하는 주요 구성 요소입니다.
+
+| Prop        | Type                                             | Default     |
+| ----------- | ------------------------------------------------ | ----------- |
+| `size`      | `"xs" \| "sm" \| "default" \| "lg" \| "xl" \| "2xl"` | `"default"` |
+| `className` | `string`                                         |             |
+
+```tsx
+<InputGroup>
+  <InputGroupInput />
+  <InputGroupAddon />
+</InputGroup>
+```
+
+### InputGroupAddon
+
+입력 필드 옆에 아이콘, 텍스트, 버튼 또는 기타 콘텐츠를 표시합니다.
+
+<Callout icon={<IconInfoCircle />} title="포커스 탐색">
+  올바른 포커스 탐색을 위해 `InputGroupAddon` 구성 요소는 입력 뒤에 배치되어야 합니다. `align` 속성을 설정하여 애드온을 배치하세요.
+</Callout>
+
+| Prop        | Type                                                             | Default          |
+| ----------- | ---------------------------------------------------------------- | ---------------- |
+| `align`     | `"inline-start" \| "inline-end" \| "block-start" \| "block-end"` | `"inline-start"` |
+| `className` | `string`                                                         |                  |
+
+```tsx
+<InputGroupAddon align="inline-end">
+  <SearchIcon />
+</InputGroupAddon>
+```
+
+**`<InputGroupInput />`의 경우 `inline-start` 또는 `inline-end` 정렬을 사용하세요. `<InputGroupTextarea />`의 경우 `block-start` 또는 `block-end` 정렬을 사용하세요.**
+
+`InputGroupAddon` 구성 요소는 여러 `InputGroupButton` 구성 요소와 아이콘을 포함할 수 있습니다.
+
+```tsx
+<InputGroupAddon>
+  <InputGroupButton>버튼</InputGroupButton>
+  <InputGroupButton>버튼</InputGroupButton>
+</InputGroupAddon>
+```
+
+### InputGroupButton
+
+입력 그룹 내에 버튼을 표시합니다.
+
+네 개의 이름 있는 크기는 upstream shadcn과 정확히 같습니다. 공식 문서의 예제를 그대로 복사해도 동일하게 렌더링됩니다.
+
+`size`를 생략하면 버튼이 그룹에 스스로 맞춥니다 — 애드온 패딩을 피해 `xs` 그룹에선 20px부터 `2xl` 그룹에선 40px까지. `default` 그룹에서는 `xs`와 완전히 동일하므로 달라지는 것이 없고, 조절되는 단계는 upstream에 없는 그룹 크기를 위해서만 존재합니다. 높이만 조절하므로 아이콘 전용 버튼은 `icon-xs`나 `icon-sm`을 명시해야 합니다.
+
+| Prop        | Type                                                                          | Default   |
+| ----------- | ----------------------------------------------------------------------------- | --------- |
+| `size`      | `"xs" \| "sm" \| "icon-xs" \| "icon-sm"`                                      | auto-fits the group |
+| `variant`   | `"default" \| "outline" \| "secondary" \| "ghost" \| "info" \| "success" \| "warning" \| "destructive" \| "link"` | `"ghost"` |
+| `className` | `string`                                                                      |           |
+
+```tsx
+<InputGroupButton>버튼</InputGroupButton>
+<InputGroupButton size="icon-xs" aria-label="복사">
+  <CopyIcon />
+</InputGroupButton>
+```
+
+### InputGroupInput
+
+입력 그룹을 구축할 때 `<Input />`을 대체합니다. 이 구성 요소는 입력 그룹 스타일이 미리 적용되어 있으며 자동 포커스 상태 처리를 위해 통합 `data-slot="input-group-control"`을 사용합니다.
+
+| Prop        | Type     | Default |
+| ----------- | -------- | ------- |
+| `className` | `string` |         |
+
+다른 모든 속성은 기본 `<Input />` 구성 요소로 전달됩니다.
+
+```tsx
+<InputGroup>
+  <InputGroupInput placeholder="텍스트 입력..." />
+  <InputGroupAddon>
+    <SearchIcon />
+  </InputGroupAddon>
+</InputGroup>
+```
+
+### InputGroupTextarea
+
+입력 그룹을 구축할 때 `<Textarea />`를 대체합니다. 이 구성 요소는 텍스트 영역 그룹 스타일이 미리 적용되어 있으며 자동 포커스 상태 처리를 위해 통합 `data-slot="input-group-control"`을 사용합니다.
+
+| Prop        | Type     | Default |
+| ----------- | -------- | ------- |
+| `className` | `string` |         |
+
+다른 모든 속성은 기본 `<Textarea />` 구성 요소로 전달됩니다.
+
+```tsx
+<InputGroup>
+  <InputGroupTextarea placeholder="메시지 입력..." />
+  <InputGroupAddon align="block-end">
+    <InputGroupButton>보내기</InputGroupButton>
+  </InputGroupAddon>
+</InputGroup>
+```

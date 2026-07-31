@@ -1,0 +1,1057 @@
+---
+title: Dropdown Menu (드롭다운 메뉴)
+description: 버튼으로 트리거되는 메뉴를 사용자에게 표시합니다 - 작업 또는 함수의 집합과 같은.
+---
+
+<ComponentPreview name="dropdown-menu-demo">
+
+```tsx
+"use client"
+
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
+export default function DropdownMenuDemo() {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger render={<Button variant="outline" />}>
+        Open
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-40" align="start">
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuItem>
+            Profile
+            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            Billing
+            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            Settings
+            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem>Team</DropdownMenuItem>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>Invite users</DropdownMenuSubTrigger>
+            <DropdownMenuPortal>
+              <DropdownMenuSubContent>
+                <DropdownMenuItem>Email</DropdownMenuItem>
+                <DropdownMenuItem>Message</DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>More...</DropdownMenuItem>
+              </DropdownMenuSubContent>
+            </DropdownMenuPortal>
+          </DropdownMenuSub>
+          <DropdownMenuItem>
+            New Team
+            <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem>GitHub</DropdownMenuItem>
+          <DropdownMenuItem>Support</DropdownMenuItem>
+          <DropdownMenuItem disabled>API</DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem>
+            Log out
+            <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+```
+
+</ComponentPreview>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/dropdown-menu
+```
+
+## 사용법
+
+```tsx showLineNumbers
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+```
+
+```tsx showLineNumbers
+<DropdownMenu>
+  <DropdownMenuTrigger render={<Button variant="outline" />}>
+    Open
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuGroup>
+      <DropdownMenuLabel>My Account</DropdownMenuLabel>
+      <DropdownMenuItem>Profile</DropdownMenuItem>
+      <DropdownMenuItem>Billing</DropdownMenuItem>
+    </DropdownMenuGroup>
+    <DropdownMenuSeparator />
+    <DropdownMenuGroup>
+      <DropdownMenuItem>Team</DropdownMenuItem>
+      <DropdownMenuItem>Subscription</DropdownMenuItem>
+    </DropdownMenuGroup>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
+
+## Composition
+
+`DropdownMenu`를 구축하려면 다음 구성을 사용하세요:
+
+```text
+DropdownMenu
+├── DropdownMenuTrigger
+└── DropdownMenuContent
+    ├── DropdownMenuGroup
+    │   ├── DropdownMenuLabel
+    │   ├── DropdownMenuItem
+    │   └── DropdownMenuItem
+    ├── DropdownMenuSeparator
+    ├── DropdownMenuGroup
+    │   ├── DropdownMenuLabel
+    │   ├── DropdownMenuCheckboxItem
+    │   └── DropdownMenuCheckboxItem
+    ├── DropdownMenuSeparator
+    ├── DropdownMenuGroup
+    │   ├── DropdownMenuLabel
+    │   └── DropdownMenuRadioGroup
+    │       ├── DropdownMenuRadioItem
+    │       └── DropdownMenuRadioItem
+    └── DropdownMenuSub
+        ├── DropdownMenuSubTrigger
+        └── DropdownMenuSubContent
+            └── DropdownMenuGroup
+                ├── DropdownMenuLabel
+                ├── DropdownMenuItem
+                └── DropdownMenuItem
+```
+
+## 예시
+
+### Basic
+
+레이블과 구분선이 있는 기본 드롭다운 메뉴입니다.
+
+<ComponentPreview name="dropdown-menu-basic">
+
+```tsx
+"use client"
+
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
+export default function DropdownMenuBasic() {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger render={<Button variant="outline" />}>
+        Open
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuItem>Profile</DropdownMenuItem>
+          <DropdownMenuItem>Billing</DropdownMenuItem>
+          <DropdownMenuItem>Settings</DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>GitHub</DropdownMenuItem>
+        <DropdownMenuItem>Support</DropdownMenuItem>
+        <DropdownMenuItem disabled>API</DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Submenu
+
+`DropdownMenuSub`를 사용하여 보조 작업을 중첩합니다.
+
+<ComponentPreview name="dropdown-menu-submenu">
+
+```tsx
+"use client"
+
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuPortal,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
+export default function DropdownMenuSubmenu() {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger render={<Button variant="outline" />}>
+        Open
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuGroup>
+          <DropdownMenuItem>Team</DropdownMenuItem>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>Invite users</DropdownMenuSubTrigger>
+            <DropdownMenuPortal>
+              <DropdownMenuSubContent>
+                <DropdownMenuItem>Email</DropdownMenuItem>
+                <DropdownMenuItem>Message</DropdownMenuItem>
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger>More options</DropdownMenuSubTrigger>
+                  <DropdownMenuPortal>
+                    <DropdownMenuSubContent>
+                      <DropdownMenuItem>Calendly</DropdownMenuItem>
+                      <DropdownMenuItem>Slack</DropdownMenuItem>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem>Webhook</DropdownMenuItem>
+                    </DropdownMenuSubContent>
+                  </DropdownMenuPortal>
+                </DropdownMenuSub>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem>Advanced...</DropdownMenuItem>
+              </DropdownMenuSubContent>
+            </DropdownMenuPortal>
+          </DropdownMenuSub>
+          <DropdownMenuItem>
+            New Team
+            <DropdownMenuShortcut>⌘+T</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Shortcuts
+
+`DropdownMenuShortcut`을 추가하여 키보드 힌트를 표시합니다.
+
+<ComponentPreview name="dropdown-menu-shortcuts">
+
+```tsx
+"use client"
+
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
+export default function DropdownMenuShortcuts() {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger render={<Button variant="outline" />}>
+        Open
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <DropdownMenuItem>
+            Profile
+            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            Billing
+            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            Settings
+            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>
+          Log out
+          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Icons
+
+빠른 스캔을 위해 아이콘을 레이블과 결합합니다.
+
+<ComponentPreview name="dropdown-menu-icons">
+
+```tsx
+"use client"
+
+import {
+  IconCreditCard,
+  IconLogout,
+  IconSettings,
+  IconUser,
+} from "@tabler/icons-react"
+
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
+export default function DropdownMenuIcons() {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger render={<Button variant="outline" />}>
+        Open
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuItem>
+          <IconUser />
+          Profile
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <IconCreditCard />
+          Billing
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <IconSettings />
+          Settings
+        </DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem variant="destructive">
+          <IconLogout />
+          Log out
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Checkboxes
+
+토글을 위해 `DropdownMenuCheckboxItem`을 사용합니다.
+
+<ComponentPreview name="dropdown-menu-checkboxes">
+
+```tsx
+"use client"
+
+import * as React from "react"
+
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
+export default function DropdownMenuCheckboxes() {
+  const [showStatusBar, setShowStatusBar] = React.useState(true)
+  const [showActivityBar, setShowActivityBar] = React.useState(false)
+  const [showPanel, setShowPanel] = React.useState(false)
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger render={<Button variant="outline" />}>
+        Open
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-40">
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>Appearance</DropdownMenuLabel>
+          <DropdownMenuCheckboxItem
+            checked={showStatusBar ?? false}
+            onCheckedChange={setShowStatusBar}
+          >
+            Status Bar
+          </DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem
+            checked={showActivityBar}
+            onCheckedChange={setShowActivityBar}
+            disabled
+          >
+            Activity Bar
+          </DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem
+            checked={showPanel}
+            onCheckedChange={setShowPanel}
+          >
+            Panel
+          </DropdownMenuCheckboxItem>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Checkboxes Icons
+
+체크박스 항목에 아이콘을 추가합니다.
+
+<ComponentPreview name="dropdown-menu-checkboxes-icons">
+
+```tsx
+"use client"
+
+import * as React from "react"
+import { IconBell, IconMail, IconMessage } from "@tabler/icons-react"
+
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuLabel,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
+export default function DropdownMenuCheckboxesIcons() {
+  const [notifications, setNotifications] = React.useState({
+    email: true,
+    sms: false,
+    push: true,
+  })
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger render={<Button variant="outline" />}>
+        Notifications
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-48">
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>Notification Preferences</DropdownMenuLabel>
+          <DropdownMenuCheckboxItem
+            checked={notifications.email}
+            onCheckedChange={(checked) =>
+              setNotifications({ ...notifications, email: checked === true })
+            }
+          >
+            <IconMail />
+            Email notifications
+          </DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem
+            checked={notifications.sms}
+            onCheckedChange={(checked) =>
+              setNotifications({ ...notifications, sms: checked === true })
+            }
+          >
+            <IconMessage />
+            SMS notifications
+          </DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem
+            checked={notifications.push}
+            onCheckedChange={(checked) =>
+              setNotifications({ ...notifications, push: checked === true })
+            }
+          >
+            <IconBell />
+            Push notifications
+          </DropdownMenuCheckboxItem>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Radio Group
+
+배타적 선택을 위해 `DropdownMenuRadioGroup`을 사용합니다.
+
+<ComponentPreview name="dropdown-menu-radio-group">
+
+```tsx
+"use client"
+
+import * as React from "react"
+
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup as DropdownMenuRadioGroupComponent,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
+export default function DropdownMenuRadioGroup() {
+  const [position, setPosition] = React.useState("bottom")
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger render={<Button variant="outline" />}>
+        Open
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-32">
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>Panel Position</DropdownMenuLabel>
+          <DropdownMenuRadioGroupComponent value={position} onValueChange={setPosition}>
+            <DropdownMenuRadioItem value="top">Top</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="bottom">Bottom</DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="right">Right</DropdownMenuRadioItem>
+          </DropdownMenuRadioGroupComponent>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Radio Icons
+
+라디오 옵션을 아이콘과 함께 표시합니다.
+
+<ComponentPreview name="dropdown-menu-radio-icons">
+
+```tsx
+"use client"
+
+import * as React from "react"
+import { IconBuilding, IconCreditCard, IconWallet } from "@tabler/icons-react"
+
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
+export default function DropdownMenuRadioIcons() {
+  const [paymentMethod, setPaymentMethod] = React.useState("card")
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger render={<Button variant="outline" />}>
+        Payment Method
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="min-w-56">
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>Select Payment Method</DropdownMenuLabel>
+          <DropdownMenuRadioGroup
+            value={paymentMethod}
+            onValueChange={setPaymentMethod}
+          >
+            <DropdownMenuRadioItem value="card">
+              <IconCreditCard />
+              Credit Card
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="paypal">
+              <IconWallet />
+              PayPal
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="bank">
+              <IconBuilding />
+              Bank Transfer
+            </DropdownMenuRadioItem>
+          </DropdownMenuRadioGroup>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Destructive
+
+되돌릴 수 없는 작업을 위해 `variant="destructive"`를 사용합니다.
+
+<ComponentPreview name="dropdown-menu-destructive">
+
+```tsx
+"use client"
+
+import { IconPencil, IconShare, IconTrash } from "@tabler/icons-react"
+
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
+export default function DropdownMenuDestructive() {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger render={<Button variant="outline" />}>
+        Actions
+      </DropdownMenuTrigger>
+      <DropdownMenuContent>
+        <DropdownMenuGroup>
+          <DropdownMenuItem>
+            <IconPencil />
+            Edit
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <IconShare />
+            Share
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem variant="destructive">
+            <IconTrash />
+            Delete
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Avatar
+
+아바타로 트리거되는 계정 전환기 드롭다운입니다.
+
+<ComponentPreview name="dropdown-menu-avatar">
+
+```tsx
+"use client"
+
+import {
+  IconBadge,
+  IconBell,
+  IconCreditCard,
+  IconLogout,
+} from "@tabler/icons-react"
+
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
+export default function DropdownMenuAvatar() {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        render={<Button variant="ghost" size="icon" className="rounded-full" />}
+      >
+        <Avatar>
+          <AvatarImage src="https://github.com/shadcn.png" alt="shadcn" />
+          <AvatarFallback>LR</AvatarFallback>
+        </Avatar>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuGroup>
+          <DropdownMenuItem>
+            <IconBadge />
+            Account
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <IconCreditCard />
+            Billing
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <IconBell />
+            Notifications
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem>
+          <IconLogout />
+          Sign Out
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Complex
+
+그룹, 아이콘 및 서브메뉴를 결합한 더 풍부한 예시입니다.
+
+<ComponentPreview name="dropdown-menu-complex">
+
+```tsx
+"use client"
+
+import * as React from "react"
+import {
+  IconBell,
+  IconCreditCard,
+  IconDownload,
+  IconEye,
+  IconFileCode,
+  IconFile,
+  IconFileText,
+  IconFolder,
+  IconFolderOpen,
+  IconFolderSearch,
+  IconHelpCircle,
+  IconKeyboard,
+  IconLanguage,
+  IconLayout,
+  IconLogout,
+  IconMail,
+  IconDeviceDesktop,
+  IconMoon,
+  IconDots,
+  IconPalette,
+  IconDeviceFloppy,
+  IconSettings,
+  IconShield,
+  IconSun,
+  IconUser,
+} from "@tabler/icons-react"
+
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
+export default function DropdownMenuComplex() {
+  const [notifications, setNotifications] = React.useState({
+    email: true,
+    sms: false,
+    push: true,
+  })
+  const [theme, setTheme] = React.useState("light")
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger render={<Button variant="outline" />}>
+        Complex Menu
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-44">
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>File</DropdownMenuLabel>
+          <DropdownMenuItem>
+            <IconFile />
+            New File
+            <DropdownMenuShortcut>⌘N</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <IconFolder />
+            New Folder
+            <DropdownMenuShortcut>⇧⌘N</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>
+              <IconFolderOpen />
+              Open Recent
+            </DropdownMenuSubTrigger>
+            <DropdownMenuPortal>
+              <DropdownMenuSubContent>
+                <DropdownMenuGroup>
+                  <DropdownMenuLabel>Recent Projects</DropdownMenuLabel>
+                  <DropdownMenuItem>
+                    <IconFileCode />
+                    Project Alpha
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <IconFileCode />
+                    Project Beta
+                  </DropdownMenuItem>
+                  <DropdownMenuSub>
+                    <DropdownMenuSubTrigger>
+                      <IconDots />
+                      More Projects
+                    </DropdownMenuSubTrigger>
+                    <DropdownMenuPortal>
+                      <DropdownMenuSubContent>
+                        <DropdownMenuItem>
+                          <IconFileCode />
+                          Project Gamma
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>
+                          <IconFileCode />
+                          Project Delta
+                        </DropdownMenuItem>
+                      </DropdownMenuSubContent>
+                    </DropdownMenuPortal>
+                  </DropdownMenuSub>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                  <DropdownMenuItem>
+                    <IconFolderSearch />
+                    Browse...
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+              </DropdownMenuSubContent>
+            </DropdownMenuPortal>
+          </DropdownMenuSub>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>
+            <IconDeviceFloppy />
+            Save
+            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <IconDownload />
+            Export
+            <DropdownMenuShortcut>⇧⌘E</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>View</DropdownMenuLabel>
+          <DropdownMenuCheckboxItem
+            checked={notifications.email}
+            onCheckedChange={(checked) =>
+              setNotifications({ ...notifications, email: checked === true })
+            }
+          >
+            <IconEye />
+            Show Sidebar
+          </DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem
+            checked={notifications.sms}
+            onCheckedChange={(checked) =>
+              setNotifications({ ...notifications, sms: checked === true })
+            }
+          >
+            <IconLayout />
+            Show Status Bar
+          </DropdownMenuCheckboxItem>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>
+              <IconPalette />
+              Theme
+            </DropdownMenuSubTrigger>
+            <DropdownMenuPortal>
+              <DropdownMenuSubContent>
+                <DropdownMenuGroup>
+                  <DropdownMenuLabel>Appearance</DropdownMenuLabel>
+                  <DropdownMenuRadioGroup
+                    value={theme}
+                    onValueChange={setTheme}
+                  >
+                    <DropdownMenuRadioItem value="light">
+                      <IconSun />
+                      Light
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="dark">
+                      <IconMoon />
+                      Dark
+                    </DropdownMenuRadioItem>
+                    <DropdownMenuRadioItem value="system">
+                      <IconDeviceDesktop />
+                      System
+                    </DropdownMenuRadioItem>
+                  </DropdownMenuRadioGroup>
+                </DropdownMenuGroup>
+              </DropdownMenuSubContent>
+            </DropdownMenuPortal>
+          </DropdownMenuSub>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>Account</DropdownMenuLabel>
+          <DropdownMenuItem>
+            <IconUser />
+            Profile
+            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <IconCreditCard />
+            Billing
+          </DropdownMenuItem>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>
+              <IconSettings />
+              Settings
+            </DropdownMenuSubTrigger>
+            <DropdownMenuPortal>
+              <DropdownMenuSubContent>
+                <DropdownMenuGroup>
+                  <DropdownMenuLabel>Preferences</DropdownMenuLabel>
+                  <DropdownMenuItem>
+                    <IconKeyboard />
+                    Keyboard Shortcuts
+                  </DropdownMenuItem>
+                  <DropdownMenuItem>
+                    <IconLanguage />
+                    Language
+                  </DropdownMenuItem>
+                  <DropdownMenuSub>
+                    <DropdownMenuSubTrigger>
+                      <IconBell />
+                      Notifications
+                    </DropdownMenuSubTrigger>
+                    <DropdownMenuPortal>
+                      <DropdownMenuSubContent>
+                        <DropdownMenuGroup>
+                          <DropdownMenuLabel>
+                            Notification Types
+                          </DropdownMenuLabel>
+                          <DropdownMenuCheckboxItem
+                            checked={notifications.push}
+                            onCheckedChange={(checked) =>
+                              setNotifications({
+                                ...notifications,
+                                push: checked === true,
+                              })
+                            }
+                          >
+                            <IconBell />
+                            Push Notifications
+                          </DropdownMenuCheckboxItem>
+                          <DropdownMenuCheckboxItem
+                            checked={notifications.email}
+                            onCheckedChange={(checked) =>
+                              setNotifications({
+                                ...notifications,
+                                email: checked === true,
+                              })
+                            }
+                          >
+                            <IconMail />
+                            Email Notifications
+                          </DropdownMenuCheckboxItem>
+                        </DropdownMenuGroup>
+                      </DropdownMenuSubContent>
+                    </DropdownMenuPortal>
+                  </DropdownMenuSub>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                  <DropdownMenuItem>
+                    <IconShield />
+                    Privacy & Security
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+              </DropdownMenuSubContent>
+            </DropdownMenuPortal>
+          </DropdownMenuSub>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem>
+            <IconHelpCircle />
+            Help & Support
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <IconFileText />
+            Documentation
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem variant="destructive">
+            <IconLogout />
+            Sign Out
+            <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API 참고
+
+컴포넌트는 [Base UI Menu](https://base-ui.com/react/components/menu)를 래핑하며 모든 props를 허용합니다.

@@ -1,0 +1,192 @@
+---
+title: Hover Card (호버 카드)
+description: 링크의 콘텐츠를 미리 보기할 수 있는 카드입니다.
+---
+
+<ComponentPreview name="hover-card-demo">
+
+```tsx
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card"
+
+export default function HoverCardDemo() {
+  return (
+    <HoverCard>
+      <HoverCardTrigger
+        delay={10}
+        closeDelay={100}
+        render={<Button variant="link" />}
+      >
+        호버하기
+      </HoverCardTrigger>
+      <HoverCardContent className="flex w-64 flex-col gap-0.5">
+        <div className="font-semibold">@nextjs</div>
+        <div>Vercel에서 만들고 관리하는 React 프레임워크입니다.</div>
+        <div className="mt-1 text-xs text-muted-foreground">
+          2021년 12월 가입
+        </div>
+      </HoverCardContent>
+    </HoverCard>
+  )
+}
+```
+
+</ComponentPreview>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/hover-card
+```
+
+## 사용법
+
+```tsx showLineNumbers
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card"
+```
+
+```tsx showLineNumbers
+<HoverCard>
+  <HoverCardTrigger>Hover</HoverCardTrigger>
+  <HoverCardContent>
+    The React Framework – created and maintained by @vercel.
+  </HoverCardContent>
+</HoverCard>
+```
+
+## Composition
+
+`HoverCard`를 만들기 위해 다음 구성을 사용하세요:
+
+```text
+HoverCard
+├── HoverCardTrigger
+└── HoverCardContent
+```
+
+## 트리거 지연
+
+트리거에서 `delay`와 `closeDelay` 속성을 사용하여 카드가 열리고 닫히는 시간을 제어할 수 있습니다.
+
+```tsx
+<HoverCard>
+  <HoverCardTrigger delay={100} closeDelay={200}>
+    호버
+  </HoverCardTrigger>
+  <HoverCardContent>콘텐츠</HoverCardContent>
+</HoverCard>
+```
+
+## 위치 지정
+
+`HoverCardContent`에서 `side`와 `align` 속성을 사용하여 배치를 제어할 수 있습니다.
+
+```tsx
+<HoverCard>
+  <HoverCardTrigger>호버</HoverCardTrigger>
+  <HoverCardContent side="top" align="start">
+    콘텐츠
+  </HoverCardContent>
+</HoverCard>
+```
+
+## 예시
+
+### Basic
+
+<ComponentPreview name="hover-card-basic">
+
+```tsx
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card"
+
+export default function HoverCardBasic() {
+  return (
+    <HoverCard>
+      <HoverCardTrigger
+        delay={10}
+        closeDelay={100}
+        render={<Button variant="link" />}
+      >
+        호버하기
+      </HoverCardTrigger>
+      <HoverCardContent className="flex w-64 flex-col gap-0.5">
+        <div className="font-semibold">@nextjs</div>
+        <div>Vercel에서 만들고 관리하는 React 프레임워크입니다.</div>
+        <div className="mt-1 text-xs text-muted-foreground">
+          2021년 12월 가입
+        </div>
+      </HoverCardContent>
+    </HoverCard>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Sides
+
+<ComponentPreview name="hover-card-sides">
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card"
+
+const HOVER_CARD_SIDES = ["left", "top", "bottom", "right"] as const
+
+export default function HoverCardSides() {
+  return (
+    <div className="flex flex-wrap justify-center gap-2">
+      {HOVER_CARD_SIDES.map((side) => (
+        <HoverCard key={side}>
+          <HoverCardTrigger
+            delay={100}
+            closeDelay={100}
+            render={<Button variant="outline" className="capitalize" />}
+          >
+            {side}
+          </HoverCardTrigger>
+          <HoverCardContent side={side}>
+            <div className="flex flex-col gap-1">
+              <h4 className="font-medium">호버 카드</h4>
+              <p>이 호버 카드는 트리거의 {side} 측에 나타납니다.</p>
+            </div>
+          </HoverCardContent>
+        </HoverCard>
+      ))}
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API 참고
+
+이 컴포넌트는 [Base UI Hover Card](https://base-ui.com/react/components/hover-card)를 래핑하고 모든 속성을 지원합니다.

@@ -1,0 +1,146 @@
+---
+title: Separator
+description: Visually or semantically separates content.
+---
+
+<ComponentPreview name="separator-demo">
+
+```tsx
+import { Separator } from "@/components/ui/separator"
+
+export function SeparatorDemo() {
+  return (
+    <div className="flex max-w-sm flex-col gap-4 text-sm">
+      <div className="flex flex-col gap-1.5">
+        <div className="leading-none font-medium">shadcn/ui</div>
+        <div className="text-muted-foreground">
+          The Foundation for your Design System
+        </div>
+      </div>
+      <Separator />
+      <div>
+        A set of beautifully designed components that you can customize, extend,
+        and build on.
+      </div>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## Installation
+
+```bash
+bunx shadcn@latest add @ondo-ui/separator
+```
+
+## Usage
+
+```tsx showLineNumbers
+import { Separator } from "@/components/ui/separator"
+```
+
+```tsx showLineNumbers
+<Separator />
+```
+
+## Examples
+
+### Vertical
+
+Use `orientation="vertical"` for a vertical separator.
+
+<ComponentPreview name="separator-vertical">
+
+```tsx
+import { Separator } from "@/components/ui/separator"
+
+export function SeparatorVertical() {
+  return (
+    <div className="flex h-5 items-center gap-4 text-sm">
+      <div>Blog</div>
+      <Separator orientation="vertical" />
+      <div>Docs</div>
+      <Separator orientation="vertical" />
+      <div>Source</div>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Menu
+
+Vertical separators between menu items with descriptions.
+
+<ComponentPreview name="separator-menu">
+
+```tsx
+import { Separator } from "@/components/ui/separator"
+
+export function SeparatorMenu() {
+  return (
+    <div className="flex items-center gap-2 text-sm md:gap-4">
+      <div className="flex flex-col gap-1">
+        <span className="font-medium">Settings</span>
+        <span className="text-xs text-muted-foreground">
+          Manage preferences
+        </span>
+      </div>
+      <Separator orientation="vertical" />
+      <div className="flex flex-col gap-1">
+        <span className="font-medium">Account</span>
+        <span className="text-xs text-muted-foreground">
+          Profile & security
+        </span>
+      </div>
+      <Separator orientation="vertical" className="hidden md:block" />
+      <div className="hidden flex-col gap-1 md:flex">
+        <span className="font-medium">Help</span>
+        <span className="text-xs text-muted-foreground">Support & docs</span>
+      </div>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### List
+
+Horizontal separators between list items.
+
+<ComponentPreview name="separator-list">
+
+```tsx
+import { Separator } from "@/components/ui/separator"
+
+export function SeparatorList() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-2 text-sm">
+      <dl className="flex items-center justify-between">
+        <dt>Item 1</dt>
+        <dd className="text-muted-foreground">Value 1</dd>
+      </dl>
+      <Separator />
+      <dl className="flex items-center justify-between">
+        <dt>Item 2</dt>
+        <dd className="text-muted-foreground">Value 2</dd>
+      </dl>
+      <Separator />
+      <dl className="flex items-center justify-between">
+        <dt>Item 3</dt>
+        <dd className="text-muted-foreground">Value 3</dd>
+      </dl>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API reference
+
+The component wraps [Base UI Separator](https://base-ui.com/react/components/separator) and accepts all of its props.

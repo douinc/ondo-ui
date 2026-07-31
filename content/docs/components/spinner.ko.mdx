@@ -1,0 +1,223 @@
+---
+title: Spinner (스피너)
+description: 로딩 상태를 표시하기 위해 사용할 수 있는 인디케이터입니다.
+---
+
+<ComponentPreview name="spinner-demo">
+
+```tsx
+import {
+  Item,
+  ItemContent,
+  ItemMedia,
+  ItemTitle,
+} from "@/components/ui/item"
+import { Spinner } from "@/components/ui/spinner"
+
+export function SpinnerDemo() {
+  return (
+    <div className="flex w-full max-w-xs flex-col gap-4 [--radius:1rem]">
+      <Item variant="muted">
+        <ItemMedia>
+          <Spinner />
+        </ItemMedia>
+        <ItemContent>
+          <ItemTitle className="line-clamp-1">Processing payment...</ItemTitle>
+        </ItemContent>
+        <ItemContent className="flex-none justify-end">
+          <span className="text-sm tabular-nums">$100.00</span>
+        </ItemContent>
+      </Item>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/spinner
+```
+
+## 사용법
+
+```tsx
+import { Spinner } from "@/components/ui/spinner"
+```
+
+```tsx
+<Spinner />
+```
+
+## 예시
+
+### Size
+
+`size-*` 유틸리티 클래스를 사용하여 스피너의 크기를 변경합니다.
+
+<ComponentPreview name="spinner-size">
+
+```tsx
+import { Spinner } from "@/components/ui/spinner"
+
+export function SpinnerSize() {
+  return (
+    <div className="flex items-center gap-6">
+      <Spinner className="size-3" />
+      <Spinner className="size-4" />
+      <Spinner className="size-6" />
+      <Spinner className="size-8" />
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Button
+
+로딩 상태를 나타내기 위해 버튼에 스피너를 추가합니다. 시작 위치에 `<Spinner />`를 `data-icon="inline-start"`로 배치하거나, 끝 위치에 `data-icon="inline-end"`로 배치합니다.
+
+<ComponentPreview name="spinner-button">
+
+```tsx
+import { Button } from "@/components/ui/button"
+import { Spinner } from "@/components/ui/spinner"
+
+export function SpinnerButton() {
+  return (
+    <div className="flex flex-col items-center gap-4">
+      <Button disabled size="sm">
+        <Spinner data-icon="inline-start" />
+        Loading...
+      </Button>
+      <Button variant="outline" disabled size="sm">
+        <Spinner data-icon="inline-start" />
+        Please wait
+      </Button>
+      <Button variant="secondary" disabled size="sm">
+        <Spinner data-icon="inline-start" />
+        Processing
+      </Button>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Badge
+
+로딩 상태를 나타내기 위해 배지에 스피너를 추가합니다. 시작 위치에 `<Spinner />`를 `data-icon="inline-start"`로 배치하거나, 끝 위치에 `data-icon="inline-end"`로 배치합니다.
+
+<ComponentPreview name="spinner-badge">
+
+```tsx
+import { Badge } from "@/components/ui/badge"
+import { Spinner } from "@/components/ui/spinner"
+
+export function SpinnerBadge() {
+  return (
+    <div className="flex items-center gap-4 [--radius:1.2rem]">
+      <Badge>
+        <Spinner data-icon="inline-start" />
+        Syncing
+      </Badge>
+      <Badge variant="secondary">
+        <Spinner data-icon="inline-start" />
+        Updating
+      </Badge>
+      <Badge variant="outline">
+        <Spinner data-icon="inline-start" />
+        Processing
+      </Badge>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Input Group
+
+<ComponentPreview name="spinner-input-group">
+
+```tsx
+import { IconArrowUp } from "@tabler/icons-react"
+
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+  InputGroupTextarea,
+} from "@/components/ui/input-group"
+import { Spinner } from "@/components/ui/spinner"
+
+export function SpinnerInputGroup() {
+  return (
+    <div className="flex w-full max-w-md flex-col gap-4">
+      <InputGroup>
+        <InputGroupInput placeholder="Send a message..." disabled />
+        <InputGroupAddon align="inline-end">
+          <Spinner />
+        </InputGroupAddon>
+      </InputGroup>
+      <InputGroup>
+        <InputGroupTextarea placeholder="Send a message..." disabled />
+        <InputGroupAddon align="block-end">
+          <Spinner /> Validating...
+          <InputGroupButton className="ml-auto" variant="default">
+            <IconArrowUp />
+            <span className="sr-only">Send</span>
+          </InputGroupButton>
+        </InputGroupAddon>
+      </InputGroup>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Empty
+
+<ComponentPreview name="spinner-empty">
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty"
+import { Spinner } from "@/components/ui/spinner"
+
+export function SpinnerEmpty() {
+  return (
+    <Empty className="w-full">
+      <EmptyHeader>
+        <EmptyMedia variant="icon">
+          <Spinner />
+        </EmptyMedia>
+        <EmptyTitle>Processing your request</EmptyTitle>
+        <EmptyDescription>
+          Please wait while we process your request. Do not refresh the page.
+        </EmptyDescription>
+      </EmptyHeader>
+      <EmptyContent>
+        <Button variant="outline" size="sm">
+          Cancel
+        </Button>
+      </EmptyContent>
+    </Empty>
+  )
+}
+```
+
+</ComponentPreview>

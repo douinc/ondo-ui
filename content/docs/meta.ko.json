@@ -1,0 +1,18 @@
+{
+  "title": "문서",
+  "pages": [
+    "---섹션---",
+    "index",
+    "installation",
+    "theming",
+    "mcp",
+    "changelog",
+    "versioning",
+    "---컴포넌트---",
+    "...components",
+    "---조합 컴포넌트---",
+    "...compositions",
+    "---유틸리티---",
+    "...utils"
+  ]
+}

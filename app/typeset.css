@@ -1,0 +1,181 @@
+/*
+ * Typeset — a small typography system for rendered markdown/MDX.
+ * Three controls (--typeset-size, --typeset-leading, --typeset-flow) drive the
+ * whole scale. Every element selector uses :where() so plain Tailwind utilities
+ * on an element win without !important, and every selector excludes anything
+ * under .not-typeset / [data-not-typeset] the same way @tailwindcss/typography's
+ * not-prose does. Spacing flows one direction (margin-block-start only) so a
+ * container can safely append new blocks without restyling earlier ones.
+ */
+
+@layer components {
+  :where(.typeset) {
+    --typeset-size: 1em;
+    --typeset-leading: 1.75;
+    --typeset-flow: 1.25em;
+    --typeset-font-body: inherit;
+    --typeset-font-heading: var(--font-heading);
+    --typeset-font-mono: var(--font-mono);
+
+    font-size: var(--typeset-size);
+    line-height: var(--typeset-leading);
+    font-family: var(--typeset-font-body);
+    color: var(--foreground);
+  }
+
+  @media (max-width: 640px) {
+    :where(.typeset) {
+      --typeset-size: calc(1em * 1.0625);
+    }
+  }
+
+  :where(.typeset h1):not(:where([class~="not-typeset"], [class~="not-typeset"] *)) {
+    margin-block-start: calc(var(--typeset-flow) * 2);
+    font-size: calc(var(--typeset-size) * 2);
+    font-family: var(--typeset-font-heading);
+    font-weight: 700;
+    line-height: 1.15;
+  }
+
+  :where(.typeset h2):not(:where([class~="not-typeset"], [class~="not-typeset"] *)) {
+    margin-block-start: calc(var(--typeset-flow) * 2);
+    font-size: calc(var(--typeset-size) * 1.5);
+    font-family: var(--typeset-font-heading);
+    font-weight: 700;
+    line-height: 1.3;
+  }
+
+  :where(.typeset h3):not(:where([class~="not-typeset"], [class~="not-typeset"] *)) {
+    margin-block-start: calc(var(--typeset-flow) * 1.6);
+    font-size: calc(var(--typeset-size) * 1.25);
+    font-family: var(--typeset-font-heading);
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  :where(.typeset h4):not(:where([class~="not-typeset"], [class~="not-typeset"] *)) {
+    margin-block-start: calc(var(--typeset-flow) * 1.5);
+    font-size: calc(var(--typeset-size) * 1.1);
+    font-family: var(--typeset-font-heading);
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  :where(.typeset h1, .typeset h2, .typeset h3, .typeset h4):first-child {
+    margin-block-start: 0;
+  }
+
+  :where(.typeset p):not(:where([class~="not-typeset"], [class~="not-typeset"] *)) {
+    margin-block-start: var(--typeset-flow);
+  }
+
+  :where(.typeset ul, .typeset ol):not(:where([class~="not-typeset"], [class~="not-typeset"] *)) {
+    margin-block-start: var(--typeset-flow);
+    padding-inline-start: calc(var(--typeset-flow) * 1.2);
+  }
+
+  :where(.typeset ul):not(:where([class~="not-typeset"], [class~="not-typeset"] *)) {
+    list-style-type: disc;
+  }
+
+  :where(.typeset ol):not(:where([class~="not-typeset"], [class~="not-typeset"] *)) {
+    list-style-type: decimal;
+  }
+
+  :where(.typeset li):not(:where([class~="not-typeset"], [class~="not-typeset"] *)) {
+    margin-block-start: calc(var(--typeset-flow) * 0.4);
+    padding-inline-start: 0.375em;
+  }
+
+  :where(.typeset p, .typeset ul, .typeset ol, .typeset li):first-child {
+    margin-block-start: 0;
+  }
+
+  :where(.typeset blockquote):not(:where([class~="not-typeset"], [class~="not-typeset"] *)) {
+    margin-block-start: var(--typeset-flow);
+    padding-inline-start: calc(var(--typeset-flow) * 0.8);
+    border-inline-start: 2px solid var(--border);
+    color: var(--muted-foreground);
+    font-style: italic;
+  }
+
+  :where(.typeset hr):not(:where([class~="not-typeset"], [class~="not-typeset"] *)) {
+    margin-block-start: calc(var(--typeset-flow) * 1.5);
+    border: none;
+    border-top: 1px solid var(--border);
+  }
+
+  :where(.typeset blockquote, .typeset hr):first-child {
+    margin-block-start: 0;
+  }
+
+  /*
+   * Excludes anchors inside headings — fumadocs wraps the whole heading text
+   * in a permalink <a>, and that should keep the heading's own color/weight
+   * rather than picking up link styling.
+   */
+  :where(.typeset a):not(:is(h1, h2, h3, h4) a):not(:where([class~="not-typeset"], [class~="not-typeset"] *)) {
+    color: var(--primary);
+    text-decoration-line: underline;
+    text-decoration-color: color-mix(in oklch, var(--primary), transparent 55%);
+    text-underline-offset: 3px;
+  }
+
+  :where(.typeset a:hover):not(:is(h1, h2, h3, h4) a):not(:where([class~="not-typeset"], [class~="not-typeset"] *)) {
+    text-decoration-color: var(--primary);
+  }
+
+  :where(.typeset strong, .typeset b):not(:where([class~="not-typeset"], [class~="not-typeset"] *)) {
+    font-weight: 700;
+  }
+
+  :where(.typeset table):not(:where([class~="not-typeset"], [class~="not-typeset"] *)) {
+    margin-block-start: var(--typeset-flow);
+    width: 100%;
+    border-collapse: collapse;
+    font-size: calc(var(--typeset-size) * 0.9);
+  }
+
+  :where(.typeset table):first-child {
+    margin-block-start: 0;
+  }
+
+  :where(.typeset th, .typeset td):not(:where([class~="not-typeset"], [class~="not-typeset"] *)) {
+    border-bottom: 1px solid var(--border);
+    padding: calc(var(--typeset-flow) * 0.5) calc(var(--typeset-flow) * 0.6);
+    text-align: start;
+    vertical-align: top;
+  }
+
+  :where(.typeset th):not(:where([class~="not-typeset"], [class~="not-typeset"] *)) {
+    font-weight: 600;
+    color: var(--foreground);
+  }
+
+  /*
+   * Inline code only — fenced blocks ([data-rehype-pretty-code-figure] > pre >
+   * code, plus bare pre > code like CodeBlockCommand) are fully styled by the
+   * rehype-pretty-code rules in globals.css. Never touch those.
+   */
+  :where(.typeset code):not(:where(pre *, [data-rehype-pretty-code-figure] *, [data-not-typeset], [data-not-typeset] *, [class~="not-typeset"], [class~="not-typeset"] *)) {
+    font-family: var(--typeset-font-mono);
+    font-size: calc(var(--typeset-size) * 0.875);
+    background-color: var(--muted);
+    border-radius: var(--radius-sm);
+    padding: 0.15em 0.4em;
+  }
+}
+
+@layer components {
+  .typeset-scroll {
+    overflow-x: auto;
+  }
+}
+
+@layer components {
+  .typeset-docs {
+    --typeset-size: 1em;
+    --typeset-leading: 1.75;
+    --typeset-flow: 1.25em;
+  }
+}

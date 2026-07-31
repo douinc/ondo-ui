@@ -1,0 +1,735 @@
+---
+title: Context Menu
+description: Displays a menu of actions triggered by a right click.
+---
+
+<ComponentPreview name="context-menu-demo">
+
+```tsx
+import {
+  ContextMenu,
+  ContextMenuCheckboxItem,
+  ContextMenuContent,
+  ContextMenuGroup,
+  ContextMenuItem,
+  ContextMenuLabel,
+  ContextMenuRadioGroup,
+  ContextMenuRadioItem,
+  ContextMenuSeparator,
+  ContextMenuShortcut,
+  ContextMenuSub,
+  ContextMenuSubContent,
+  ContextMenuSubTrigger,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu"
+
+export default function ContextMenuDemo() {
+  return (
+    <ContextMenu>
+      <ContextMenuTrigger className="flex aspect-video w-full max-w-xs items-center justify-center rounded-xl border border-dashed text-sm">
+        <span className="hidden pointer-fine:inline-block">
+          Right click here
+        </span>
+        <span className="hidden pointer-coarse:inline-block">
+          Long press here
+        </span>
+      </ContextMenuTrigger>
+      <ContextMenuContent className="w-48">
+        <ContextMenuGroup>
+          <ContextMenuItem>
+            Back
+            <ContextMenuShortcut>⌘[</ContextMenuShortcut>
+          </ContextMenuItem>
+          <ContextMenuItem disabled>
+            Forward
+            <ContextMenuShortcut>⌘]</ContextMenuShortcut>
+          </ContextMenuItem>
+          <ContextMenuItem>
+            Reload
+            <ContextMenuShortcut>⌘R</ContextMenuShortcut>
+          </ContextMenuItem>
+          <ContextMenuSub>
+            <ContextMenuSubTrigger>More Tools</ContextMenuSubTrigger>
+            <ContextMenuSubContent className="w-44">
+              <ContextMenuGroup>
+                <ContextMenuItem>Save Page...</ContextMenuItem>
+                <ContextMenuItem>Create Shortcut...</ContextMenuItem>
+                <ContextMenuItem>Name Window...</ContextMenuItem>
+              </ContextMenuGroup>
+              <ContextMenuSeparator />
+              <ContextMenuGroup>
+                <ContextMenuItem>Developer Tools</ContextMenuItem>
+              </ContextMenuGroup>
+              <ContextMenuSeparator />
+              <ContextMenuGroup>
+                <ContextMenuItem variant="destructive">Delete</ContextMenuItem>
+              </ContextMenuGroup>
+            </ContextMenuSubContent>
+          </ContextMenuSub>
+        </ContextMenuGroup>
+        <ContextMenuSeparator />
+        <ContextMenuGroup>
+          <ContextMenuCheckboxItem checked>
+            Show Bookmarks
+          </ContextMenuCheckboxItem>
+          <ContextMenuCheckboxItem>Show Full URLs</ContextMenuCheckboxItem>
+        </ContextMenuGroup>
+        <ContextMenuSeparator />
+        <ContextMenuGroup>
+          <ContextMenuRadioGroup value="pedro">
+            <ContextMenuLabel>People</ContextMenuLabel>
+            <ContextMenuRadioItem value="pedro">
+              Pedro Duarte
+            </ContextMenuRadioItem>
+            <ContextMenuRadioItem value="colm">Colm Tuite</ContextMenuRadioItem>
+          </ContextMenuRadioGroup>
+        </ContextMenuGroup>
+      </ContextMenuContent>
+    </ContextMenu>
+  )
+}
+```
+
+</ComponentPreview>
+
+## Installation
+
+```bash
+bunx shadcn@latest add @ondo-ui/context-menu
+```
+
+## Usage
+
+```tsx showLineNumbers
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu"
+```
+
+```tsx showLineNumbers
+<ContextMenu>
+  <ContextMenuTrigger>Right click here</ContextMenuTrigger>
+  <ContextMenuContent>
+    <ContextMenuItem>Profile</ContextMenuItem>
+    <ContextMenuItem>Billing</ContextMenuItem>
+    <ContextMenuItem>Team</ContextMenuItem>
+    <ContextMenuItem>Subscription</ContextMenuItem>
+  </ContextMenuContent>
+</ContextMenu>
+```
+
+## Composition
+
+Use the following composition to build a `ContextMenu`:
+
+```text
+ContextMenu
+├── ContextMenuTrigger
+└── ContextMenuContent
+    ├── ContextMenuGroup
+    │   ├── ContextMenuLabel
+    │   ├── ContextMenuItem
+    │   └── ContextMenuItem
+    ├── ContextMenuSeparator
+    ├── ContextMenuGroup
+    │   ├── ContextMenuLabel
+    │   ├── ContextMenuCheckboxItem
+    │   └── ContextMenuCheckboxItem
+    ├── ContextMenuSeparator
+    ├── ContextMenuGroup
+    │   ├── ContextMenuLabel
+    │   └── ContextMenuRadioGroup
+    │       ├── ContextMenuRadioItem
+    │       └── ContextMenuRadioItem
+    └── ContextMenuSub
+        ├── ContextMenuSubTrigger
+        └── ContextMenuSubContent
+            └── ContextMenuGroup
+                ├── ContextMenuItem
+                └── ContextMenuItem
+```
+
+## Examples
+
+### Basic
+
+A simple context menu with a few actions.
+
+<ComponentPreview name="context-menu-basic">
+
+```tsx
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuGroup,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu"
+
+export default function ContextMenuBasic() {
+  return (
+    <ContextMenu>
+      <ContextMenuTrigger className="flex aspect-video w-full max-w-xs items-center justify-center rounded-xl border border-dashed text-sm">
+        <span className="hidden pointer-fine:inline-block">
+          Right click here
+        </span>
+        <span className="hidden pointer-coarse:inline-block">
+          Long press here
+        </span>
+      </ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuGroup>
+          <ContextMenuItem>Back</ContextMenuItem>
+          <ContextMenuItem disabled>Forward</ContextMenuItem>
+          <ContextMenuItem>Reload</ContextMenuItem>
+        </ContextMenuGroup>
+      </ContextMenuContent>
+    </ContextMenu>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Submenu
+
+Use `ContextMenuSub` to nest secondary actions.
+
+<ComponentPreview name="context-menu-submenu">
+
+```tsx
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuGroup,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuShortcut,
+  ContextMenuSub,
+  ContextMenuSubContent,
+  ContextMenuSubTrigger,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu"
+
+export default function ContextMenuSubmenu() {
+  return (
+    <ContextMenu>
+      <ContextMenuTrigger className="flex aspect-video w-full max-w-xs items-center justify-center rounded-xl border border-dashed text-sm">
+        <span className="hidden pointer-fine:inline-block">
+          Right click here
+        </span>
+        <span className="hidden pointer-coarse:inline-block">
+          Long press here
+        </span>
+      </ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuGroup>
+          <ContextMenuItem>
+            Copy
+            <ContextMenuShortcut>⌘C</ContextMenuShortcut>
+          </ContextMenuItem>
+          <ContextMenuItem>
+            Cut
+            <ContextMenuShortcut>⌘X</ContextMenuShortcut>
+          </ContextMenuItem>
+        </ContextMenuGroup>
+        <ContextMenuSub>
+          <ContextMenuSubTrigger>More Tools</ContextMenuSubTrigger>
+          <ContextMenuSubContent>
+            <ContextMenuGroup>
+              <ContextMenuItem>Save Page...</ContextMenuItem>
+              <ContextMenuItem>Create Shortcut...</ContextMenuItem>
+              <ContextMenuItem>Name Window...</ContextMenuItem>
+            </ContextMenuGroup>
+            <ContextMenuSeparator />
+            <ContextMenuGroup>
+              <ContextMenuItem>Developer Tools</ContextMenuItem>
+            </ContextMenuGroup>
+            <ContextMenuSeparator />
+            <ContextMenuGroup>
+              <ContextMenuItem variant="destructive">Delete</ContextMenuItem>
+            </ContextMenuGroup>
+          </ContextMenuSubContent>
+        </ContextMenuSub>
+      </ContextMenuContent>
+    </ContextMenu>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Shortcuts
+
+Add `ContextMenuShortcut` to show keyboard hints.
+
+<ComponentPreview name="context-menu-shortcuts">
+
+```tsx
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuGroup,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuShortcut,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu"
+
+export default function ContextMenuShortcuts() {
+  return (
+    <ContextMenu>
+      <ContextMenuTrigger className="flex aspect-video w-full max-w-xs items-center justify-center rounded-xl border border-dashed text-sm">
+        <span className="hidden pointer-fine:inline-block">
+          Right click here
+        </span>
+        <span className="hidden pointer-coarse:inline-block">
+          Long press here
+        </span>
+      </ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuGroup>
+          <ContextMenuItem>
+            Back
+            <ContextMenuShortcut>⌘[</ContextMenuShortcut>
+          </ContextMenuItem>
+          <ContextMenuItem disabled>
+            Forward
+            <ContextMenuShortcut>⌘]</ContextMenuShortcut>
+          </ContextMenuItem>
+          <ContextMenuItem>
+            Reload
+            <ContextMenuShortcut>⌘R</ContextMenuShortcut>
+          </ContextMenuItem>
+        </ContextMenuGroup>
+        <ContextMenuSeparator />
+        <ContextMenuGroup>
+          <ContextMenuItem>
+            Save
+            <ContextMenuShortcut>⌘S</ContextMenuShortcut>
+          </ContextMenuItem>
+          <ContextMenuItem>
+            Save As...
+            <ContextMenuShortcut>⇧⌘S</ContextMenuShortcut>
+          </ContextMenuItem>
+        </ContextMenuGroup>
+      </ContextMenuContent>
+    </ContextMenu>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Groups
+
+Group related actions and separate them with dividers.
+
+<ComponentPreview name="context-menu-groups">
+
+```tsx
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuGroup,
+  ContextMenuItem,
+  ContextMenuLabel,
+  ContextMenuSeparator,
+  ContextMenuShortcut,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu"
+
+export default function ContextMenuGroups() {
+  return (
+    <ContextMenu>
+      <ContextMenuTrigger className="flex aspect-video w-full max-w-xs items-center justify-center rounded-xl border border-dashed text-sm">
+        <span className="hidden pointer-fine:inline-block">
+          Right click here
+        </span>
+        <span className="hidden pointer-coarse:inline-block">
+          Long press here
+        </span>
+      </ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuGroup>
+          <ContextMenuLabel>File</ContextMenuLabel>
+          <ContextMenuItem>
+            New File
+            <ContextMenuShortcut>⌘N</ContextMenuShortcut>
+          </ContextMenuItem>
+          <ContextMenuItem>
+            Open File
+            <ContextMenuShortcut>⌘O</ContextMenuShortcut>
+          </ContextMenuItem>
+          <ContextMenuItem>
+            Save
+            <ContextMenuShortcut>⌘S</ContextMenuShortcut>
+          </ContextMenuItem>
+        </ContextMenuGroup>
+        <ContextMenuSeparator />
+        <ContextMenuGroup>
+          <ContextMenuLabel>Edit</ContextMenuLabel>
+          <ContextMenuItem>
+            Undo
+            <ContextMenuShortcut>⌘Z</ContextMenuShortcut>
+          </ContextMenuItem>
+          <ContextMenuItem>
+            Redo
+            <ContextMenuShortcut>⇧⌘Z</ContextMenuShortcut>
+          </ContextMenuItem>
+        </ContextMenuGroup>
+        <ContextMenuSeparator />
+        <ContextMenuGroup>
+          <ContextMenuItem>
+            Cut
+            <ContextMenuShortcut>⌘X</ContextMenuShortcut>
+          </ContextMenuItem>
+          <ContextMenuItem>
+            Copy
+            <ContextMenuShortcut>⌘C</ContextMenuShortcut>
+          </ContextMenuItem>
+          <ContextMenuItem>
+            Paste
+            <ContextMenuShortcut>⌘V</ContextMenuShortcut>
+          </ContextMenuItem>
+        </ContextMenuGroup>
+        <ContextMenuSeparator />
+        <ContextMenuGroup>
+          <ContextMenuItem variant="destructive">
+            Delete
+            <ContextMenuShortcut>⌫</ContextMenuShortcut>
+          </ContextMenuItem>
+        </ContextMenuGroup>
+      </ContextMenuContent>
+    </ContextMenu>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Icons
+
+Combine icons with labels for quick scanning.
+
+<ComponentPreview name="context-menu-icons">
+
+```tsx
+import {
+  IconClipboardCopy,
+  IconCopy,
+  IconScissors,
+  IconTrash,
+} from "@tabler/icons-react"
+
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuGroup,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu"
+
+export default function ContextMenuIcons() {
+  return (
+    <ContextMenu>
+      <ContextMenuTrigger className="flex aspect-video w-full max-w-xs items-center justify-center rounded-xl border border-dashed text-sm">
+        <span className="hidden pointer-fine:inline-block">
+          Right click here
+        </span>
+        <span className="hidden pointer-coarse:inline-block">
+          Long press here
+        </span>
+      </ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuGroup>
+          <ContextMenuItem>
+            <IconCopy />
+            Copy
+          </ContextMenuItem>
+          <ContextMenuItem>
+            <IconScissors />
+            Cut
+          </ContextMenuItem>
+          <ContextMenuItem>
+            <IconClipboardCopy />
+            Paste
+          </ContextMenuItem>
+        </ContextMenuGroup>
+        <ContextMenuSeparator />
+        <ContextMenuGroup>
+          <ContextMenuItem variant="destructive">
+            <IconTrash />
+            Delete
+          </ContextMenuItem>
+        </ContextMenuGroup>
+      </ContextMenuContent>
+    </ContextMenu>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Checkboxes
+
+Use `ContextMenuCheckboxItem` for toggles.
+
+<ComponentPreview name="context-menu-checkboxes">
+
+```tsx
+import {
+  ContextMenu,
+  ContextMenuCheckboxItem,
+  ContextMenuContent,
+  ContextMenuGroup,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu"
+
+export default function ContextMenuCheckboxes() {
+  return (
+    <ContextMenu>
+      <ContextMenuTrigger className="flex aspect-video w-full max-w-xs items-center justify-center rounded-xl border border-dashed text-sm">
+        <span className="hidden pointer-fine:inline-block">
+          Right click here
+        </span>
+        <span className="hidden pointer-coarse:inline-block">
+          Long press here
+        </span>
+      </ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuGroup>
+          <ContextMenuCheckboxItem defaultChecked>
+            Show Bookmarks Bar
+          </ContextMenuCheckboxItem>
+          <ContextMenuCheckboxItem>Show Full URLs</ContextMenuCheckboxItem>
+          <ContextMenuCheckboxItem defaultChecked>
+            Show Developer Tools
+          </ContextMenuCheckboxItem>
+        </ContextMenuGroup>
+      </ContextMenuContent>
+    </ContextMenu>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Radio
+
+Use `ContextMenuRadioItem` for exclusive choices.
+
+<ComponentPreview name="context-menu-radio">
+
+```tsx
+"use client"
+
+import * as React from "react"
+
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuGroup,
+  ContextMenuLabel,
+  ContextMenuRadioGroup,
+  ContextMenuRadioItem,
+  ContextMenuSeparator,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu"
+
+export default function ContextMenuRadio() {
+  const [user, setUser] = React.useState("pedro")
+  const [theme, setTheme] = React.useState("light")
+
+  return (
+    <ContextMenu>
+      <ContextMenuTrigger className="flex aspect-video w-full max-w-xs items-center justify-center rounded-xl border border-dashed text-sm">
+        <span className="hidden pointer-fine:inline-block">
+          Right click here
+        </span>
+        <span className="hidden pointer-coarse:inline-block">
+          Long press here
+        </span>
+      </ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuGroup>
+          <ContextMenuLabel>People</ContextMenuLabel>
+          <ContextMenuRadioGroup value={user} onValueChange={setUser}>
+            <ContextMenuRadioItem value="pedro">
+              Pedro Duarte
+            </ContextMenuRadioItem>
+            <ContextMenuRadioItem value="colm">Colm Tuite</ContextMenuRadioItem>
+          </ContextMenuRadioGroup>
+        </ContextMenuGroup>
+        <ContextMenuSeparator />
+        <ContextMenuGroup>
+          <ContextMenuLabel>Theme</ContextMenuLabel>
+          <ContextMenuRadioGroup value={theme} onValueChange={setTheme}>
+            <ContextMenuRadioItem value="light">Light</ContextMenuRadioItem>
+            <ContextMenuRadioItem value="dark">Dark</ContextMenuRadioItem>
+            <ContextMenuRadioItem value="system">System</ContextMenuRadioItem>
+          </ContextMenuRadioGroup>
+        </ContextMenuGroup>
+      </ContextMenuContent>
+    </ContextMenu>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Destructive
+
+Use `variant="destructive"` to style the menu item as destructive.
+
+<ComponentPreview name="context-menu-destructive">
+
+```tsx
+import { IconPencil, IconShare, IconTrash } from "@tabler/icons-react"
+
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuGroup,
+  ContextMenuItem,
+  ContextMenuSeparator,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu"
+
+export default function ContextMenuDestructive() {
+  return (
+    <ContextMenu>
+      <ContextMenuTrigger className="flex aspect-video w-full max-w-xs items-center justify-center rounded-xl border border-dashed text-sm">
+        <span className="hidden pointer-fine:inline-block">
+          Right click here
+        </span>
+        <span className="hidden pointer-coarse:inline-block">
+          Long press here
+        </span>
+      </ContextMenuTrigger>
+      <ContextMenuContent>
+        <ContextMenuGroup>
+          <ContextMenuItem>
+            <IconPencil />
+            Edit
+          </ContextMenuItem>
+          <ContextMenuItem>
+            <IconShare />
+            Share
+          </ContextMenuItem>
+        </ContextMenuGroup>
+        <ContextMenuSeparator />
+        <ContextMenuGroup>
+          <ContextMenuItem variant="destructive">
+            <IconTrash />
+            Delete
+          </ContextMenuItem>
+        </ContextMenuGroup>
+      </ContextMenuContent>
+    </ContextMenu>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Sides
+
+Control submenu placement with side and align props.
+
+<ComponentPreview name="context-menu-sides">
+
+```tsx
+import {
+  ContextMenu,
+  ContextMenuContent,
+  ContextMenuGroup,
+  ContextMenuItem,
+  ContextMenuTrigger,
+} from "@/components/ui/context-menu"
+
+export default function ContextMenuSides() {
+  return (
+    <div className="grid w-full max-w-sm grid-cols-2 gap-4">
+      <ContextMenu>
+        <ContextMenuTrigger className="flex aspect-video w-full max-w-xs items-center justify-center rounded-xl border border-dashed text-sm">
+          <span className="hidden pointer-fine:inline-block">
+            Right click (top)
+          </span>
+          <span className="hidden pointer-coarse:inline-block">
+            Long press (top)
+          </span>
+        </ContextMenuTrigger>
+        <ContextMenuContent side="top">
+          <ContextMenuGroup>
+            <ContextMenuItem>Back</ContextMenuItem>
+            <ContextMenuItem>Forward</ContextMenuItem>
+            <ContextMenuItem>Reload</ContextMenuItem>
+          </ContextMenuGroup>
+        </ContextMenuContent>
+      </ContextMenu>
+      <ContextMenu>
+        <ContextMenuTrigger className="flex aspect-video w-full max-w-xs items-center justify-center rounded-xl border border-dashed text-sm">
+          <span className="hidden pointer-fine:inline-block">
+            Right click (right)
+          </span>
+          <span className="hidden pointer-coarse:inline-block">
+            Long press (right)
+          </span>
+        </ContextMenuTrigger>
+        <ContextMenuContent side="right">
+          <ContextMenuGroup>
+            <ContextMenuItem>Back</ContextMenuItem>
+            <ContextMenuItem>Forward</ContextMenuItem>
+            <ContextMenuItem>Reload</ContextMenuItem>
+          </ContextMenuGroup>
+        </ContextMenuContent>
+      </ContextMenu>
+      <ContextMenu>
+        <ContextMenuTrigger className="flex aspect-video w-full max-w-xs items-center justify-center rounded-xl border border-dashed text-sm">
+          <span className="hidden pointer-fine:inline-block">
+            Right click (bottom)
+          </span>
+          <span className="hidden pointer-coarse:inline-block">
+            Long press (bottom)
+          </span>
+        </ContextMenuTrigger>
+        <ContextMenuContent side="bottom">
+          <ContextMenuGroup>
+            <ContextMenuItem>Back</ContextMenuItem>
+            <ContextMenuItem>Forward</ContextMenuItem>
+            <ContextMenuItem>Reload</ContextMenuItem>
+          </ContextMenuGroup>
+        </ContextMenuContent>
+      </ContextMenu>
+      <ContextMenu>
+        <ContextMenuTrigger className="flex aspect-video w-full max-w-xs items-center justify-center rounded-xl border border-dashed text-sm">
+          <span className="hidden pointer-fine:inline-block">
+            Right click (left)
+          </span>
+          <span className="hidden pointer-coarse:inline-block">
+            Long press (left)
+          </span>
+        </ContextMenuTrigger>
+        <ContextMenuContent side="left">
+          <ContextMenuGroup>
+            <ContextMenuItem>Back</ContextMenuItem>
+            <ContextMenuItem>Forward</ContextMenuItem>
+            <ContextMenuItem>Reload</ContextMenuItem>
+          </ContextMenuGroup>
+        </ContextMenuContent>
+      </ContextMenu>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API reference
+
+The component wraps [Base UI Context Menu](https://base-ui.com/react/components/context-menu) and accepts all of its props.

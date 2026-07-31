@@ -1,0 +1,63 @@
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# shadcn registry build output
+/public/r
+
+# generated Markdown and LLM compatibility outputs
+/public/docs.md
+/public/docs/
+/public/en/
+/public/ko/
+/public/llm/
+
+# fumadocs-mdx generated output
+/.source
+
+# generated static compatibility artifact manifest
+/.generated/
+
+# throwaway consumer app for registry install verification (superpowers plan 2026-07-14)
+/.verify-consumer
+
+# claude code worktrees and local settings
+/.claude/worktrees/
+/.claude/settings.local.json
+/.claude/scheduled_tasks.lock
+
+# local agent worktrees
+/.worktrees/

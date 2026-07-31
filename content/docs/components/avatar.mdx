@@ -1,0 +1,430 @@
+---
+title: Avatar
+description: An image element with a fallback for representing the user.
+---
+
+<Callout>
+  Need a notification count over an avatar?
+  [`NumberBadge`](/docs/compositions/number-badge) self-anchors an animated
+  count in any corner.
+</Callout>
+
+<ComponentPreview name="avatar-demo">
+
+```tsx
+import {
+  Avatar,
+  AvatarBadge,
+  AvatarFallback,
+  AvatarGroup,
+  AvatarGroupCount,
+  AvatarImage,
+} from "@/components/ui/avatar"
+
+export default function AvatarDemo() {
+  return (
+    <div className="flex flex-row flex-wrap items-center gap-6 md:gap-12">
+      <Avatar>
+        <AvatarImage
+          src="https://github.com/shadcn.png"
+          alt="@shadcn"
+          className="grayscale"
+        />
+        <AvatarFallback>CN</AvatarFallback>
+      </Avatar>
+      <Avatar>
+        <AvatarImage
+          src="https://github.com/evilrabbit.png"
+          alt="@evilrabbit"
+        />
+        <AvatarFallback>ER</AvatarFallback>
+        <AvatarBadge className="bg-green-600 dark:bg-green-800" />
+      </Avatar>
+      <AvatarGroup className="grayscale">
+        <Avatar>
+          <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
+        <Avatar>
+          <AvatarImage
+            src="https://github.com/maxleiter.png"
+            alt="@maxleiter"
+          />
+          <AvatarFallback>LR</AvatarFallback>
+        </Avatar>
+        <Avatar>
+          <AvatarImage
+            src="https://github.com/evilrabbit.png"
+            alt="@evilrabbit"
+          />
+          <AvatarFallback>ER</AvatarFallback>
+        </Avatar>
+        <AvatarGroupCount>+3</AvatarGroupCount>
+      </AvatarGroup>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## Installation
+
+```bash
+bunx shadcn@latest add @ondo-ui/avatar
+```
+
+## Usage
+
+```tsx showLineNumbers
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+```
+
+```tsx showLineNumbers
+<Avatar>
+  <AvatarImage src="https://github.com/shadcn.png" />
+  <AvatarFallback>CN</AvatarFallback>
+</Avatar>
+```
+
+## Composition
+
+Use the following composition to build an `Avatar`:
+
+```text
+Avatar
+├── AvatarImage
+├── AvatarFallback
+└── AvatarBadge
+```
+
+Use the following composition to build an `AvatarGroup`:
+
+```text
+AvatarGroup
+├── Avatar
+│   ├── AvatarImage
+│   ├── AvatarFallback
+│   └── AvatarBadge
+├── Avatar
+│   ├── AvatarImage
+│   ├── AvatarFallback
+│   └── AvatarBadge
+└── AvatarGroupCount
+```
+
+## Examples
+
+### Basic
+
+A basic avatar component with an image and a fallback.
+
+<ComponentPreview name="avatar-basic">
+
+```tsx
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
+
+export default function AvatarBasic() {
+  return (
+    <Avatar>
+      <AvatarImage
+        src="https://github.com/shadcn.png"
+        alt="@shadcn"
+        className="grayscale"
+      />
+      <AvatarFallback>CN</AvatarFallback>
+    </Avatar>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Badge
+
+Use the `AvatarBadge` component to add a badge to the avatar. The badge is positioned at the bottom right of the avatar.
+
+<ComponentPreview name="avatar-badge">
+
+```tsx
+import {
+  Avatar,
+  AvatarBadge as AvatarBadgeComponent,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
+
+export default function AvatarBadge() {
+  return (
+    <Avatar>
+      <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+      <AvatarFallback>CN</AvatarFallback>
+      <AvatarBadgeComponent className="bg-green-600 dark:bg-green-800" />
+    </Avatar>
+  )
+}
+```
+
+</ComponentPreview>
+
+Use the `className` prop to add custom styles to the badge such as custom colors, sizes, etc.
+
+```tsx showLineNumbers
+<Avatar>
+  <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+  <AvatarFallback>CN</AvatarFallback>
+  <AvatarBadge className="bg-green-600 dark:bg-green-800" />
+</Avatar>
+```
+
+### Badge with Icon
+
+You can also use an icon inside `<AvatarBadge>`.
+
+<ComponentPreview name="avatar-badge-with-icon">
+
+```tsx
+import { IconPlus } from "@tabler/icons-react"
+
+import {
+  Avatar,
+  AvatarBadge,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
+
+export default function AvatarBadgeWithIcon() {
+  return (
+    <Avatar className="grayscale">
+      <AvatarImage src="https://github.com/pranathip.png" alt="@pranathip" />
+      <AvatarFallback>PP</AvatarFallback>
+      <AvatarBadge>
+        <IconPlus />
+      </AvatarBadge>
+    </Avatar>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Avatar Group
+
+Use the `AvatarGroup` component to add a group of avatars.
+
+<ComponentPreview name="avatar-avatar-group">
+
+```tsx
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarGroup,
+  AvatarImage,
+} from "@/components/ui/avatar"
+
+export default function AvatarAvatarGroup() {
+  return (
+    <AvatarGroup className="grayscale">
+      <Avatar>
+        <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+        <AvatarFallback>CN</AvatarFallback>
+      </Avatar>
+      <Avatar>
+        <AvatarImage src="https://github.com/maxleiter.png" alt="@maxleiter" />
+        <AvatarFallback>LR</AvatarFallback>
+      </Avatar>
+      <Avatar>
+        <AvatarImage
+          src="https://github.com/evilrabbit.png"
+          alt="@evilrabbit"
+        />
+        <AvatarFallback>ER</AvatarFallback>
+      </Avatar>
+    </AvatarGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Avatar Group Count
+
+Use `<AvatarGroupCount>` to add a count to the group.
+
+<ComponentPreview name="avatar-avatar-group-count">
+
+```tsx
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarGroup,
+  AvatarGroupCount,
+  AvatarImage,
+} from "@/components/ui/avatar"
+
+export default function AvatarAvatarGroupCount() {
+  return (
+    <AvatarGroup className="grayscale">
+      <Avatar>
+        <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+        <AvatarFallback>CN</AvatarFallback>
+      </Avatar>
+      <Avatar>
+        <AvatarImage src="https://github.com/maxleiter.png" alt="@maxleiter" />
+        <AvatarFallback>LR</AvatarFallback>
+      </Avatar>
+      <Avatar>
+        <AvatarImage
+          src="https://github.com/evilrabbit.png"
+          alt="@evilrabbit"
+        />
+        <AvatarFallback>ER</AvatarFallback>
+      </Avatar>
+      <AvatarGroupCount>+3</AvatarGroupCount>
+    </AvatarGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Avatar Group with Icon
+
+You can also use an icon inside `<AvatarGroupCount>`.
+
+<ComponentPreview name="avatar-avatar-group-with-icon">
+
+```tsx
+import { IconPlus } from "@tabler/icons-react"
+
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarGroup,
+  AvatarGroupCount,
+  AvatarImage,
+} from "@/components/ui/avatar"
+
+export default function AvatarAvatarGroupWithIcon() {
+  return (
+    <AvatarGroup className="grayscale">
+      <Avatar>
+        <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+        <AvatarFallback>CN</AvatarFallback>
+      </Avatar>
+      <Avatar>
+        <AvatarImage src="https://github.com/maxleiter.png" alt="@maxleiter" />
+        <AvatarFallback>LR</AvatarFallback>
+      </Avatar>
+      <Avatar>
+        <AvatarImage
+          src="https://github.com/evilrabbit.png"
+          alt="@evilrabbit"
+        />
+        <AvatarFallback>ER</AvatarFallback>
+      </Avatar>
+      <AvatarGroupCount>
+        <IconPlus />
+      </AvatarGroupCount>
+    </AvatarGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Sizes
+
+Use the `size` prop to change the size of the avatar.
+
+<ComponentPreview name="avatar-sizes">
+
+```tsx
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
+
+export default function AvatarSizes() {
+  return (
+    <div className="flex flex-wrap items-center gap-2 grayscale">
+      <Avatar size="sm">
+        <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+        <AvatarFallback>CN</AvatarFallback>
+      </Avatar>
+      <Avatar>
+        <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+        <AvatarFallback>CN</AvatarFallback>
+      </Avatar>
+      <Avatar size="lg">
+        <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+        <AvatarFallback>CN</AvatarFallback>
+      </Avatar>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Dropdown
+
+You can use the `Avatar` component as a trigger for a dropdown menu.
+
+<ComponentPreview name="avatar-dropdown">
+
+```tsx
+"use client"
+
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
+export default function AvatarDropdown() {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        render={<Button variant="ghost" size="icon" className="rounded-full" />}
+      >
+        <Avatar>
+          <AvatarImage src="https://github.com/shadcn.png" alt="shadcn" />
+          <AvatarFallback>CN</AvatarFallback>
+        </Avatar>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-32">
+        <DropdownMenuGroup>
+          <DropdownMenuItem>Profile</DropdownMenuItem>
+          <DropdownMenuItem>Billing</DropdownMenuItem>
+          <DropdownMenuItem>Settings</DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem variant="destructive">Log out</DropdownMenuItem>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API reference
+
+The component wraps [Base UI Avatar](https://base-ui.com/react/components/avatar) and accepts all of its props.

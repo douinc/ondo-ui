@@ -1,0 +1,115 @@
+---
+title: MCP 서버
+description: "shadcn MCP 서버로 AI 어시스턴트에서 @ondo-ui 레지스트리를 사용합니다."
+---
+
+[shadcn MCP 서버](https://ui.shadcn.com/docs/mcp)는 `@ondo-ui` 레지스트리와 별도 설정 없이 바로 동작합니다. 한 번 구성해 두면 Claude Code, Cursor, GitHub Copilot 같은 AI 어시스턴트가 자연어 프롬프트만으로 레지스트리를 탐색하고, 컴포넌트 정보를 조회하고, 프로젝트에 설치할 수 있습니다.
+
+MCP 서버는 [`https://ui.ondo.dou.so/r/registry.json`](https://ui.ondo.dou.so/r/registry.json)에서 서빙되는 레지스트리 인덱스를 통해 아이템을 발견합니다 — 레지스트리 쪽에서 추가로 활성화할 것은 없습니다.
+
+## 레지스트리 등록
+
+`components.json`의 `registries` 필드에 `@ondo-ui` 네임스페이스를 추가합니다. MCP 서버는 이 매핑을 읽어 레지스트리를 해석합니다. [설치](/docs/installation) 과정에서 이미 등록했다면 이 단계는 건너뛰세요:
+
+```json title="components.json"
+{
+  "registries": {
+    "@ondo-ui": "https://ui.ondo.dou.so/r/{name}.json"
+  }
+}
+```
+
+## 클라이언트 설정
+
+<Tabs defaultValue="claude">
+  <TabsList>
+    <TabsTrigger value="claude">Claude Code</TabsTrigger>
+    <TabsTrigger value="cursor">Cursor</TabsTrigger>
+    <TabsTrigger value="vscode">VS Code</TabsTrigger>
+    <TabsTrigger value="codex">Codex</TabsTrigger>
+    <TabsTrigger value="opencode">OpenCode</TabsTrigger>
+  </TabsList>
+  <TabsContent value="claude" className="mt-4">
+    프로젝트에서 **다음 명령을 실행하세요**:
+
+    ```bash
+    bunx shadcn@latest mcp init --client claude
+    ```
+
+    shadcn MCP 서버가 구성된 `.mcp.json` 파일이 생성됩니다.
+
+    **Claude Code를 재시작**하고 다음 프롬프트를 시도해 보세요:
+
+    - ondo-ui 레지스트리의 컴포넌트를 보여줘
+    - ondo-ui 레지스트리의 컴포넌트로 로그인 폼을 만들어줘
+
+    **참고:** Claude Code에서 `/mcp` 명령으로 MCP 서버 상태를 디버그할 수 있습니다.
+
+  </TabsContent>
+
+  <TabsContent value="cursor" className="mt-4">
+    프로젝트에서 **다음 명령을 실행하세요**:
+
+    ```bash
+    bunx shadcn@latest mcp init --client cursor
+    ```
+
+    **Cursor Settings**를 열어 shadcn **MCP 서버를 활성화**하세요. 그다음 아래 프롬프트를 시도해 보세요:
+
+    - ondo-ui 레지스트리의 컴포넌트를 보여줘
+    - ondo-ui 레지스트리의 컴포넌트로 로그인 폼을 만들어줘
+
+  </TabsContent>
+
+  <TabsContent value="vscode" className="mt-4">
+    프로젝트에서 **다음 명령을 실행하세요**:
+
+    ```bash
+    bunx shadcn@latest mcp init --client vscode
+    ```
+
+    `.vscode/mcp.json`을 열고 shadcn 서버 옆의 **Start**를 클릭하세요. 그다음 GitHub Copilot에서 아래 프롬프트를 시도해 보세요:
+
+    - ondo-ui 레지스트리의 컴포넌트를 보여줘
+    - ondo-ui 레지스트리의 컴포넌트로 로그인 폼을 만들어줘
+
+  </TabsContent>
+
+  <TabsContent value="codex" className="mt-4">
+    `~/.codex/config.toml`에 **다음 설정을 추가하세요**:
+
+    ```toml
+    [mcp_servers.shadcn]
+    command = "npx"
+    args = ["shadcn@latest", "mcp"]
+    ```
+
+    **Codex를 재시작**하고 다음 프롬프트를 시도해 보세요:
+
+    - ondo-ui 레지스트리의 컴포넌트를 보여줘
+    - ondo-ui 레지스트리의 컴포넌트로 로그인 폼을 만들어줘
+
+  </TabsContent>
+
+  <TabsContent value="opencode" className="mt-4">
+    프로젝트에서 **다음 명령을 실행하세요**:
+
+    ```bash
+    bunx shadcn@latest mcp init --client opencode
+    ```
+
+    `opencode.json` 파일에 shadcn MCP 서버가 추가됩니다.
+
+    **OpenCode를 재시작**하고 다음 프롬프트를 시도해 보세요:
+
+    - ondo-ui 레지스트리의 컴포넌트를 보여줘
+    - ondo-ui 레지스트리의 컴포넌트로 로그인 폼을 만들어줘
+
+  </TabsContent>
+</Tabs>
+
+## 동작 방식
+
+모든 레지스트리 아이템에는 description, npm `dependencies`, `registryDependencies`가 포함되어 있어 MCP 서버가 아이템의 용도를 설명하고 필요한 것을 한 번에 설치할 수 있습니다. 예를 들어 `@ondo-ui/alert-dialog`를 요청하면 `button`과 `utils`도 자동으로 함께 설치됩니다.
+
+MCP 서버에 대한 자세한 내용은 [shadcn MCP 문서](https://ui.shadcn.com/docs/mcp)를 참고하세요.

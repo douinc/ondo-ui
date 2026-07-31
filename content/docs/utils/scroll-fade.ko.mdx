@@ -1,0 +1,140 @@
+---
+title: scroll-fade (스크롤 페이드)
+description: 스크롤 컨테이너의 가장자리에 페이드 효과를 추가하는 유틸리티입니다.
+---
+
+<ComponentPreview name="scroll-fade-demo" previewClassName="h-auto" />
+
+## 설치
+
+shadcn CLI(`bunx shadcn@latest init`)로 설정된 프로젝트라면 `scroll-fade`가 이미 포함되어 있습니다. `shadcn` 패키지에 들어 있고, CLI가 전역 CSS 파일에 import를 추가합니다.
+
+그렇지 않다면 `shadcn` 패키지를 설치하세요:
+
+```bash
+npm install shadcn
+```
+
+그다음 전역 CSS 파일에서 공용 유틸리티를 import 합니다:
+
+```css
+@import "tailwindcss";
+@import "shadcn/tailwind.css";
+```
+
+## 사용법
+
+| 클래스                            | 스타일                                                                                                              |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------- |
+| `scroll-fade`                     | `mask-image: var(--scroll-fade-mask, var(--scroll-fade-block));` <br /> `animation-timeline: scroll(self y);`       |
+| `scroll-fade-y`                   | `mask-image: var(--scroll-fade-mask, var(--scroll-fade-block));` <br /> `animation-timeline: scroll(self y);`       |
+| `scroll-fade-x`                   | `mask-image: var(--scroll-fade-mask, var(--scroll-fade-inline));` <br /> `animation-timeline: scroll(self inline);` |
+| `scroll-fade-t`                   | 위쪽 가장자리에 페이드 마스크. <br /> `animation-timeline: scroll(self y);`                                         |
+| `scroll-fade-b`                   | 아래쪽 가장자리에 페이드 마스크. <br /> `animation-timeline: scroll(self y);`                                       |
+| `scroll-fade-l`                   | 왼쪽 가장자리에 페이드 마스크. <br /> `animation-timeline: scroll(self x);`                                         |
+| `scroll-fade-r`                   | 오른쪽 가장자리에 페이드 마스크. <br /> `animation-timeline: scroll(self x);`                                       |
+| `scroll-fade-s`                   | 시작 가장자리에 페이드 마스크, RTL에서 반전. <br /> `animation-timeline: scroll(self inline);`                      |
+| `scroll-fade-e`                   | 끝 가장자리에 페이드 마스크, RTL에서 반전. <br /> `animation-timeline: scroll(self inline);`                        |
+| `scroll-fade-<number>`            | `--scroll-fade-size: calc(var(--spacing) * <number>);`                                                              |
+| `scroll-fade-[<value>]`           | `--scroll-fade-size: <value>;`                                                                                      |
+| `scroll-fade-{t,b,s,e}-<number>`  | `--scroll-fade-{t,b,s,e}-size: calc(var(--spacing) * <number>);`                                                    |
+| `scroll-fade-{t,b,s,e}-[<value>]` | `--scroll-fade-{t,b,s,e}-size: <value>;`                                                                            |
+| `scroll-fade-none`                | `--scroll-fade-mask: none;`                                                                                         |
+
+스크롤 컨테이너, 즉 `overflow-y-auto`가 있는 요소에 `scroll-fade` 또는 `scroll-fade-y`를 추가하세요.
+
+```tsx
+<div className="scroll-fade overflow-y-auto">{/* ... */}</div>
+```
+
+페이드는 스크롤을 인식해 스크롤 위치를 따라갑니다:
+
+- 정지 상태에서는 위쪽 가장자리는 선명하고, 아래쪽 가장자리는 페이드되어 더 많은 콘텐츠가 있음을 암시합니다.
+- 스크롤을 시작하면 위쪽에 페이드가 나타나고, 스크롤 중에는 양쪽 가장자리가 모두 페이드됩니다.
+- 끝에 도달하면 아래쪽 가장자리가 선명해져 마지막 항목임을 알려줍니다.
+
+페이드는 `mask-image`로 적용되므로 색을 덧씌우는 것이 아니라 콘텐츠 자체를 녹여냅니다. 마스크는 투명에서 검정으로의 선형 페이드를 사용하므로 별도 설정 없이 어떤 배경에도 적응합니다. 스크롤 영역이 카드 안에 있다면 배경과 테두리는 래퍼에 두고 `scroll-fade`는 안쪽 스크롤러에 적용하세요. 그래야 카드가 아닌 콘텐츠가 페이드됩니다.
+
+[`ScrollArea`](/docs/components/scroll-area)와 `MessageScroller` 컴포넌트는 스크롤 가능한 뷰포트에 `scroll-fade`를 사용할 수 있습니다.
+
+## 오버플로가 없으면 페이드도 없음
+
+콘텐츠가 넘치지 않으면 페이드가 표시되지 않습니다. 스크롤 여부를 확인하지 않고 어떤 목록에든 `scroll-fade`를 적용할 수 있습니다.
+
+<ComponentPreview name="scroll-fade-overflow" previewClassName="h-auto" />
+
+## 가로 스크롤
+
+가로로 스크롤되는 컨테이너, 즉 `overflow-x-auto`가 있는 요소에는 `scroll-fade-x`를 사용하세요.
+
+<ComponentPreview name="scroll-fade-horizontal" previewClassName="h-64" />
+
+```tsx
+<div className="flex scroll-fade-x overflow-x-auto">{/* ... */}</div>
+```
+
+가로 페이드는 읽기 방향을 인식합니다. RTL 레이아웃에서는 추가 클래스 없이 선명한 가장자리와 페이드가 읽기 방향을 따라갑니다. `scroll-fade-<number>`와 `scroll-fade-none`은 두 축에서 동일하게 동작합니다.
+
+## 엣지 페이드
+
+한쪽 가장자리만 스크롤 위치를 따라가야 할 때는 엣지 유틸리티를 사용하세요.
+
+<ComponentPreview name="scroll-fade-edge" previewClassName="h-auto" />
+
+```tsx
+<div className="scroll-fade-b overflow-y-auto">{/* ... */}</div>
+```
+
+엣지 유틸리티도 스크롤을 인식합니다. 시작 가장자리는 시작 지점에서 벗어나면 페이드가 나타나고, 끝 가장자리는 끝에 도달하면 페이드가 사라집니다. 물리적 가장자리에는 `scroll-fade-t`, `scroll-fade-b`, `scroll-fade-l`, `scroll-fade-r`를 사용하세요. RTL에서 반전되는 논리적 인라인 가장자리에는 `scroll-fade-s`와 `scroll-fade-e`를 사용하세요.
+
+## 페이드 크기
+
+페이드 깊이는 기본적으로 컨테이너의 `12%`이며, 큰 스크롤러에서도 은은하게 유지되도록 `40px`로 제한됩니다. `scroll-mt-<number>`와 같은 방식으로 `scroll-fade-<number>`를 사용해 spacing 스케일의 고정 크기를 지정할 수 있습니다.
+
+<ComponentPreview name="scroll-fade-size" previewClassName="h-auto" />
+
+```tsx
+<div className="scroll-fade overflow-y-auto scroll-fade-24">{/* ... */}</div>
+```
+
+일회성 값에는 임의의 길이나 백분율을 사용하세요:
+
+```tsx
+<div className="scroll-fade overflow-y-auto scroll-fade-[15%]">{/* ... */}</div>
+```
+
+마주 보는 가장자리를 서로 다른 크기로 페이드하려면 가장자리별 수정자 `scroll-fade-t-<number>`, `scroll-fade-b-<number>`, `scroll-fade-s-<number>`, `scroll-fade-e-<number>`를 사용하세요. 대상 가장자리에서 `scroll-fade-<number>`를 덮어쓰며 임의 값도 지원합니다.
+
+```tsx
+<div className="scroll-fade overflow-y-auto scroll-fade-b-8 scroll-fade-t-2">
+  {/* ... */}
+</div>
+```
+
+가로 스크롤러에는 논리적 `s`/`e` 수정자를 사용해 RTL에서 크기가 반전되도록 하세요.
+
+페이드는 즉시 나타나는 대신 일정한 스크롤 거리에 걸쳐 서서히 나타나고 사라집니다. 이 거리는 `--scroll-fade-reveal` 변수로, 기본값은 `96px`이며 페이드 깊이와는 무관합니다. 더 빠른 전환을 원하면 낮추고, 더 완만한 전환을 원하면 높이세요:
+
+```tsx
+<div className="scroll-fade overflow-y-auto [--scroll-fade-reveal:64px]">
+  {/* ... */}
+</div>
+```
+
+## 페이드 비활성화
+
+`scroll-fade-none`으로 페이드를 제거합니다. 클래스 순서와 무관하게 동작하므로 보통 반응형이나 상태 기반으로 사용합니다:
+
+```tsx
+<div className="scroll-fade overflow-y-auto md:scroll-fade-none">
+  {/* ... */}
+</div>
+```
+
+<ComponentPreview name="scroll-fade-none" previewClassName="h-auto" />
+
+## 폴백
+
+스크롤 인식 동작은 [CSS 스크롤 기반 애니메이션](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_scroll-driven_animations)으로 구현되어 JavaScript도 스크롤 리스너도 사용하지 않습니다. 스크롤 기반 애니메이션을 지원하지 않는 브라우저에서 `scroll-fade`는 양쪽 가장자리의 정적 페이드로, 엣지 유틸리티는 해당 가장자리의 정적 페이드로 폴백됩니다.
+
+마스크는 스크롤 컨테이너 자체에 적용되므로 보이는 스크롤바도 가장자리에서 콘텐츠와 함께 페이드됩니다. 스크롤바를 완전히 숨기고 싶다면 같은 패키지에 포함된 `no-scrollbar`를 `scroll-fade`와 함께 사용하세요.

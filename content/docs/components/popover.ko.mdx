@@ -1,0 +1,268 @@
+---
+title: Popover (팝오버)
+description: 버튼으로 트리거되는 포탈에 풍부한 콘텐츠를 표시합니다.
+---
+
+<ComponentPreview name="popover-demo">
+
+```tsx
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+
+export default function PopoverDemo() {
+  return (
+    <Popover>
+      <PopoverTrigger render={<Button variant="outline" />}>
+        Open popover
+      </PopoverTrigger>
+      <PopoverContent className="w-80">
+        <div className="grid gap-4">
+          <div className="space-y-2">
+            <h4 className="leading-none font-medium">Dimensions</h4>
+            <p className="text-sm text-muted-foreground">
+              Set the dimensions for the layer.
+            </p>
+          </div>
+          <div className="grid gap-2">
+            <div className="grid grid-cols-3 items-center gap-4">
+              <Label htmlFor="width">Width</Label>
+              <Input
+                id="width"
+                defaultValue="100%"
+                className="col-span-2 h-8"
+              />
+            </div>
+            <div className="grid grid-cols-3 items-center gap-4">
+              <Label htmlFor="maxWidth">Max. width</Label>
+              <Input
+                id="maxWidth"
+                defaultValue="300px"
+                className="col-span-2 h-8"
+              />
+            </div>
+            <div className="grid grid-cols-3 items-center gap-4">
+              <Label htmlFor="height">Height</Label>
+              <Input
+                id="height"
+                defaultValue="25px"
+                className="col-span-2 h-8"
+              />
+            </div>
+            <div className="grid grid-cols-3 items-center gap-4">
+              <Label htmlFor="maxHeight">Max. height</Label>
+              <Input
+                id="maxHeight"
+                defaultValue="none"
+                className="col-span-2 h-8"
+              />
+            </div>
+          </div>
+        </div>
+      </PopoverContent>
+    </Popover>
+  )
+}
+```
+
+</ComponentPreview>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/popover
+```
+
+## 사용법
+
+```tsx showLineNumbers
+import {
+  Popover,
+  PopoverContent,
+  PopoverDescription,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+```
+
+```tsx showLineNumbers
+<Popover>
+  <PopoverTrigger render={<Button variant="outline" />}>
+    Open Popover
+  </PopoverTrigger>
+  <PopoverContent>
+    <PopoverHeader>
+      <PopoverTitle>Title</PopoverTitle>
+      <PopoverDescription>Description text here.</PopoverDescription>
+    </PopoverHeader>
+  </PopoverContent>
+</Popover>
+```
+
+## Composition
+
+`Popover`를 구성하기 위해 다음 구조를 사용하세요:
+
+```text
+Popover
+├── PopoverTrigger
+└── PopoverContent
+```
+
+## 예시
+
+### Basic
+
+헤더, 제목, 설명이 포함된 간단한 popover입니다.
+
+<ComponentPreview name="popover-basic">
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  Popover,
+  PopoverContent,
+  PopoverDescription,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+
+export default function PopoverBasic() {
+  return (
+    <>
+      <Popover>
+        <PopoverTrigger render={<Button variant="outline" className="w-fit" />}>
+          Popover 열기
+        </PopoverTrigger>
+        <PopoverContent align="start">
+          <PopoverHeader>
+            <PopoverTitle>크기</PopoverTitle>
+            <PopoverDescription>
+              레이어의 크기를 설정합니다.
+            </PopoverDescription>
+          </PopoverHeader>
+        </PopoverContent>
+      </Popover>
+    </>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Align
+
+`PopoverContent`의 `align` prop을 사용하여 가로 정렬을 제어합니다.
+
+<ComponentPreview name="popover-align">
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+
+export default function PopoverAlign() {
+  return (
+    <>
+      <div className="flex gap-6">
+        <Popover>
+          <PopoverTrigger render={<Button variant="outline" size="sm" />}>
+            시작
+          </PopoverTrigger>
+          <PopoverContent align="start" className="w-40">
+            시작에 정렬
+          </PopoverContent>
+        </Popover>
+        <Popover>
+          <PopoverTrigger render={<Button variant="outline" size="sm" />}>
+            중앙
+          </PopoverTrigger>
+          <PopoverContent align="center" className="w-40">
+            중앙에 정렬
+          </PopoverContent>
+        </Popover>
+        <Popover>
+          <PopoverTrigger render={<Button variant="outline" size="sm" />}>
+            끝
+          </PopoverTrigger>
+          <PopoverContent align="end" className="w-40">
+            끝에 정렬
+          </PopoverContent>
+        </Popover>
+      </div>
+    </>
+  )
+}
+```
+
+</ComponentPreview>
+
+### With Form
+
+폼 필드가 포함된 popover입니다.
+
+<ComponentPreview name="popover-with-form">
+
+```tsx
+import { Button } from "@/components/ui/button"
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+import {
+  Popover,
+  PopoverContent,
+  PopoverDescription,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+
+export default function PopoverWithForm() {
+  return (
+    <>
+      <Popover>
+        <PopoverTrigger render={<Button variant="outline" />}>
+          Popover 열기
+        </PopoverTrigger>
+        <PopoverContent className="w-64" align="start">
+          <PopoverHeader>
+            <PopoverTitle>크기</PopoverTitle>
+            <PopoverDescription>
+              레이어의 크기를 설정합니다.
+            </PopoverDescription>
+          </PopoverHeader>
+          <FieldGroup className="gap-4">
+            <Field orientation="horizontal">
+              <FieldLabel htmlFor="width" className="w-1/2">
+                너비
+              </FieldLabel>
+              <Input id="width" defaultValue="100%" />
+            </Field>
+            <Field orientation="horizontal">
+              <FieldLabel htmlFor="height" className="w-1/2">
+                높이
+              </FieldLabel>
+              <Input id="height" defaultValue="25px" />
+            </Field>
+          </FieldGroup>
+        </PopoverContent>
+      </Popover>
+    </>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API 참고
+
+이 컴포넌트는 [Base UI Popover](https://base-ui.com/react/components/popover)를 감싸며 해당 컴포넌트의 모든 prop을 받습니다.

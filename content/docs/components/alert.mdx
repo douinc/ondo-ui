@@ -1,0 +1,369 @@
+---
+title: Alert
+description: Displays a callout for user attention.
+---
+
+<ComponentPreview name="alert-demo">
+
+```tsx
+import { IconCircleCheck, IconInfoCircle } from "@tabler/icons-react"
+
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert"
+
+export default function AlertDemo() {
+  return (
+    <div className="grid w-full max-w-md items-start gap-4">
+      <Alert>
+        <IconCircleCheck />
+        <AlertTitle>Payment successful</AlertTitle>
+        <AlertDescription>
+          Your payment of $29.99 has been processed. A receipt has been sent to
+          your email address.
+        </AlertDescription>
+      </Alert>
+      <Alert>
+        <IconInfoCircle />
+        <AlertTitle>New feature available</AlertTitle>
+        <AlertDescription>
+          We&apos;ve added dark mode support. You can enable it in your account
+          settings.
+        </AlertDescription>
+      </Alert>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## Installation
+
+```bash
+bunx shadcn@latest add @ondo-ui/alert
+```
+
+## Usage
+
+```tsx showLineNumbers
+import {
+  Alert,
+  AlertAction,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert"
+```
+
+```tsx showLineNumbers
+<Alert>
+  <InfoIcon />
+  <AlertTitle>Heads up!</AlertTitle>
+  <AlertDescription>
+    You can add components and dependencies to your app using the cli.
+  </AlertDescription>
+  <AlertAction>
+    <Button variant="outline">Enable</Button>
+  </AlertAction>
+</Alert>
+```
+
+## Composition
+
+Use the following composition to build an `Alert`:
+
+```text
+Alert
+├── Icon
+├── AlertTitle
+├── AlertDescription
+└── AlertAction
+```
+
+## Examples
+
+### Basic
+
+A basic alert with an icon, title and description.
+
+<ComponentPreview name="alert-basic">
+
+```tsx
+import { IconCircleCheck } from "@tabler/icons-react"
+
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert"
+
+export default function AlertBasic() {
+  return (
+    <Alert className="max-w-md">
+      <IconCircleCheck />
+      <AlertTitle>Account updated successfully</AlertTitle>
+      <AlertDescription>
+        Your profile information has been saved. Changes will be reflected
+        immediately.
+      </AlertDescription>
+    </Alert>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Primary
+
+Use `variant="primary"` to create a primary alert.
+
+<ComponentPreview name="alert-primary">
+
+```tsx
+import { IconSparkles } from "@tabler/icons-react"
+
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert"
+
+export default function AlertPrimary() {
+  return (
+    <Alert variant="primary" className="max-w-md">
+      <IconSparkles />
+      <AlertTitle>Upgrade to Pro</AlertTitle>
+      <AlertDescription>
+        Unlock advanced features and priority support with a Pro plan.
+      </AlertDescription>
+    </Alert>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Info
+
+Use `variant="info"` to create an informational alert.
+
+<ComponentPreview name="alert-info">
+
+```tsx
+import { IconInfoCircle } from "@tabler/icons-react"
+
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert"
+
+export default function AlertInfo() {
+  return (
+    <Alert variant="info" className="max-w-md">
+      <IconInfoCircle />
+      <AlertTitle>A new software update is available.</AlertTitle>
+      <AlertDescription>
+        Version 2.4.0 includes performance improvements and bug fixes. Update at
+        your convenience.
+      </AlertDescription>
+    </Alert>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Success
+
+Use `variant="success"` to create a success alert.
+
+<ComponentPreview name="alert-success">
+
+```tsx
+import { IconCircleCheck } from "@tabler/icons-react"
+
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert"
+
+export default function AlertSuccess() {
+  return (
+    <Alert variant="success" className="max-w-md">
+      <IconCircleCheck />
+      <AlertTitle>Payment successful</AlertTitle>
+      <AlertDescription>
+        Your payment of $29.99 has been processed. A receipt has been sent to
+        your email address.
+      </AlertDescription>
+    </Alert>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Warning
+
+Use `variant="warning"` to create a warning alert.
+
+<ComponentPreview name="alert-warning">
+
+```tsx
+import { IconAlertTriangle } from "@tabler/icons-react"
+
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert"
+
+export default function AlertWarning() {
+  return (
+    <Alert variant="warning" className="max-w-md">
+      <IconAlertTriangle />
+      <AlertTitle>Your subscription will expire in 3 days.</AlertTitle>
+      <AlertDescription>
+        Renew now to avoid service interruption or upgrade to a paid plan to
+        continue using the service.
+      </AlertDescription>
+    </Alert>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Destructive
+
+Use `variant="destructive"` to create a destructive alert.
+
+<ComponentPreview name="alert-destructive">
+
+```tsx
+import { IconAlertCircle } from "@tabler/icons-react"
+
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert"
+
+export default function AlertDestructive() {
+  return (
+    <Alert variant="destructive" className="max-w-md">
+      <IconAlertCircle />
+      <AlertTitle>Payment failed</AlertTitle>
+      <AlertDescription>
+        Your payment could not be processed. Please check your payment method
+        and try again.
+      </AlertDescription>
+    </Alert>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Action
+
+Use `AlertAction` to add a button or other action element to the alert.
+
+<ComponentPreview name="alert-action">
+
+```tsx
+import {
+  Alert,
+  AlertAction,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert"
+import { Button } from "@/components/ui/button"
+
+export default function AlertAction() {
+  return (
+    <Alert className="max-w-md">
+      <AlertTitle>Dark mode is now available</AlertTitle>
+      <AlertDescription>
+        Enable it under your profile settings to get started.
+      </AlertDescription>
+      <AlertAction>
+        <Button size="xs" variant="default">
+          Enable
+        </Button>
+      </AlertAction>
+    </Alert>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Custom Colors
+
+You can customize the alert colors by adding custom classes such as `bg-amber-50 dark:bg-amber-950` to the `Alert` component.
+
+<ComponentPreview name="alert-custom-colors">
+
+```tsx
+import { IconAlertTriangle } from "@tabler/icons-react"
+
+import {
+  Alert,
+  AlertDescription,
+  AlertTitle,
+} from "@/components/ui/alert"
+
+export default function AlertCustomColors() {
+  return (
+    <Alert className="max-w-md border-amber-200 bg-amber-50 text-amber-900 dark:border-amber-900 dark:bg-amber-950 dark:text-amber-50">
+      <IconAlertTriangle />
+      <AlertTitle>Your subscription will expire in 3 days.</AlertTitle>
+      <AlertDescription>
+        Renew now to avoid service interruption or upgrade to a paid plan to
+        continue using the service.
+      </AlertDescription>
+    </Alert>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API reference
+
+### Alert
+
+The `Alert` component displays a callout for user attention.
+
+| Prop      | Type                         | Default     |
+| --------- | ---------------------------- | ----------- |
+| `variant` | `"default" \| "primary" \| "info" \| "success" \| "warning" \| "destructive"` | `"default"` |
+
+### AlertTitle
+
+The `AlertTitle` component displays the title of the alert.
+
+| Prop        | Type     | Default |
+| ----------- | -------- | ------- |
+| `className` | `string` | -       |
+
+### AlertDescription
+
+The `AlertDescription` component displays the description or content of the alert.
+
+| Prop        | Type     | Default |
+| ----------- | -------- | ------- |
+| `className` | `string` | -       |
+
+### AlertAction
+
+The `AlertAction` component displays an action element (like a button) positioned absolutely in the top-right corner of the alert.
+
+| Prop        | Type     | Default |
+| ----------- | -------- | ------- |
+| `className` | `string` | -       |

@@ -1,0 +1,172 @@
+---
+title: Tooltip (툴팁)
+description: 요소가 키보드 포커스를 받거나 마우스가 그 위에 있을 때 관련 정보를 표시하는 팝업입니다.
+---
+
+<ComponentPreview name="tooltip-demo">
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+
+export function TooltipDemo() {
+  return (
+    <Tooltip>
+      <TooltipTrigger render={<Button variant="outline" />}>
+        Hover
+      </TooltipTrigger>
+      <TooltipContent>
+        <p>Add to library</p>
+      </TooltipContent>
+    </Tooltip>
+  )
+}
+```
+
+</ComponentPreview>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/tooltip
+```
+
+## 사용법
+
+```tsx showLineNumbers
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+```
+
+```tsx showLineNumbers
+<Tooltip>
+  <TooltipTrigger>Hover</TooltipTrigger>
+  <TooltipContent>
+    <p>Add to library</p>
+  </TooltipContent>
+</Tooltip>
+```
+
+## Composition
+
+`Tooltip`을 구성하려면 다음 구조를 사용합니다:
+
+```text
+Tooltip
+├── TooltipTrigger
+└── TooltipContent
+```
+
+## 예시
+
+### Side
+
+`side` prop을 사용하여 툴팁의 위치를 변경합니다.
+
+<ComponentPreview name="tooltip-side">
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+
+export function TooltipSide() {
+  return (
+    <div className="flex flex-wrap gap-2">
+      {(["left", "top", "bottom", "right"] as const).map((side) => (
+        <Tooltip key={side}>
+          <TooltipTrigger
+            render={<Button variant="outline" className="w-fit capitalize" />}
+          >
+            {side}
+          </TooltipTrigger>
+          <TooltipContent side={side}>
+            <p>Add to library</p>
+          </TooltipContent>
+        </Tooltip>
+      ))}
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### With Keyboard Shortcut
+
+<ComponentPreview name="tooltip-with-keyboard-shortcut">
+
+```tsx
+import { IconDeviceFloppy } from "@tabler/icons-react"
+
+import { Button } from "@/components/ui/button"
+import { Kbd } from "@/components/ui/kbd"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+
+export function TooltipWithKeyboardShortcut() {
+  return (
+    <Tooltip>
+      <TooltipTrigger render={<Button variant="outline" size="icon-sm" />}>
+        <IconDeviceFloppy />
+      </TooltipTrigger>
+      <TooltipContent>
+        Save Changes <Kbd>S</Kbd>
+      </TooltipContent>
+    </Tooltip>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Disabled Button
+
+비활성화된 버튼에서 툴팁을 표시하려면 span으로 감싸세요.
+
+<ComponentPreview name="tooltip-disabled-button">
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+
+export function TooltipDisabledButton() {
+  return (
+    <>
+      <Tooltip>
+        <TooltipTrigger render={<span className="inline-block w-fit" />}>
+          <Button variant="outline" disabled>
+            Disabled
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>This feature is currently unavailable</p>
+        </TooltipContent>
+      </Tooltip>
+    </>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API 참고
+
+이 컴포넌트는 [Base UI Tooltip](https://base-ui.com/react/components/tooltip)을 감싸며 해당 컴포넌트의 모든 prop을 받습니다.

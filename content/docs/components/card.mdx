@@ -1,0 +1,424 @@
+---
+title: Card
+description: Displays a card with header, content, and footer.
+---
+
+<ComponentPreview name="card-demo">
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+
+export default function CardDemo() {
+  return (
+    <Card className="w-full max-w-sm">
+      <CardHeader>
+        <CardTitle>Login to your account</CardTitle>
+        <CardDescription>
+          Enter your email below to login to your account
+        </CardDescription>
+        <CardAction>
+          <Button variant="link">Sign Up</Button>
+        </CardAction>
+      </CardHeader>
+      <CardContent>
+        <form>
+          <div className="flex flex-col gap-6">
+            <div className="grid gap-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="m@example.com"
+                required
+              />
+            </div>
+            <div className="grid gap-2">
+              <div className="flex items-center">
+                <Label htmlFor="password">Password</Label>
+                <a
+                  href="#"
+                  className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                >
+                  Forgot your password?
+                </a>
+              </div>
+              <Input id="password" type="password" required />
+            </div>
+          </div>
+        </form>
+      </CardContent>
+      <CardFooter className="flex-col gap-2">
+        <Button type="submit" className="w-full">
+          Login
+        </Button>
+        <Button variant="outline" className="w-full">
+          Login with Google
+        </Button>
+      </CardFooter>
+    </Card>
+  )
+}
+```
+
+</ComponentPreview>
+
+## Installation
+
+```bash
+bunx shadcn@latest add @ondo-ui/card
+```
+
+## Usage
+
+```tsx showLineNumbers
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+```
+
+```tsx showLineNumbers
+<Card>
+  <CardHeader>
+    <CardTitle>Card Title</CardTitle>
+    <CardDescription>Card Description</CardDescription>
+    <CardAction>Card Action</CardAction>
+  </CardHeader>
+  <CardContent>
+    <p>Card Content</p>
+  </CardContent>
+  <CardFooter>
+    <p>Card Footer</p>
+  </CardFooter>
+</Card>
+```
+
+## Composition
+
+Use the following composition to build a `Card`:
+
+```text
+Card
+├── CardHeader
+│   ├── CardTitle
+│   ├── CardDescription
+│   └── CardAction
+├── CardContent
+└── CardFooter
+```
+
+## Examples
+
+### Size
+
+Use the `size="sm"` prop to set the size of the card to small. The small size variant uses smaller spacing.
+
+<ComponentPreview name="card-size">
+
+```tsx
+import { IconChevronRight } from "@tabler/icons-react"
+
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+
+export default function CardSize() {
+  const featureName = "Scheduled reports"
+
+  return (
+    <Card size="sm" className="mx-auto w-full max-w-xs">
+      <CardHeader>
+        <CardTitle>{featureName}</CardTitle>
+        <CardDescription>
+          Weekly snapshots. No more manual exports.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <ul className="grid gap-2 py-2 text-sm">
+          <li className="flex gap-2">
+            <IconChevronRight className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
+            <span>Choose a schedule (daily, or weekly).</span>
+          </li>
+          <li className="flex gap-2">
+            <IconChevronRight className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
+            <span>Send to channels or specific teammates.</span>
+          </li>
+          <li className="flex gap-2">
+            <IconChevronRight className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
+            <span>Include charts, tables, and key metrics.</span>
+          </li>
+        </ul>
+      </CardContent>
+      <CardFooter className="flex-col gap-2">
+        <Button size="sm" className="w-full">
+          Set up scheduled reports
+        </Button>
+        <Button variant="outline" size="sm" className="w-full">
+          See what&apos;s new
+        </Button>
+      </CardFooter>
+    </Card>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Spacing
+
+In addition to the `size` prop, you can use the `--card-spacing` CSS variable to control the spacing between sections and the inset of card parts.
+
+<ComponentPreview name="card-spacing">
+
+```tsx
+"use client"
+
+import * as React from "react"
+
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from "@/components/ui/toggle-group"
+
+const spacingOptions = [
+  {
+    className: "[--card-spacing:--spacing(4)]",
+    label: "16px",
+    value: "4",
+  },
+  {
+    className: "[--card-spacing:--spacing(5)]",
+    label: "20px",
+    value: "5",
+  },
+  {
+    className: "[--card-spacing:--spacing(6)]",
+    label: "24px",
+    value: "6",
+  },
+  {
+    className: "[--card-spacing:--spacing(8)]",
+    label: "32px",
+    value: "8",
+  },
+]
+
+export default function CardSpacing() {
+  const [spacing, setSpacing] = React.useState("4")
+  const selectedSpacing = spacingOptions.find(
+    (option) => option.value === spacing
+  )
+
+  return (
+    <div className="mx-auto grid w-full max-w-sm gap-4">
+      <ToggleGroup
+        value={[spacing]}
+        onValueChange={(value) => {
+          if (value[0]) {
+            setSpacing(value[0])
+          }
+        }}
+        variant="outline"
+        size="sm"
+        className="justify-center"
+      >
+        {spacingOptions.map((option) => (
+          <ToggleGroupItem key={option.value} value={option.value}>
+            {option.label}
+          </ToggleGroupItem>
+        ))}
+      </ToggleGroup>
+      <Card className={selectedSpacing?.className}>
+        <CardHeader>
+          <CardTitle>Login to your account</CardTitle>
+          <CardDescription>
+            Enter your email below to login to your account
+          </CardDescription>
+          <CardAction>
+            <Button variant="link">Sign Up</Button>
+          </CardAction>
+        </CardHeader>
+        <CardContent>
+          <form>
+            <div className="flex flex-col gap-6">
+              <div className="grid gap-2">
+                <Label htmlFor="email-spacing">Email</Label>
+                <Input
+                  id="email-spacing"
+                  type="email"
+                  placeholder="m@example.com"
+                  required
+                />
+              </div>
+              <div className="grid gap-2">
+                <div className="flex items-center">
+                  <Label htmlFor="password-spacing">Password</Label>
+                  <a
+                    href="#"
+                    className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
+                  >
+                    Forgot your password?
+                  </a>
+                </div>
+                <Input id="password-spacing" type="password" required />
+              </div>
+            </div>
+          </form>
+        </CardContent>
+        <CardFooter className="flex-col gap-2">
+          <Button type="submit" className="w-full">
+            Login
+          </Button>
+          <Button variant="outline" className="w-full">
+            Login with Google
+          </Button>
+        </CardFooter>
+      </Card>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+Use negative margins with `-mx-(--card-spacing)` to make content go edge to edge while keeping it aligned with the card inset. When the edge-to-edge content sits above a footer, use `-mb-(--card-spacing)` on `CardContent` to remove the section gap.
+
+### Image
+
+Add an image before the card header to create a card with an image.
+
+<ComponentPreview name="card-image">
+
+```tsx
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardAction,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+
+export default function CardImage() {
+  return (
+    <Card className="relative mx-auto w-full max-w-sm pt-0">
+      <div className="absolute inset-0 z-30 aspect-video bg-black/35" />
+      <img
+        src="https://avatar.vercel.sh/shadcn1"
+        alt="Event cover"
+        className="relative z-20 aspect-video w-full object-cover brightness-60 grayscale dark:brightness-40"
+      />
+      <CardHeader>
+        <CardAction>
+          <Badge variant="secondary">Featured</Badge>
+        </CardAction>
+        <CardTitle>Design systems meetup</CardTitle>
+        <CardDescription>
+          A practical talk on component APIs, accessibility, and shipping
+          faster.
+        </CardDescription>
+      </CardHeader>
+      <CardFooter>
+        <Button className="w-full">View Event</Button>
+      </CardFooter>
+    </Card>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API reference
+
+### Card
+
+The `Card` component is the root container for card content.
+
+| Prop        | Type                | Default     |
+| ----------- | ------------------- | ----------- |
+| `size`      | `"default" \| "sm"` | `"default"` |
+| `className` | `string`            | -           |
+
+### CardHeader
+
+The `CardHeader` component is used for a title, description, and optional action.
+
+| Prop        | Type     | Default |
+| ----------- | -------- | ------- |
+| `className` | `string` | -       |
+
+### CardTitle
+
+The `CardTitle` component is used for the card title.
+
+| Prop        | Type     | Default |
+| ----------- | -------- | ------- |
+| `className` | `string` | -       |
+
+### CardDescription
+
+The `CardDescription` component is used for helper text under the title.
+
+| Prop        | Type     | Default |
+| ----------- | -------- | ------- |
+| `className` | `string` | -       |
+
+### CardAction
+
+The `CardAction` component places content in the top-right of the header (for example, a button or a badge).
+
+| Prop        | Type     | Default |
+| ----------- | -------- | ------- |
+| `className` | `string` | -       |
+
+### CardContent
+
+The `CardContent` component is used for the main card body.
+
+| Prop        | Type     | Default |
+| ----------- | -------- | ------- |
+| `className` | `string` | -       |
+
+### CardFooter
+
+The `CardFooter` component is used for actions and secondary content at the bottom of the card.
+
+| Prop        | Type     | Default |
+| ----------- | -------- | ------- |
+| `className` | `string` | -       |

@@ -1,0 +1,460 @@
+---
+title: Empty (빈 상태)
+description: 빈 상태를 표시하는 Empty 컴포넌트를 사용합니다.
+---
+
+<Callout>
+  완성형이 필요하신가요? [`EmptyView`](/docs/compositions/empty-view)가 이 파트들을
+  `title` / `description` / `icon` / `actions` API로 미리 조합해 둡니다.
+</Callout>
+
+<ComponentPreview name="empty-demo">
+
+```tsx
+import { IconFolderCode } from "@tabler/icons-react"
+import { IconArrowUpRight } from "@tabler/icons-react"
+
+import { Button } from "@/components/ui/button"
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty"
+
+export default function EmptyDemo() {
+  return (
+    <Empty>
+      <EmptyHeader>
+        <EmptyMedia variant="icon">
+          <IconFolderCode />
+        </EmptyMedia>
+        <EmptyTitle>아직 프로젝트가 없습니다</EmptyTitle>
+        <EmptyDescription>
+          아직 프로젝트를 생성하지 않았습니다. 첫 번째 프로젝트를 생성하여 시작하세요.
+        </EmptyDescription>
+      </EmptyHeader>
+      <EmptyContent className="flex-row justify-center gap-2">
+        <Button>프로젝트 생성</Button>
+        <Button variant="outline">프로젝트 가져오기</Button>
+      </EmptyContent>
+      <Button
+        variant="link"
+        render={<a href="#" />}
+        className="text-muted-foreground"
+        size="sm"
+        nativeButton={false}
+      >
+        자세히 알아보기 <IconArrowUpRight />
+      </Button>
+    </Empty>
+  )
+}
+```
+
+</ComponentPreview>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/empty
+```
+
+## 사용법
+
+```tsx
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty"
+```
+
+```tsx
+<Empty>
+  <EmptyHeader>
+    <EmptyMedia variant="icon">
+      <Icon />
+    </EmptyMedia>
+    <EmptyTitle>No data</EmptyTitle>
+    <EmptyDescription>No data found</EmptyDescription>
+  </EmptyHeader>
+  <EmptyContent>
+    <Button>Add data</Button>
+  </EmptyContent>
+</Empty>
+```
+
+## Composition
+
+다음 구성을 사용하여 `Empty` 상태를 만듭니다:
+
+```text
+Empty
+├── EmptyHeader
+│   ├── EmptyMedia
+│   ├── EmptyTitle
+│   └── EmptyDescription
+└── EmptyContent
+```
+
+## 예시
+
+### Outline
+
+`border` 유틸리티 클래스를 사용하여 테두리가 있는 빈 상태를 만듭니다.
+
+<ComponentPreview name="empty-outline">
+
+```tsx
+import { IconCloud } from "@tabler/icons-react"
+
+import { Button } from "@/components/ui/button"
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty"
+
+export default function EmptyOutline() {
+  return (
+    <Empty className="border border-dashed">
+      <EmptyHeader>
+        <EmptyMedia variant="icon">
+          <IconCloud />
+        </EmptyMedia>
+        <EmptyTitle>클라우드 스토리지가 비었습니다</EmptyTitle>
+        <EmptyDescription>
+          클라우드 스토리지에 파일을 업로드하여 언제 어디서나 접근할 수 있습니다.
+        </EmptyDescription>
+      </EmptyHeader>
+      <EmptyContent>
+        <Button variant="outline" size="sm">
+          파일 업로드
+        </Button>
+      </EmptyContent>
+    </Empty>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Background
+
+`bg-*` 및 `bg-gradient-*` 유틸리티를 사용하여 빈 상태에 배경을 추가합니다.
+
+<ComponentPreview name="empty-background">
+
+```tsx
+import { IconBell } from "@tabler/icons-react"
+import { IconRefresh } from "@tabler/icons-react"
+
+import { Button } from "@/components/ui/button"
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty"
+
+export default function EmptyBackground() {
+  return (
+    <Empty className="h-full bg-muted/30">
+      <EmptyHeader>
+        <EmptyMedia variant="icon">
+          <IconBell />
+        </EmptyMedia>
+        <EmptyTitle>알림이 없습니다</EmptyTitle>
+        <EmptyDescription className="max-w-xs text-pretty">
+          모든 알림을 확인했습니다. 새로운 알림이 여기에 표시됩니다.
+        </EmptyDescription>
+      </EmptyHeader>
+      <EmptyContent>
+        <Button variant="outline">
+          <IconRefresh data-icon="inline-start" />
+          새로고침
+        </Button>
+      </EmptyContent>
+    </Empty>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Avatar
+
+`EmptyMedia` 컴포넌트를 사용하여 빈 상태에 아바타를 표시합니다.
+
+<ComponentPreview name="empty-avatar">
+
+```tsx
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty"
+
+export default function EmptyAvatar() {
+  return (
+    <Empty>
+      <EmptyHeader>
+        <EmptyMedia variant="default">
+          <Avatar className="size-12">
+            <AvatarImage
+              src="https://github.com/shadcn.png"
+              className="grayscale"
+            />
+            <AvatarFallback>LR</AvatarFallback>
+          </Avatar>
+        </EmptyMedia>
+        <EmptyTitle>사용자 오프라인</EmptyTitle>
+        <EmptyDescription>
+          이 사용자는 현재 오프라인입니다. 메시지를 남기거나 나중에 다시 시도해주세요.
+        </EmptyDescription>
+      </EmptyHeader>
+      <EmptyContent>
+        <Button size="sm">메시지 남기기</Button>
+      </EmptyContent>
+    </Empty>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Avatar Group
+
+`EmptyMedia` 컴포넌트를 사용하여 빈 상태에 아바타 그룹을 표시합니다.
+
+<ComponentPreview name="empty-avatar-group">
+
+```tsx
+import { IconPlus } from "@tabler/icons-react"
+
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty"
+
+export default function EmptyAvatarGroup() {
+  return (
+    <Empty>
+      <EmptyHeader>
+        <EmptyMedia>
+          <div className="flex -space-x-2 *:data-[slot=avatar]:size-12 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background *:data-[slot=avatar]:grayscale">
+            <Avatar>
+              <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+            <Avatar>
+              <AvatarImage
+                src="https://github.com/maxleiter.png"
+                alt="@maxleiter"
+              />
+              <AvatarFallback>LR</AvatarFallback>
+            </Avatar>
+            <Avatar>
+              <AvatarImage
+                src="https://github.com/evilrabbit.png"
+                alt="@evilrabbit"
+              />
+              <AvatarFallback>ER</AvatarFallback>
+            </Avatar>
+          </div>
+        </EmptyMedia>
+        <EmptyTitle>팀 멤버가 없습니다</EmptyTitle>
+        <EmptyDescription>
+          팀을 초대하여 이 프로젝트에서 협업할 수 있습니다.
+        </EmptyDescription>
+      </EmptyHeader>
+      <EmptyContent>
+        <Button size="sm">
+          <IconPlus />
+          멤버 초대
+        </Button>
+      </EmptyContent>
+    </Empty>
+  )
+}
+```
+
+</ComponentPreview>
+
+### InputGroup
+
+`EmptyContent` 컴포넌트에 `InputGroup` 컴포넌트를 추가할 수 있습니다.
+
+<ComponentPreview name="empty-inputgroup">
+
+```tsx
+import { IconSearch } from "@tabler/icons-react"
+
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyTitle,
+} from "@/components/ui/empty"
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group"
+import { Kbd } from "@/components/ui/kbd"
+
+export default function EmptyInputGroup() {
+  return (
+    <Empty>
+      <EmptyHeader>
+        <EmptyTitle>404 - 찾을 수 없습니다</EmptyTitle>
+        <EmptyDescription>
+          찾는 페이지가 없습니다. 아래에서 필요한 항목을 검색해주세요.
+        </EmptyDescription>
+      </EmptyHeader>
+      <EmptyContent>
+        <InputGroup className="sm:w-3/4">
+          <InputGroupInput placeholder="페이지를 검색해보세요..." />
+          <InputGroupAddon>
+            <IconSearch />
+          </InputGroupAddon>
+          <InputGroupAddon align="inline-end">
+            <Kbd>/</Kbd>
+          </InputGroupAddon>
+        </InputGroup>
+        <EmptyDescription>
+          도움이 필요하신가요? <a href="#">지원팀에 문의하기</a>
+        </EmptyDescription>
+      </EmptyContent>
+    </Empty>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API 참고
+
+### Empty
+
+빈 상태의 주요 컴포넌트입니다. `EmptyHeader`와 `EmptyContent` 컴포넌트를 감싸고 있습니다.
+
+| Prop        | Type     | 기본값 |
+| ----------- | -------- | ------- |
+| `className` | `string` |         |
+
+```tsx
+<Empty>
+  <EmptyHeader />
+  <EmptyContent />
+</Empty>
+```
+
+### EmptyHeader
+
+`EmptyHeader` 컴포넌트는 빈 상태의 미디어, 제목, 설명을 감싸고 있습니다.
+
+| Prop        | Type     | 기본값 |
+| ----------- | -------- | ------- |
+| `className` | `string` |         |
+
+```tsx
+<EmptyHeader>
+  <EmptyMedia />
+  <EmptyTitle />
+  <EmptyDescription />
+</EmptyHeader>
+```
+
+### EmptyMedia
+
+`EmptyMedia` 컴포넌트를 사용하여 아이콘이나 이미지와 같은 빈 상태의 미디어를 표시합니다. 또한 아바타와 같은 다른 컴포넌트를 표시할 수도 있습니다.
+
+| Prop        | Type                  | 기본값    |
+| ----------- | --------------------- | --------- |
+| `variant`   | `"default" \| "icon"` | `default` |
+| `className` | `string`              |           |
+
+```tsx
+<EmptyMedia variant="icon">
+  <Icon />
+</EmptyMedia>
+```
+
+```tsx
+<EmptyMedia>
+  <Avatar>
+    <AvatarImage src="..." />
+    <AvatarFallback>CN</AvatarFallback>
+  </Avatar>
+</EmptyMedia>
+```
+
+### EmptyTitle
+
+`EmptyTitle` 컴포넌트를 사용하여 빈 상태의 제목을 표시합니다.
+
+| Prop        | Type     | 기본값 |
+| ----------- | -------- | ------- |
+| `className` | `string` |         |
+
+```tsx
+<EmptyTitle>데이터 없음</EmptyTitle>
+```
+
+### EmptyDescription
+
+`EmptyDescription` 컴포넌트를 사용하여 빈 상태의 설명을 표시합니다.
+
+| Prop        | Type     | 기본값 |
+| ----------- | -------- | ------- |
+| `className` | `string` |         |
+
+```tsx
+<EmptyDescription>알림이 없습니다.</EmptyDescription>
+```
+
+### EmptyContent
+
+`EmptyContent` 컴포넌트를 사용하여 버튼, 입력 또는 링크와 같은 빈 상태의 콘텐츠를 표시합니다.
+
+| Prop        | Type     | 기본값 |
+| ----------- | -------- | ------- |
+| `className` | `string` |         |
+
+```tsx
+<EmptyContent>
+  <Button>프로젝트 추가</Button>
+</EmptyContent>
+```

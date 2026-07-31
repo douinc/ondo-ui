@@ -1,0 +1,155 @@
+---
+title: Toggle
+description: A two-state button that can be either on or off.
+---
+
+<ComponentPreview name="toggle-demo">
+
+```tsx
+import { IconBookmark } from "@tabler/icons-react"
+
+import { Toggle } from "@/components/ui/toggle"
+
+export function ToggleDemo() {
+  return (
+    <Toggle aria-label="Toggle bookmark" size="sm" variant="outline">
+      <IconBookmark className="group-aria-pressed/toggle:fill-foreground" />
+      Bookmark
+    </Toggle>
+  )
+}
+```
+
+</ComponentPreview>
+
+## Installation
+
+```bash
+bunx shadcn@latest add @ondo-ui/toggle
+```
+
+## Usage
+
+```tsx
+import { Toggle } from "@/components/ui/toggle"
+```
+
+```tsx
+<Toggle>Toggle</Toggle>
+```
+
+## Examples
+
+### Outline
+
+Use `variant="outline"` for an outline style.
+
+<ComponentPreview name="toggle-outline">
+
+```tsx
+import { IconBold, IconItalic } from "@tabler/icons-react"
+
+import { Toggle } from "@/components/ui/toggle"
+
+export function ToggleOutline() {
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      <Toggle variant="outline" aria-label="Toggle italic">
+        <IconItalic />
+        Italic
+      </Toggle>
+      <Toggle variant="outline" aria-label="Toggle bold">
+        <IconBold />
+        Bold
+      </Toggle>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### With Text
+
+<ComponentPreview name="toggle-with-text">
+
+```tsx
+import { IconItalic } from "@tabler/icons-react"
+
+import { Toggle } from "@/components/ui/toggle"
+
+export function ToggleWithText() {
+  return (
+    <Toggle aria-label="Toggle italic">
+      <IconItalic />
+      Italic
+    </Toggle>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Size
+
+Use the `size` prop to change the size of the toggle.
+
+<ComponentPreview name="toggle-size">
+
+```tsx
+import { Toggle } from "@/components/ui/toggle"
+
+export function ToggleSize() {
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      <Toggle variant="outline" aria-label="Toggle extra small" size="xs">
+        Extra small
+      </Toggle>
+      <Toggle variant="outline" aria-label="Toggle small" size="sm">
+        Small
+      </Toggle>
+      <Toggle variant="outline" aria-label="Toggle default" size="default">
+        Default
+      </Toggle>
+      <Toggle variant="outline" aria-label="Toggle large" size="lg">
+        Large
+      </Toggle>
+      <Toggle variant="outline" aria-label="Toggle extra large" size="xl">
+        Extra large
+      </Toggle>
+      <Toggle variant="outline" aria-label="Toggle 2x large" size="2xl">
+        2X large
+      </Toggle>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Disabled
+
+<ComponentPreview name="toggle-disabled">
+
+```tsx
+import { Toggle } from "@/components/ui/toggle"
+
+export function ToggleDisabled() {
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      <Toggle aria-label="Toggle disabled" disabled>
+        Disabled
+      </Toggle>
+      <Toggle variant="outline" aria-label="Toggle disabled outline" disabled>
+        Disabled
+      </Toggle>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API reference
+
+The component wraps [Base UI Toggle](https://base-ui.com/react/components/toggle) and accepts all of its props.

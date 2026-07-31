@@ -1,0 +1,136 @@
+---
+title: Frame (프레임)
+description: 관련된 콘텐츠를 구조화된 프레임 안에 보여줍니다.
+---
+
+<ComponentPreview name="frame-demo" />
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/frame
+```
+
+## 사용법
+
+```tsx
+import {
+  Frame,
+  FrameDescription,
+  FrameFooter,
+  FrameHeader,
+  FramePanel,
+  FrameTitle,
+} from "@/components/ui/frame"
+```
+
+```tsx
+<Frame>
+  <FramePanel>
+    <FrameHeader>
+      <FrameTitle>프레임 제목</FrameTitle>
+      <FrameDescription>프레임 설명</FrameDescription>
+    </FrameHeader>
+    <div className="p-5">프레임 내용</div>
+    <FrameFooter>프레임 푸터</FrameFooter>
+  </FramePanel>
+</Frame>
+```
+
+### 모서리 반경 조절
+
+프레임과 패널의 모서리 반경은 `--frame-radius` CSS 변수로 조절합니다.
+
+```tsx
+<Frame className="[--frame-radius:var(--radius-lg)]">
+  <FramePanel>...</FramePanel>
+</Frame>
+```
+
+## 예시
+
+### 분리된 패널
+
+<ComponentPreview name="frame-separated-panels" />
+
+### 이어 붙인 패널
+
+<ComponentPreview name="frame-stacked-panels" />
+
+### 여백 없는 패널
+
+<ComponentPreview name="frame-dense-panels" />
+
+### 바깥 테두리 없이
+
+<ComponentPreview name="frame-ghost" />
+
+### 간격 조절
+
+<ComponentPreview name="frame-spacing" />
+
+### 모서리 반경 조절
+
+<ComponentPreview name="frame-radius" />
+
+## API 참고
+
+### Frame
+
+패널 하나 이상을 담는 루트 컨테이너입니다.
+
+| Prop        | 타입                                | 기본값      | 설명                                                            |
+| :---------- | :---------------------------------- | :---------- | :-------------------------------------------------------------- |
+| `variant`   | `"default" \| "inverse" \| "ghost"` | `"default"` | 프레임 컨테이너의 시각적 스타일.                                |
+| `spacing`   | `"xs" \| "sm" \| "default" \| "lg"` | `"default"` | 프레임 내부 여백과 패널 사이 간격.                              |
+| `stacked`   | `boolean`                           | `false`     | true면 패널 사이 간격을 없애고 테두리를 공유해 세로로 잇습니다. |
+| `dense`     | `boolean`                           | `false`     | true면 패널 주위 여백을 없앱니다.                               |
+| `className` | `string`                            | -           | 컨테이너에 추가할 CSS 클래스.                                   |
+
+### CSS 변수
+
+| 변수                   | 기본값                                              | 설명                                                                              |
+| :--------------------- | :-------------------------------------------------- | :-------------------------------------------------------------------------------- |
+| `--frame-radius`       | `var(--radius-xl)`                                  | 프레임 바깥 모서리 반경. 패널이 여기서 값을 파생하므로 이것 하나만 조절하면 됩니다. |
+| `--frame-panel-radius` | `calc(var(--frame-radius) - var(--frame-px) - 1px)` | 안쪽 패널의 반경. 모서리가 프레임 안에 동심원처럼 겹치도록 줄여 둡니다.            |
+
+### FramePanel
+
+헤더·본문·푸터를 담는, 프레임 안의 카드형 컨테이너입니다.
+
+| Prop        | 타입      | 기본값  | 설명                                                  |
+| :---------- | :-------- | :------ | :---------------------------------------------------- |
+| `fit`       | `boolean` | `false` | true면 프레임을 채우지 않고 내용 크기에 맞춥니다.     |
+| `className` | `string`  | -       | 패널에 추가할 CSS 클래스.                             |
+
+### FrameHeader
+
+제목과 설명을 담는 컨테이너이며 기본 여백을 갖습니다.
+
+| Prop        | 타입     | 기본값 | 설명                        |
+| :---------- | :------- | :----- | :-------------------------- |
+| `className` | `string` | -      | 헤더에 추가할 CSS 클래스.   |
+
+### FrameTitle
+
+패널의 제목입니다.
+
+| Prop        | 타입     | 기본값 | 설명                      |
+| :---------- | :------- | :----- | :------------------------ |
+| `className` | `string` | -      | 제목에 추가할 CSS 클래스. |
+
+### FrameDescription
+
+패널의 보조 설명 텍스트입니다.
+
+| Prop        | 타입     | 기본값 | 설명                      |
+| :---------- | :------- | :----- | :------------------------ |
+| `className` | `string` | -      | 설명에 추가할 CSS 클래스. |
+
+### FrameFooter
+
+패널 하단에 동작이나 부가 정보를 놓는 컨테이너입니다.
+
+| Prop        | 타입     | 기본값 | 설명                      |
+| :---------- | :------- | :----- | :------------------------ |
+| `className` | `string` | -      | 푸터에 추가할 CSS 클래스. |

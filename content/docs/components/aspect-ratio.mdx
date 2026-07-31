@@ -1,0 +1,118 @@
+---
+title: Aspect Ratio
+description: Displays content within a desired ratio.
+---
+
+<ComponentPreview name="aspect-ratio-demo">
+
+```tsx
+import Image from "next/image"
+
+import { AspectRatio } from "@/components/ui/aspect-ratio"
+
+export default function AspectRatioDemo() {
+  return (
+    <AspectRatio ratio={16 / 9} className="w-full max-w-sm rounded-lg bg-muted">
+      <Image
+        src="https://avatar.vercel.sh/shadcn1"
+        alt="Photo"
+        fill
+        className="rounded-lg object-cover grayscale dark:brightness-20"
+      />
+    </AspectRatio>
+  )
+}
+```
+
+</ComponentPreview>
+
+## Installation
+
+```bash
+bunx shadcn@latest add @ondo-ui/aspect-ratio
+```
+
+## Usage
+
+```tsx showLineNumbers
+import { AspectRatio } from "@/components/ui/aspect-ratio"
+```
+
+```tsx showLineNumbers
+<AspectRatio ratio={16 / 9}>
+  <Image src="..." alt="Image" className="rounded-md object-cover" />
+</AspectRatio>
+```
+
+## Examples
+
+### Square
+
+A square aspect ratio component using the `ratio={1 / 1}` prop. This is useful for displaying images in a square format.
+
+<ComponentPreview name="aspect-ratio-square">
+
+```tsx
+import Image from "next/image"
+
+import { AspectRatio } from "@/components/ui/aspect-ratio"
+
+export default function AspectRatioSquare() {
+  return (
+    <AspectRatio
+      ratio={1 / 1}
+      className="w-full max-w-[12rem] rounded-lg bg-muted"
+    >
+      <Image
+        src="https://avatar.vercel.sh/shadcn1"
+        alt="Photo"
+        fill
+        className="rounded-lg object-cover grayscale dark:brightness-20"
+      />
+    </AspectRatio>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Portrait
+
+A portrait aspect ratio component using the `ratio={9 / 16}` prop. This is useful for displaying images in a portrait format.
+
+<ComponentPreview name="aspect-ratio-portrait">
+
+```tsx
+import Image from "next/image"
+
+import { AspectRatio } from "@/components/ui/aspect-ratio"
+
+export default function AspectRatioPortrait() {
+  return (
+    <AspectRatio
+      ratio={9 / 16}
+      className="w-full max-w-[10rem] rounded-lg bg-muted"
+    >
+      <Image
+        src="https://avatar.vercel.sh/shadcn1"
+        alt="Photo"
+        fill
+        className="rounded-lg object-cover grayscale dark:brightness-20"
+      />
+    </AspectRatio>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API reference
+
+The `AspectRatio` component displays content within a desired ratio.
+
+| Prop        | Type     | Default | Required |
+| ----------- | -------- | ------- | -------- |
+| `ratio`     | `number` | -       | Yes      |
+| `className` | `string` | -       | No       |
+
+For more information, see the [Base UI documentation](https://base-ui.com/react/components/aspect-ratio#api-reference).

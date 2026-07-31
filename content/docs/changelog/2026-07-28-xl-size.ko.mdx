@@ -1,0 +1,37 @@
+---
+title: 전체 스케일에 xl, 2xl 크기 추가
+description: Button, Input, Toggle, Select, NativeSelect에 xl(44px), 2xl(52px) 단계가 추가됩니다.
+version: 0.6.0
+---
+
+**v0.6.0**
+
+[`Button`](/docs/components/button), [`Input`](/docs/components/input), [`Toggle`](/docs/components/toggle), [`Select`](/docs/components/select), [`NativeSelect`](/docs/components/native-select)가 이제 `size="xl"`과 `size="2xl"`을 지원합니다. `Button`에는 `icon-xl`, `icon-2xl`도 추가됩니다.
+
+| 크기 | 높이 | 글자 | 아이콘 | 반경 |
+| --- | --- | --- | --- | --- |
+| `xl` | 44px | `text-base` | 20px | `rounded-lg` |
+| `2xl` | 52px | `text-lg` | 24px | `rounded-xl` |
+
+```tsx
+<Button size="xl">Extra large</Button>
+<Button size="2xl">2X large</Button>
+<Button size="icon-2xl" aria-label="Add">
+  <IconPlus />
+</Button>
+<Input size="2xl" placeholder="2X large" />
+```
+
+`Select`와 `NativeSelect`는 `sm`과 `default`만 지원하고 있었기 때문에, 단계를 건너뛰지 않도록 이번 릴리스에서 `lg`도 함께 추가했습니다. [`Textarea`](/docs/components/textarea)와 [`InputGroup`](/docs/components/input-group)에도 전체 스케일이 들어갔습니다 — textarea는 같은 크기의 input과 가로 패딩·글자·반경이 일치하고, input group은 내부 컨트롤에 크기를 물려줍니다.
+
+작은 크기들과 달리 `xl`과 `2xl`은 데스크톱에서 `text-sm`으로 줄어들지 않고 모든 화면 폭에서 글자 크기를 유지합니다. `xl`은 `lg`보다 4px 클 뿐이라, 글자 크기가 둘을 구분하는 기준이 됩니다.
+
+`xl`과 `2xl`은 `rounded-md`보다 큰 반경을 쓰는 첫 크기입니다. `ButtonGroup`과 `ToggleGroup`은 끝단을 `md`로 둥글리므로 자식의 한쪽 모서리가 각지게 됐을 텐데, 이제 그 규칙이 자식의 `data-size`를 보고 갈라집니다. 각 자식이 자기 반경을 유지하고, 크기를 섞은 그룹에서도 자식마다 해결됩니다.
+
+`InputGroup`·`Combobox`·`Select`·`NativeSelect`에도 `xs`가 추가되어, 이제 `Input`이 지원하는 모든 구간(`xs`~`2xl`)이 전부 대칭입니다. `xs` 입력 그룹은 컨트롤이 들어갈 자리를 남기려고 애드온 패딩도 함께 줄입니다.
+
+`InputGroupButton`이 이제 `Button`의 모든 크기를 받으며, 이름마다 `Button`에서와 정확히 같은 의미입니다. `size`를 생략하면 버튼이 그룹에 스스로 맞춥니다.
+
+`InputGroupButton`의 이름 있는 네 크기는 그대로이며 upstream shadcn과 정확히 일치합니다. `size`를 생략하면 버튼이 그룹에 맞춰지는데, `default` 그룹에서는 `xs`와 동일하므로 달라지는 것이 없습니다.
+
+기본(default) 크기는 변경되지 않았으므로, 이번 업데이트는 기존 코드를 깨뜨리지 않습니다.

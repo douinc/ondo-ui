@@ -1,0 +1,223 @@
+---
+title: Kbd
+description: Used to display textual user input from keyboard.
+---
+
+<ComponentPreview name="kbd-demo">
+
+```tsx
+import { Kbd, KbdGroup } from "@/components/ui/kbd"
+
+export default function KbdDemo() {
+  return (
+    <div className="flex flex-col items-center gap-4">
+      <KbdGroup>
+        <Kbd>⌘</Kbd>
+        <Kbd>⇧</Kbd>
+        <Kbd>⌥</Kbd>
+        <Kbd>⌃</Kbd>
+      </KbdGroup>
+      <KbdGroup>
+        <Kbd>Ctrl</Kbd>
+        <span>+</span>
+        <Kbd>B</Kbd>
+      </KbdGroup>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## Installation
+
+```bash
+bunx shadcn@latest add @ondo-ui/kbd
+```
+
+## Usage
+
+```tsx
+import { Kbd } from "@/components/ui/kbd"
+```
+
+```tsx
+<Kbd>Ctrl</Kbd>
+```
+
+## Composition
+
+Use the following composition to build `Kbd` and `KbdGroup`:
+
+```text
+Kbd
+KbdGroup
+├── Kbd
+└── Kbd
+```
+
+## Examples
+
+### Group
+
+Use the `KbdGroup` component to group keyboard keys together.
+
+<ComponentPreview name="kbd-group">
+
+```tsx
+import { Kbd, KbdGroup as KbdGroupComponent } from "@/components/ui/kbd"
+
+export default function KbdGroup() {
+  return (
+    <div className="flex flex-col items-center gap-4">
+      <p className="text-sm text-muted-foreground">
+        Use{" "}
+        <KbdGroupComponent>
+          <Kbd>Ctrl + B</Kbd>
+          <Kbd>Ctrl + K</Kbd>
+        </KbdGroupComponent>{" "}
+        to open the command palette
+      </p>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Button
+
+Use the `Kbd` component inside a `Button` component to display a keyboard key inside a button.
+
+<ComponentPreview name="kbd-button">
+
+```tsx
+import { Button } from "@/components/ui/button"
+import { Kbd } from "@/components/ui/kbd"
+
+export default function KbdButton() {
+  return (
+    <Button variant="outline">
+      Accept{" "}
+      <Kbd data-icon="inline-end" className="translate-x-0.5">
+        ⏎
+      </Kbd>
+    </Button>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Tooltip
+
+You can use the `Kbd` component inside a `Tooltip` component to display a tooltip with a keyboard key.
+
+<ComponentPreview name="kbd-tooltip">
+
+```tsx
+import { Button } from "@/components/ui/button"
+import { ButtonGroup } from "@/components/ui/button-group"
+import { Kbd, KbdGroup } from "@/components/ui/kbd"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+
+export default function KbdTooltip() {
+  return (
+    <div className="flex flex-wrap gap-4">
+      <ButtonGroup>
+        <Tooltip>
+          <TooltipTrigger render={<Button variant="outline" />}>
+            Save
+          </TooltipTrigger>
+          <TooltipContent>
+            Save Changes <Kbd>S</Kbd>
+          </TooltipContent>
+        </Tooltip>
+        <Tooltip>
+          <TooltipTrigger render={<Button variant="outline" />}>
+            Print
+          </TooltipTrigger>
+          <TooltipContent>
+            Print Document{" "}
+            <KbdGroup>
+              <Kbd>Ctrl</Kbd>
+              <Kbd>P</Kbd>
+            </KbdGroup>
+          </TooltipContent>
+        </Tooltip>
+      </ButtonGroup>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Input Group
+
+You can use the `Kbd` component inside a `InputGroupAddon` component to display a keyboard key inside an input group.
+
+<ComponentPreview name="kbd-input-group">
+
+```tsx
+import { IconSearch } from "@tabler/icons-react"
+
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "@/components/ui/input-group"
+import { Kbd } from "@/components/ui/kbd"
+
+export default function KbdInputGroup() {
+  return (
+    <div className="flex w-full max-w-xs flex-col gap-6">
+      <InputGroup>
+        <InputGroupInput placeholder="Search..." />
+        <InputGroupAddon>
+          <IconSearch />
+        </InputGroupAddon>
+        <InputGroupAddon align="inline-end">
+          <Kbd>⌘</Kbd>
+          <Kbd>K</Kbd>
+        </InputGroupAddon>
+      </InputGroup>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API reference
+
+### Kbd
+
+Use the `Kbd` component to display a keyboard key.
+
+| Prop        | Type     | Default |
+| ----------- | -------- | ------- |
+| `className` | `string` | ``      |
+
+```tsx
+<Kbd>Ctrl</Kbd>
+```
+
+### KbdGroup
+
+Use the `KbdGroup` component to group `Kbd` components together.
+
+| Prop        | Type     | Default |
+| ----------- | -------- | ------- |
+| `className` | `string` | ``      |
+
+```tsx
+<KbdGroup>
+  <Kbd>Ctrl</Kbd>
+  <Kbd>B</Kbd>
+</KbdGroup>
+```

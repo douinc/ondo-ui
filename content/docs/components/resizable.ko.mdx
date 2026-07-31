@@ -1,0 +1,162 @@
+---
+title: Resizable (크기 조절)
+description: 키보드 지원이 포함된 접근성 있는 리사이즈 가능한 패널 그룹과 레이아웃입니다.
+---
+
+<ComponentPreview name="resizable-demo">
+
+```tsx
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable"
+
+export default function ResizableDemo() {
+  return (
+    <ResizablePanelGroup
+      orientation="horizontal"
+      className="max-w-sm rounded-lg border"
+    >
+      <ResizablePanel defaultSize="50%">
+        <div className="flex h-[200px] items-center justify-center p-6">
+          <span className="font-semibold">One</span>
+        </div>
+      </ResizablePanel>
+      <ResizableHandle withHandle />
+      <ResizablePanel defaultSize="50%">
+        <ResizablePanelGroup orientation="vertical">
+          <ResizablePanel defaultSize="25%">
+            <div className="flex h-full items-center justify-center p-6">
+              <span className="font-semibold">Two</span>
+            </div>
+          </ResizablePanel>
+          <ResizableHandle withHandle />
+          <ResizablePanel defaultSize="75%">
+            <div className="flex h-full items-center justify-center p-6">
+              <span className="font-semibold">Three</span>
+            </div>
+          </ResizablePanel>
+        </ResizablePanelGroup>
+      </ResizablePanel>
+    </ResizablePanelGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/resizable
+```
+
+## 사용법
+
+```tsx showLineNumbers
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable"
+```
+
+```tsx showLineNumbers
+<ResizablePanelGroup orientation="horizontal">
+  <ResizablePanel>One</ResizablePanel>
+  <ResizableHandle />
+  <ResizablePanel>Two</ResizablePanel>
+</ResizablePanelGroup>
+```
+
+## Composition
+
+`ResizablePanelGroup`을 구성하려면 다음 구조를 사용하세요:
+
+```text
+ResizablePanelGroup
+├── ResizablePanel
+├── ResizableHandle
+└── ResizablePanel
+```
+
+## 예시
+
+### Vertical
+
+세로 리사이징을 위해 `orientation="vertical"`을 사용하세요.
+
+<ComponentPreview name="resizable-vertical">
+
+```tsx
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable"
+
+export default function ResizableVertical() {
+  return (
+    <ResizablePanelGroup
+      orientation="vertical"
+      className="min-h-[200px] max-w-sm rounded-lg border"
+    >
+      <ResizablePanel defaultSize="25%">
+        <div className="flex h-full items-center justify-center p-6">
+          <span className="font-semibold">Header</span>
+        </div>
+      </ResizablePanel>
+      <ResizableHandle />
+      <ResizablePanel defaultSize="75%">
+        <div className="flex h-full items-center justify-center p-6">
+          <span className="font-semibold">Content</span>
+        </div>
+      </ResizablePanel>
+    </ResizablePanelGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Handle
+
+보이는 핸들을 표시하려면 `ResizableHandle`에 `withHandle` prop을 사용하세요.
+
+<ComponentPreview name="resizable-handle">
+
+```tsx
+import {
+  ResizableHandle as ResizableHandleComponent,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable"
+
+export default function ResizableHandle() {
+  return (
+    <ResizablePanelGroup
+      orientation="horizontal"
+      className="min-h-[200px] max-w-sm rounded-lg border"
+    >
+      <ResizablePanel defaultSize="25%">
+        <div className="flex h-full items-center justify-center p-6">
+          <span className="font-semibold">Sidebar</span>
+        </div>
+      </ResizablePanel>
+      <ResizableHandleComponent withHandle />
+      <ResizablePanel defaultSize="75%">
+        <div className="flex h-full items-center justify-center p-6">
+          <span className="font-semibold">Content</span>
+        </div>
+      </ResizablePanel>
+    </ResizablePanelGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API 참고
+
+이 컴포넌트는 [Base UI Resizable](https://github.com/bvaughn/react-resizable-panels)을 감싸며 해당 라이브러리의 모든 prop을 받습니다.

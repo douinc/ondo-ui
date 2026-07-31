@@ -1,0 +1,347 @@
+---
+title: Marker (마커)
+description: 대화에서 인라인 상태, 시스템 메모, 테두리가 있는 행 또는 레이블이 지정된 구분선을 표시합니다.
+---
+
+<ComponentPreview name="marker-demo">
+
+```tsx
+import { IconGitBranch, IconSearch } from "@tabler/icons-react"
+
+import { Marker, MarkerContent, MarkerIcon } from "@/components/ui/marker"
+import { Spinner } from "@/components/ui/spinner"
+
+export default function MarkerDemo() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-8 py-12">
+      <Marker>
+        <MarkerIcon>
+          <IconGitBranch />
+        </MarkerIcon>
+        <MarkerContent>Switched to a new branch</MarkerContent>
+      </Marker>
+      <Marker role="status">
+        <MarkerIcon>
+          <Spinner />
+        </MarkerIcon>
+        <MarkerContent className="shimmer">Thinking...</MarkerContent>
+      </Marker>
+      <Marker variant="separator">
+        <MarkerContent>Conversation compacted</MarkerContent>
+      </Marker>
+      <Marker>
+        <MarkerIcon>
+          <IconSearch />
+        </MarkerIcon>
+        <MarkerContent>Explored 4 files</MarkerContent>
+      </Marker>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+`Marker` 컴포넌트는 상태 업데이트, 시스템 메모, 테두리가 있는 행, 레이블이 지정된 구분선 등 인라인 대화 마커를 표시합니다. 대화 스레드에서 [`Message`](/docs/components/message)와 함께 구성하십시오.
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/marker
+```
+
+## 사용법
+
+```tsx showLineNumbers
+import { Marker, MarkerContent, MarkerIcon } from "@/components/ui/marker"
+```
+
+```tsx showLineNumbers
+<Marker>
+  <MarkerIcon>
+    <CheckIcon />
+  </MarkerIcon>
+  <MarkerContent>Explored 4 files</MarkerContent>
+</Marker>
+```
+
+## Composition
+
+마커를 구성하려면 다음 구성을 사용하십시오:
+
+```text
+Marker
+├── MarkerIcon
+└── MarkerContent
+```
+
+## 예시
+
+### Variants
+
+`variant`를 사용하여 인라인 마커, 테두리가 있는 행, 레이블이 지정된 구분선 사이를 전환합니다.
+
+<ComponentPreview name="marker-variants">
+
+```tsx
+import { Marker, MarkerContent } from "@/components/ui/marker"
+
+export default function MarkerVariants() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-8 py-12">
+      <Marker>
+        <MarkerContent>A default marker for inline notes.</MarkerContent>
+      </Marker>
+      <Marker variant="separator">
+        <MarkerContent>A separator marker</MarkerContent>
+      </Marker>
+      <Marker variant="border">
+        <MarkerContent>A border marker for row boundaries.</MarkerContent>
+      </Marker>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+| 변형      | 설명                                      |
+| ----------- | ---------------------------------------------------- |
+| `default`   | 상태, 메모 및 작업을 위한 인라인 마커입니다.     |
+| `border`    | 행 아래에 아래쪽 테두리가 있는 기본 마커입니다. |
+| `separator` | 각 측면에 구분선이 있는 중앙 레이블입니다.    |
+
+### Status
+
+`role="status"`를 설정하고 스트리밍 또는 진행 중인 마커의 경우 [`Spinner`](/docs/components/spinner)를 포함하므로 업데이트가 공지됩니다.
+
+<ComponentPreview name="marker-status">
+
+```tsx
+import { Marker, MarkerContent, MarkerIcon } from "@/components/ui/marker"
+import { Spinner } from "@/components/ui/spinner"
+
+export default function MarkerStatus() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-8 py-12">
+      <Marker role="status">
+        <MarkerIcon>
+          <Spinner />
+        </MarkerIcon>
+        <MarkerContent>Compacting conversation</MarkerContent>
+      </Marker>
+      <Marker variant="separator" role="status">
+        <MarkerIcon>
+          <Spinner />
+        </MarkerIcon>
+        <MarkerContent>Running tests</MarkerContent>
+      </Marker>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Shimmer
+
+애니메이션 스트리밍 텍스트 효과를 위해 `MarkerContent`에 [`shimmer`](/docs/utils/shimmer) 유틸리티 클래스를 추가합니다. 유틸리티는 `shadcn` 패키지와 함께 제공됩니다. 설치는 shimmer 문서를 참조하십시오.
+
+<ComponentPreview name="marker-shimmer">
+
+```tsx
+import { Marker, MarkerContent } from "@/components/ui/marker"
+
+export default function MarkerShimmer() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-8 py-12">
+      <Marker role="status">
+        <MarkerContent className="shimmer">Thinking...</MarkerContent>
+      </Marker>
+      <Marker variant="separator" role="status">
+        <MarkerContent className="shimmer">Reading 4 files</MarkerContent>
+      </Marker>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Separator
+
+대화에서 날짜 또는 섹션 구분선 같은 레이블이 지정된 구분선의 경우 `separator` 변형을 사용합니다.
+
+<ComponentPreview name="marker-separator">
+
+```tsx
+import { Marker, MarkerContent } from "@/components/ui/marker"
+
+export default function MarkerSeparator() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-8 py-12">
+      <Marker variant="separator">
+        <MarkerContent>Today</MarkerContent>
+      </Marker>
+      <Marker variant="separator">
+        <MarkerContent>Worked for 42s</MarkerContent>
+      </Marker>
+      <Marker variant="separator">
+        <MarkerContent>Conversation compacted</MarkerContent>
+      </Marker>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Border
+
+다음 행을 분리하면서 기본 마커 정렬을 유지해야 하는 상태 행의 경우 `border` 변형을 사용합니다.
+
+<ComponentPreview name="marker-border">
+
+```tsx
+import { IconFileDescription, IconGitBranch, IconSearch } from "@tabler/icons-react"
+
+import { Marker, MarkerContent, MarkerIcon } from "@/components/ui/marker"
+
+export default function MarkerBorder() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-3 py-12">
+      <Marker variant="border">
+        <MarkerIcon>
+          <IconGitBranch />
+        </MarkerIcon>
+        <MarkerContent>Switched to release-candidate</MarkerContent>
+      </Marker>
+      <Marker variant="border">
+        <MarkerIcon>
+          <IconSearch />
+        </MarkerIcon>
+        <MarkerContent>Reviewed 8 related files</MarkerContent>
+      </Marker>
+      <Marker variant="border">
+        <MarkerIcon>
+          <IconFileDescription />
+        </MarkerIcon>
+        <MarkerContent>Opened implementation notes</MarkerContent>
+      </Marker>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### With Icon
+
+`MarkerIcon`을 사용하여 콘텐츠 옆에 아이콘을 렌더링합니다. `flex-col`을 사용하여 아이콘을 콘텐츠 위에 스택합니다.
+
+<ComponentPreview name="marker-with-icon">
+
+```tsx
+import { IconBook, IconGitBranch, IconSearch } from "@tabler/icons-react"
+
+import { Marker, MarkerContent, MarkerIcon } from "@/components/ui/marker"
+
+export default function MarkerWithIcon() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-12 py-12">
+      <Marker>
+        <MarkerIcon>
+          <IconGitBranch />
+        </MarkerIcon>
+        <MarkerContent>Switched to a new branch</MarkerContent>
+      </Marker>
+      <Marker variant="separator">
+        <MarkerIcon>
+          <IconSearch />
+        </MarkerIcon>
+        <MarkerContent>Explored 4 files</MarkerContent>
+      </Marker>
+      <Marker className="flex-col">
+        <MarkerIcon>
+          <IconBook />
+        </MarkerIcon>
+        <MarkerContent>Syncing completed</MarkerContent>
+      </Marker>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Links and Buttons
+
+`Marker`의 `render` 소품을 사용하여 마커를 링크 또는 버튼으로 전환합니다.
+
+<ComponentPreview name="marker-links-and-buttons">
+
+```tsx
+"use client"
+
+import { IconArrowBackUp, IconGitBranch } from "@tabler/icons-react"
+import { toast } from "@/components/ui/toast"
+
+import { Marker, MarkerContent, MarkerIcon } from "@/components/ui/marker"
+
+export default function MarkerLinksAndButtons() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-8 py-12">
+      <Marker render={<a href="#links-and-buttons" />}>
+        <MarkerIcon>
+          <IconGitBranch />
+        </MarkerIcon>
+        <MarkerContent>View the pull request</MarkerContent>
+      </Marker>
+      <Marker
+        render={
+          <button
+            type="button"
+            className="transition-colors hover:text-foreground"
+            onClick={() => toast.add({ title: "You clicked the revert button" })}
+          />
+        }
+      >
+        <MarkerIcon>
+          <IconArrowBackUp />
+        </MarkerIcon>
+        <MarkerContent>Revert this change</MarkerContent>
+      </Marker>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API 참고
+
+### Marker
+
+루트 마커 요소입니다. 파일은 마커 스타일을 사용자 정의 컴포넌트로 구성하기 위해 `markerVariants`도 내보냅니다.
+
+| Prop        | 타입                                   | 기본값     | 설명                                      |
+| ----------- | -------------------------------------- | ----------- | ------------------------------------------------ |
+| `variant`   | `"default" \| "border" \| "separator"` | `"default"` | 마커 레이아웃입니다.                               |
+| `render`    | `ReactElement \| function`             | -           | 링크 같은 다른 요소로 렌더링합니다.   |
+| `className` | `string`                               | -           | 루트 요소에 적용할 추가 클래스입니다. |
+
+### MarkerIcon
+
+장식적인 아이콘 슬롯입니다. `aria-hidden`으로 보조 기술에서 숨겨집니다.
+
+| Prop        | 타입     | 기본값 | 설명                                   |
+| ----------- | -------- | ------- | --------------------------------------------- |
+| `className` | `string` | -       | 아이콘 슬롯에 적용할 추가 클래스입니다. |
+
+### MarkerContent
+
+마커 텍스트 콘텐츠입니다.
+
+| Prop        | 타입     | 기본값 | 설명                                      |
+| ----------- | -------- | ------- | ------------------------------------------------ |
+| `className` | `string` | -       | 콘텐츠 슬롯에 적용할 추가 클래스입니다. |

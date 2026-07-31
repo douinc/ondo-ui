@@ -1,0 +1,277 @@
+---
+title: Progress Ring
+description: A task's progress drawn as a ring, with support for an indeterminate state.
+---
+
+<ComponentPreview name="progress-ring-demo">
+
+```tsx
+import { ProgressRing } from "@/components/ui/progress-ring"
+
+export default function ProgressRingDemo() {
+  return <ProgressRing value={72} />
+}
+```
+
+</ComponentPreview>
+
+<Callout>
+  Four components cover this ground. `ProgressRing` and
+  [`Progress`](/docs/components/progress) report a task climbing toward
+  completion; [`MeterRing`](/docs/components/meter-ring) and
+  [`Meter`](/docs/components/meter) report a value that simply *is* what it is.
+  Pick the shape — ring or bar — second.
+</Callout>
+
+## Installation
+
+```bash
+bunx shadcn@latest add @ondo-ui/progress-ring
+```
+
+## Usage
+
+```tsx
+import { ProgressRing, ProgressRingLabel } from "@/components/ui/progress-ring"
+```
+
+```tsx
+<ProgressRing value={72} min={0} max={100} size="sm | default | lg" variant="default">
+  <ProgressRingLabel>Uploading</ProgressRingLabel>
+</ProgressRing>
+```
+
+`ProgressRing` builds on Base UI's `Progress`, so it is announced as a
+progressbar. The dial always renders; anything you pass as children sits under
+it, which is where `ProgressRingLabel` goes.
+
+`format` shapes the centered number. When the center needs something a number
+format cannot express, `formatValue` replaces it outright.
+
+The arc is a conic gradient masked into a ring — two elements, no SVG — and it
+takes its color from `currentColor`, so `variant` (or any text-color utility
+in `className`) recolors it.
+
+The sweep animates rather than jumping because the component registers its
+fraction with `@property`, which is what makes a number inside a gradient
+interpolable. That registration ships inside the component file — React hoists
+it into `<head>` once, however many rings are on the page — so there is nothing
+to add to your CSS.
+
+## Examples
+
+### Sizes
+
+<ComponentPreview name="progress-ring-sizes">
+
+```tsx
+import { ProgressRing } from "@/components/ui/progress-ring"
+
+export default function ProgressRingSizes() {
+  return (
+    <div className="flex flex-wrap items-end gap-8">
+      <ProgressRing size="sm" value={38} />
+      <ProgressRing value={62} />
+      <ProgressRing size="lg" value={86} />
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Indeterminate
+
+Pass `value={null}` when the task has started but its progress is unknowable.
+The arc becomes a spinner rather than claiming a number it does not have, and
+the ring reports itself as indeterminate to assistive tech.
+
+The center is empty in this state, because there is no honest number to print.
+Use `formatValue` if you want something there anyway.
+
+<ComponentPreview name="progress-ring-indeterminate">
+
+```tsx
+"use client"
+
+import { ProgressRing, ProgressRingLabel } from "@/components/ui/progress-ring"
+
+export default function ProgressRingIndeterminate() {
+  return (
+    <div className="flex flex-wrap items-start gap-8">
+      <ProgressRing value={null}>
+        <ProgressRingLabel>Connecting</ProgressRingLabel>
+      </ProgressRing>
+      <ProgressRing value={null} variant="info" formatValue={() => "…"}>
+        <ProgressRingLabel>Waiting for server</ProgressRingLabel>
+      </ProgressRing>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Variants
+
+`variant` picks the arc color from the theme's semantic set — useful for
+signalling that a task stalled, is retrying, or finished cleanly.
+
+<ComponentPreview name="progress-ring-variants">
+
+```tsx
+import { ProgressRing, ProgressRingLabel } from "@/components/ui/progress-ring"
+
+export default function ProgressRingVariants() {
+  return (
+    <div className="flex flex-wrap items-start gap-8">
+      <ProgressRing variant="destructive" value={18}>
+        <ProgressRingLabel>Stalled</ProgressRingLabel>
+      </ProgressRing>
+      <ProgressRing variant="warning" value={46}>
+        <ProgressRingLabel>Retrying</ProgressRingLabel>
+      </ProgressRing>
+      <ProgressRing variant="success" value={100}>
+        <ProgressRingLabel>Done</ProgressRingLabel>
+      </ProgressRing>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Label and center
+
+`ProgressRingLabel` names the task under the dial. `format` shapes the centered
+number; `formatValue` replaces it when a number format cannot say what is
+needed — a step count, for instance.
+
+`formatValue` is a function prop, so the component passing it has to be a Client
+Component.
+
+<ComponentPreview name="progress-ring-label">
+
+```tsx
+"use client"
+
+import { ProgressRing, ProgressRingLabel } from "@/components/ui/progress-ring"
+
+export default function ProgressRingLabelDemo() {
+  return (
+    <div className="flex flex-wrap items-start gap-8">
+      <ProgressRing value={0.42} max={1} format={{ style: "percent" }}>
+        <ProgressRingLabel>Uploading</ProgressRingLabel>
+      </ProgressRing>
+      <ProgressRing
+        value={3}
+        max={5}
+        variant="info"
+        formatValue={(_, value) => `${value}/5`}
+      >
+        <ProgressRingLabel>Steps done</ProgressRingLabel>
+      </ProgressRing>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### An animated center
+
+`formatValue` can return anything, so hand the reading to
+[`NumberCount`](/docs/components/number-count) and the digits roll between
+readings instead of snapping. Base UI marks this part `aria-hidden`, so the
+animation is purely visual — the announced value still comes from the root — and
+`NumberCount` honours `prefers-reduced-motion`.
+
+`formatValue` receives the *formatted string* and the raw number, so formatting
+is repeated on `NumberCount` rather than inherited from `ProgressRing`. Mind the
+difference between the two: on a 0–100 scale use `suffix="%"`;
+`format={{ style: "percent" }}` is for a value that is already a 0–1 fraction,
+and would read `2400%` here.
+
+<ComponentPreview name="progress-ring-number-count">
+
+```tsx
+"use client"
+
+import * as React from "react"
+
+import { Button } from "@/components/ui/button"
+import { NumberCount } from "@/components/ui/number-count"
+import { ProgressRing, ProgressRingLabel } from "@/components/ui/progress-ring"
+
+export default function ProgressRingNumberCount() {
+  const [value, setValue] = React.useState(24)
+
+  return (
+    <div className="flex flex-col items-center gap-4">
+      <ProgressRing
+        value={value}
+        variant="info"
+        formatValue={(_, v) =>
+          v == null ? null : <NumberCount value={v} suffix="%" />
+        }
+      >
+        <ProgressRingLabel>Uploading</ProgressRingLabel>
+      </ProgressRing>
+      <div className="flex gap-2">
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={() => setValue((v) => Math.max(0, v - 17))}
+        >
+          −17
+        </Button>
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={() => setValue((v) => Math.min(100, v + 17))}
+        >
+          +17
+        </Button>
+      </div>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+Returning `null` for a `null` value keeps the indeterminate ring's center empty
+while the arc spins, which is what Base UI does by default.
+
+## API reference
+
+### ProgressRing
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `value` | `number \| null` | – |
+| `min` | `number` | `0` |
+| `max` | `number` | `100` |
+| `size` | `"sm" \| "default" \| "lg"` | `"default"` |
+| `variant` | `"default" \| "info" \| "success" \| "warning" \| "destructive"` | `"default"` |
+| `format` | `Intl.NumberFormatOptions` | – |
+| `formatValue` | `(formatted: string \| null, value: number \| null) => ReactNode` | – |
+| `locale` | `Intl.LocalesArgument` | runtime locale |
+| `getAriaValueText` | `(formatted: string \| null, value: number \| null) => string` | – |
+
+Plus the rest of Base UI's [`Progress.Root`](https://base-ui.com/react/components/progress) props.
+
+The root carries Base UI's state attributes — `data-indeterminate`,
+`data-progressing`, and `data-complete` — so you can style the ring off its own
+progress without tracking it yourself.
+
+### ProgressRingDial, ProgressRingTrack, ProgressRingIndicator
+
+The ring and its parts. `ProgressRing` composes them for you; reach for them
+only to restyle the ring or to put something other than the value in the middle.
+
+### ProgressRingValue, ProgressRingLabel
+
+Base UI's `Progress.Value` and `Progress.Label` with ondo styling.
+`ProgressRingValue` takes a render function
+(`(formatted, value) => ReactNode`) when `format` alone is not enough.

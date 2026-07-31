@@ -1,0 +1,187 @@
+---
+title: Timeline
+description: A visual representation of events in chronological order.
+---
+
+<ComponentPreview name="timeline-demo" />
+
+## Examples
+
+### With Left-Aligned Dates
+
+<ComponentPreview name="timeline-left-aligned-dates" />
+
+### With Custom Indicators
+
+<ComponentPreview name="timeline-custom-indicators" />
+
+### With Icons
+
+<ComponentPreview name="timeline-icons" />
+
+### Alternating Layout
+
+<ComponentPreview name="timeline-alternating" />
+
+### Horizontal Orientation
+
+<ComponentPreview name="timeline-horizontal" />
+
+### Horizontal with Top Indicators
+
+<ComponentPreview name="timeline-horizontal-top-indicators" />
+
+### Customized Timeline
+
+<ComponentPreview name="timeline-customized" />
+
+### Compact Roadmap
+
+<ComponentPreview name="timeline-compact-roadmap" />
+
+### Activity Feed
+
+<ComponentPreview name="timeline-activity-feed" />
+
+### Highlighting the Current Step
+
+`animate` marks the step that is running right now — `ping` sends a halo out
+from the indicator, `pulse` fades it in and out. Both fire only where
+`step === value`, so setting the prop once inside a `.map()` is enough, and both
+sit behind `motion-safe` so a reader who prefers reduced motion sees a still
+indicator.
+
+<ComponentPreview name="timeline-animate" />
+
+## Installation
+
+```bash
+bunx shadcn@latest add @ondo-ui/timeline
+```
+
+## Usage
+
+```tsx
+import {
+  Timeline,
+  TimelineContent,
+  TimelineDate,
+  TimelineHeader,
+  TimelineIndicator,
+  TimelineItem,
+  TimelineSeparator,
+  TimelineTitle,
+} from "@/components/ui/timeline"
+```
+
+```tsx
+<Timeline>
+  <TimelineItem step={1}>
+    <TimelineHeader>
+      <TimelineDate>March 2024</TimelineDate>
+      <TimelineTitle>Project Initialized</TimelineTitle>
+    </TimelineHeader>
+    <TimelineIndicator />
+    <TimelineSeparator />
+    <TimelineContent>
+      Successfully set up the project repository and initial architecture.
+    </TimelineContent>
+  </TimelineItem>
+</Timeline>
+```
+
+## API Reference
+
+### Timeline
+
+The root component for the timeline.
+
+| Prop            | Type                         | Default      | Description                                  |
+| :-------------- | :--------------------------- | :----------- | :------------------------------------------- |
+| `defaultValue`  | `number`                     | `1`          | The initial active step.                     |
+| `value`         | `number`                     | -            | The current active step (controlled).        |
+| `onValueChange` | `(value: number) => void`    | -            | Callback fired when the active step changes. |
+| `orientation`   | `"horizontal" \| "vertical"` | `"vertical"` | The layout orientation of the timeline.      |
+| `size`          | `"sm" \| "default" \| "lg"`  | `"default"`  | Scales the indicator, its icon, and the rail geometry together. |
+
+`size` sets `--timeline-indicator`, `--timeline-icon` and `--timeline-rail`, and
+the item's margin, the indicator's offset and the separator's length are all
+derived from them. Changing it moves the whole rail as one piece rather than
+leaving the dot and the line out of step.
+
+<Callout>
+  No part of the timeline changes the active step, so `onValueChange` only fires
+  if you call the setter yourself. In practice `value` and `defaultValue` are
+  what you reach for: they mark how far along the sequence is, and every item
+  whose `step` is at or below it renders as completed.
+</Callout>
+
+### TimelineItem
+
+A single item in the timeline.
+
+| Prop   | Type     | Default | Description                                  |
+| :----- | :------- | :------ | :------------------------------------------- |
+| `step` | `number` | -       | **Required**. The step number for this item. |
+
+### TimelineDate
+
+The date or time label for a timeline item.
+
+| Prop        | Type     | Default | Description                                |
+| :---------- | :------- | :------ | :----------------------------------------- |
+| `className` | `string` | -       | Additional CSS classes for the date label. |
+
+### TimelineTitle
+
+The title for a timeline item.
+
+| Prop        | Type     | Default | Description                           |
+| :---------- | :------- | :------ | :------------------------------------ |
+| `className` | `string` | -       | Additional CSS classes for the title. |
+
+### TimelineIndicator
+
+The visual indicator (usually a dot) for a timeline item.
+
+| Prop        | Type                                                                    | Default     | Description                                            |
+| :---------- | :---------------------------------------------------------------------- | :---------- | :----------------------------------------------------- |
+| `variant`   | `"default" \| "muted" \| "info" \| "success" \| "warning" \| "destructive"` | `"default"` | Picks the indicator's color from the theme's semantic set. |
+| `fill`      | `"outline" \| "solid"`                                                  | `"outline"` | Draws the indicator as a ring or as a disc.            |
+| `animate`   | `"ping" \| "pulse"`                                                     | -           | Emphasizes the step that is currently running.         |
+| `className` | `string`                                                                | -           | Additional CSS classes for the indicator.              |
+
+`variant` names the color and `fill` decides how it is applied, so the two are
+independent: any hue can be a ring or a disc. `fill="solid"` is what you want
+when the indicator holds an icon, since the icon needs a background to sit on.
+
+Completion still deepens whichever you pick — an outline ring goes from faint to
+full, and a solid disc goes from tinted to filled.
+
+`animate` only fires on the step where `step === value`, so you can set it once
+inside a `.map()` and just the running step will move. It is wrapped in
+`motion-safe`, so a reader who prefers reduced motion gets a still indicator.
+
+### TimelineSeparator
+
+The line connecting timeline indicators.
+
+| Prop        | Type     | Default | Description                                    |
+| :---------- | :------- | :------ | :--------------------------------------------- |
+| `className` | `string` | -       | Additional CSS classes for the separator line. |
+
+### TimelineHeader
+
+A container for the date and title.
+
+| Prop        | Type     | Default | Description                                      |
+| :---------- | :------- | :------ | :----------------------------------------------- |
+| `className` | `string` | -       | Additional CSS classes for the header container. |
+
+### TimelineContent
+
+The main descriptive content for a timeline item.
+
+| Prop        | Type     | Default | Description                                       |
+| :---------- | :------- | :------ | :------------------------------------------------ |
+| `className` | `string` | -       | Additional CSS classes for the content container. |

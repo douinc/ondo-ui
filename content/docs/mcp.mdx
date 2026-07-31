@@ -1,0 +1,115 @@
+---
+title: MCP Server
+description: Use the @ondo-ui registry from AI assistants via the shadcn MCP server.
+---
+
+The [shadcn MCP server](https://ui.shadcn.com/docs/mcp) works out of the box with the `@ondo-ui` registry. Once configured, AI assistants such as Claude Code, Cursor, and GitHub Copilot can browse the registry, look up component details, and install them into your project from natural-language prompts.
+
+The MCP server discovers items through the registry index served at [`https://ui.ondo.dou.so/r/registry.json`](https://ui.ondo.dou.so/r/registry.json) — nothing extra needs to be enabled on the registry side.
+
+## Register the registry
+
+Add the `@ondo-ui` namespace to the `registries` field of your `components.json`. The MCP server reads this mapping to resolve the registry. If you already did this during [installation](/docs/installation), skip this step:
+
+```json title="components.json"
+{
+  "registries": {
+    "@ondo-ui": "https://ui.ondo.dou.so/r/{name}.json"
+  }
+}
+```
+
+## Set up your client
+
+<Tabs defaultValue="claude">
+  <TabsList>
+    <TabsTrigger value="claude">Claude Code</TabsTrigger>
+    <TabsTrigger value="cursor">Cursor</TabsTrigger>
+    <TabsTrigger value="vscode">VS Code</TabsTrigger>
+    <TabsTrigger value="codex">Codex</TabsTrigger>
+    <TabsTrigger value="opencode">OpenCode</TabsTrigger>
+  </TabsList>
+  <TabsContent value="claude" className="mt-4">
+    **Run the following command** in your project:
+
+    ```bash
+    bunx shadcn@latest mcp init --client claude
+    ```
+
+    This creates a `.mcp.json` file with the shadcn MCP server configured.
+
+    **Restart Claude Code** and try the following prompts:
+
+    - Show me the components in the ondo-ui registry
+    - Build a login form using components from the ondo-ui registry
+
+    **Note:** You can use the `/mcp` command in Claude Code to debug the MCP server.
+
+  </TabsContent>
+
+  <TabsContent value="cursor" className="mt-4">
+    **Run the following command** in your project:
+
+    ```bash
+    bunx shadcn@latest mcp init --client cursor
+    ```
+
+    Open **Cursor Settings** and **enable the MCP server** for shadcn. Then try the following prompts:
+
+    - Show me the components in the ondo-ui registry
+    - Build a login form using components from the ondo-ui registry
+
+  </TabsContent>
+
+  <TabsContent value="vscode" className="mt-4">
+    **Run the following command** in your project:
+
+    ```bash
+    bunx shadcn@latest mcp init --client vscode
+    ```
+
+    Open `.vscode/mcp.json` and click **Start** next to the shadcn server. Then try the following prompts with GitHub Copilot:
+
+    - Show me the components in the ondo-ui registry
+    - Build a login form using components from the ondo-ui registry
+
+  </TabsContent>
+
+  <TabsContent value="codex" className="mt-4">
+    **Add the following configuration** to `~/.codex/config.toml`:
+
+    ```toml
+    [mcp_servers.shadcn]
+    command = "npx"
+    args = ["shadcn@latest", "mcp"]
+    ```
+
+    **Restart Codex** and try the following prompts:
+
+    - Show me the components in the ondo-ui registry
+    - Build a login form using components from the ondo-ui registry
+
+  </TabsContent>
+
+  <TabsContent value="opencode" className="mt-4">
+    **Run the following command** in your project:
+
+    ```bash
+    bunx shadcn@latest mcp init --client opencode
+    ```
+
+    This adds the shadcn MCP server to your `opencode.json` file.
+
+    **Restart OpenCode** and try the following prompts:
+
+    - Show me the components in the ondo-ui registry
+    - Build a login form using components from the ondo-ui registry
+
+  </TabsContent>
+</Tabs>
+
+## How it works
+
+Every registry item ships with a description, its npm `dependencies`, and its `registryDependencies`, so the MCP server can explain what an item is for and install everything it needs in one step. For example, asking for `@ondo-ui/alert-dialog` also pulls in `button` and `utils` automatically.
+
+You can read more about the MCP server in the [shadcn MCP documentation](https://ui.shadcn.com/docs/mcp).

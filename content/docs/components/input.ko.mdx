@@ -1,0 +1,548 @@
+---
+title: Input (입력)
+description: 기본 스타일과 접근성 기능이 내장된 폼 및 사용자 데이터 입력용 텍스트 입력 컴포넌트입니다.
+---
+
+<ComponentPreview name="input-demo">
+
+```tsx
+import {
+  Field,
+  FieldDescription,
+  FieldLabel,
+} from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+
+export default function InputDemo() {
+  return (
+    <Field>
+      <FieldLabel htmlFor="input-demo-api-key">API Key</FieldLabel>
+      <Input id="input-demo-api-key" type="password" placeholder="sk-..." />
+      <FieldDescription>
+        Your API key is encrypted and stored securely.
+      </FieldDescription>
+    </Field>
+  )
+}
+```
+
+</ComponentPreview>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/input
+```
+
+## 사용법
+
+```tsx
+import { Input } from "@/components/ui/input"
+```
+
+```tsx
+<Input />
+```
+
+## Composition
+
+`Input`을 구성하려면 다음 구조를 사용하세요:
+
+```text
+Input
+```
+
+## 예시
+
+### Basic
+
+플레이스홀더가 있는 기본 입력 필드입니다.
+
+<ComponentPreview name="input-basic">
+
+```tsx
+import { Input } from "@/components/ui/input"
+
+export default function InputBasic() {
+  return <Input placeholder="Enter text" />
+}
+```
+
+</ComponentPreview>
+
+### 크기
+
+`xs`, `sm`, `default`, `lg`, `xl`, `2xl`을 지원합니다.
+
+<ComponentPreview name="input-sizes">
+
+```tsx
+import { Input } from "@/components/ui/input"
+
+export default function InputSizes() {
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      <Input size="xs" placeholder="Extra small" className="w-40" />
+      <Input size="sm" placeholder="Small" className="w-40" />
+      <Input size="default" placeholder="Default" className="w-40" />
+      <Input size="lg" placeholder="Large" className="w-40" />
+      <Input size="xl" placeholder="Extra large" className="w-40" />
+      <Input size="2xl" placeholder="2X large" className="w-40" />
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+`InputGroup`은 크기 조절을 지원하지 않습니다. 높이가 `default`로 고정되어 있고 감싸는 입력의 `size` prop을 제거하므로, `xl` 입력을 안에 넣을 수 없습니다.
+
+### Field
+
+`Field`, `FieldLabel`, `FieldDescription`을 사용하여 라벨과 설명이 있는 입력 필드를 만드세요.
+
+<ComponentPreview name="input-field">
+
+```tsx
+import {
+  Field,
+  FieldDescription,
+  FieldLabel,
+} from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+
+export default function InputField() {
+  return (
+    <Field>
+      <FieldLabel htmlFor="input-field-username">Username</FieldLabel>
+      <Input
+        id="input-field-username"
+        type="text"
+        placeholder="Enter your username"
+      />
+      <FieldDescription>
+        Choose a unique username for your account.
+      </FieldDescription>
+    </Field>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Field Group
+
+`FieldGroup`을 사용하여 여러 `Field` 블록을 표시하고 폼을 작성하세요.
+
+<ComponentPreview name="input-field-group">
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+
+export default function InputFieldGroup() {
+  return (
+    <FieldGroup>
+      <Field>
+        <FieldLabel htmlFor="fieldgroup-name">Name</FieldLabel>
+        <Input id="fieldgroup-name" placeholder="Jordan Lee" />
+      </Field>
+      <Field>
+        <FieldLabel htmlFor="fieldgroup-email">Email</FieldLabel>
+        <Input
+          id="fieldgroup-email"
+          type="email"
+          placeholder="name@example.com"
+        />
+        <FieldDescription>
+          We&apos;ll send updates to this address.
+        </FieldDescription>
+      </Field>
+      <Field orientation="horizontal">
+        <Button type="reset" variant="outline">
+          Reset
+        </Button>
+        <Button type="submit">Submit</Button>
+      </Field>
+    </FieldGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Disabled
+
+`disabled` prop을 사용하여 입력 필드를 비활성화하세요. 비활성화된 상태의 스타일을 지정하려면 `Field` 컴포넌트에 `data-disabled` 속성을 추가하세요.
+
+<ComponentPreview name="input-disabled">
+
+```tsx
+import {
+  Field,
+  FieldDescription,
+  FieldLabel,
+} from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+
+export default function InputDisabled() {
+  return (
+    <Field data-disabled>
+      <FieldLabel htmlFor="input-demo-disabled">Email</FieldLabel>
+      <Input
+        id="input-demo-disabled"
+        type="email"
+        placeholder="Email"
+        disabled
+      />
+      <FieldDescription>This field is currently disabled.</FieldDescription>
+    </Field>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Invalid
+
+`aria-invalid` prop을 사용하여 입력 필드를 유효하지 않음으로 표시하세요. 유효하지 않은 상태의 스타일을 지정하려면 `Field` 컴포넌트에 `data-invalid` 속성을 추가하세요.
+
+<ComponentPreview name="input-invalid">
+
+```tsx
+import {
+  Field,
+  FieldDescription,
+  FieldLabel,
+} from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+
+export default function InputInvalid() {
+  return (
+    <Field data-invalid>
+      <FieldLabel htmlFor="input-invalid">Invalid Input</FieldLabel>
+      <Input id="input-invalid" placeholder="Error" aria-invalid />
+      <FieldDescription>
+        This field contains validation errors.
+      </FieldDescription>
+    </Field>
+  )
+}
+```
+
+</ComponentPreview>
+
+### File
+
+`type="file"` prop을 사용하여 파일 입력 필드를 만드세요.
+
+<ComponentPreview name="input-file">
+
+```tsx
+import {
+  Field,
+  FieldDescription,
+  FieldLabel,
+} from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+
+export default function InputFile() {
+  return (
+    <Field>
+      <FieldLabel htmlFor="picture">Picture</FieldLabel>
+      <Input id="picture" type="file" />
+      <FieldDescription>Select a picture to upload.</FieldDescription>
+    </Field>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Inline
+
+`Field`를 `orientation="horizontal"`과 함께 사용하여 인라인 입력 필드를 만드세요. `Button`과 함께 사용하여 검색 입력 필드를 만들 수 있습니다.
+
+<ComponentPreview name="input-inline">
+
+```tsx
+import { Button } from "@/components/ui/button"
+import { Field } from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+
+export default function InputInline() {
+  return (
+    <Field orientation="horizontal">
+      <Input type="search" placeholder="Search..." />
+      <Button>Search</Button>
+    </Field>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Grid
+
+그리드 레이아웃을 사용하여 여러 입력 필드를 나란히 배치하세요.
+
+<ComponentPreview name="input-grid">
+
+```tsx
+import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+
+export default function InputGrid() {
+  return (
+    <FieldGroup className="grid max-w-sm grid-cols-2">
+      <Field>
+        <FieldLabel htmlFor="first-name">First Name</FieldLabel>
+        <Input id="first-name" placeholder="Jordan" />
+      </Field>
+      <Field>
+        <FieldLabel htmlFor="last-name">Last Name</FieldLabel>
+        <Input id="last-name" placeholder="Lee" />
+      </Field>
+    </FieldGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Required
+
+`required` 속성을 사용하여 필수 입력 필드임을 나타내세요.
+
+<ComponentPreview name="input-required">
+
+```tsx
+import {
+  Field,
+  FieldDescription,
+  FieldLabel,
+} from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+
+export default function InputRequired() {
+  return (
+    <Field>
+      <FieldLabel htmlFor="input-required">
+        Required Field <span className="text-destructive">*</span>
+      </FieldLabel>
+      <Input
+        id="input-required"
+        placeholder="This field is required"
+        required
+      />
+      <FieldDescription>This field must be filled out.</FieldDescription>
+    </Field>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Badge
+
+`Badge`를 라벨에 추가하여 권장 필드를 강조하세요.
+
+<ComponentPreview name="input-badge">
+
+```tsx
+import { Badge } from "@/components/ui/badge"
+import { Field, FieldLabel } from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+
+export default function InputBadge() {
+  return (
+    <Field>
+      <FieldLabel htmlFor="input-badge">
+        Webhook URL{" "}
+        <Badge variant="secondary" className="ml-auto">
+          Beta
+        </Badge>
+      </FieldLabel>
+      <Input
+        id="input-badge"
+        type="url"
+        placeholder="https://api.example.com/webhook"
+      />
+    </Field>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Input Group
+
+입력 필드 내부에 아이콘, 텍스트 또는 버튼을 추가하려면 `InputGroup` 컴포넌트를 사용하세요. 더 많은 예제를 보려면 [Input Group](/docs/components/input-group) 컴포넌트를 참조하세요.
+
+<ComponentPreview name="input-input-group">
+
+```tsx
+import { IconInfoCircle } from "@tabler/icons-react"
+
+import { Field, FieldLabel } from "@/components/ui/field"
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+  InputGroupText,
+} from "@/components/ui/input-group"
+
+export default function InputInputGroup() {
+  return (
+    <Field>
+      <FieldLabel htmlFor="input-group-url">Website URL</FieldLabel>
+      <InputGroup>
+        <InputGroupInput id="input-group-url" placeholder="example.com" />
+        <InputGroupAddon>
+          <InputGroupText>https://</InputGroupText>
+        </InputGroupAddon>
+        <InputGroupAddon align="inline-end">
+          <IconInfoCircle />
+        </InputGroupAddon>
+      </InputGroup>
+    </Field>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Button Group
+
+입력 필드에 버튼을 추가하려면 `ButtonGroup` 컴포넌트를 사용하세요. 더 많은 예제를 보려면 [Button Group](/docs/components/button-group) 컴포넌트를 참조하세요.
+
+<ComponentPreview name="input-button-group">
+
+```tsx
+import { Button } from "@/components/ui/button"
+import { ButtonGroup } from "@/components/ui/button-group"
+import { Field, FieldLabel } from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+
+export default function InputButtonGroup() {
+  return (
+    <Field>
+      <FieldLabel htmlFor="input-button-group">Search</FieldLabel>
+      <ButtonGroup>
+        <Input id="input-button-group" placeholder="Type to search..." />
+        <Button variant="outline">Search</Button>
+      </ButtonGroup>
+    </Field>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Form
+
+여러 입력 필드, select, 버튼이 포함된 전체 폼 예제입니다.
+
+<ComponentPreview name="input-form">
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  Field,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+} from "@/components/ui/field"
+import { Input } from "@/components/ui/input"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
+export default function InputForm() {
+  const countries = [
+    { label: "United States", value: "us" },
+    { label: "United Kingdom", value: "uk" },
+    { label: "Canada", value: "ca" },
+  ]
+  return (
+    <form className="w-full max-w-sm">
+      <FieldGroup>
+        <Field>
+          <FieldLabel htmlFor="form-name">Name</FieldLabel>
+          <Input
+            id="form-name"
+            type="text"
+            placeholder="Evil Rabbit"
+            required
+          />
+        </Field>
+        <Field>
+          <FieldLabel htmlFor="form-email">Email</FieldLabel>
+          <Input id="form-email" type="email" placeholder="john@example.com" />
+          <FieldDescription>
+            We&apos;ll never share your email with anyone.
+          </FieldDescription>
+        </Field>
+        <div className="grid grid-cols-2 gap-4">
+          <Field>
+            <FieldLabel htmlFor="form-phone">Phone</FieldLabel>
+            <Input id="form-phone" type="tel" placeholder="+1 (555) 123-4567" />
+          </Field>
+          <Field>
+            <FieldLabel htmlFor="form-country">Country</FieldLabel>
+            <Select items={countries} defaultValue="us">
+              <SelectTrigger id="form-country">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  {countries.map((country) => (
+                    <SelectItem key={country.value} value={country.value}>
+                      {country.label}
+                    </SelectItem>
+                  ))}
+                </SelectGroup>
+              </SelectContent>
+            </Select>
+          </Field>
+        </div>
+        <Field>
+          <FieldLabel htmlFor="form-address">Address</FieldLabel>
+          <Input id="form-address" type="text" placeholder="123 Main St" />
+        </Field>
+        <Field orientation="horizontal">
+          <Button type="button" variant="outline">
+            Cancel
+          </Button>
+          <Button type="submit">Submit</Button>
+        </Field>
+      </FieldGroup>
+    </form>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API 참고
+
+이 컴포넌트는 표준 HTML `<input>` 요소를 래핑한 스타일이 지정된 컴포넌트이며 해당 요소의 모든 속성을 허용합니다. 일반적인 prop은 다음과 같습니다:
+
+- `type` - 입력 유형 (text, email, password, number 등)
+- `size` - `"default" | "xs" | "sm" | "lg" | "xl" | "2xl"`, 기본값은 `"default"`입니다. 입력 필드의 높이, 패딩, 텍스트 크기, 모서리 반경을 결정합니다. `xl`과 `2xl`은 모든 화면 폭에서 텍스트 크기를 유지하며, 나머지 크기는 데스크톱에서 `text-sm`으로 줄어듭니다
+- `placeholder` - 입력 필드가 비어 있을 때 표시되는 플레이스홀더 텍스트
+- `disabled` - 입력 필드를 비활성화합니다
+- `required` - 입력 필드를 필수로 표시합니다
+- `aria-invalid` - 접근성을 위해 입력 필드를 유효하지 않음으로 표시합니다
+- `id` - 입력 필드의 고유 식별자

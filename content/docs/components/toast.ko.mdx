@@ -1,0 +1,211 @@
+---
+title: Toast (토스트)
+description: 일시적으로 표시되는 간결한 메시지입니다.
+---
+
+<ComponentPreview name="toast-demo">
+
+```tsx
+"use client"
+
+import { Button } from "@/components/ui/button"
+import { toast } from "@/components/ui/toast"
+
+export default function ToastDemo() {
+  function showToast() {
+    const id = toast.add({
+      title: "Event created",
+      description: "Sunday, December 3 at 9:00 AM",
+      actionProps: {
+        children: "Undo",
+        onClick() {
+          toast.close(id)
+        },
+      },
+    })
+  }
+
+  return (
+    <Button variant="outline" onClick={showToast}>
+      Show Toast
+    </Button>
+  )
+}
+```
+
+</ComponentPreview>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/toast
+```
+
+## 사용법
+
+앱 루트 근처에 `Toaster`를 한 번만 마운트합니다.
+
+```tsx showLineNumbers
+import { Toaster } from "@/components/ui/toast"
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en">
+      <body>
+        {children}
+        <Toaster />
+      </body>
+    </html>
+  )
+}
+```
+
+이후 어디서든 `toast`를 호출하면 됩니다. 독립 매니저라 호출하는 쪽이 프로바이더 안에 있을 필요가 없습니다.
+
+```tsx showLineNumbers
+import { toast } from "@/components/ui/toast"
+
+toast.add({
+  title: "Event created",
+  description: "Sunday, December 3 at 9:00 AM",
+})
+```
+
+## 예시
+
+### 종류
+
+`type`을 지정하면 상태 아이콘이 표시됩니다. 기본 렌더러는 `success`, `info`, `warning`, `error`, `loading`을 인식합니다.
+
+<ComponentPreview name="toast-types">
+
+```tsx
+"use client"
+
+import { Button } from "@/components/ui/button"
+import { toast } from "@/components/ui/toast"
+
+export default function ToastTypes() {
+  return (
+    <div className="flex flex-wrap gap-2">
+      <Button
+        variant="outline"
+        onClick={() => toast.add({ description: "Event has been created." })}
+      >
+        Default
+      </Button>
+      <Button
+        variant="outline"
+        onClick={() =>
+          toast.add({ type: "success", description: "Event has been created." })
+        }
+      >
+        Success
+      </Button>
+      <Button
+        variant="outline"
+        onClick={() =>
+          toast.add({
+            type: "info",
+            description: "Arrive 10 minutes before the event.",
+          })
+        }
+      >
+        Info
+      </Button>
+      <Button
+        variant="outline"
+        onClick={() =>
+          toast.add({
+            type: "warning",
+            description: "The event cannot start before 8:00 AM.",
+          })
+        }
+      >
+        Warning
+      </Button>
+      <Button
+        variant="outline"
+        onClick={() =>
+          toast.add({
+            type: "error",
+            description: "The event could not be created.",
+            priority: "high",
+          })
+        }
+      >
+        Error
+      </Button>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 액션
+
+`actionProps`로 버튼 props를 넘기면 액션이 표시됩니다. `toast.add`가 id를 반환하므로 액션에서 자기 토스트를 닫을 수 있습니다.
+
+```tsx showLineNumbers
+const id = toast.add({
+  title: "Event created",
+  actionProps: {
+    children: "Undo",
+    onClick() {
+      toast.close(id)
+    },
+  },
+})
+```
+
+### 프로미스
+
+`toast.promise`를 쓰면 비동기 작업이 진행되는 동안 토스트 하나가 로딩·성공·오류 상태를 오갑니다.
+
+<ComponentPreview name="toast-promise">
+
+```tsx
+"use client"
+
+import { Button } from "@/components/ui/button"
+import { toast } from "@/components/ui/toast"
+
+export default function ToastPromise() {
+  function showToast() {
+    toast.promise(
+      new Promise<{ name: string }>((resolve) => {
+        window.setTimeout(() => resolve({ name: "Event" }), 2000)
+      }),
+      {
+        loading: "Creating event…",
+        success: (data) => `${data.name} created.`,
+        error: "Could not create event.",
+      }
+    )
+  }
+
+  return (
+    <Button variant="outline" onClick={showToast}>
+      Create Event
+    </Button>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API 참고
+
+이 컴포넌트는 [Base UI Toast](https://base-ui.com/react/components/toast)를 감싸며 해당 컴포넌트의 모든 prop을 받습니다.
+
+| Export | 설명 |
+| --- | --- |
+| `Toaster` | 프로바이더·포털·뷰포트·기본 토스트 목록을 하나로 묶은 것. 한 번만 마운트합니다. |
+| `toast` | 기본 토스트 매니저 — `add`, `close`, `update`, `promise`. |
+| `createToastManager` | 별도의 `Toaster`용 매니저를 추가로 만듭니다. |
+| `useToastManager` | 가장 가까운 프로바이더의 토스트를 읽습니다. 커스텀 목록을 만들 때 씁니다. |
+| `Toast` | 토스트 하나의 루트입니다. |
+| `ToastPortal`, `ToastProvider`, `ToastViewport` | `Toaster`가 조합하는 조각들. 커스텀 레이아웃용으로 노출합니다. |
+| `ToastContent`, `ToastTitle`, `ToastDescription` | 토스트 본문 슬롯입니다. |
+| `ToastAction`, `ToastClose` | 액션 버튼과 닫기 버튼입니다. |

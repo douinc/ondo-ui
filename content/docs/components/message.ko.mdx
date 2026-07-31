@@ -1,0 +1,596 @@
+---
+title: Message (메시지)
+description: 대화에서 메시지를 표시하며, 선택적으로 아바타, 헤더, 푸터 및 정렬을 지원합니다.
+---
+
+<ComponentPreview name="message-demo">
+
+```tsx
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
+import {
+  Bubble,
+  BubbleContent,
+  BubbleGroup,
+  BubbleReactions,
+} from "@/components/ui/bubble"
+import { Marker, MarkerContent } from "@/components/ui/marker"
+import {
+  Message,
+  MessageAvatar,
+  MessageContent,
+  MessageFooter,
+} from "@/components/ui/message"
+
+export default function MessageDemo() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-6 py-12">
+      <Message align="end">
+        <MessageAvatar>
+          <Avatar>
+            <AvatarImage src="/avatars/10.png" alt="@me" />
+            <AvatarFallback>ME</AvatarFallback>
+          </Avatar>
+        </MessageAvatar>
+        <MessageContent>
+          <Bubble>
+            <BubbleContent>Deploying to prod real quick.</BubbleContent>
+          </Bubble>
+        </MessageContent>
+      </Message>
+      <Message>
+        <MessageAvatar>
+          <Avatar>
+            <AvatarImage src="/avatars/02.png" alt="@rabbit" />
+            <AvatarFallback>R</AvatarFallback>
+          </Avatar>
+        </MessageAvatar>
+        <MessageContent>
+          <Bubble variant="muted">
+            <BubbleContent>It&apos;s 4:55 PM. On a Friday.</BubbleContent>
+          </Bubble>
+        </MessageContent>
+      </Message>
+      <Message align="end">
+        <MessageAvatar>
+          <Avatar>
+            <AvatarImage src="/avatars/10.png" alt="@me" />
+            <AvatarFallback>ME</AvatarFallback>
+          </Avatar>
+        </MessageAvatar>
+        <MessageContent>
+          <Bubble>
+            <BubbleContent>It&apos;s a one-line change.</BubbleContent>
+          </Bubble>
+          <MessageFooter>Delivered</MessageFooter>
+        </MessageContent>
+      </Message>
+      <Message>
+        <MessageAvatar>
+          <Avatar>
+            <AvatarImage src="/avatars/02.png" alt="@rabbit" />
+            <AvatarFallback>R</AvatarFallback>
+          </Avatar>
+        </MessageAvatar>
+        <MessageContent>
+          <BubbleGroup>
+            <Bubble variant="muted">
+              <BubbleContent>
+                It&apos;s always a one-line change 😭.
+              </BubbleContent>
+            </Bubble>
+            <Bubble variant="muted">
+              <BubbleContent>Alright, let me take a look.</BubbleContent>
+              <BubbleReactions aria-label="Reactions: thumbs up">
+                <span>👍</span>
+              </BubbleReactions>
+            </Bubble>
+          </BubbleGroup>
+        </MessageContent>
+      </Message>
+      <Marker role="status">
+        <MarkerContent className="shimmer">
+          <span className="font-medium">Oliver</span> is typing...
+        </MarkerContent>
+      </Marker>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+`Message` 컴포넌트는 대화에서 단일 메시지를 레이아웃합니다. 메시지 표면 주변의 아바타, 정렬, 헤더 및 푸터를 처리합니다.
+
+AI 앱에서는 `Message` 컴포넌트를 사용하여 추론 단계, 도구 호출 및 어시스턴트 메시지를 렌더링할 수 있습니다.
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/message
+```
+
+## 사용법
+
+```tsx showLineNumbers
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Bubble, BubbleContent } from "@/components/ui/bubble"
+import { Message, MessageAvatar, MessageContent } from "@/components/ui/message"
+```
+
+```tsx showLineNumbers
+<Message>
+  <MessageAvatar>
+    <Avatar>
+      <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
+      <AvatarFallback>CN</AvatarFallback>
+    </Avatar>
+  </MessageAvatar>
+  <MessageContent>
+    <Bubble>
+      <BubbleContent>How can I help you today?</BubbleContent>
+    </Bubble>
+  </MessageContent>
+</Message>
+```
+
+**참고:** `Message`는 행 레이아웃(아바타, 정렬, 헤더, 푸터)을 소유합니다.
+[`Bubble`](/docs/components/bubble)을 사용하여 보이는 메시지 표면을 렌더링합니다.
+대화 주변의 스크롤 컨테이너는 [`MessageScroller`](/docs/components/message-scroller)를 사용합니다.
+
+## Composition
+
+메시지를 구성하려면 다음 구성을 사용합니다:
+
+```text
+Message
+├── MessageAvatar
+└── MessageContent
+    ├── MessageHeader
+    ├── Bubble
+    └── MessageFooter
+```
+
+같은 발신자의 연속 메시지를 쌓기 위해 `MessageGroup`을 사용합니다:
+
+```text
+MessageGroup
+├── Message
+└── Message
+```
+
+## 예시
+
+### Avatar
+
+`MessageAvatar`를 사용하여 메시지 옆에 아바타를 렌더링합니다. 메시지의 끝에 아바타를 정렬하려면 메시지에 `align="end"`를 설정합니다.
+
+<ComponentPreview name="message-avatar">
+
+```tsx
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
+import {
+  Bubble,
+  BubbleContent,
+  BubbleGroup,
+} from "@/components/ui/bubble"
+import {
+  Message,
+  MessageAvatar as MessageAvatarComponent,
+  MessageContent,
+} from "@/components/ui/message"
+
+export default function MessageAvatar() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-6 py-12">
+      <Message>
+        <MessageAvatarComponent>
+          <Avatar>
+            <AvatarImage src="/avatars/03.png" alt="@avatar" />
+            <AvatarFallback>R</AvatarFallback>
+          </Avatar>
+        </MessageAvatarComponent>
+        <MessageContent>
+          <Bubble variant="muted">
+            <BubbleContent>
+              The build failed during dependency installation.
+            </BubbleContent>
+          </Bubble>
+        </MessageContent>
+      </Message>
+      <Message align="end">
+        <MessageAvatarComponent>
+          <Avatar>
+            <AvatarImage src="/avatars/10.png" alt="@avatar" />
+            <AvatarFallback>R</AvatarFallback>
+          </Avatar>
+        </MessageAvatarComponent>
+        <MessageContent>
+          <Bubble>
+            <BubbleContent>Can you share the exact error?</BubbleContent>
+          </Bubble>
+        </MessageContent>
+      </Message>
+      <Message>
+        <MessageAvatarComponent>
+          <Avatar>
+            <AvatarImage src="/avatars/03.png" alt="@avatar" />
+            <AvatarFallback>R</AvatarFallback>
+          </Avatar>
+        </MessageAvatarComponent>
+        <MessageContent>
+          <BubbleGroup>
+            <Bubble variant="muted">
+              <BubbleContent>Here&apos;s the error from the logs</BubbleContent>
+            </Bubble>
+            <Bubble variant="muted">
+              <BubbleContent>
+                Something went wrong with the build. The libraries are not
+                installed correctly. Try running the build again.
+              </BubbleContent>
+            </Bubble>
+          </BubbleGroup>
+        </MessageContent>
+      </Message>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+| align   | 설명                                  |
+| ------- | ----------------------------------- |
+| `start` | 메시지를 대화의 시작에 정렬합니다. |
+| `end`   | 메시지를 대화의 끝에 정렬합니다.     |
+
+### Group
+
+`MessageGroup`을 사용하여 같은 발신자의 연속 메시지를 쌓습니다. 마지막 메시지의 아바타와 정렬하기 위해 이전 메시지에 빈 `MessageAvatar`를 렌더링합니다.
+
+<ComponentPreview name="message-group">
+
+```tsx
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
+import { Bubble, BubbleContent } from "@/components/ui/bubble"
+import {
+  Message,
+  MessageAvatar as MessageAvatarComponent,
+  MessageContent,
+  MessageGroup as MessageGroupComponent,
+} from "@/components/ui/message"
+
+export default function MessageGroup() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-6 py-12">
+      <MessageGroupComponent>
+        <Message>
+          <MessageAvatarComponent />
+          <MessageContent>
+            <Bubble variant="muted">
+              <BubbleContent>I checked the registry addresses.</BubbleContent>
+            </Bubble>
+          </MessageContent>
+        </Message>
+        <Message>
+          <MessageAvatarComponent>
+            <Avatar>
+              <AvatarImage src="/avatars/02.png" alt="@avatar" />
+              <AvatarFallback>CN</AvatarFallback>
+            </Avatar>
+          </MessageAvatarComponent>
+          <MessageContent>
+            <Bubble variant="muted">
+              <BubbleContent>
+                The component and example JSON now live under the UI registry.
+              </BubbleContent>
+            </Bubble>
+          </MessageContent>
+        </Message>
+      </MessageGroupComponent>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Header and Footer
+
+발신자 이름에 `MessageHeader`를, 전달 상태나 읽음 상태 같은 메타데이터에 `MessageFooter`를 사용합니다.
+
+<ComponentPreview name="message-header-and-footer">
+
+```tsx
+import { Bubble, BubbleContent } from "@/components/ui/bubble"
+import {
+  Message,
+  MessageContent,
+  MessageFooter,
+  MessageHeader,
+} from "@/components/ui/message"
+
+export default function MessageHeaderAndFooter() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-8 py-12">
+      <Message>
+        <MessageContent>
+          <MessageHeader>Olivia</MessageHeader>
+          <Bubble variant="muted">
+            <BubbleContent>I already checked the logs.</BubbleContent>
+          </Bubble>
+        </MessageContent>
+      </Message>
+      <Message align="end">
+        <MessageContent>
+          <Bubble>
+            <BubbleContent>
+              Send the report to the team. Ping @shadcn if you need help.
+            </BubbleContent>
+          </Bubble>
+          <MessageFooter>
+            <div>
+              Read <span className="font-normal">Yesterday</span>
+            </div>
+          </MessageFooter>
+        </MessageContent>
+      </Message>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Actions
+
+복사, 다시 시도 또는 피드백 버튼과 같은 메시지 수준의 작업을 `MessageFooter`에 배치합니다.
+
+<ComponentPreview name="message-actions">
+
+```tsx
+import {
+  IconCopy,
+  IconRefresh,
+  IconThumbDown,
+  IconThumbUp,
+} from "@tabler/icons-react"
+
+import { Bubble, BubbleContent } from "@/components/ui/bubble"
+import { Button } from "@/components/ui/button"
+import {
+  Message,
+  MessageContent,
+  MessageFooter,
+} from "@/components/ui/message"
+
+export default function MessageActions() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-8 py-12">
+      <Message>
+        <MessageContent>
+          <Bubble variant="muted">
+            <BubbleContent>
+              The install failure is coming from the workspace package.
+            </BubbleContent>
+          </Bubble>
+          <MessageFooter>
+            <Button variant="ghost" size="icon" aria-label="Copy" title="Copy">
+              <IconCopy />
+            </Button>
+            <Button variant="ghost" size="icon" aria-label="Like" title="Like">
+              <IconThumbUp />
+            </Button>
+            <Button
+              variant="ghost"
+              size="icon"
+              aria-label="Dislike"
+              title="Dislike"
+            >
+              <IconThumbDown />
+            </Button>
+          </MessageFooter>
+        </MessageContent>
+      </Message>
+      <Message align="end">
+        <MessageContent>
+          <Bubble>
+            <BubbleContent>Okay drop me a link. Taking a look...</BubbleContent>
+          </Bubble>
+          <MessageFooter className="gap-2">
+            <span className="font-normal text-destructive">Failed to send</span>
+            <Button
+              variant="ghost"
+              size="icon-xs"
+              title="Retry"
+              aria-label="Retry"
+            >
+              <IconRefresh />
+            </Button>
+          </MessageFooter>
+        </MessageContent>
+      </Message>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Attachment
+
+<ComponentPreview name="message-attachment">
+
+```tsx
+"use client"
+
+import { IconDownload, IconFileText } from "@tabler/icons-react"
+
+import {
+  Attachment,
+  AttachmentAction,
+  AttachmentActions,
+  AttachmentContent,
+  AttachmentDescription,
+  AttachmentMedia,
+  AttachmentTitle,
+} from "@/components/ui/attachment"
+import { Bubble, BubbleContent } from "@/components/ui/bubble"
+import { Message, MessageContent } from "@/components/ui/message"
+
+export default function MessageAttachment() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-8 py-12">
+      <Message align="end">
+        <MessageContent>
+          <Attachment orientation="vertical">
+            <AttachmentMedia variant="image">
+              <img
+                src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=900&auto=format&fit=crop&q=80"
+                alt="Workspace"
+              />
+            </AttachmentMedia>
+          </Attachment>
+          <Bubble>
+            <BubbleContent>
+              Here&apos;s the image. Can you add it to the PDF? Use it for the
+              cover page.
+            </BubbleContent>
+          </Bubble>
+        </MessageContent>
+      </Message>
+      <Message>
+        <MessageContent>
+          <Bubble variant="muted">
+            <BubbleContent>
+              Done. Here&apos;s the PDF with the image added as the cover page.
+            </BubbleContent>
+          </Bubble>
+          <Attachment>
+            <AttachmentMedia>
+              <IconFileText />
+            </AttachmentMedia>
+            <AttachmentContent>
+              <AttachmentTitle>sales-dashboard.pdf</AttachmentTitle>
+              <AttachmentDescription>PDF · 2.4 MB</AttachmentDescription>
+            </AttachmentContent>
+            <AttachmentActions>
+              <AttachmentAction
+                type="button"
+                title="Download"
+                aria-label="Download"
+                size="icon-sm"
+                variant="secondary"
+              >
+                <IconDownload />
+              </AttachmentAction>
+            </AttachmentActions>
+          </Attachment>
+        </MessageContent>
+      </Message>
+      <Message align="end">
+        <MessageContent>
+          <Bubble>
+            <BubbleContent>Thanks. Looks good.</BubbleContent>
+          </Bubble>
+        </MessageContent>
+      </Message>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## 접근성
+
+`Message`는 표현 레이아웃 래퍼입니다. 접근성은 내부에 배치하는 콘텐츠에서 비롯됩니다.
+
+### 아이콘 전용 작업 라벨 지정
+
+`MessageFooter`의 작업 버튼은 일반적으로 아이콘 전용이므로 각각에 `aria-label`을 제공합니다.
+
+```tsx showLineNumbers
+<MessageFooter>
+  <Button variant="ghost" size="icon" aria-label="Copy">
+    <IconCopy />
+  </Button>
+</MessageFooter>
+```
+
+### 상태 업데이트
+
+진행 중인 메시지의 경우 [`Marker`](/docs/components/marker)를 `role="status"`와 함께 사용하여 보조 기술이 업데이트를 발표하도록 합니다.
+
+```tsx showLineNumbers
+<Message>
+  <Marker role="status">
+    <MarkerIcon>
+      <Spinner />
+    </MarkerIcon>
+    <MarkerContent>Checking the logs...</MarkerContent>
+  </Marker>
+</Message>
+```
+
+## API 참고
+
+### Message
+
+메시지 행 래퍼입니다.
+
+| Prop        | Type               | Default   | Description                                       |
+| ----------- | ------------------ | --------- | ------------------------------------------------- |
+| `align`     | `"start" \| "end"` | `"start"` | The alignment of the message in the conversation. |
+| `className` | `string`           | -         | Additional classes to apply to the row.           |
+
+### MessageGroup
+
+같은 발신자의 연속 메시지를 그룹화합니다.
+
+| Prop        | Type     | Default | Description                                    |
+| ----------- | -------- | ------- | ---------------------------------------------- |
+| `className` | `string` | -       | Additional classes to apply to the group root. |
+
+### MessageAvatar
+
+메시지의 맨 아래에 정렬된 아바타 슬롯입니다. 메시지에 `MessageFooter`가 있으면 아바타가 위로 이동하여 푸터 대신 메시지 표면과 정렬됩니다.
+
+| Prop        | Type     | Default | Description                                     |
+| ----------- | -------- | ------- | ----------------------------------------------- |
+| `className` | `string` | -       | Additional classes to apply to the avatar slot. |
+
+### MessageContent
+
+헤더, 메시지 표면 및 푸터를 래핑합니다.
+
+| Prop        | Type     | Default | Description                                      |
+| ----------- | -------- | ------- | ------------------------------------------------ |
+| `className` | `string` | -       | Additional classes to apply to the content slot. |
+
+### MessageHeader
+
+발신자 이름과 같은 메시지 위의 콘텐츠를 표시합니다. `align`에 관계없이 시작 부분에 정렬된 상태를 유지합니다.
+
+| Prop        | Type     | Default | Description                                |
+| ----------- | -------- | ------- | ------------------------------------------ |
+| `className` | `string` | -       | Additional classes to apply to the header. |
+
+### MessageFooter
+
+상태 또는 작업과 같은 메시지 아래의 콘텐츠를 표시합니다. 메시지 측면에 정렬됩니다.
+
+| Prop        | Type     | Default | Description                                |
+| ----------- | -------- | ------- | ------------------------------------------ |
+| `className` | `string` | -       | Additional classes to apply to the footer. |

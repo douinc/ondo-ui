@@ -1,0 +1,23 @@
+---
+title: Live Waveform (실시간 파형)
+description: 마이크 입력과 static·scrolling 모드, 처리 상태를 갖춘 캔버스 기반 실시간 오디오 파형 시각화 컴포넌트가 추가됩니다.
+version: 0.4.0
+---
+
+**v0.4.0**
+
+[`LiveWaveform`](/docs/components/live-waveform)은 음성·멀티모달 UI를 위해
+오디오를 캔버스에 실시간으로 시각화합니다:
+
+- **두 가지 모드.** `static`은 주파수 대역에 걸친 대칭 막대를, `scrolling`은
+  과거 평균 볼륨을 타임라인처럼 오른쪽에서 왼쪽으로 흘려 보여줍니다.
+- **처리 상태.** `processing`은 입력을 기다리는 동안 파형을 움직이고,
+  `prefers-reduced-motion`에서는 잔잔한 정적 프레임으로 안착합니다.
+- **직접 스트림 전달.** 이미 가진 오디오(공유 마이크 트랙, 에이전트 응답 오디오
+  등)를 `stream`으로 넘겨 시각화할 수 있고, 없으면 직접 마이크를 요청하고
+  언마운트 시 정리합니다.
+- 렌더 루프는 유휴 상태에서 스스로 멈추고, 콜백은 ref에서 읽어 인라인 핸들러가
+  마이크를 다시 획득하지 않으며, 막대는 기본적으로 `primary` 색으로 칠해집니다 —
+  `className`의 `text-*`나 `barColor`로 덮어쓸 수 있습니다.
+
+ElevenLabs UI의 `live-waveform`을 Base UI 시대의 ondo 컨벤션에 맞춰 이식했습니다.

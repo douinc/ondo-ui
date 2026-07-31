@@ -1,0 +1,30 @@
+---
+title: Desktop Window (데스크톱 창)
+description: 스크린샷·히어로·제품 목업을 위한 정적 macOS·Windows 11·Ubuntu 데스크톱 창이 추가됩니다.
+version: 0.5.0
+---
+
+**v0.5.0**
+
+[`DesktopWindow`](/docs/components/desktop-window)은 어떤 콘텐츠든 데스크톱 창
+크롬으로 감쌉니다:
+
+- **세 플랫폼, 하나의 마크업.** `os="macos"`·`os="windows"`·`os="ubuntu"`가 같은
+  자식을 공유합니다. DOM이 아니라 CSS를 뒤집기 때문에 플랫폼 전환은 단어 하나만
+  바꾸면 되고, 컨트롤과 제목이 스스로 자리를 옮깁니다. `"ubuntu"`는 Ubuntu가
+  기본 탑재하는 Yaru/GNOME 헤더바를 렌더링하며, 다른 리눅스 데스크톱은 창을
+  다르게 그리므로 범위 밖입니다.
+- **크롬은 고정, 콘텐츠는 당신 것.** 타이틀바 배경, 신호등 색, 모서리 반경,
+  Windows 닫기 버튼의 빨강을 실제 플랫폼 값 그대로 oklch로 박아두어 어떤
+  프로젝트에서도 그 운영체제로 읽힙니다. 테마를 따르는 것은
+  `DesktopWindowContent` 하나뿐입니다.
+- **기본은 장식.** 컨트롤은 `aria-hidden` span으로 렌더링되어 탭 순회에서
+  빠집니다. `onClose`·`onMinimize`·`onMaximize`를 넘기면 그 컨트롤만 레이블과
+  포커스 링을 갖춘 버튼이 됩니다.
+- **플랫폼 충실도.** macOS는 타이틀바 호버나 포커스에서 글리프를 드러내고,
+  Windows 11과 Ubuntu는 항상 보여줍니다. Ubuntu의 닫기 버튼은 옆 버튼들과 같은
+  회색 원입니다 — 빨간 닫기 버튼은 Windows의 특징입니다. 새 CSS 변수는 없고
+  의존성은 `class-variance-authority` 하나뿐입니다.
+
+창 관리자가 아니라 크롬입니다 — 드래그·리사이즈·최소화/최대화 상태는 없습니다.
+툴바, 앱 아이콘, 사이드바는 타이틀바에 자식으로 넣습니다.

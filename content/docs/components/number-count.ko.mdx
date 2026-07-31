@@ -1,0 +1,139 @@
+---
+title: NumberCount (숫자 카운트)
+description: NumberFlow 기반으로 값이 바뀔 때 자릿수가 굴러가는 애니메이션 숫자입니다.
+---
+
+<Callout>
+  알림 카운터를 만드시나요? [`NumberBadge`](/docs/compositions/number-badge)가
+  `NumberCount`를 감싸 `99+` 오버플로를 지원하는 self-anchor 뱃지를 제공합니다.
+</Callout>
+
+<ComponentPreview name="number-count-demo">
+
+```tsx
+"use client"
+
+import * as React from "react"
+import { IconMinus, IconPlus } from "@tabler/icons-react"
+
+import { NumberCount } from "@/components/ui/number-count"
+import { Button } from "@/components/ui/button"
+
+export default function NumberCountDemo() {
+  const [value, setValue] = React.useState(100)
+
+  return (
+    <div className="flex items-center gap-4">
+      <Button
+        variant="outline"
+        size="icon-sm"
+        onClick={() => setValue((v) => v - 1)}
+        aria-label="Decrease"
+      >
+        <IconMinus />
+      </Button>
+      <NumberCount value={value} className="text-3xl font-semibold" />
+      <Button
+        variant="outline"
+        size="icon-sm"
+        onClick={() => setValue((v) => v + 1)}
+        aria-label="Increase"
+      >
+        <IconPlus />
+      </Button>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/number-count
+```
+
+`NumberCount`와 `@number-flow/react` 의존성이 함께 설치됩니다.
+
+## 사용법
+
+```tsx
+import { NumberCount } from "@/components/ui/number-count"
+```
+
+```tsx
+<NumberCount value={1234} />
+```
+
+## 예시
+
+### 포맷
+
+`NumberCount`는 NumberFlow의 `format` prop(`Intl.NumberFormat` 옵션)을 그대로
+전달하므로 compact 표기, 통화, 백분율을 바로 쓸 수 있습니다.
+
+<ComponentPreview name="number-count-format">
+
+```tsx
+"use client"
+
+import * as React from "react"
+
+import { NumberCount } from "@/components/ui/number-count"
+import { Button } from "@/components/ui/button"
+
+const values = [1234, 56789, 1200000, 42]
+
+export default function NumberCountFormat() {
+  const [index, setIndex] = React.useState(0)
+  const value = values[index]
+
+  return (
+    <div className="flex flex-col items-center gap-4">
+      <div className="flex items-center gap-6 text-2xl font-semibold">
+        <NumberCount value={value} format={{ notation: "compact" }} />
+        <NumberCount
+          value={value}
+          format={{
+            style: "currency",
+            currency: "USD",
+            trailingZeroDisplay: "stripIfInteger",
+          }}
+        />
+      </div>
+      <Button
+        variant="outline"
+        size="sm"
+        onClick={() => setIndex((i) => (i + 1) % values.length)}
+      >
+        Change value
+      </Button>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API 참고
+
+`NumberCount`는 [`NumberFlow`](https://number-flow.barvian.me)의 모든 prop을
+받습니다(`...props`를 내부 엘리먼트에 spread). 자주 쓰는 것:
+
+| Prop        | 타입                       | 기본값 | 설명                                                 |
+| ----------- | -------------------------- | ------ | ---------------------------------------------------- |
+| `value`     | `number`                   | —      | 필수. 표시할 숫자. 값이 바뀌면 애니메이션됩니다.     |
+| `format`    | `Intl.NumberFormatOptions` | —      | 예: `{ notation: "compact" }`, 통화, 백분율.         |
+| `prefix`    | `string`                   | —      | 숫자 앞에 렌더링됩니다.                              |
+| `suffix`    | `string`                   | —      | 숫자 뒤에 렌더링됩니다.                              |
+| `className` | `string`                   | —      | NumberFlow 호스트에 병합됩니다(`tabular-nums` 다음). |
+
+## 기반 컴포넌트
+
+`NumberCount`는 `@number-flow/react`의
+[`NumberFlow`](https://number-flow.barvian.me)를 얇게 감싸 ondo의 `tabular-nums`
+기본값을 더한 것입니다. 원본이 필요하면 `NumberFlow`를 직접 쓰세요.
+
+바로 쓰는 카운트 뱃지가 필요하면
+[`NumberBadge`](/docs/compositions/number-badge)를 참고하세요.

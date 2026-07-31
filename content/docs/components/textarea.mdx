@@ -1,0 +1,228 @@
+---
+title: Textarea
+description: Displays a form textarea or a component that looks like a textarea.
+---
+
+<ComponentPreview name="textarea-demo">
+
+```tsx
+import { Textarea } from "@/components/ui/textarea"
+
+export function TextareaDemo() {
+  return <Textarea placeholder="Type your message here." />
+}
+```
+
+</ComponentPreview>
+
+## Installation
+
+```bash
+bunx shadcn@latest add @ondo-ui/textarea
+```
+
+## Usage
+
+```tsx
+import { Textarea } from "@/components/ui/textarea"
+```
+
+```tsx
+<Textarea />
+```
+
+## Examples
+
+### Sizes
+
+`xs`, `sm`, `default`, `lg`, `xl`, and `2xl`.
+
+Horizontal padding, text size, and corner radius match [`Input`](/docs/components/input) at every step, so a textarea and an input of the same size line up in a form. Only the vertical padding and minimum height differ, since a textarea is multi-line.
+
+<ComponentPreview name="textarea-sizes">
+
+```tsx
+import { Textarea } from "@/components/ui/textarea"
+
+const sizes = ["xs", "sm", "default", "lg", "xl", "2xl"] as const
+
+export default function TextareaSizes() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-3">
+      {sizes.map((size) => (
+        <Textarea key={size} size={size} placeholder={`Size ${size}`} />
+      ))}
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Field
+
+Use `Field`, `FieldLabel`, and `FieldDescription` to create a textarea with a label and description.
+
+<ComponentPreview name="textarea-field">
+
+```tsx
+import {
+  Field,
+  FieldDescription,
+  FieldLabel,
+} from "@/components/ui/field"
+import { Textarea } from "@/components/ui/textarea"
+
+export function TextareaField() {
+  return (
+    <Field>
+      <FieldLabel htmlFor="textarea-message">Message</FieldLabel>
+      <FieldDescription>Enter your message below.</FieldDescription>
+      <Textarea id="textarea-message" placeholder="Type your message here." />
+    </Field>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Disabled
+
+Use the `disabled` prop to disable the textarea. To style the disabled state, add the `data-disabled` attribute to the `Field` component.
+
+<ComponentPreview name="textarea-disabled">
+
+```tsx
+import { Field, FieldLabel } from "@/components/ui/field"
+import { Textarea } from "@/components/ui/textarea"
+
+export function TextareaDisabled() {
+  return (
+    <Field data-disabled>
+      <FieldLabel htmlFor="textarea-disabled">Message</FieldLabel>
+      <Textarea
+        id="textarea-disabled"
+        placeholder="Type your message here."
+        disabled
+      />
+    </Field>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Invalid
+
+Use the `aria-invalid` prop to mark the textarea as invalid. To style the invalid state, add the `data-invalid` attribute to the `Field` component.
+
+<ComponentPreview name="textarea-invalid">
+
+```tsx
+import {
+  Field,
+  FieldDescription,
+  FieldLabel,
+} from "@/components/ui/field"
+import { Textarea } from "@/components/ui/textarea"
+
+export function TextareaInvalid() {
+  return (
+    <Field data-invalid>
+      <FieldLabel htmlFor="textarea-invalid">Message</FieldLabel>
+      <Textarea
+        id="textarea-invalid"
+        placeholder="Type your message here."
+        aria-invalid
+      />
+      <FieldDescription>Please enter a valid message.</FieldDescription>
+    </Field>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Button
+
+Pair with `Button` to create a textarea with a submit button.
+
+<ComponentPreview name="textarea-button">
+
+```tsx
+import { Button } from "@/components/ui/button"
+import { Textarea } from "@/components/ui/textarea"
+
+export function TextareaButton() {
+  return (
+    <div className="grid w-full gap-2">
+      <Textarea placeholder="Type your message here." />
+      <Button>Send message</Button>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## RTL
+
+To enable RTL support in shadcn/ui, see the [RTL configuration guide](https://ui.shadcn.com/docs/rtl).
+
+```tsx
+"use client"
+
+import * as React from "react"
+
+import {
+  useTranslation,
+  type Translations,
+} from "@/components/language-selector"
+import {
+  Field,
+  FieldDescription,
+  FieldLabel,
+} from "@/components/ui/field"
+import { Textarea } from "@/components/ui/textarea"
+
+const translations: Translations = {
+  en: {
+    dir: "ltr",
+    values: {
+      label: "Feedback",
+      placeholder: "Your feedback helps us improve...",
+      description: "Share your thoughts about our service.",
+    },
+  },
+  ar: {
+    dir: "rtl",
+    values: {
+      label: "التعليقات",
+      placeholder: "تعليقاتك تساعدنا على التحسين...",
+      description: "شاركنا أفكارك حول خدمتنا.",
+    },
+  },
+  he: {
+    dir: "rtl",
+    values: {
+      label: "משוב",
+      placeholder: "המשוב שלך עוזר לנו להשתפר...",
+      description: "שתף את מחשבותיך על השירות שלנו.",
+    },
+  },
+}
+
+export function TextareaRtl() {
+  const { dir, t } = useTranslation(translations, "ar")
+
+  return (
+    <Field className="w-full max-w-xs" dir={dir}>
+      <FieldLabel htmlFor="feedback" dir={dir}>
+        {t.label}
+      </FieldLabel>
+      <Textarea id="feedback" placeholder={t.placeholder} dir={dir} rows={4} />
+      <FieldDescription dir={dir}>{t.description}</FieldDescription>
+    </Field>
+  )
+}
+```

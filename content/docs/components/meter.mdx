@@ -1,0 +1,184 @@
+---
+title: Meter
+description: A linear reading of a bounded value, such as a score, a utilization, or a fill level.
+---
+
+<ComponentPreview name="meter-demo">
+
+```tsx
+import { Meter } from "@/components/ui/meter"
+
+export default function MeterDemo() {
+  return <Meter value={72} className="w-full max-w-sm" />
+}
+```
+
+</ComponentPreview>
+
+<Callout>
+  Four components cover this ground. `Meter` and
+  [`MeterRing`](/docs/components/meter-ring) report a value that simply *is* what
+  it is; [`Progress`](/docs/components/progress) and
+  [`ProgressRing`](/docs/components/progress-ring) report a task climbing toward
+  completion. Pick the shape — bar or ring — second.
+</Callout>
+
+## Installation
+
+```bash
+bunx shadcn@latest add @ondo-ui/meter
+```
+
+## Usage
+
+```tsx
+import { Meter, MeterLabel, MeterValue } from "@/components/ui/meter"
+```
+
+```tsx
+<Meter value={72} min={0} max={100} variant="default">
+  <MeterLabel>Disk used</MeterLabel>
+  <MeterValue />
+</Meter>
+```
+
+`Meter` builds on Base UI's `Meter`, so it is announced as a meter with the
+right `aria-valuenow` and `aria-valuetext`. Unlike `Progress` it has no
+indeterminate state — a meter always has a reading.
+
+Children render above the track, which is where `MeterLabel` and `MeterValue`
+go. The bar fills with `bg-current`, so `variant` — or any text-color utility
+in `className` — recolors it.
+
+## Composition
+
+```text
+Meter
+├── MeterLabel
+├── MeterValue
+└── MeterTrack
+    └── MeterIndicator
+```
+
+## Examples
+
+### Label and value
+
+`MeterLabel` names the reading and `MeterValue` prints it. `MeterValue` sits
+hard right, so the pair reads as one row above the bar.
+
+<ComponentPreview name="meter-label">
+
+```tsx
+import { Meter, MeterLabel, MeterValue } from "@/components/ui/meter"
+
+export default function MeterLabelDemo() {
+  return (
+    <Meter value={68} variant="success" className="w-full max-w-sm">
+      <MeterLabel>Disk used</MeterLabel>
+      <MeterValue />
+    </Meter>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Variants
+
+`variant` picks the bar color from the theme's semantic set. Which band a
+reading falls into is yours to decide, so pick the variant from the value at the
+call site.
+
+<ComponentPreview name="meter-variants">
+
+```tsx
+import { Meter, MeterLabel, MeterValue } from "@/components/ui/meter"
+
+export default function MeterVariants() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-5">
+      <Meter value={18} variant="destructive">
+        <MeterLabel>Critical</MeterLabel>
+        <MeterValue />
+      </Meter>
+      <Meter value={46} variant="warning">
+        <MeterLabel>At risk</MeterLabel>
+        <MeterValue />
+      </Meter>
+      <Meter value={91} variant="success">
+        <MeterLabel>Healthy</MeterLabel>
+        <MeterValue />
+      </Meter>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Formatting the value
+
+`format` takes `Intl.NumberFormat` options and shapes both the printed text and
+the value announced to screen readers. `MeterValue` also takes a render function
+when the reading needs surrounding words.
+
+That render function is a function prop, so the component passing it has to be a
+Client Component.
+
+<ComponentPreview name="meter-format">
+
+```tsx
+"use client"
+
+import { Meter, MeterLabel, MeterValue } from "@/components/ui/meter"
+
+export default function MeterFormat() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-5">
+      <Meter value={0.68} max={1} format={{ style: "percent" }}>
+        <MeterLabel>Coverage</MeterLabel>
+        <MeterValue />
+      </Meter>
+      <Meter
+        value={412}
+        max={500}
+        format={{ maximumFractionDigits: 0 }}
+        variant="info"
+      >
+        <MeterLabel>Seats</MeterLabel>
+        <MeterValue>{(formatted) => `${formatted} of 500`}</MeterValue>
+      </Meter>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API reference
+
+### Meter
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `value` | `number` | – |
+| `min` | `number` | `0` |
+| `max` | `number` | `100` |
+| `variant` | `"default" \| "info" \| "success" \| "warning" \| "destructive"` | `"default"` |
+| `format` | `Intl.NumberFormatOptions` | – |
+| `locale` | `Intl.LocalesArgument` | runtime locale |
+| `getAriaValueText` | `(formatted: string, value: number) => string` | – |
+
+Plus the rest of Base UI's [`Meter.Root`](https://base-ui.com/react/components/meter) props.
+
+### MeterTrack, MeterIndicator
+
+The bar and its fill. `Meter` composes them for you; reach for them only to
+restyle the track.
+
+### MeterLabel, MeterValue
+
+Base UI's `Meter.Label` and `Meter.Value` with ondo styling. `MeterValue` takes a
+render function (`(formatted, value) => ReactNode`) when `format` alone is not
+enough.

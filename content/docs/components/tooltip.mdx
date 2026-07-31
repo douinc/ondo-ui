@@ -1,0 +1,174 @@
+---
+title: Tooltip
+description: A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.
+links:
+  doc: https://base-ui.com/react/components/tooltip
+---
+
+<ComponentPreview name="tooltip-demo">
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+
+export function TooltipDemo() {
+  return (
+    <Tooltip>
+      <TooltipTrigger render={<Button variant="outline" />}>
+        Hover
+      </TooltipTrigger>
+      <TooltipContent>
+        <p>Add to library</p>
+      </TooltipContent>
+    </Tooltip>
+  )
+}
+```
+
+</ComponentPreview>
+
+## Installation
+
+```bash
+bunx shadcn@latest add @ondo-ui/tooltip
+```
+
+## Usage
+
+```tsx showLineNumbers
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+```
+
+```tsx showLineNumbers
+<Tooltip>
+  <TooltipTrigger>Hover</TooltipTrigger>
+  <TooltipContent>
+    <p>Add to library</p>
+  </TooltipContent>
+</Tooltip>
+```
+
+## Composition
+
+Use the following composition to build a `Tooltip`:
+
+```text
+Tooltip
+├── TooltipTrigger
+└── TooltipContent
+```
+
+## Examples
+
+### Side
+
+Use the `side` prop to change the position of the tooltip.
+
+<ComponentPreview name="tooltip-side">
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+
+export function TooltipSide() {
+  return (
+    <div className="flex flex-wrap gap-2">
+      {(["left", "top", "bottom", "right"] as const).map((side) => (
+        <Tooltip key={side}>
+          <TooltipTrigger
+            render={<Button variant="outline" className="w-fit capitalize" />}
+          >
+            {side}
+          </TooltipTrigger>
+          <TooltipContent side={side}>
+            <p>Add to library</p>
+          </TooltipContent>
+        </Tooltip>
+      ))}
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### With Keyboard Shortcut
+
+<ComponentPreview name="tooltip-with-keyboard-shortcut">
+
+```tsx
+import { IconDeviceFloppy } from "@tabler/icons-react"
+
+import { Button } from "@/components/ui/button"
+import { Kbd } from "@/components/ui/kbd"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+
+export function TooltipWithKeyboardShortcut() {
+  return (
+    <Tooltip>
+      <TooltipTrigger render={<Button variant="outline" size="icon-sm" />}>
+        <IconDeviceFloppy />
+      </TooltipTrigger>
+      <TooltipContent>
+        Save Changes <Kbd>S</Kbd>
+      </TooltipContent>
+    </Tooltip>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Disabled Button
+
+Show a tooltip on a disabled button by wrapping it with a span.
+
+<ComponentPreview name="tooltip-disabled-button">
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
+
+export function TooltipDisabledButton() {
+  return (
+    <>
+      <Tooltip>
+        <TooltipTrigger render={<span className="inline-block w-fit" />}>
+          <Button variant="outline" disabled>
+            Disabled
+          </Button>
+        </TooltipTrigger>
+        <TooltipContent>
+          <p>This feature is currently unavailable</p>
+        </TooltipContent>
+      </Tooltip>
+    </>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API reference
+
+The component wraps [Base UI Tooltip](https://base-ui.com/react/components/tooltip) and accepts all of its props.

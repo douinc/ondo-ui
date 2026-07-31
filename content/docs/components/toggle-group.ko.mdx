@@ -1,0 +1,372 @@
+---
+title: Toggle Group (토글 그룹)
+description: 켜지거나 꺼질 수 있는 두 가지 상태의 버튼들의 집합입니다.
+---
+
+<ComponentPreview name="toggle-group-demo">
+
+```tsx
+import { IconBold, IconItalic, IconUnderline } from "@tabler/icons-react"
+
+import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from "@/components/ui/toggle-group"
+
+export function ToggleGroupDemo() {
+  return (
+    <ToggleGroup variant="outline" multiple>
+      <ToggleGroupItem value="bold" aria-label="Toggle bold">
+        <IconBold />
+      </ToggleGroupItem>
+      <ToggleGroupItem value="italic" aria-label="Toggle italic">
+        <IconItalic />
+      </ToggleGroupItem>
+      <ToggleGroupItem value="strikethrough" aria-label="Toggle strikethrough">
+        <IconUnderline />
+      </ToggleGroupItem>
+    </ToggleGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/toggle-group
+```
+
+## 사용법
+
+```tsx
+import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group"
+```
+
+```tsx
+<ToggleGroup type="single">
+  <ToggleGroupItem value="a">A</ToggleGroupItem>
+  <ToggleGroupItem value="b">B</ToggleGroupItem>
+  <ToggleGroupItem value="c">C</ToggleGroupItem>
+</ToggleGroup>
+```
+
+## Composition
+
+`ToggleGroup`을 구성하려면 다음 구조를 사용합니다:
+
+```text
+ToggleGroup
+├── ToggleGroupItem
+└── ToggleGroupItem
+```
+
+## 예시
+
+### Outline
+
+`variant="outline"`을 사용하여 외곽선 스타일을 적용합니다.
+
+<ComponentPreview name="toggle-group-outline">
+
+```tsx
+import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from "@/components/ui/toggle-group"
+
+export function ToggleGroupOutline() {
+  return (
+    <ToggleGroup variant="outline" defaultValue={["all"]}>
+      <ToggleGroupItem value="all" aria-label="Toggle all">
+        All
+      </ToggleGroupItem>
+      <ToggleGroupItem value="missed" aria-label="Toggle missed">
+        Missed
+      </ToggleGroupItem>
+    </ToggleGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Size
+
+`size` prop을 사용하여 토글 그룹의 크기를 변경합니다.
+
+<ComponentPreview name="toggle-group-size">
+
+```tsx
+import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from "@/components/ui/toggle-group"
+
+export function ToggleGroupSize() {
+  return (
+    <div className="flex flex-col gap-4">
+      <ToggleGroup size="xs" defaultValue={["top"]} variant="outline">
+        <ToggleGroupItem value="top" aria-label="Toggle top">
+          Top
+        </ToggleGroupItem>
+        <ToggleGroupItem value="bottom" aria-label="Toggle bottom">
+          Bottom
+        </ToggleGroupItem>
+        <ToggleGroupItem value="left" aria-label="Toggle left">
+          Left
+        </ToggleGroupItem>
+        <ToggleGroupItem value="right" aria-label="Toggle right">
+          Right
+        </ToggleGroupItem>
+      </ToggleGroup>
+      <ToggleGroup size="sm" defaultValue={["top"]} variant="outline">
+        <ToggleGroupItem value="top" aria-label="Toggle top">
+          Top
+        </ToggleGroupItem>
+        <ToggleGroupItem value="bottom" aria-label="Toggle bottom">
+          Bottom
+        </ToggleGroupItem>
+        <ToggleGroupItem value="left" aria-label="Toggle left">
+          Left
+        </ToggleGroupItem>
+        <ToggleGroupItem value="right" aria-label="Toggle right">
+          Right
+        </ToggleGroupItem>
+      </ToggleGroup>
+      <ToggleGroup defaultValue={["top"]} variant="outline">
+        <ToggleGroupItem value="top" aria-label="Toggle top">
+          Top
+        </ToggleGroupItem>
+        <ToggleGroupItem value="bottom" aria-label="Toggle bottom">
+          Bottom
+        </ToggleGroupItem>
+        <ToggleGroupItem value="left" aria-label="Toggle left">
+          Left
+        </ToggleGroupItem>
+        <ToggleGroupItem value="right" aria-label="Toggle right">
+          Right
+        </ToggleGroupItem>
+      </ToggleGroup>
+      <ToggleGroup size="xl" defaultValue={["top"]} variant="outline">
+        <ToggleGroupItem value="top" aria-label="Toggle top">
+          Top
+        </ToggleGroupItem>
+        <ToggleGroupItem value="bottom" aria-label="Toggle bottom">
+          Bottom
+        </ToggleGroupItem>
+        <ToggleGroupItem value="left" aria-label="Toggle left">
+          Left
+        </ToggleGroupItem>
+        <ToggleGroupItem value="right" aria-label="Toggle right">
+          Right
+        </ToggleGroupItem>
+      </ToggleGroup>
+      <ToggleGroup size="2xl" defaultValue={["top"]} variant="outline">
+        <ToggleGroupItem value="top" aria-label="Toggle top">
+          Top
+        </ToggleGroupItem>
+        <ToggleGroupItem value="bottom" aria-label="Toggle bottom">
+          Bottom
+        </ToggleGroupItem>
+        <ToggleGroupItem value="left" aria-label="Toggle left">
+          Left
+        </ToggleGroupItem>
+        <ToggleGroupItem value="right" aria-label="Toggle right">
+          Right
+        </ToggleGroupItem>
+      </ToggleGroup>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Spacing
+
+`spacing`을 사용하여 토글 그룹 항목 사이의 간격을 추가합니다.
+
+<ComponentPreview name="toggle-group-spacing">
+
+```tsx
+import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from "@/components/ui/toggle-group"
+
+export function ToggleGroupSpacing() {
+  return (
+    <ToggleGroup size="sm" defaultValue={["top"]} variant="outline" spacing={2}>
+      <ToggleGroupItem value="top" aria-label="Toggle top">
+        Top
+      </ToggleGroupItem>
+      <ToggleGroupItem value="bottom" aria-label="Toggle bottom">
+        Bottom
+      </ToggleGroupItem>
+      <ToggleGroupItem value="left" aria-label="Toggle left">
+        Left
+      </ToggleGroupItem>
+      <ToggleGroupItem value="right" aria-label="Toggle right">
+        Right
+      </ToggleGroupItem>
+    </ToggleGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Vertical
+
+`orientation="vertical"`을 사용하여 수직 토글 그룹을 만듭니다.
+
+<ComponentPreview name="toggle-group-vertical">
+
+```tsx
+import { IconBold, IconItalic, IconUnderline } from "@tabler/icons-react"
+
+import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from "@/components/ui/toggle-group"
+
+export function ToggleGroupVertical() {
+  return (
+    <ToggleGroup
+      multiple
+      orientation="vertical"
+      spacing={1}
+      defaultValue={["bold", "italic"]}
+    >
+      <ToggleGroupItem value="bold" aria-label="Toggle bold">
+        <IconBold />
+      </ToggleGroupItem>
+      <ToggleGroupItem value="italic" aria-label="Toggle italic">
+        <IconItalic />
+      </ToggleGroupItem>
+      <ToggleGroupItem value="underline" aria-label="Toggle underline">
+        <IconUnderline />
+      </ToggleGroupItem>
+    </ToggleGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Disabled
+
+<ComponentPreview name="toggle-group-disabled">
+
+```tsx
+import { IconBold, IconItalic, IconUnderline } from "@tabler/icons-react"
+
+import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from "@/components/ui/toggle-group"
+
+export function ToggleGroupDisabled() {
+  return (
+    <ToggleGroup disabled>
+      <ToggleGroupItem value="bold" aria-label="Toggle bold">
+        <IconBold />
+      </ToggleGroupItem>
+      <ToggleGroupItem value="italic" aria-label="Toggle italic">
+        <IconItalic />
+      </ToggleGroupItem>
+      <ToggleGroupItem value="strikethrough" aria-label="Toggle strikethrough">
+        <IconUnderline />
+      </ToggleGroupItem>
+    </ToggleGroup>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Custom
+
+커스텀 토글 그룹 예제입니다.
+
+<ComponentPreview name="toggle-group-custom">
+
+```tsx
+"use client"
+
+import * as React from "react"
+
+import {
+  Field,
+  FieldDescription,
+  FieldLabel,
+} from "@/components/ui/field"
+import {
+  ToggleGroup,
+  ToggleGroupItem,
+} from "@/components/ui/toggle-group"
+
+export function ToggleGroupCustom() {
+  const [fontWeight, setFontWeight] = React.useState("normal")
+  return (
+    <Field>
+      <FieldLabel>Font Weight</FieldLabel>
+      <ToggleGroup
+        value={[fontWeight]}
+        onValueChange={(value) => setFontWeight(value[0])}
+        variant="outline"
+        spacing={2}
+        size="lg"
+      >
+        <ToggleGroupItem
+          value="light"
+          aria-label="Light"
+          className="flex size-16 flex-col items-center justify-center rounded-xl"
+        >
+          <span className="text-2xl leading-none font-light">Aa</span>
+          <span className="text-xs text-muted-foreground">Light</span>
+        </ToggleGroupItem>
+        <ToggleGroupItem
+          value="normal"
+          aria-label="Normal"
+          className="flex size-16 flex-col items-center justify-center rounded-xl"
+        >
+          <span className="text-2xl leading-none font-normal">Aa</span>
+          <span className="text-xs text-muted-foreground">Normal</span>
+        </ToggleGroupItem>
+        <ToggleGroupItem
+          value="medium"
+          aria-label="Medium"
+          className="flex size-16 flex-col items-center justify-center rounded-xl"
+        >
+          <span className="text-2xl leading-none font-medium">Aa</span>
+          <span className="text-xs text-muted-foreground">Medium</span>
+        </ToggleGroupItem>
+        <ToggleGroupItem
+          value="bold"
+          aria-label="Bold"
+          className="flex size-16 flex-col items-center justify-center rounded-xl"
+        >
+          <span className="text-2xl leading-none font-bold">Aa</span>
+          <span className="text-xs text-muted-foreground">Bold</span>
+        </ToggleGroupItem>
+      </ToggleGroup>
+      <FieldDescription>
+        Use{" "}
+        <code className="rounded-md bg-muted px-1 py-0.5 font-mono">
+          font-{fontWeight}
+        </code>{" "}
+        to set the font weight.
+      </FieldDescription>
+    </Field>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API 참고
+
+이 컴포넌트는 [Base UI Toggle Group](https://base-ui.com/react/components/toggle-group)을 감싸며 해당 컴포넌트의 모든 prop을 받습니다.

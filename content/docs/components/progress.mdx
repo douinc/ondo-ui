@@ -1,0 +1,239 @@
+---
+title: Progress
+description: Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.
+---
+
+<ComponentPreview name="progress-demo">
+
+```tsx
+"use client"
+
+import * as React from "react"
+
+import { Progress } from "@/components/ui/progress"
+
+export default function ProgressDemo() {
+  const [progress, setProgress] = React.useState(13)
+
+  React.useEffect(() => {
+    const timer = setTimeout(() => setProgress(66), 500)
+    return () => clearTimeout(timer)
+  }, [])
+
+  return <Progress value={progress} className="w-[60%]" />
+}
+```
+
+</ComponentPreview>
+
+<Callout>
+  Four components cover this ground. `Progress` and
+  [`ProgressRing`](/docs/components/progress-ring) report a task climbing toward
+  completion; [`Meter`](/docs/components/meter) and
+  [`MeterRing`](/docs/components/meter-ring) report a value that simply *is*
+  what it is. Pick the shape — bar or ring — second.
+</Callout>
+
+## Installation
+
+```bash
+bunx shadcn@latest add @ondo-ui/progress
+```
+
+## Usage
+
+```tsx showLineNumbers
+import { Progress } from "@/components/ui/progress"
+```
+
+```tsx showLineNumbers
+<Progress value={33} />
+```
+
+## Composition
+
+```text
+Progress
+├── ProgressLabel
+├── ProgressValue
+└── ProgressTrack
+    └── ProgressIndicator
+```
+
+## Examples
+
+### Label
+
+Use `ProgressLabel` and `ProgressValue` to add a label and value display.
+
+<ComponentPreview name="progress-label">
+
+```tsx
+import {
+  Progress,
+  ProgressLabel as ProgressLabelComponent,
+  ProgressValue,
+} from "@/components/ui/progress"
+
+export default function ProgressLabel() {
+  return (
+    <Progress value={56} className="w-full max-w-sm">
+      <ProgressLabelComponent>Upload progress</ProgressLabelComponent>
+      <ProgressValue />
+    </Progress>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Variants
+
+`variant` picks the bar color from the theme's semantic set — useful for
+signalling that a task stalled, is retrying, or finished cleanly. The bar fills
+with `bg-current`, so any text-color utility in `className` works too.
+
+<ComponentPreview name="progress-variants">
+
+```tsx
+import {
+  Progress,
+  ProgressLabel,
+  ProgressValue,
+} from "@/components/ui/progress"
+
+export default function ProgressVariants() {
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-5">
+      <Progress value={24} variant="info">
+        <ProgressLabel>Uploading</ProgressLabel>
+        <ProgressValue />
+      </Progress>
+      <Progress value={62} variant="warning">
+        <ProgressLabel>Retrying</ProgressLabel>
+        <ProgressValue />
+      </Progress>
+      <Progress value={100} variant="success">
+        <ProgressLabel>Complete</ProgressLabel>
+        <ProgressValue />
+      </Progress>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Controlled
+
+A progress bar that can be controlled by a slider.
+
+<ComponentPreview name="progress-controlled">
+
+```tsx
+"use client"
+
+import * as React from "react"
+
+import { Progress } from "@/components/ui/progress"
+import { Slider } from "@/components/ui/slider"
+
+export default function ProgressControlled() {
+  const [value, setValue] = React.useState(50)
+
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-4">
+      <Progress value={value} className="w-full" />
+      <Slider
+        value={value}
+        onValueChange={(value) => setValue(value as number)}
+        min={0}
+        max={100}
+        step={1}
+      />
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### An animated value
+
+`ProgressValue` takes a render function, so you can hand the reading to
+[`NumberCount`](/docs/components/number-count) and have the digits roll between
+readings instead of snapping. Base UI marks this part `aria-hidden`, so the
+animation is purely visual — the announced value still comes from the root — and
+`NumberCount` honours `prefers-reduced-motion`.
+
+The render function only receives the *formatted string* and the raw number, so
+formatting is repeated on `NumberCount` rather than inherited from `Progress`.
+Mind the difference between the two: on a 0–100 scale use `suffix="%"`;
+`format={{ style: "percent" }}` is for a value that is already a 0–1 fraction,
+and would read `2400%` here.
+
+It is a function prop, so the component passing it has to be a Client Component.
+
+<ComponentPreview name="progress-number-count">
+
+```tsx
+"use client"
+
+import * as React from "react"
+
+import { Button } from "@/components/ui/button"
+import { NumberCount } from "@/components/ui/number-count"
+import {
+  Progress,
+  ProgressLabel,
+  ProgressValue,
+} from "@/components/ui/progress"
+
+export default function ProgressNumberCount() {
+  const [value, setValue] = React.useState(24)
+
+  return (
+    <div className="flex w-full max-w-sm flex-col gap-4">
+      <Progress value={value} variant="info">
+        <ProgressLabel>Uploading</ProgressLabel>
+        <ProgressValue>
+          {(_, v) => (v == null ? null : <NumberCount value={v} suffix="%" />)}
+        </ProgressValue>
+      </Progress>
+      <div className="flex gap-2">
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={() => setValue((v) => Math.max(0, v - 17))}
+        >
+          −17
+        </Button>
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={() => setValue((v) => Math.min(100, v + 17))}
+        >
+          +17
+        </Button>
+      </div>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+Returning `null` for a `null` value keeps the indeterminate bar empty, which is
+what Base UI does by default.
+
+## API reference
+
+| Prop | Type | Default |
+| --- | --- | --- |
+| `value` | `number \| null` | – |
+| `variant` | `"default" \| "info" \| "success" \| "warning" \| "destructive"` | `"default"` |
+
+The component wraps [Base UI Progress](https://base-ui.com/react/components/progress) and accepts all of its props.
+
+Passing `value={null}` marks the bar indeterminate. For the radial form of the
+same component, see [`ProgressRing`](/docs/components/progress-ring).

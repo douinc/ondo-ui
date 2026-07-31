@@ -1,0 +1,30 @@
+---
+title: Desktop Window
+description: Static macOS, Windows 11, and Ubuntu window chrome for screenshots, heroes, and product mockups.
+version: 0.5.0
+---
+
+**v0.5.0**
+
+[`DesktopWindow`](/docs/components/desktop-window) wraps any content in desktop
+window chrome:
+
+- **Three platforms, one markup.** `os="macos"`, `os="windows"`, and
+  `os="ubuntu"` share the same children. The prop flips CSS rather than the DOM,
+  so switching platforms is a one-word change — the controls and the title move
+  on their own. `"ubuntu"` renders the Yaru/GNOME headerbar Ubuntu ships by
+  default; other Linux desktops draw windows differently and are out of scope.
+- **Chrome is fixed, content is yours.** Titlebar backgrounds, traffic light
+  colors, corner radii, and the Windows close-button red are pinned to the real
+  platform values in oklch, so the frame reads as that OS in any project. Only
+  `DesktopWindowContent` follows your theme.
+- **Decorative by default.** Controls render as `aria-hidden` spans and stay out
+  of the tab order. Pass `onClose`, `onMinimize`, or `onMaximize` and that one
+  control becomes a labeled button with a focus ring.
+- **Platform-accurate detail.** macOS reveals its glyphs on titlebar hover or
+  focus; Windows 11 and Ubuntu show them always. Ubuntu's close button is a gray
+  circle like its neighbours — the red close button is a Windows trait. No new
+  CSS variables, and the only dependency is `class-variance-authority`.
+
+It is chrome, not a window manager: no dragging, resizing, or minimise and
+maximise state. Toolbars, app icons, and sidebars go in the titlebar as children.

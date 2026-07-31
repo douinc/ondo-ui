@@ -1,0 +1,198 @@
+---
+title: Badge
+description: Displays a badge or a component that looks like a badge.
+---
+
+<Callout>
+  Need an animated numeric badge?
+  [`NumberBadge`](/docs/compositions/number-badge) overlays a rolling
+  [`NumberCount`](/docs/components/number-count) with `99+` overflow.
+</Callout>
+
+<ComponentPreview name="badge-demo">
+
+```tsx
+import { Badge } from "@/components/ui/badge"
+
+export default function BadgeDemo() {
+  return (
+    <div className="flex w-full flex-wrap justify-center gap-2">
+      <Badge>Badge</Badge>
+      <Badge variant="secondary">Secondary</Badge>
+      <Badge variant="destructive">Destructive</Badge>
+      <Badge variant="outline">Outline</Badge>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## Installation
+
+```bash
+bunx shadcn@latest add @ondo-ui/badge
+```
+
+## Usage
+
+```tsx
+import { Badge } from "@/components/ui/badge"
+```
+
+```tsx
+<Badge variant="default | secondary | info | success | warning | destructive | outline | ghost">Badge</Badge>
+```
+
+## Examples
+
+### Variants
+
+Use the `variant` prop to change the variant of the badge.
+
+<ComponentPreview name="badge-variants">
+
+```tsx
+import { Badge } from "@/components/ui/badge"
+
+export default function BadgeVariants() {
+  return (
+    <div className="flex flex-wrap gap-2">
+      <Badge>Default</Badge>
+      <Badge variant="secondary">Secondary</Badge>
+      <Badge variant="info">Info</Badge>
+      <Badge variant="success">Success</Badge>
+      <Badge variant="warning">Warning</Badge>
+      <Badge variant="destructive">Destructive</Badge>
+      <Badge variant="outline">Outline</Badge>
+      <Badge variant="ghost">Ghost</Badge>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### With Icon
+
+You can render an icon inside the badge. Use `data-icon="inline-start"` to render the icon on the left and `data-icon="inline-end"` to render the icon on the right.
+
+<ComponentPreview name="badge-with-icon">
+
+```tsx
+import { IconCircleCheck, IconBookmark } from "@tabler/icons-react"
+
+import { Badge } from "@/components/ui/badge"
+
+export default function BadgeWithIcon() {
+  return (
+    <div className="flex flex-wrap gap-2">
+      <Badge variant="secondary">
+        <IconCircleCheck data-icon="inline-start" />
+        Verified
+      </Badge>
+      <Badge variant="outline">
+        Bookmark
+        <IconBookmark data-icon="inline-end" />
+      </Badge>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### With Spinner
+
+You can render a spinner inside the badge. Remember to add the `data-icon="inline-start"` or `data-icon="inline-end"` prop to the spinner.
+
+<ComponentPreview name="badge-with-spinner">
+
+```tsx
+import { Badge } from "@/components/ui/badge"
+import { Spinner } from "@/components/ui/spinner"
+
+export default function BadgeWithSpinner() {
+  return (
+    <div className="flex flex-wrap gap-2">
+      <Badge variant="destructive">
+        <Spinner data-icon="inline-start" />
+        Deleting
+      </Badge>
+      <Badge variant="secondary">
+        Generating
+        <Spinner data-icon="inline-end" />
+      </Badge>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Link
+
+Use the `render` prop to render a link as a badge.
+
+<ComponentPreview name="badge-link">
+
+```tsx
+import { IconArrowUpRight } from "@tabler/icons-react"
+
+import { Badge } from "@/components/ui/badge"
+
+export default function BadgeLink() {
+  return (
+    <Badge render={<a href="#link" />}>
+      Open Link <IconArrowUpRight data-icon="inline-end" />
+    </Badge>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Custom Colors
+
+You can customize the colors of a badge by adding custom classes such as `bg-green-50 dark:bg-green-800` to the `Badge` component.
+
+<ComponentPreview name="badge-custom-colors">
+
+```tsx
+import { Badge } from "@/components/ui/badge"
+
+export default function BadgeCustomColors() {
+  return (
+    <div className="flex flex-wrap gap-2">
+      <Badge className="bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300">
+        Blue
+      </Badge>
+      <Badge className="bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300">
+        Green
+      </Badge>
+      <Badge className="bg-sky-50 text-sky-700 dark:bg-sky-950 dark:text-sky-300">
+        Sky
+      </Badge>
+      <Badge className="bg-purple-50 text-purple-700 dark:bg-purple-950 dark:text-purple-300">
+        Purple
+      </Badge>
+      <Badge className="bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-300">
+        Red
+      </Badge>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API reference
+
+### Badge
+
+The `Badge` component displays a badge or a component that looks like a badge.
+
+| Prop        | Type                                                                          | Default     |
+| ----------- | ----------------------------------------------------------------------------- | ----------- |
+| `variant`   | `"default" \| "secondary" \| "info" \| "success" \| "warning" \| "destructive" \| "outline" \| "ghost" \| "link"` | `"default"` |
+| `className` | `string`                                                                      | -           |
