@@ -1,122 +1,125 @@
-# ZBSearch Migration Design
+# ZBSearch 마이그레이션 설계
 
-## Context
+## 배경
 
-Upgrading `fumadocs-core` from 16.11.1 to 16.14.0 changes the static
-search engine contract from `@orama/orama` to `zbsearch`. The current
-client initializer still returns an Orama database, so TypeScript rejects
-it where Fumadocs expects `AnyZBSearch`. The same error blocks the
-production static export.
+`fumadocs-core`를 16.11.1에서 16.14.0으로 업데이트하면 정적 검색
+엔진의 계약이 `@orama/orama`에서 `zbsearch`로 변경된다. 현재
+클라이언트 초기화 함수는 여전히 Orama 데이터베이스를 반환하므로,
+Fumadocs가 `AnyZBSearch`를 기대하는 지점에서 TypeScript 오류가
+발생한다. 같은 오류로 프로덕션 정적 내보내기도 중단된다.
 
-The search endpoint already provides locale-specific exported indexes at
-`/api/search`. Korean indexing uses a custom tokenizer because ZBSearch
-does not provide a built-in Korean tokenizer.
+검색 엔드포인트는 이미 `/api/search`에서 언어별 검색 인덱스를
+제공한다. ZBSearch는 한국어 기본 토크나이저를 제공하지 않으므로
+한국어 인덱싱에는 기존 커스텀 토크나이저를 사용한다.
 
-## Goals
+## 목표
 
-- Use ZBSearch directly for Fumadocs static search.
-- Preserve the current English and Korean search behavior.
-- Preserve the custom Korean tokenization of letters and numbers across
-  punctuation.
-- Remove deprecated Fumadocs client API names.
-- Remove the obsolete direct Orama dependency.
-- Keep the application compatible with a fully static Next.js export.
+- Fumadocs 정적 검색에 ZBSearch를 직접 사용한다.
+- 현재 영어 및 한국어 검색 동작을 유지한다.
+- 문장 부호를 경계로 문자와 숫자를 나누는 기존 한국어 토큰화
+  동작을 유지한다.
+- 더 이상 권장되지 않는 Fumadocs 클라이언트 API 이름을 제거한다.
+- 불필요해진 Orama 직접 의존성을 제거한다.
+- 완전한 Next.js 정적 내보내기 호환성을 유지한다.
 
-## Non-Goals
+## 목표가 아닌 것
 
-- Changing the search UI or result ranking.
-- Adding fuzzy, vector, or remote search.
-- Refactoring unrelated command-menu behavior.
-- Fixing unrelated dependency audit findings in the same change.
+- 검색 UI 또는 결과 순위를 변경하는 작업
+- 퍼지 검색, 벡터 검색 또는 원격 검색을 추가하는 작업
+- 관련 없는 command menu 동작을 리팩터링하는 작업
+- 동일한 변경에서 관련 없는 의존성 보안 경고를 해결하는 작업
 
-## Approaches Considered
+## 검토한 접근 방식
 
-### Direct ZBSearch migration
+### ZBSearch로 완전히 전환
 
-Replace Orama with a direct, pinned ZBSearch dependency and update both
-the database initializer and Fumadocs client API names. This is the
-selected approach because it matches the current Fumadocs contract and
-removes deprecated compatibility aliases.
+Orama를 직접 고정한 ZBSearch 의존성으로 교체하고 데이터베이스
+초기화 함수와 Fumadocs 클라이언트 API 이름을 함께 변경한다. 현재
+Fumadocs 계약과 일치하고 deprecated 호환 별칭을 제거할 수 있으므로
+이 방식을 선택했다.
 
-### Compatibility-only migration
+### 호환성만 확보하는 최소 전환
 
-Return a ZBSearch database while retaining `oramaStaticClient` and
-`initOrama`. This reduces the immediate diff but leaves deprecated names
-and creates avoidable follow-up work.
+ZBSearch 데이터베이스를 반환하도록 변경하되 `oramaStaticClient`와
+`initOrama` 이름은 유지한다. 당장의 변경량은 적지만 deprecated
+이름이 남고 이후에 불필요한 추가 작업이 발생한다.
 
-### Fumadocs version pin
+### Fumadocs 버전 고정
 
-Keep `fumadocs-core` at 16.11.1. This avoids implementation work but
-blocks the intended dependency update and was rejected.
+`fumadocs-core`를 16.11.1로 유지한다. 구현 작업은 피할 수 있지만
+의도한 의존성 업데이트가 차단되므로 선택하지 않았다.
 
-## Dependency Design
+## 의존성 설계
 
-- Remove the direct `@orama/orama` dependency.
-- Add a direct, exact `zbsearch` dependency at `3.3.4`, the version used
-  by the upgraded Fumadocs release.
-- Regenerate `bun.lock` with Bun 1.3.14, matching `packageManager` and CI.
-- Require `bun install --frozen-lockfile` to succeed after regeneration.
+- 직접 의존성인 `@orama/orama`를 제거한다.
+- 업데이트된 Fumadocs가 사용하는 버전과 동일한 `zbsearch@3.3.4`를
+  정확한 버전으로 직접 추가한다.
+- `packageManager` 및 CI와 동일한 Bun 1.3.14로 `bun.lock`을 다시
+  생성한다.
+- 잠금 파일 재생성 후 `bun install --frozen-lockfile`이 성공해야
+  한다.
 
-Pinning the direct dependency ensures the application initializer and
-Fumadocs use one compatible ZBSearch implementation. Future Fumadocs and
-ZBSearch upgrades should be reviewed together.
+직접 의존성을 정확한 버전으로 고정하면 애플리케이션 초기화 함수와
+Fumadocs가 호환되는 하나의 ZBSearch 구현을 사용하게 된다. 향후
+Fumadocs와 ZBSearch 업데이트는 함께 검토한다.
 
-## Search Architecture
+## 검색 구조
 
-`lib/search-index.ts` remains the single owner of search database
-initialization and Korean tokenization.
+`lib/search-index.ts`는 계속해서 검색 데이터베이스 초기화와 한국어
+토큰화를 단독으로 담당한다.
 
-- `createKoreanTokenizer()` continues to return the tokenizer shared by
-  the static search route and client-side database initialization.
-- `createStaticSearchIndex(locale)` creates a ZBSearch database.
-- Korean databases receive the custom tokenizer.
-- Other locales use the ZBSearch default tokenizer.
+- `createKoreanTokenizer()`는 정적 검색 라우트와 클라이언트 검색
+  데이터베이스 초기화가 공유하는 토크나이저를 반환한다.
+- `createStaticSearchIndex(locale)`는 ZBSearch 데이터베이스를
+  생성한다.
+- 한국어 데이터베이스에는 커스텀 토크나이저를 적용한다.
+- 다른 언어에는 ZBSearch 기본 토크나이저를 사용한다.
 
-`app/api/search/route.ts` continues to generate static, locale-specific
-search data through `createFromSource`. No route behavior changes are
-required.
+`app/api/search/route.ts`는 `createFromSource`를 통해 정적인 언어별
+검색 데이터를 계속 생성한다. 라우트 동작은 변경하지 않는다.
 
-`components/command-menu.tsx` uses the non-deprecated Fumadocs
-`staticClient` API and supplies `createStaticSearchIndex` as `initDB`.
-The client fetches `/api/search`, creates a locale-compatible ZBSearch
-database, loads the exported index, and performs searches locally.
+`components/command-menu.tsx`는 deprecated되지 않은 Fumadocs
+`staticClient` API를 사용하고 `createStaticSearchIndex`를 `initDB`로
+전달한다. 클라이언트는 `/api/search`를 가져와 언어에 맞는 ZBSearch
+데이터베이스를 생성하고, 내보낸 인덱스를 불러온 뒤 로컬에서 검색을
+수행한다.
 
-## Data Flow
+## 데이터 흐름
 
-1. During `next build`, the static search route indexes English and
-   Korean documentation.
-2. Fumadocs serializes both indexes into the static `/api/search` output.
-3. The command menu fetches the exported data in the browser.
-4. `staticClient` calls `initDB` for the requested locale.
-5. ZBSearch loads the serialized index into that database.
-6. Queries run locally with the same locale-specific tokenizer used for
-   indexing.
+1. `next build` 중 정적 검색 라우트가 영어 및 한국어 문서를
+   인덱싱한다.
+2. Fumadocs가 두 인덱스를 정적 `/api/search` 출력으로 직렬화한다.
+3. command menu가 브라우저에서 내보낸 데이터를 가져온다.
+4. `staticClient`가 요청된 언어에 대해 `initDB`를 호출한다.
+5. ZBSearch가 직렬화된 인덱스를 해당 데이터베이스에 불러온다.
+6. 인덱싱할 때와 동일한 언어별 토크나이저로 로컬 검색을 수행한다.
 
-The route remains statically exportable, and no runtime server is
-introduced.
+라우트는 계속 정적으로 내보낼 수 있으며 런타임 서버를 추가하지
+않는다.
 
-## Error Handling
+## 오류 처리
 
-Fumadocs retains responsibility for reporting a failed search-index
-fetch or a missing locale. The migration does not add fallback casts or
-silent compatibility adapters. A type mismatch must remain a compile
-failure rather than becoming a possible browser runtime failure.
+검색 인덱스 가져오기 실패 또는 언어 데이터 누락에 대한 보고는
+기존과 같이 Fumadocs가 담당한다. 이 마이그레이션에서는 타입
+캐스팅이나 오류를 숨기는 호환 어댑터를 추가하지 않는다. 타입
+불일치는 브라우저 런타임 오류가 될 가능성을 남기는 대신 컴파일
+단계에서 실패해야 한다.
 
-## Test Design
+## 테스트 설계
 
-The existing tokenizer test remains the behavior contract for Korean
-punctuation and number splitting.
+기존 토크나이저 테스트는 문장 부호와 숫자를 처리하는 한국어
+토큰화 동작의 계약으로 유지한다.
 
-The search-index test will additionally:
+검색 인덱스 테스트에는 다음 검증을 추가한다.
 
-- Create English and Korean ZBSearch databases.
-- Insert representative documents and serialize the source databases.
-- Load the serialized data into fresh locale-specific databases.
-- Query the restored Korean database with a Korean term.
-- Assert that the expected document is returned.
+- 영어 및 한국어 ZBSearch 데이터베이스를 생성한다.
+- 대표 문서를 삽입하고 원본 데이터베이스를 직렬화한다.
+- 직렬화된 데이터를 새로운 언어별 데이터베이스에 불러온다.
+- 복원한 한국어 데이터베이스를 한국어 검색어로 조회한다.
+- 예상한 문서가 반환되는지 확인한다.
 
-The implementation is complete only when all of the following pass with
-Bun 1.3.14:
+구현은 Bun 1.3.14로 다음 항목이 모두 통과해야 완료된 것으로
+판단한다.
 
 1. `bun install --frozen-lockfile`
 2. `bun run test`
@@ -124,10 +127,10 @@ Bun 1.3.14:
 4. `bun run typecheck`
 5. `bun run build`
 
-The build verification must confirm that the static `/api/search`
-artifact contains both English and Korean index data.
+빌드 검증에서는 정적 `/api/search` 결과에 영어 및 한국어 인덱스
+데이터가 모두 존재하는지 확인해야 한다.
 
-## Expected File Changes
+## 예상 변경 파일
 
 - `package.json`
 - `bun.lock`
@@ -135,5 +138,5 @@ artifact contains both English and Korean index data.
 - `lib/search-index.test.ts`
 - `components/command-menu.tsx`
 
-No files under `components/ui/` are added, renamed, or removed, so the
-registry-component workflow is not involved.
+`components/ui/` 아래의 파일은 추가하거나 이름을 변경하거나
+제거하지 않으므로 registry component 절차는 적용하지 않는다.
