@@ -10,7 +10,7 @@ import {
   IconSun,
 } from "@tabler/icons-react"
 import { useDocsSearch } from "fumadocs-core/search/client"
-import { oramaStaticClient } from "fumadocs-core/search/client/orama-static"
+import { staticClient } from "fumadocs-core/search/client/orama-static"
 import type * as PageTree from "fumadocs-core/page-tree"
 import { useTheme } from "next-themes"
 
@@ -87,10 +87,10 @@ export function CommandMenu({
 
   const searchClient = React.useMemo(
     () =>
-      oramaStaticClient({
+      staticClient({
         from: "/api/search",
         locale: lang,
-        initOrama: createStaticSearchIndex,
+        initDB: createStaticSearchIndex,
       }),
     [lang]
   )

@@ -7,7 +7,9 @@ export const dynamic = "force-static"
 
 const search = createFromSource(source, {
   localeMap: {
-    ko: { tokenizer: createKoreanTokenizer() },
+    // ZBSearch rejects a custom tokenizer when a language is provided.
+    // Keep the Fumadocs legacy locale map from injecting its multilingual default.
+    ko: { language: "", tokenizer: createKoreanTokenizer() },
   },
 })
 

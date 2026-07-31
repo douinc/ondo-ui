@@ -76,7 +76,9 @@ Fumadocs와 ZBSearch 업데이트는 함께 검토한다.
 - 다른 언어에는 ZBSearch 기본 토크나이저를 사용한다.
 
 `app/api/search/route.ts`는 `createFromSource`를 통해 정적인 언어별
-검색 데이터를 계속 생성한다. 라우트 동작은 변경하지 않는다.
+검색 데이터를 계속 생성한다. 한국어 locale 설정에는 빈 `language`를
+명시해 Fumadocs가 주입하는 `multilingual` 기본값을 막는다. ZBSearch는
+커스텀 tokenizer와 truthy한 `language`를 함께 사용할 수 없기 때문이다.
 
 `components/command-menu.tsx`는 deprecated되지 않은 Fumadocs
 `staticClient` API를 사용하고 `createStaticSearchIndex`를 `initDB`로
@@ -134,6 +136,7 @@ Fumadocs와 ZBSearch 업데이트는 함께 검토한다.
 
 - `package.json`
 - `bun.lock`
+- `app/api/search/route.ts`
 - `lib/search-index.ts`
 - `lib/search-index.test.ts`
 - `components/command-menu.tsx`

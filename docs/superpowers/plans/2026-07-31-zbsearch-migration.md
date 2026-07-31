@@ -207,7 +207,7 @@ gone.
 ### Task 5: Verify the static export and full quality gate
 
 **Files:**
-- Verify: `app/api/search/route.ts`
+- Modify: `app/api/search/route.ts`
 - Verify: `scripts/verify-static-export.ts`
 - Verify: `scripts/smoke-static-export.ts`
 
@@ -223,7 +223,25 @@ bunx --bun bun@1.3.14 run test
 
 Expected: all tests pass.
 
-- [ ] **Step 2: Run lint**
+- [ ] **Step 2: Keep the custom Korean tokenizer compatible with the server export**
+
+Fumadocs' legacy `localeMap` otherwise injects `language: "multilingual"`
+when it creates the Korean database. ZBSearch rejects a truthy language
+alongside a custom tokenizer, so keep the custom tokenizer and explicitly
+clear that default:
+
+~~~ts
+const search = createFromSource(source, {
+  localeMap: {
+    ko: { language: "", tokenizer: createKoreanTokenizer() },
+  },
+})
+~~~
+
+Expected: the Korean server index uses the same custom tokenizer as the
+client factory and `/api/search` can be statically generated.
+
+- [ ] **Step 3: Run lint**
 
 ~~~bash
 bunx --bun bun@1.3.14 run lint
@@ -231,7 +249,7 @@ bunx --bun bun@1.3.14 run lint
 
 Expected: zero errors; pre-existing warnings may remain.
 
-- [ ] **Step 3: Build the static site**
+- [ ] **Step 4: Build the static site**
 
 ~~~bash
 NEXT_TELEMETRY_DISABLED=1 bunx --bun bun@1.3.14 run build
@@ -239,7 +257,7 @@ NEXT_TELEMETRY_DISABLED=1 bunx --bun bun@1.3.14 run build
 
 Expected: the build exits successfully and generates `out/api/search`.
 
-- [ ] **Step 4: Verify the published search artifact**
+- [ ] **Step 5: Verify the published search artifact**
 
 ~~~bash
 bunx --bun bun@1.3.14 run export:verify
@@ -248,7 +266,7 @@ bunx --bun bun@1.3.14 run export:verify
 Expected: `/api/search` has type `i18n` and contains both `en` and `ko`
 indexes.
 
-- [ ] **Step 5: Inspect the final diff**
+- [ ] **Step 6: Inspect the final diff**
 
 ~~~bash
 git diff --check
@@ -258,9 +276,9 @@ git status --short
 Expected: only the planned dependency and search files are modified, with
 no generated or unrelated files included.
 
-- [ ] **Step 6: Commit the migration**
+- [ ] **Step 7: Commit the migration**
 
 ~~~bash
-git add lib/search-index.ts lib/search-index.test.ts components/command-menu.tsx
+git add app/api/search/route.ts lib/search-index.ts lib/search-index.test.ts components/command-menu.tsx
 git commit -m "fix: migrate static search to zbsearch"
 ~~~
