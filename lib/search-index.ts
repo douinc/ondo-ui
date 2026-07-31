@@ -1,4 +1,4 @@
-import { create } from "@orama/orama"
+import { create } from "zbsearch"
 
 export function createKoreanTokenizer() {
   return {
