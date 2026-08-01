@@ -89,8 +89,9 @@ describe("Stepper", () => {
         <StepperFixture />
       </>
     )
-    const ids = Array.from(html.matchAll(/id="([^"]+-tab-1)"/g), (match) =>
-      match[1]
+    const ids = Array.from(
+      html.matchAll(/id="([^"]+-tab-1)"/g),
+      (match) => match[1]
     )
 
     expect(ids).toHaveLength(2)

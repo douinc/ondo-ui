@@ -29,8 +29,8 @@ export default function StepperIndicators() {
         {steps.map((step) => (
           <StepperItem key={step} step={step} loading={step === 2}>
             <StepperTrigger>
-              <StepperIndicator className="data-[state=active]:text-primary-foreground data-[state=active]:bg-primary data-[state=active]:border-primary data-[state=inactive]:border-muted size-5 border-2 data-[state=completed]:border-green-500 data-[state=completed]:bg-green-500 data-[state=completed]:text-white">
-                <span className="bg-primary-foreground hidden size-1.5 rounded-full group-data-[state=active]/step:block" />
+              <StepperIndicator className="size-5 border-2 data-[state=active]:border-primary data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=completed]:border-green-500 data-[state=completed]:bg-green-500 data-[state=completed]:text-white data-[state=inactive]:border-muted">
+                <span className="hidden size-1.5 rounded-full bg-primary-foreground group-data-[state=active]/step:block" />
               </StepperIndicator>
             </StepperTrigger>
             {steps.length > step && (

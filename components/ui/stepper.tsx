@@ -147,8 +147,7 @@ function Stepper({
       enabledTriggers[
         currentIndex < 0
           ? enabledTriggers.length - 1
-          : (currentIndex - 1 + enabledTriggers.length) %
-            enabledTriggers.length
+          : (currentIndex - 1 + enabledTriggers.length) % enabledTriggers.length
       ]?.focus()
     },
     [getEnabledTriggers]
@@ -329,7 +328,7 @@ function StepperTrigger({
     "data-state": state,
     "data-loading": isLoading || undefined,
     className: cn(
-      "focus-visible:border-ring focus-visible:ring-ring/50 inline-flex cursor-pointer items-center gap-2.5 rounded-full outline-none focus-visible:z-10 focus-visible:ring-3 disabled:pointer-events-none disabled:opacity-60",
+      "inline-flex cursor-pointer items-center gap-2.5 rounded-full outline-none focus-visible:z-10 focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-60",
       className
     ),
     onClick: () => setActiveStep(step),
@@ -366,7 +365,7 @@ function StepperIndicator({
       data-slot="stepper-indicator"
       data-state={state}
       className={cn(
-        "border-background bg-accent text-accent-foreground data-[state=completed]:bg-primary data-[state=completed]:text-primary-foreground data-[state=active]:bg-primary data-[state=active]:text-primary-foreground relative flex size-6 shrink-0 items-center justify-center overflow-hidden rounded-full text-xs",
+        "relative flex size-6 shrink-0 items-center justify-center overflow-hidden rounded-full border-background bg-accent text-xs text-accent-foreground data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=completed]:bg-primary data-[state=completed]:text-primary-foreground",
         className
       )}
       {...props}
@@ -387,7 +386,7 @@ function StepperSeparator({
       data-slot="stepper-separator"
       data-state={state}
       className={cn(
-        "bg-muted style-vega:rounded-sm style-nova:rounded-sm style-maia:rounded-full style-lyra:rounded-none style-mira:rounded-sm style-luma:rounded-full style-rhea:rounded-full style-sera:rounded-none m-0.5 group-data-[orientation=horizontal]/stepper-nav:h-0.5 group-data-[orientation=horizontal]/stepper-nav:flex-1 group-data-[orientation=vertical]/stepper-nav:h-12 group-data-[orientation=vertical]/stepper-nav:w-0.5",
+        "style-vega:rounded-sm style-nova:rounded-sm style-maia:rounded-full style-lyra:rounded-none style-mira:rounded-sm style-luma:rounded-full style-rhea:rounded-full style-sera:rounded-none m-0.5 bg-muted group-data-[orientation=horizontal]/stepper-nav:h-0.5 group-data-[orientation=horizontal]/stepper-nav:flex-1 group-data-[orientation=vertical]/stepper-nav:h-12 group-data-[orientation=vertical]/stepper-nav:w-0.5",
         className
       )}
       {...props}
@@ -425,7 +424,7 @@ function StepperDescription({
     <div
       data-slot="stepper-description"
       data-state={state}
-      className={cn("text-muted-foreground text-sm", className)}
+      className={cn("text-sm text-muted-foreground", className)}
       {...props}
     >
       {children}

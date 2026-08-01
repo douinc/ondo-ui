@@ -59,14 +59,14 @@ export default function StepperTitleStatus() {
             className="relative flex-1 items-start"
           >
             <StepperTrigger className="flex grow flex-col items-start justify-center gap-2.5">
-              <StepperIndicator className="data-[state=inactive]:border-border data-[state=inactive]:text-muted-foreground data-[state=completed]:bg-success size-8 border-2 data-[state=completed]:text-white data-[state=inactive]:bg-transparent">
+              <StepperIndicator className="size-8 border-2 data-[state=completed]:bg-success data-[state=completed]:text-white data-[state=inactive]:border-border data-[state=inactive]:bg-transparent data-[state=inactive]:text-muted-foreground">
                 {step.icon}
               </StepperIndicator>
               <div className="flex flex-col items-start gap-1">
-                <div className="text-muted-foreground text-[10px] font-semibold uppercase">
+                <div className="text-[10px] font-semibold text-muted-foreground uppercase">
                   Step {index + 1}
                 </div>
-                <StepperTitle className="group-data-[state=inactive]/step:text-muted-foreground text-start text-base font-semibold">
+                <StepperTitle className="text-start text-base font-semibold group-data-[state=inactive]/step:text-muted-foreground">
                   {step.title}
                 </StepperTitle>
                 <div>
@@ -84,7 +84,7 @@ export default function StepperTitleStatus() {
                   </Badge>
                   <Badge
                     variant="secondary"
-                    className="text-muted-foreground hidden group-data-[state=inactive]/step:inline-flex"
+                    className="hidden text-muted-foreground group-data-[state=inactive]/step:inline-flex"
                   >
                     Pending
                   </Badge>
@@ -93,7 +93,7 @@ export default function StepperTitleStatus() {
             </StepperTrigger>
 
             {steps.length > index + 1 && (
-              <StepperSeparator className="group-data-[state=completed]/step:bg-success absolute inset-x-0 start-9 top-4 m-0 group-data-[orientation=horizontal]/stepper-nav:w-[calc(100%-2rem)] group-data-[orientation=horizontal]/stepper-nav:flex-none" />
+              <StepperSeparator className="absolute inset-x-0 start-9 top-4 m-0 group-data-[orientation=horizontal]/stepper-nav:w-[calc(100%-2rem)] group-data-[orientation=horizontal]/stepper-nav:flex-none group-data-[state=completed]/step:bg-success" />
             )}
           </StepperItem>
         ))}

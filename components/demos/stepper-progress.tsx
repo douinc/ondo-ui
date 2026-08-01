@@ -28,10 +28,10 @@ export default function StepperProgress() {
             <StepperItem
               key={step}
               step={step}
-              className="first:rounded-s-full last:rounded-e-full flex-1 overflow-hidden transition-all duration-300"
+              className="flex-1 overflow-hidden transition-all duration-300 first:rounded-s-full last:rounded-e-full"
             >
               <StepperTrigger className="w-full flex-col items-start gap-2">
-                <StepperIndicator className="bg-border h-2 w-full rounded-none!">
+                <StepperIndicator className="h-2 w-full rounded-none! bg-border">
                   <span className="sr-only">{step}</span>
                 </StepperIndicator>
               </StepperTrigger>
