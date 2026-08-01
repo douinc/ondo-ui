@@ -476,6 +476,14 @@ export const componentsList = [
     },
   },
   {
+    name: "stepper",
+    title: "Stepper",
+    description: {
+      en: "A step-by-step process for users to navigate through a series of steps.",
+      ko: "사용자가 여러 단계를 차례로 탐색할 수 있는 단계별 진행 과정입니다.",
+    },
+  },
+  {
     name: "switch",
     title: "Switch",
     description: {
