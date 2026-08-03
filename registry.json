@@ -1168,6 +1168,23 @@
       ]
     },
     {
+      "name": "stepper",
+      "type": "registry:ui",
+      "description": "A step-by-step process for users to navigate through a series of steps.",
+      "dependencies": [
+        "@base-ui/react"
+      ],
+      "registryDependencies": [
+        "utils"
+      ],
+      "files": [
+        {
+          "path": "components/ui/stepper.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "switch",
       "type": "registry:ui",
       "description": "A control that allows the user to toggle between checked and not checked.",

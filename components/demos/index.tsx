@@ -381,6 +381,20 @@ import { SpinnerDemo } from "@/components/demos/spinner-demo"
 import { SpinnerEmpty } from "@/components/demos/spinner-empty"
 import { SpinnerInputGroup } from "@/components/demos/spinner-input-group"
 import { SpinnerSize } from "@/components/demos/spinner-size"
+import StepperControlled from "@/components/demos/stepper-controlled"
+import StepperDemo from "@/components/demos/stepper-demo"
+import StepperIndicators from "@/components/demos/stepper-indicators"
+import StepperInlineTitle from "@/components/demos/stepper-inline-title"
+import StepperInlineTitleDescription from "@/components/demos/stepper-inline-title-description"
+import StepperProgress from "@/components/demos/stepper-progress"
+import StepperStates from "@/components/demos/stepper-states"
+import StepperTitleDemo from "@/components/demos/stepper-title"
+import StepperTitleBar from "@/components/demos/stepper-title-bar"
+import StepperTitleDescription from "@/components/demos/stepper-title-description"
+import StepperTitleStatus from "@/components/demos/stepper-title-status"
+import StepperVertical from "@/components/demos/stepper-vertical"
+import StepperVerticalTitle from "@/components/demos/stepper-vertical-title"
+import StepperVerticalTitleDescription from "@/components/demos/stepper-vertical-title-description"
 import { SwitchChoiceCard } from "@/components/demos/switch-choice-card"
 import { SwitchDemo } from "@/components/demos/switch-demo"
 import { SwitchDescription } from "@/components/demos/switch-description"
@@ -815,6 +829,20 @@ export const demos: Record<string, ComponentType> = {
   "spinner-empty": SpinnerEmpty,
   "spinner-input-group": SpinnerInputGroup,
   "spinner-size": SpinnerSize,
+  "stepper-controlled": StepperControlled,
+  "stepper-demo": StepperDemo,
+  "stepper-indicators": StepperIndicators,
+  "stepper-inline-title": StepperInlineTitle,
+  "stepper-inline-title-description": StepperInlineTitleDescription,
+  "stepper-progress": StepperProgress,
+  "stepper-states": StepperStates,
+  "stepper-title": StepperTitleDemo,
+  "stepper-title-bar": StepperTitleBar,
+  "stepper-title-description": StepperTitleDescription,
+  "stepper-title-status": StepperTitleStatus,
+  "stepper-vertical": StepperVertical,
+  "stepper-vertical-title": StepperVerticalTitle,
+  "stepper-vertical-title-description": StepperVerticalTitleDescription,
   "switch-choice-card": SwitchChoiceCard,
   "switch-demo": SwitchDemo,
   "switch-description": SwitchDescription,

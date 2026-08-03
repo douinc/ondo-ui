@@ -1,0 +1,637 @@
+---
+title: Stepper
+description: A step-by-step process for users to navigate through a series of steps.
+---
+
+<ComponentPreview name="stepper-demo">
+
+```tsx
+import {
+  Stepper,
+  StepperIndicator,
+  StepperItem,
+  StepperNav,
+  StepperSeparator,
+  StepperTrigger,
+} from "@/components/ui/stepper"
+
+export default function StepperDemo() {
+  return (
+    <Stepper defaultValue={2}>
+      <StepperNav>
+        {[1, 2, 3, 4].map((step) => (
+          <StepperItem key={step} step={step}>
+            <StepperTrigger>
+              <StepperIndicator>{step}</StepperIndicator>
+            </StepperTrigger>
+            {step < 4 && <StepperSeparator />}
+          </StepperItem>
+        ))}
+      </StepperNav>
+    </Stepper>
+  )
+}
+```
+
+</ComponentPreview>
+
+## Installation
+
+```bash
+bunx shadcn@latest add @ondo-ui/stepper
+```
+
+## Usage
+
+```tsx
+import {
+  Stepper,
+  StepperContent,
+  StepperIndicator,
+  StepperItem,
+  StepperNav,
+  StepperPanel,
+  StepperSeparator,
+  StepperTrigger,
+} from "@/components/ui/stepper"
+```
+
+```tsx
+<Stepper defaultValue={1}>
+  <StepperNav>
+    <StepperItem step={1}>
+      <StepperTrigger>
+        <StepperIndicator>1</StepperIndicator>
+      </StepperTrigger>
+      <StepperSeparator />
+    </StepperItem>
+    <StepperItem step={2}>
+      <StepperTrigger>
+        <StepperIndicator>2</StepperIndicator>
+      </StepperTrigger>
+    </StepperItem>
+  </StepperNav>
+  <StepperPanel>
+    <StepperContent value={1}>Content 1</StepperContent>
+    <StepperContent value={2}>Content 2</StepperContent>
+  </StepperPanel>
+</Stepper>
+```
+
+## Examples
+
+### States
+
+<ComponentPreview name="stepper-states">
+
+```tsx
+import {
+  Stepper,
+  StepperIndicator,
+  StepperItem,
+  StepperNav,
+  StepperTrigger,
+} from "@/components/ui/stepper"
+
+export default function StepperStates() {
+  return (
+    <Stepper defaultValue={2} variant="success" activeVariant="default">
+      <StepperNav>
+        {[1, 2, 3].map((step) => (
+          <StepperItem key={step} step={step}>
+            <StepperTrigger>
+              <StepperIndicator>{step}</StepperIndicator>
+            </StepperTrigger>
+          </StepperItem>
+        ))}
+      </StepperNav>
+    </Stepper>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Indicators
+
+<ComponentPreview name="stepper-indicators">
+
+```tsx
+import { IconCheck, IconLoader2 } from "@tabler/icons-react"
+import {
+  Stepper,
+  StepperIndicator,
+  StepperItem,
+  StepperNav,
+  StepperTrigger,
+} from "@/components/ui/stepper"
+
+export default function StepperIndicators() {
+  return (
+    <Stepper
+      defaultValue={2}
+      variant="success"
+      activeVariant="default"
+      indicators={{
+        completed: <IconCheck />,
+        loading: <IconLoader2 className="animate-spin" />,
+      }}
+    >
+      <StepperNav>
+        <StepperItem step={1}>
+          <StepperTrigger>
+            <StepperIndicator>1</StepperIndicator>
+          </StepperTrigger>
+        </StepperItem>
+        <StepperItem step={2} loading>
+          <StepperTrigger>
+            <StepperIndicator>2</StepperIndicator>
+          </StepperTrigger>
+        </StepperItem>
+      </StepperNav>
+    </Stepper>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Controlled
+
+<ComponentPreview name="stepper-controlled">
+
+```tsx
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Stepper } from "@/components/ui/stepper"
+
+export default function StepperControlled() {
+  const [step, setStep] = useState(2)
+
+  return (
+    <Stepper
+      value={step}
+      onValueChange={setStep}
+      variant="success"
+      activeVariant="default"
+    >
+      <Button onClick={() => setStep(step - 1)} disabled={step === 1}>
+        Previous
+      </Button>
+      <Button onClick={() => setStep(step + 1)} disabled={step === 4}>
+        Next
+      </Button>
+    </Stepper>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Progress
+
+<ComponentPreview name="stepper-progress">
+
+```tsx
+import {
+  Stepper,
+  StepperIndicator,
+  StepperItem,
+  StepperNav,
+  StepperTrigger,
+} from "@/components/ui/stepper"
+
+export default function StepperProgress() {
+  return (
+    <Stepper defaultValue={2}>
+      <StepperNav>
+        {[1, 2, 3, 4].map((step) => (
+          <StepperItem key={step} step={step} className="flex-1">
+            <StepperTrigger className="w-full">
+              <StepperIndicator className="h-2 w-full rounded-none" />
+            </StepperTrigger>
+          </StepperItem>
+        ))}
+      </StepperNav>
+    </Stepper>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Title
+
+<ComponentPreview name="stepper-title">
+
+```tsx
+import {
+  Stepper,
+  StepperIndicator,
+  StepperItem,
+  StepperNav,
+  StepperTitle,
+  StepperTrigger,
+} from "@/components/ui/stepper"
+
+export default function StepperTitleDemo() {
+  return (
+    <Stepper defaultValue={2}>
+      <StepperNav>
+        {["Account", "Profile", "Review"].map((title, index) => (
+          <StepperItem key={title} step={index + 1}>
+            <StepperTrigger className="flex-col">
+              <StepperIndicator>{index + 1}</StepperIndicator>
+              <StepperTitle>{title}</StepperTitle>
+            </StepperTrigger>
+          </StepperItem>
+        ))}
+      </StepperNav>
+    </Stepper>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Title & Bar
+
+<ComponentPreview name="stepper-title-bar">
+
+```tsx
+import {
+  Stepper,
+  StepperIndicator,
+  StepperItem,
+  StepperNav,
+  StepperTitle,
+  StepperTrigger,
+} from "@/components/ui/stepper"
+
+export default function StepperTitleBar() {
+  return (
+    <Stepper defaultValue={2}>
+      <StepperNav>
+        {["Details", "Payment", "Review"].map((title, index) => (
+          <StepperItem key={title} step={index + 1}>
+            <StepperTrigger className="w-full flex-col items-start">
+              <StepperIndicator className="h-1 w-full" />
+              <StepperTitle>{title}</StepperTitle>
+            </StepperTrigger>
+          </StepperItem>
+        ))}
+      </StepperNav>
+    </Stepper>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Title & Status
+
+<ComponentPreview name="stepper-title-status">
+
+```tsx
+import { Badge } from "@/components/ui/badge"
+import {
+  Stepper,
+  StepperIndicator,
+  StepperItem,
+  StepperNav,
+  StepperTitle,
+  StepperTrigger,
+} from "@/components/ui/stepper"
+
+export default function StepperTitleStatus() {
+  return (
+    <Stepper defaultValue={2}>
+      <StepperNav>
+        <StepperItem step={2}>
+          <StepperTrigger className="flex-col items-start">
+            <StepperIndicator>2</StepperIndicator>
+            <StepperTitle>Payment Info</StepperTitle>
+            <Badge>In Progress</Badge>
+          </StepperTrigger>
+        </StepperItem>
+      </StepperNav>
+    </Stepper>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Title & Description
+
+<ComponentPreview name="stepper-title-description">
+
+```tsx
+import {
+  Stepper,
+  StepperDescription,
+  StepperIndicator,
+  StepperItem,
+  StepperNav,
+  StepperTitle,
+  StepperTrigger,
+} from "@/components/ui/stepper"
+
+export default function StepperTitleDescription() {
+  return (
+    <Stepper defaultValue={2}>
+      <StepperNav>
+        <StepperItem step={2}>
+          <StepperTrigger className="flex-col">
+            <StepperIndicator>2</StepperIndicator>
+            <StepperTitle>Profile</StepperTitle>
+            <StepperDescription>Set up your profile</StepperDescription>
+          </StepperTrigger>
+        </StepperItem>
+      </StepperNav>
+    </Stepper>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Inline Title
+
+<ComponentPreview name="stepper-inline-title">
+
+```tsx
+import {
+  Stepper,
+  StepperIndicator,
+  StepperItem,
+  StepperNav,
+  StepperTitle,
+  StepperTrigger,
+} from "@/components/ui/stepper"
+
+export default function StepperInlineTitle() {
+  return (
+    <Stepper defaultValue={2}>
+      <StepperNav>
+        <StepperItem step={2}>
+          <StepperTrigger>
+            <StepperIndicator>2</StepperIndicator>
+            <StepperTitle>Profile</StepperTitle>
+          </StepperTrigger>
+        </StepperItem>
+      </StepperNav>
+    </Stepper>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Inline Title & Description
+
+<ComponentPreview name="stepper-inline-title-description">
+
+```tsx
+import {
+  Stepper,
+  StepperDescription,
+  StepperIndicator,
+  StepperItem,
+  StepperNav,
+  StepperTitle,
+  StepperTrigger,
+} from "@/components/ui/stepper"
+
+export default function StepperInlineTitleDescription() {
+  return (
+    <Stepper defaultValue={2}>
+      <StepperNav>
+        <StepperItem step={2}>
+          <StepperTrigger>
+            <StepperIndicator>2</StepperIndicator>
+            <div>
+              <StepperTitle>Profile</StepperTitle>
+              <StepperDescription>Set up your profile</StepperDescription>
+            </div>
+          </StepperTrigger>
+        </StepperItem>
+      </StepperNav>
+    </Stepper>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Vertical
+
+<ComponentPreview name="stepper-vertical">
+
+```tsx
+import {
+  Stepper,
+  StepperIndicator,
+  StepperItem,
+  StepperNav,
+  StepperSeparator,
+  StepperTrigger,
+} from "@/components/ui/stepper"
+
+export default function StepperVertical() {
+  return (
+    <Stepper defaultValue={2} orientation="vertical">
+      <StepperNav>
+        {[1, 2, 3].map((step) => (
+          <StepperItem key={step} step={step}>
+            <StepperTrigger>
+              <StepperIndicator>{step}</StepperIndicator>
+            </StepperTrigger>
+            {step < 3 && <StepperSeparator />}
+          </StepperItem>
+        ))}
+      </StepperNav>
+    </Stepper>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Vertical Title
+
+<ComponentPreview name="stepper-vertical-title">
+
+```tsx
+import {
+  Stepper,
+  StepperIndicator,
+  StepperItem,
+  StepperNav,
+  StepperTitle,
+  StepperTrigger,
+} from "@/components/ui/stepper"
+
+export default function StepperVerticalTitle() {
+  return (
+    <Stepper defaultValue={2} orientation="vertical">
+      <StepperNav>
+        <StepperItem step={2}>
+          <StepperTrigger>
+            <StepperIndicator>2</StepperIndicator>
+            <StepperTitle>Profile</StepperTitle>
+          </StepperTrigger>
+        </StepperItem>
+      </StepperNav>
+    </Stepper>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Vertical Title & Description
+
+<ComponentPreview name="stepper-vertical-title-description">
+
+```tsx
+import {
+  Stepper,
+  StepperDescription,
+  StepperIndicator,
+  StepperItem,
+  StepperNav,
+  StepperTitle,
+  StepperTrigger,
+} from "@/components/ui/stepper"
+
+export default function StepperVerticalTitleDescription() {
+  return (
+    <Stepper defaultValue={2} orientation="vertical">
+      <StepperNav>
+        <StepperItem step={2}>
+          <StepperTrigger>
+            <StepperIndicator>2</StepperIndicator>
+            <div>
+              <StepperTitle>Profile</StepperTitle>
+              <StepperDescription>Set up your profile</StepperDescription>
+            </div>
+          </StepperTrigger>
+        </StepperItem>
+      </StepperNav>
+    </Stepper>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API Reference
+
+### Stepper
+
+The root component that manages the active step and configuration.
+
+| Prop            | Type                                                             | Default        | Description                                                                               |
+| :-------------- | :--------------------------------------------------------------- | :------------- | :---------------------------------------------------------------------------------------- |
+| `defaultValue`  | `number`                                                         | `1`            | The step index to start with (uncontrolled).                                              |
+| `value`         | `number`                                                         | -              | The current active step index (controlled).                                               |
+| `onValueChange` | `(value: number) => void`                                        | -              | Callback fired when the active step changes.                                              |
+| `orientation`   | `"horizontal" \| "vertical"`                                     | `"horizontal"` | The layout direction of the stepper.                                                      |
+| `variant`       | `"default" \| "info" \| "success" \| "warning" \| "destructive"` | `"default"`    | The color variant shared by active and completed steps. `default` uses the primary color. |
+| `activeVariant` | `"default" \| "info" \| "success" \| "warning" \| "destructive"` | `variant`      | Optional color override for the active step only.                                         |
+| `indicators`    | `StepIndicators`                                                 | -              | Custom icons or elements for different step states.                                       |
+
+---
+
+### StepperNav
+
+A container for the stepper items, usually displayed as a progress bar or navigation trail.
+
+---
+
+### StepperItem
+
+Represents a single step in the process.
+
+| Prop        | Type      | Default | Description                                  |
+| :---------- | :-------- | :------ | :------------------------------------------- |
+| `step`      | `number`  | -       | **Required**. The unique index of this step. |
+| `completed` | `boolean` | `false` | Manually mark the step as completed.         |
+| `disabled`  | `boolean` | `false` | Disable interactions for this step.          |
+| `loading`   | `boolean` | `false` | Show the loading indicator for this step.    |
+
+---
+
+### StepperTrigger
+
+The interactive element used to navigate between steps.
+
+| Prop     | Type           | Default | Description                                                        |
+| :------- | :------------- | :------ | :----------------------------------------------------------------- |
+| `render` | `ReactElement` | -       | Replace the rendered element, merging the trigger's props onto it. |
+
+---
+
+### StepperIndicator
+
+Displays the status of the step, such as a number, checkmark, or custom icon.
+
+The indicator color is controlled by the parent `Stepper`'s `variant` and
+optional `activeVariant` props.
+
+---
+
+### StepperSeparator
+
+A visual line between steps.
+
+---
+
+### StepperTitle
+
+The label for the step.
+
+---
+
+### StepperDescription
+
+Additional supporting text for the step.
+
+---
+
+### StepperPanel
+
+A container for step content panels.
+
+---
+
+### StepperContent
+
+The actual content associated with a specific step.
+
+| Prop         | Type      | Default | Description                                             |
+| :----------- | :-------- | :------ | :------------------------------------------------------ |
+| `value`      | `number`  | -       | **Required**. The step index this content belongs to.   |
+| `forceMount` | `boolean` | `false` | Whether to keep the content in the DOM when not active. |
+
+---
+
+### Types
+
+#### StepIndicators
+
+```tsx
+type StepIndicators = {
+  active?: React.ReactNode
+  completed?: React.ReactNode
+  inactive?: React.ReactNode
+  loading?: React.ReactNode
+}
+```
+
+#### StepperVariant
+
+```tsx
+type StepperVariant = "default" | "info" | "success" | "warning" | "destructive"
+```

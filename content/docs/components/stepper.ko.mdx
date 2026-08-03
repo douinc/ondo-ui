@@ -1,0 +1,637 @@
+---
+title: Stepper (스테퍼)
+description: 사용자가 여러 단계를 차례로 탐색할 수 있는 단계별 진행 과정입니다.
+---
+
+<ComponentPreview name="stepper-demo">
+
+```tsx
+import {
+  Stepper,
+  StepperIndicator,
+  StepperItem,
+  StepperNav,
+  StepperSeparator,
+  StepperTrigger,
+} from "@/components/ui/stepper"
+
+export default function StepperDemo() {
+  return (
+    <Stepper defaultValue={2}>
+      <StepperNav>
+        {[1, 2, 3, 4].map((step) => (
+          <StepperItem key={step} step={step}>
+            <StepperTrigger>
+              <StepperIndicator>{step}</StepperIndicator>
+            </StepperTrigger>
+            {step < 4 && <StepperSeparator />}
+          </StepperItem>
+        ))}
+      </StepperNav>
+    </Stepper>
+  )
+}
+```
+
+</ComponentPreview>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/stepper
+```
+
+## 사용법
+
+```tsx
+import {
+  Stepper,
+  StepperContent,
+  StepperIndicator,
+  StepperItem,
+  StepperNav,
+  StepperPanel,
+  StepperSeparator,
+  StepperTrigger,
+} from "@/components/ui/stepper"
+```
+
+```tsx
+<Stepper defaultValue={1}>
+  <StepperNav>
+    <StepperItem step={1}>
+      <StepperTrigger>
+        <StepperIndicator>1</StepperIndicator>
+      </StepperTrigger>
+      <StepperSeparator />
+    </StepperItem>
+    <StepperItem step={2}>
+      <StepperTrigger>
+        <StepperIndicator>2</StepperIndicator>
+      </StepperTrigger>
+    </StepperItem>
+  </StepperNav>
+  <StepperPanel>
+    <StepperContent value={1}>첫 번째 콘텐츠</StepperContent>
+    <StepperContent value={2}>두 번째 콘텐츠</StepperContent>
+  </StepperPanel>
+</Stepper>
+```
+
+## 예시
+
+### 상태
+
+<ComponentPreview name="stepper-states">
+
+```tsx
+import {
+  Stepper,
+  StepperIndicator,
+  StepperItem,
+  StepperNav,
+  StepperTrigger,
+} from "@/components/ui/stepper"
+
+export default function StepperStates() {
+  return (
+    <Stepper defaultValue={2} variant="success" activeVariant="default">
+      <StepperNav>
+        {[1, 2, 3].map((step) => (
+          <StepperItem key={step} step={step}>
+            <StepperTrigger>
+              <StepperIndicator>{step}</StepperIndicator>
+            </StepperTrigger>
+          </StepperItem>
+        ))}
+      </StepperNav>
+    </Stepper>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 인디케이터
+
+<ComponentPreview name="stepper-indicators">
+
+```tsx
+import { IconCheck, IconLoader2 } from "@tabler/icons-react"
+import {
+  Stepper,
+  StepperIndicator,
+  StepperItem,
+  StepperNav,
+  StepperTrigger,
+} from "@/components/ui/stepper"
+
+export default function StepperIndicators() {
+  return (
+    <Stepper
+      defaultValue={2}
+      variant="success"
+      activeVariant="default"
+      indicators={{
+        completed: <IconCheck />,
+        loading: <IconLoader2 className="animate-spin" />,
+      }}
+    >
+      <StepperNav>
+        <StepperItem step={1}>
+          <StepperTrigger>
+            <StepperIndicator>1</StepperIndicator>
+          </StepperTrigger>
+        </StepperItem>
+        <StepperItem step={2} loading>
+          <StepperTrigger>
+            <StepperIndicator>2</StepperIndicator>
+          </StepperTrigger>
+        </StepperItem>
+      </StepperNav>
+    </Stepper>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 제어
+
+<ComponentPreview name="stepper-controlled">
+
+```tsx
+import { useState } from "react"
+import { Button } from "@/components/ui/button"
+import { Stepper } from "@/components/ui/stepper"
+
+export default function StepperControlled() {
+  const [step, setStep] = useState(2)
+
+  return (
+    <Stepper
+      value={step}
+      onValueChange={setStep}
+      variant="success"
+      activeVariant="default"
+    >
+      <Button onClick={() => setStep(step - 1)} disabled={step === 1}>
+        이전
+      </Button>
+      <Button onClick={() => setStep(step + 1)} disabled={step === 4}>
+        다음
+      </Button>
+    </Stepper>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 진행률
+
+<ComponentPreview name="stepper-progress">
+
+```tsx
+import {
+  Stepper,
+  StepperIndicator,
+  StepperItem,
+  StepperNav,
+  StepperTrigger,
+} from "@/components/ui/stepper"
+
+export default function StepperProgress() {
+  return (
+    <Stepper defaultValue={2}>
+      <StepperNav>
+        {[1, 2, 3, 4].map((step) => (
+          <StepperItem key={step} step={step} className="flex-1">
+            <StepperTrigger className="w-full">
+              <StepperIndicator className="h-2 w-full rounded-none" />
+            </StepperTrigger>
+          </StepperItem>
+        ))}
+      </StepperNav>
+    </Stepper>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 제목
+
+<ComponentPreview name="stepper-title">
+
+```tsx
+import {
+  Stepper,
+  StepperIndicator,
+  StepperItem,
+  StepperNav,
+  StepperTitle,
+  StepperTrigger,
+} from "@/components/ui/stepper"
+
+export default function StepperTitleDemo() {
+  return (
+    <Stepper defaultValue={2}>
+      <StepperNav>
+        {["계정", "프로필", "검토"].map((title, index) => (
+          <StepperItem key={title} step={index + 1}>
+            <StepperTrigger className="flex-col">
+              <StepperIndicator>{index + 1}</StepperIndicator>
+              <StepperTitle>{title}</StepperTitle>
+            </StepperTrigger>
+          </StepperItem>
+        ))}
+      </StepperNav>
+    </Stepper>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 제목과 바
+
+<ComponentPreview name="stepper-title-bar">
+
+```tsx
+import {
+  Stepper,
+  StepperIndicator,
+  StepperItem,
+  StepperNav,
+  StepperTitle,
+  StepperTrigger,
+} from "@/components/ui/stepper"
+
+export default function StepperTitleBar() {
+  return (
+    <Stepper defaultValue={2}>
+      <StepperNav>
+        {["상세 정보", "결제", "검토"].map((title, index) => (
+          <StepperItem key={title} step={index + 1}>
+            <StepperTrigger className="w-full flex-col items-start">
+              <StepperIndicator className="h-1 w-full" />
+              <StepperTitle>{title}</StepperTitle>
+            </StepperTrigger>
+          </StepperItem>
+        ))}
+      </StepperNav>
+    </Stepper>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 제목과 상태
+
+<ComponentPreview name="stepper-title-status">
+
+```tsx
+import { Badge } from "@/components/ui/badge"
+import {
+  Stepper,
+  StepperIndicator,
+  StepperItem,
+  StepperNav,
+  StepperTitle,
+  StepperTrigger,
+} from "@/components/ui/stepper"
+
+export default function StepperTitleStatus() {
+  return (
+    <Stepper defaultValue={2}>
+      <StepperNav>
+        <StepperItem step={2}>
+          <StepperTrigger className="flex-col items-start">
+            <StepperIndicator>2</StepperIndicator>
+            <StepperTitle>결제 정보</StepperTitle>
+            <Badge>진행 중</Badge>
+          </StepperTrigger>
+        </StepperItem>
+      </StepperNav>
+    </Stepper>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 제목과 설명
+
+<ComponentPreview name="stepper-title-description">
+
+```tsx
+import {
+  Stepper,
+  StepperDescription,
+  StepperIndicator,
+  StepperItem,
+  StepperNav,
+  StepperTitle,
+  StepperTrigger,
+} from "@/components/ui/stepper"
+
+export default function StepperTitleDescription() {
+  return (
+    <Stepper defaultValue={2}>
+      <StepperNav>
+        <StepperItem step={2}>
+          <StepperTrigger className="flex-col">
+            <StepperIndicator>2</StepperIndicator>
+            <StepperTitle>프로필</StepperTitle>
+            <StepperDescription>프로필을 설정하세요</StepperDescription>
+          </StepperTrigger>
+        </StepperItem>
+      </StepperNav>
+    </Stepper>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 인라인 제목
+
+<ComponentPreview name="stepper-inline-title">
+
+```tsx
+import {
+  Stepper,
+  StepperIndicator,
+  StepperItem,
+  StepperNav,
+  StepperTitle,
+  StepperTrigger,
+} from "@/components/ui/stepper"
+
+export default function StepperInlineTitle() {
+  return (
+    <Stepper defaultValue={2}>
+      <StepperNav>
+        <StepperItem step={2}>
+          <StepperTrigger>
+            <StepperIndicator>2</StepperIndicator>
+            <StepperTitle>프로필</StepperTitle>
+          </StepperTrigger>
+        </StepperItem>
+      </StepperNav>
+    </Stepper>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 인라인 제목과 설명
+
+<ComponentPreview name="stepper-inline-title-description">
+
+```tsx
+import {
+  Stepper,
+  StepperDescription,
+  StepperIndicator,
+  StepperItem,
+  StepperNav,
+  StepperTitle,
+  StepperTrigger,
+} from "@/components/ui/stepper"
+
+export default function StepperInlineTitleDescription() {
+  return (
+    <Stepper defaultValue={2}>
+      <StepperNav>
+        <StepperItem step={2}>
+          <StepperTrigger>
+            <StepperIndicator>2</StepperIndicator>
+            <div>
+              <StepperTitle>프로필</StepperTitle>
+              <StepperDescription>프로필을 설정하세요</StepperDescription>
+            </div>
+          </StepperTrigger>
+        </StepperItem>
+      </StepperNav>
+    </Stepper>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 세로
+
+<ComponentPreview name="stepper-vertical">
+
+```tsx
+import {
+  Stepper,
+  StepperIndicator,
+  StepperItem,
+  StepperNav,
+  StepperSeparator,
+  StepperTrigger,
+} from "@/components/ui/stepper"
+
+export default function StepperVertical() {
+  return (
+    <Stepper defaultValue={2} orientation="vertical">
+      <StepperNav>
+        {[1, 2, 3].map((step) => (
+          <StepperItem key={step} step={step}>
+            <StepperTrigger>
+              <StepperIndicator>{step}</StepperIndicator>
+            </StepperTrigger>
+            {step < 3 && <StepperSeparator />}
+          </StepperItem>
+        ))}
+      </StepperNav>
+    </Stepper>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 세로 제목
+
+<ComponentPreview name="stepper-vertical-title">
+
+```tsx
+import {
+  Stepper,
+  StepperIndicator,
+  StepperItem,
+  StepperNav,
+  StepperTitle,
+  StepperTrigger,
+} from "@/components/ui/stepper"
+
+export default function StepperVerticalTitle() {
+  return (
+    <Stepper defaultValue={2} orientation="vertical">
+      <StepperNav>
+        <StepperItem step={2}>
+          <StepperTrigger>
+            <StepperIndicator>2</StepperIndicator>
+            <StepperTitle>프로필</StepperTitle>
+          </StepperTrigger>
+        </StepperItem>
+      </StepperNav>
+    </Stepper>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 세로 제목과 설명
+
+<ComponentPreview name="stepper-vertical-title-description">
+
+```tsx
+import {
+  Stepper,
+  StepperDescription,
+  StepperIndicator,
+  StepperItem,
+  StepperNav,
+  StepperTitle,
+  StepperTrigger,
+} from "@/components/ui/stepper"
+
+export default function StepperVerticalTitleDescription() {
+  return (
+    <Stepper defaultValue={2} orientation="vertical">
+      <StepperNav>
+        <StepperItem step={2}>
+          <StepperTrigger>
+            <StepperIndicator>2</StepperIndicator>
+            <div>
+              <StepperTitle>프로필</StepperTitle>
+              <StepperDescription>프로필을 설정하세요</StepperDescription>
+            </div>
+          </StepperTrigger>
+        </StepperItem>
+      </StepperNav>
+    </Stepper>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API 참고
+
+### Stepper
+
+활성 단계와 설정을 관리하는 루트 컴포넌트입니다.
+
+| Prop            | 타입                                                             | 기본값         | 설명                                                                                  |
+| :-------------- | :--------------------------------------------------------------- | :------------- | :------------------------------------------------------------------------------------ |
+| `defaultValue`  | `number`                                                         | `1`            | 시작할 단계 인덱스(비제어 방식).                                                      |
+| `value`         | `number`                                                         | -              | 현재 활성 단계 인덱스(제어 방식).                                                     |
+| `onValueChange` | `(value: number) => void`                                        | -              | 활성 단계가 바뀔 때 호출되는 콜백입니다.                                              |
+| `orientation`   | `"horizontal" \| "vertical"`                                     | `"horizontal"` | 스테퍼의 배치 방향입니다.                                                             |
+| `variant`       | `"default" \| "info" \| "success" \| "warning" \| "destructive"` | `"default"`    | 활성 및 완료 단계에 공유할 색상 variant입니다. `default`는 primary 색상을 사용합니다. |
+| `activeVariant` | `"default" \| "info" \| "success" \| "warning" \| "destructive"` | `variant`      | 활성 단계에만 적용할 선택적 색상 override입니다.                                      |
+| `indicators`    | `StepIndicators`                                                 | -              | 단계 상태별 커스텀 아이콘 또는 요소입니다.                                            |
+
+---
+
+### StepperNav
+
+일반적으로 진행 막대나 탐색 경로로 표시되는 단계 항목 컨테이너입니다.
+
+---
+
+### StepperItem
+
+진행 과정의 한 단계를 나타냅니다.
+
+| Prop        | 타입      | 기본값  | 설명                                    |
+| :---------- | :-------- | :------ | :-------------------------------------- |
+| `step`      | `number`  | -       | **필수**. 이 단계의 고유 인덱스입니다.  |
+| `completed` | `boolean` | `false` | 단계를 수동으로 완료 처리합니다.        |
+| `disabled`  | `boolean` | `false` | 이 단계와의 상호작용을 비활성화합니다.  |
+| `loading`   | `boolean` | `false` | 이 단계의 로딩 인디케이터를 표시합니다. |
+
+---
+
+### StepperTrigger
+
+단계 사이를 탐색하는 데 사용하는 상호작용 요소입니다.
+
+| Prop     | 타입           | 기본값 | 설명                                                |
+| :------- | :------------- | :----- | :-------------------------------------------------- |
+| `render` | `ReactElement` | -      | 렌더링 요소를 교체하고 트리거의 props를 병합합니다. |
+
+---
+
+### StepperIndicator
+
+숫자, 체크 표시, 커스텀 아이콘과 같은 단계 상태를 표시합니다.
+
+Indicator 색상은 부모 `Stepper`의 `variant`와 선택적인 `activeVariant`로
+제어합니다.
+
+---
+
+### StepperSeparator
+
+단계 사이의 시각적 연결선입니다.
+
+---
+
+### StepperTitle
+
+단계의 레이블입니다.
+
+---
+
+### StepperDescription
+
+단계를 보충하는 설명 텍스트입니다.
+
+---
+
+### StepperPanel
+
+단계별 콘텐츠 패널을 담는 컨테이너입니다.
+
+---
+
+### StepperContent
+
+특정 단계와 연결된 실제 콘텐츠입니다.
+
+| Prop         | 타입      | 기본값  | 설명                                                |
+| :----------- | :-------- | :------ | :-------------------------------------------------- |
+| `value`      | `number`  | -       | **필수**. 이 콘텐츠가 속한 단계 인덱스입니다.       |
+| `forceMount` | `boolean` | `false` | 비활성 상태에서도 콘텐츠를 DOM에 유지할지 정합니다. |
+
+---
+
+### 타입
+
+#### StepIndicators
+
+```tsx
+type StepIndicators = {
+  active?: React.ReactNode
+  completed?: React.ReactNode
+  inactive?: React.ReactNode
+  loading?: React.ReactNode
+}
+```
+
+#### StepperVariant
+
+```tsx
+type StepperVariant = "default" | "info" | "success" | "warning" | "destructive"
+```
