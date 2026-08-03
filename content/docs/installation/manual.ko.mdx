@@ -3,23 +3,29 @@ title: 수동 설치
 description: 기존 프로젝트에 Ondo UI를 수동으로 추가합니다.
 ---
 
-## 새 프로젝트 만들기
+지원되는 템플릿을 사용하지 않는 프로젝트를 위한 경로입니다. 프로젝트에는 Tailwind CSS v4, `components.json`, shadcn `cn()` 유틸리티가 필요합니다.
 
-지원 템플릿을 사용하지 않는 프로젝트라면 framework의 일반적인 방식으로 프로젝트를 만든 뒤 shadcn을 초기화하세요:
+<div className="mt-6 grid gap-4 sm:grid-cols-2 sm:gap-6">
+  <LinkedCard href="#configure-with-cli" className="items-start gap-1 p-6 text-sm md:p-6"><div className="font-medium">CLI 사용</div><div className="leading-relaxed text-muted-foreground">기존 프로젝트에 shadcn과 Ondo UI를 설정합니다.</div></LinkedCard>
+  <LinkedCard href="#configure-manually" className="items-start gap-1 p-6 text-sm md:p-6"><div className="font-medium">수동 설정</div><div className="leading-relaxed text-muted-foreground">스타일, alias, registry를 직접 추가합니다.</div></LinkedCard>
+</div>
+
+<div id="configure-with-cli" className="scroll-mt-24" />
+## CLI 사용
+
+<Steps>
+
+### CLI 실행
+
+프로젝트 루트에서 실행합니다:
 
 ```bash
-bunx shadcn@latest init
+npx shadcn@latest init
 ```
 
-프로젝트에는 Tailwind CSS v4, `components.json`, shadcn `cn()` 유틸리티가 필요합니다.
+생성된 `components.json`의 CSS 파일과 컴포넌트 alias가 현재 프로젝트와 맞는지 확인하세요.
 
-## 기존 프로젝트
-
-아직 shadcn 설정이 없다면 프로젝트 루트에서 초기화 명령을 실행하세요.
-
-## 레지스트리 등록
-
-`components.json`의 `registries` 필드에 `@ondo-ui` 네임스페이스를 추가합니다:
+### Ondo registry 등록
 
 ```json title="components.json"
 {
@@ -29,25 +35,61 @@ bunx shadcn@latest init
 }
 ```
 
-## 테마 추가
-
-Ondo 테마를 설치하세요. Pretendard, Monaspace Neon 폰트와 기본 CSS 변수를 추가합니다:
+### 테마와 컴포넌트 추가
 
 ```bash
-bunx shadcn@latest add @ondo-ui/theme @ondo-ui/theme-provider
+npx shadcn@latest add @ondo-ui/theme @ondo-ui/theme-provider
+npx shadcn@latest add @ondo-ui/button
 ```
 
-React 다크 모드 전환을 사용하지 않는다면 `@ondo-ui/theme-provider`는 선택 사항입니다. 설치했다면 [테마 가이드](/docs/theming)에 따라 애플리케이션 루트에 `ThemeProvider`를 추가하세요.
+다크 모드 전환이 필요하다면 [테마 가이드](/docs/theming)에 따라 `ThemeProvider`를 추가하세요.
 
-## 컴포넌트 추가
+</Steps>
+
+<div id="configure-manually" className="scroll-mt-24" />
+## 수동 설정
+
+<Steps>
+
+### Tailwind CSS 추가
+
+[Tailwind CSS 설치 안내](https://tailwindcss.com/docs/installation)에 따라 framework에 맞게 설정합니다.
+
+### 의존성 추가
 
 ```bash
-bunx shadcn@latest add @ondo-ui/button
+npm install shadcn class-variance-authority clsx tailwind-merge tw-animate-css
 ```
 
-`utils` 같은 의존성은 자동으로 해결됩니다.
+### Import Alias 설정
 
-## 컴포넌트 사용
+```json title="tsconfig.json"
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": { "@/*": ["./src/*"] }
+  }
+}
+```
+
+### 스타일 설정
+
+```css title="src/styles/globals.css"
+@import "tailwindcss";
+```
+
+### `components.json` 생성
+
+`npx shadcn@latest init`을 한 번 실행해 파일을 생성한 뒤 CSS와 alias 경로가 프로젝트와 맞는지 확인합니다.
+
+### 테마와 컴포넌트 추가
+
+```bash
+npx shadcn@latest add @ondo-ui/theme @ondo-ui/theme-provider
+npx shadcn@latest add @ondo-ui/button
+```
+
+### 컴포넌트 사용
 
 ```tsx
 import { Button } from "@/components/ui/button"
@@ -56,3 +98,5 @@ export default function Example() {
   return <Button>클릭</Button>
 }
 ```
+
+</Steps>

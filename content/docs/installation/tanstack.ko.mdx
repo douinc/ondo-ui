@@ -1,23 +1,72 @@
 ---
 title: TanStack Start
-description: TanStack Start 프로젝트에 Ondo UI를 설치합니다.
+description: TanStack Start에 Ondo UI를 설치하고 설정합니다.
 ---
 
-## 새 프로젝트 만들기
+시작점에 맞는 설정 방법을 선택하세요.
 
-shadcn CLI로 TanStack Start 프로젝트를 만드세요:
+<div className="mt-6 grid gap-4 sm:grid-cols-3 sm:gap-6">
+  <LinkedCard href="#scaffold-with-create" className="items-start gap-1 p-6 text-sm md:p-6"><div className="font-medium">shadcn/create 사용</div><div className="leading-relaxed text-muted-foreground">프리셋을 만들고 TanStack 프로젝트 명령을 생성합니다.</div></LinkedCard>
+  <LinkedCard href="#scaffold-with-cli" className="items-start gap-1 p-6 text-sm md:p-6"><div className="font-medium">CLI 사용</div><div className="leading-relaxed text-muted-foreground">터미널에서 새 TanStack 프로젝트를 생성합니다.</div></LinkedCard>
+  <LinkedCard href="#existing-start-project" className="items-start gap-1 p-6 text-sm md:p-6"><div className="font-medium">기존 프로젝트</div><div className="leading-relaxed text-muted-foreground">기존 TanStack 프로젝트에 Ondo UI를 직접 설정합니다.</div></LinkedCard>
+</div>
+
+<div id="scaffold-with-create" className="scroll-mt-24" />
+## shadcn/create 사용
+
+<Steps>
+
+### 프리셋 만들기
+
+[shadcn/create](https://ui.shadcn.com/create?template=start)에서 프리셋을 만들고 설정 명령을 생성합니다.
+
+<Button asChild size="sm"><Link href="https://ui.shadcn.com/create?template=start" target="_blank" rel="noopener noreferrer" className="mt-6 no-underline!">shadcn/create 열기</Link></Button>
+
+### 프로젝트 만들기
 
 ```bash
-bunx shadcn@latest init -t start
+npx shadcn@latest init --preset [CODE] --template start
 ```
 
+</Steps>
+
+<div id="scaffold-with-cli" className="scroll-mt-24" />
+## CLI 사용
+
+<Steps>
+
+### 프로젝트 만들기
+
+```bash
+npx shadcn@latest init -t start
+```
+
+monorepo라면 `--monorepo` 옵션을 추가하세요.
+
+</Steps>
+
+<div id="existing-start-project" className="scroll-mt-24" />
 ## 기존 프로젝트
 
-이미 TanStack Start 프로젝트가 있다면 `components.json`이 없는 경우 먼저 `bunx shadcn@latest init`을 실행하세요.
+<Steps>
 
-## 레지스트리 등록
+### 프로젝트 만들기
 
-`components.json`의 `registries` 필드에 `@ondo-ui` 네임스페이스를 추가합니다:
+새 프로젝트라면 TanStack CLI에서 TanStack Start와 React, 권장 기본값을 선택하세요:
+
+```bash
+npx @tanstack/cli@latest create
+```
+
+CLI가 Tailwind CSS와 `@/*` import alias를 설정합니다. shadcn add-on은 선택하지 않고 다음 단계에서 설정하세요.
+
+### CLI 실행
+
+```bash
+npx shadcn@latest init
+```
+
+### Ondo registry 등록
 
 ```json title="components.json"
 {
@@ -27,30 +76,23 @@ bunx shadcn@latest init -t start
 }
 ```
 
-## 테마 추가
-
-Ondo 테마를 설치하세요. Pretendard, Monaspace Neon 폰트와 기본 CSS 변수를 추가합니다:
+### 테마와 컴포넌트 추가
 
 ```bash
-bunx shadcn@latest add @ondo-ui/theme @ondo-ui/theme-provider
+npx shadcn@latest add @ondo-ui/theme @ondo-ui/theme-provider
+npx shadcn@latest add @ondo-ui/button
 ```
 
-React 다크 모드 전환을 사용하지 않는다면 `@ondo-ui/theme-provider`는 선택 사항입니다. 설치했다면 [테마 가이드](/docs/theming)에 따라 애플리케이션 루트에 `ThemeProvider`를 추가하세요.
+[테마 가이드](/docs/theming)에 따라 필요한 경우 `ThemeProvider`를 추가하세요.
 
-## 컴포넌트 추가
-
-```bash
-bunx shadcn@latest add @ondo-ui/button
-```
-
-`utils` 같은 의존성은 자동으로 해결됩니다.
-
-## 컴포넌트 사용
+### 컴포넌트 사용
 
 ```tsx
 import { Button } from "@/components/ui/button"
 
-export default function Example() {
+export function Example() {
   return <Button>클릭</Button>
 }
 ```
+
+</Steps>

@@ -1,25 +1,69 @@
 ---
 title: Laravel
-description: Laravel 프로젝트에 Ondo UI를 설치합니다.
+description: Laravel에 Ondo UI를 설치하고 설정합니다.
 ---
 
-## 새 프로젝트 만들기
+shadcn CLI는 Laravel 앱을 직접 생성하지 않습니다. React starter kit을 선택해 Laravel 앱을 만든 뒤 Ondo UI를 설정하세요.
 
-먼저 Laravel 앱을 만든 다음 shadcn을 초기화하세요:
+<Steps>
+
+### 프로젝트 만들기
 
 ```bash
 laravel new my-app
 cd my-app
-bunx shadcn@latest init
 ```
+
+프롬프트에서 React starter kit을 선택하세요. 이미 React와 Inertia가 설정된 앱이라면 이 단계를 건너뜁니다.
+
+</Steps>
+
+<div className="mt-10 grid gap-4 sm:grid-cols-2 sm:gap-6">
+  <LinkedCard href="#configure-with-create" className="items-start gap-1 p-6 text-sm md:p-6"><div className="font-medium">shadcn/create 사용</div><div className="leading-relaxed text-muted-foreground">프리셋을 만들고 Laravel init 명령을 생성합니다.</div></LinkedCard>
+  <LinkedCard href="#configure-with-cli" className="items-start gap-1 p-6 text-sm md:p-6"><div className="font-medium">CLI 사용</div><div className="leading-relaxed text-muted-foreground">터미널에서 Laravel 앱에 Ondo UI를 설정합니다.</div></LinkedCard>
+</div>
+
+<div id="configure-with-create" className="scroll-mt-24" />
+## shadcn/create 사용
+
+<Steps>
+
+### 프리셋 만들기
+
+[shadcn/create](https://ui.shadcn.com/create?template=laravel)에서 프리셋을 만드세요.
+
+<Button asChild size="sm"><Link href="https://ui.shadcn.com/create?template=laravel" target="_blank" rel="noopener noreferrer" className="mt-6 no-underline!">shadcn/create 열기</Link></Button>
+
+### 명령 실행
+
+```bash
+npx shadcn@latest init --preset [CODE] --template laravel
+```
+
+Laravel 앱 루트에서 실행하고 `components.json`을 덮어쓸지 물으면 `Yes`를 선택하세요.
+
+</Steps>
+
+<div id="configure-with-cli" className="scroll-mt-24" />
+## CLI 사용
+
+<Steps>
+
+### CLI 실행
+
+```bash
+npx shadcn@latest init
+```
+
+`components.json`과 컴포넌트를 덮어쓸지 물으면 `Yes`를 선택하세요.
+
+</Steps>
 
 ## 기존 프로젝트
 
-이미 Laravel 프로젝트가 있다면 `components.json`이 없는 경우 애플리케이션 루트에서 `bunx shadcn@latest init`을 실행하세요.
+<Steps>
 
-## 레지스트리 등록
-
-`components.json`의 `registries` 필드에 `@ondo-ui` 네임스페이스를 추가합니다:
+### Ondo registry 등록
 
 ```json title="components.json"
 {
@@ -29,25 +73,16 @@ bunx shadcn@latest init
 }
 ```
 
-## 테마 추가
-
-Ondo 테마를 설치하세요. Pretendard, Monaspace Neon 폰트와 기본 CSS 변수를 추가합니다:
+### 테마와 컴포넌트 추가
 
 ```bash
-bunx shadcn@latest add @ondo-ui/theme @ondo-ui/theme-provider
+npx shadcn@latest add @ondo-ui/theme @ondo-ui/theme-provider
+npx shadcn@latest add @ondo-ui/button
 ```
 
-React 다크 모드 전환을 사용하지 않는다면 `@ondo-ui/theme-provider`는 선택 사항입니다. 설치했다면 [테마 가이드](/docs/theming)에 따라 애플리케이션 루트에 `ThemeProvider`를 추가하세요.
+[테마 가이드](/docs/theming)에 따라 `ThemeProvider`를 설정하세요.
 
-## 컴포넌트 추가
-
-```bash
-bunx shadcn@latest add @ondo-ui/button
-```
-
-`utils` 같은 의존성은 자동으로 해결됩니다. 컴포넌트는 shadcn 설정으로 생성된 프론트엔드 소스 디렉터리에 추가됩니다.
-
-## 컴포넌트 사용
+### 컴포넌트 사용
 
 ```tsx
 import { Button } from "@/components/ui/button"
@@ -56,3 +91,5 @@ export default function Example() {
   return <Button>클릭</Button>
 }
 ```
+
+</Steps>
