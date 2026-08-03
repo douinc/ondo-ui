@@ -8,11 +8,27 @@ if (!baseUrl) {
   )
 }
 
+const installationFrameworks = [
+  "next",
+  "vite",
+  "tanstack",
+  "laravel",
+  "react-router",
+  "astro",
+  "manual",
+] as const
+
+const installationPaths = installationFrameworks.flatMap((framework) => [
+  `/docs/installation/${framework}/`,
+  `/ko/docs/installation/${framework}/`,
+])
+
 const paths = [
   "/",
   "/ko/",
   "/docs/installation/",
   "/ko/docs/installation/",
+  ...installationPaths,
   "/docs.md",
   "/docs/components/button.md",
   "/llm/en",
@@ -27,6 +43,7 @@ const htmlPaths = new Set([
   "/ko/",
   "/docs/installation/",
   "/ko/docs/installation/",
+  ...installationPaths,
 ])
 const expectedMarkdownTitles = new Map([
   ["/docs.md", "Introduction"],
