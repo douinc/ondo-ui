@@ -1,13 +1,30 @@
 import { describe, expect, test } from "bun:test"
+import { mkdtempSync, symlinkSync, rmSync } from "node:fs"
+import { tmpdir } from "node:os"
+import { resolve } from "node:path"
 
 import {
   buildShadcnArgs,
   getFrameworkItems,
   getShadcnEnvironment,
+  isDirectInvocation,
   mergeOndoRegistry,
 } from "../bin/ondo-ui.mjs"
 
 describe("Ondo init CLI", () => {
+  test("runs when invoked through a package manager bin symlink", () => {
+    const directory = mkdtempSync(resolve(tmpdir(), "ondo-cli-test-"))
+    const entryPath = resolve(directory, "ondo-ui")
+    const modulePath = resolve("bin/ondo-ui.mjs")
+
+    try {
+      symlinkSync(modulePath, entryPath)
+      expect(isDirectInvocation(entryPath, modulePath)).toBe(true)
+    } finally {
+      rmSync(directory, { recursive: true, force: true })
+    }
+  })
+
   test("selects theme and provider for React frameworks", () => {
     expect(getFrameworkItems("next")).toEqual(["theme", "theme-provider"])
     expect(getFrameworkItems("vite")).toEqual(["theme", "theme-provider"])
