@@ -1,23 +1,91 @@
 ---
 title: TanStack Start
-description: Install Ondo UI in a TanStack Start project.
+description: Install and configure Ondo UI for TanStack Start.
 ---
 
-## Create a new project
+Choose the setup that matches your starting point.
 
-Use the shadcn CLI to scaffold a TanStack Start project:
+<div className="mt-6 grid gap-4 sm:grid-cols-3 sm:gap-6">
+  <LinkedCard href="#scaffold-with-create" className="items-start gap-1 p-6 text-sm md:p-6">
+    <div className="font-medium">Use shadcn/create</div>
+    <div className="leading-relaxed text-muted-foreground">Build your preset and generate a TanStack project command.</div>
+  </LinkedCard>
+  <LinkedCard href="#scaffold-with-cli" className="items-start gap-1 p-6 text-sm md:p-6">
+    <div className="font-medium">Use the CLI</div>
+    <div className="leading-relaxed text-muted-foreground">Scaffold a new TanStack project from the terminal.</div>
+  </LinkedCard>
+  <LinkedCard href="#existing-start-project" className="items-start gap-1 p-6 text-sm md:p-6">
+    <div className="font-medium">Existing Project</div>
+    <div className="leading-relaxed text-muted-foreground">Configure Ondo UI manually in an existing TanStack project.</div>
+  </LinkedCard>
+</div>
+
+<div id="scaffold-with-create" className="scroll-mt-24" />
+## Use shadcn/create
+
+<Steps>
+
+### Build Your Preset
+
+Open [shadcn/create](https://ui.shadcn.com/create?template=start) and build your preset visually.
+
+<Button asChild size="sm">
+  <Link href="https://ui.shadcn.com/create?template=start" target="_blank" rel="noopener noreferrer" className="mt-6 no-underline!">
+    Open shadcn/create
+  </Link>
+</Button>
+
+### Create Project
 
 ```bash
-bunx shadcn@latest init -t start
+npx shadcn@latest init --preset [CODE] --template start
 ```
 
+The generated command may include `--base`, `--monorepo`, or `--rtl`.
+
+</Steps>
+
+<div id="scaffold-with-cli" className="scroll-mt-24" />
+## Use the CLI
+
+<Steps>
+
+### Create Project
+
+```bash
+npx shadcn@latest init -t start
+```
+
+For a monorepo, use `npx shadcn@latest init -t start --monorepo`.
+
+### Add Components
+
+Register the Ondo namespace before adding components to the generated app.
+
+</Steps>
+
+<div id="existing-start-project" className="scroll-mt-24" />
 ## Existing Project
 
-If you already have a TanStack Start project, run `bunx shadcn@latest init` first if it does not have a `components.json` file.
+<Steps>
 
-## Register the registry
+### Create Project
 
-Add the `@ondo-ui` namespace to the `registries` field of your `components.json`:
+If you need a new project, run the TanStack CLI and choose TanStack Start, React, and the recommended defaults:
+
+```bash
+npx @tanstack/cli@latest create
+```
+
+The CLI configures Tailwind CSS and the default `@/*` import alias. Do not add the shadcn add-on; configure it in the next step.
+
+### Run the CLI
+
+```bash
+npx shadcn@latest init
+```
+
+### Register the Ondo Registry
 
 ```json title="components.json"
 {
@@ -27,30 +95,23 @@ Add the `@ondo-ui` namespace to the `registries` field of your `components.json`
 }
 ```
 
-## Add the theme
-
-Install the Ondo theme. It adds Pretendard, Monaspace Neon, and the base CSS variables:
+### Add the Theme and a Component
 
 ```bash
-bunx shadcn@latest add @ondo-ui/theme @ondo-ui/theme-provider
+npx shadcn@latest add @ondo-ui/theme @ondo-ui/theme-provider
+npx shadcn@latest add @ondo-ui/button
 ```
 
-`@ondo-ui/theme-provider` is optional when your project does not use React dark-mode switching. If it is installed, follow the [theming guide](/docs/theming) to add `ThemeProvider` to the application root.
+Follow the [theming guide](/docs/theming) to add `ThemeProvider` when needed.
 
-## Add a component
-
-```bash
-bunx shadcn@latest add @ondo-ui/button
-```
-
-Dependencies such as `utils` are resolved automatically.
-
-## Use the component
+### Use the Component
 
 ```tsx
 import { Button } from "@/components/ui/button"
 
-export default function Example() {
+export function Example() {
   return <Button>Click me</Button>
 }
 ```
+
+</Steps>

@@ -1,23 +1,124 @@
 ---
 title: Vite
-description: Install Ondo UI in a Vite project.
+description: Install and configure Ondo UI for Vite.
 ---
 
-## Create a new project
+Choose the setup that matches your starting point.
 
-Use the shadcn CLI to scaffold a Vite project:
+<div className="mt-6 grid gap-4 sm:grid-cols-3 sm:gap-6">
+  <LinkedCard href="#scaffold-with-create" className="items-start gap-1 p-6 text-sm md:p-6">
+    <div className="font-medium">Use shadcn/create</div>
+    <div className="leading-relaxed text-muted-foreground">Build your preset and generate a Vite project command.</div>
+  </LinkedCard>
+  <LinkedCard href="#scaffold-with-cli" className="items-start gap-1 p-6 text-sm md:p-6">
+    <div className="font-medium">Use the CLI</div>
+    <div className="leading-relaxed text-muted-foreground">Scaffold a new Vite project directly from the terminal.</div>
+  </LinkedCard>
+  <LinkedCard href="#existing-vite-project" className="items-start gap-1 p-6 text-sm md:p-6">
+    <div className="font-medium">Existing Project</div>
+    <div className="leading-relaxed text-muted-foreground">Configure Ondo UI manually in an existing Vite project.</div>
+  </LinkedCard>
+</div>
+
+<div id="scaffold-with-create" className="scroll-mt-24" />
+## Use shadcn/create
+
+<Steps>
+
+### Build Your Preset
+
+Open [shadcn/create](https://ui.shadcn.com/create?template=vite) and build your preset visually.
+
+<Button asChild size="sm">
+  <Link href="https://ui.shadcn.com/create?template=vite" target="_blank" rel="noopener noreferrer" className="mt-6 no-underline!">
+    Open shadcn/create
+  </Link>
+</Button>
+
+### Create Project
 
 ```bash
-bunx shadcn@latest init -t vite
+npx shadcn@latest init --preset [CODE] --template vite
 ```
 
+The generated command may include `--base`, `--monorepo`, or `--rtl`.
+
+</Steps>
+
+<div id="scaffold-with-cli" className="scroll-mt-24" />
+## Use the CLI
+
+<Steps>
+
+### Create Project
+
+```bash
+npx shadcn@latest init -t vite
+```
+
+### Add Components
+
+Register the Ondo registry first, then add Ondo components using the namespace shown below.
+
+</Steps>
+
+<div id="existing-vite-project" className="scroll-mt-24" />
 ## Existing Project
 
-If you already have a Vite project, run `bunx shadcn@latest init` first if it does not have a `components.json` file.
+<Steps>
 
-## Register the registry
+### Create Project
 
-Add the `@ondo-ui` namespace to the `registries` field of your `components.json`:
+If you need a new Vite project, create one first:
+
+```bash
+npm create vite@latest my-app -- --template react-ts
+cd my-app
+npm install
+```
+
+### Configure Tailwind CSS
+
+Install the Tailwind Vite plugin:
+
+```bash
+npm install tailwindcss @tailwindcss/vite
+```
+
+Add the plugin to `vite.config.ts` and import Tailwind in `src/index.css`:
+
+```ts title="vite.config.ts"
+import tailwindcss from "@tailwindcss/vite"
+
+export default {
+  plugins: [tailwindcss()],
+}
+```
+
+```css title="src/index.css"
+@import "tailwindcss";
+```
+
+### Configure Import Aliases
+
+Add the `@/*` alias to `tsconfig.json` and `vite.config.ts` if it is not already present.
+
+```json title="tsconfig.json"
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": { "@/*": ["./src/*"] }
+  }
+}
+```
+
+### Run the CLI
+
+```bash
+npx shadcn@latest init
+```
+
+### Register the Ondo Registry
 
 ```json title="components.json"
 {
@@ -27,25 +128,16 @@ Add the `@ondo-ui` namespace to the `registries` field of your `components.json`
 }
 ```
 
-## Add the theme
-
-Install the Ondo theme. It adds Pretendard, Monaspace Neon, and the base CSS variables:
+### Add the Theme and a Component
 
 ```bash
-bunx shadcn@latest add @ondo-ui/theme @ondo-ui/theme-provider
+npx shadcn@latest add @ondo-ui/theme @ondo-ui/theme-provider
+npx shadcn@latest add @ondo-ui/button
 ```
 
-`@ondo-ui/theme-provider` is optional when your project does not use React dark-mode switching. If it is installed, follow the [theming guide](/docs/theming) to add `ThemeProvider` to the application root.
+Follow the [theming guide](/docs/theming) when using `ThemeProvider`.
 
-## Add a component
-
-```bash
-bunx shadcn@latest add @ondo-ui/button
-```
-
-Dependencies such as `utils` are resolved automatically.
-
-## Use the component
+### Use the Component
 
 ```tsx
 import { Button } from "@/components/ui/button"
@@ -54,3 +146,5 @@ export default function Example() {
   return <Button>Click me</Button>
 }
 ```
+
+</Steps>

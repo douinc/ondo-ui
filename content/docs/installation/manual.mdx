@@ -1,25 +1,38 @@
 ---
-title: Manual
+title: Manual Installation
 description: Add Ondo UI to an existing project manually.
 ---
 
-## Create a new project
-
-For a project that does not use one of the supported templates, start with your framework's normal project setup and then initialize shadcn:
-
-```bash
-bunx shadcn@latest init
-```
-
+Choose this path when your project does not use one of the supported templates.
 Your project needs Tailwind CSS v4, a `components.json` file, and the shadcn `cn()` utility.
 
-## Existing Project
+<div className="mt-6 grid gap-4 sm:grid-cols-2 sm:gap-6">
+  <LinkedCard href="#configure-with-cli" className="items-start gap-1 p-6 text-sm md:p-6">
+    <div className="font-medium">Use the CLI</div>
+    <div className="leading-relaxed text-muted-foreground">Configure shadcn and Ondo UI in an existing project.</div>
+  </LinkedCard>
+  <LinkedCard href="#configure-manually" className="items-start gap-1 p-6 text-sm md:p-6">
+    <div className="font-medium">Configure Manually</div>
+    <div className="leading-relaxed text-muted-foreground">Add the required styles, aliases, and registry by hand.</div>
+  </LinkedCard>
+</div>
 
-Run the initialization command from the project root if shadcn has not been configured yet.
+<div id="configure-with-cli" className="scroll-mt-24" />
+## Use the CLI
 
-## Register the registry
+<Steps>
 
-Add the `@ondo-ui` namespace to the `registries` field of your `components.json`:
+### Run the CLI
+
+Run the initialization command from the project root:
+
+```bash
+npx shadcn@latest init
+```
+
+Make sure the generated `components.json` points to your existing CSS file and component aliases.
+
+### Register the Ondo Registry
 
 ```json title="components.json"
 {
@@ -29,25 +42,65 @@ Add the `@ondo-ui` namespace to the `registries` field of your `components.json`
 }
 ```
 
-## Add the theme
-
-Install the Ondo theme. It adds Pretendard, Monaspace Neon, and the base CSS variables:
+### Add the Theme and a Component
 
 ```bash
-bunx shadcn@latest add @ondo-ui/theme @ondo-ui/theme-provider
+npx shadcn@latest add @ondo-ui/theme @ondo-ui/theme-provider
+npx shadcn@latest add @ondo-ui/button
 ```
 
-`@ondo-ui/theme-provider` is optional when your project does not use React dark-mode switching. If it is installed, follow the [theming guide](/docs/theming) to add `ThemeProvider` to the application root.
+Follow the [theming guide](/docs/theming) to add `ThemeProvider` when dark-mode switching is needed.
 
-## Add a component
+</Steps>
+
+<div id="configure-manually" className="scroll-mt-24" />
+## Configure Manually
+
+<Steps>
+
+### Add Tailwind CSS
+
+Install and configure [Tailwind CSS](https://tailwindcss.com/docs/installation) with your framework's recommended integration.
+
+### Add Dependencies
 
 ```bash
-bunx shadcn@latest add @ondo-ui/button
+npm install shadcn class-variance-authority clsx tailwind-merge tw-animate-css
 ```
 
-Dependencies such as `utils` are resolved automatically.
+### Configure Import Aliases
 
-## Use the component
+Configure an alias for components and utilities. For TypeScript projects, `@/*` can point to your source directory:
+
+```json title="tsconfig.json"
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": { "@/*": ["./src/*"] }
+  }
+}
+```
+
+### Configure Styles
+
+Your global stylesheet must include Tailwind and the Ondo theme. The theme command below adds the base CSS variables and fonts:
+
+```css title="src/styles/globals.css"
+@import "tailwindcss";
+```
+
+### Create `components.json`
+
+Run `npx shadcn@latest init` once to generate the file, then add the Ondo registry namespace shown above. Ensure its CSS and alias paths match your project.
+
+### Add the Theme and a Component
+
+```bash
+npx shadcn@latest add @ondo-ui/theme @ondo-ui/theme-provider
+npx shadcn@latest add @ondo-ui/button
+```
+
+### Use the Component
 
 ```tsx
 import { Button } from "@/components/ui/button"
@@ -56,3 +109,5 @@ export default function Example() {
   return <Button>Click me</Button>
 }
 ```
+
+</Steps>
