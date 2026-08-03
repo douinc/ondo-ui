@@ -1,201 +1,176 @@
-# Framework Installation Guides Implementation Plan
+# Shadcn-Style Installation Navigation and Guides Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Add shadcn-style framework-specific Ondo UI installation pages for seven frameworks, with localized routes and GitHub Pages static-export coverage.
+**Goal:** Match shadcn/ui's installation navigation and guide structure in Ondo UI while preserving Ondo registry behavior and GitHub Pages static export.
 
-**Architecture:** Keep the existing Fumadocs catch-all route and add nested MDX pages under `content/docs/installation/`. The root installation pages render localized `LinkedCard` grids, while each framework page documents the framework initializer followed by the existing Ondo registry/theme/component flow. Extend the existing static smoke test so every generated installation route is required.
+**Architecture:** Move the installation overview into the nested installation folder as its `index.mdx`, matching shadcn's source layout. Teach the shared page-tree flattener to expose that folder index while hiding its framework children. Replace the compact guide content with shadcn-style setup cards and framework steps, adapting only links, registry commands, and Ondo-specific examples.
 
 **Tech Stack:** Next.js 16.2.11 App Router, Fumadocs MDX 15.2.1, React 19, shadcn CLI 4.16.0, Tailwind CSS v4, Bun, GitHub Pages static export.
 
 ## Global Constraints
 
 - Preserve `output: "export"` and `trailingSlash: true` in `next.config.ts`.
-- Use `bunx shadcn@latest` in source MDX so the existing package-manager code transformer produces npm, pnpm, yarn, and bun variants.
-- Use the registry URL `https://ui.ondo.dou.so/r/{name}.json` exactly.
-- Provide both English and Korean content for every framework route.
-- Use `/docs/...` links in English MDX and `/ko/docs/...` links in Korean MDX because `LinkedCard` is a direct `next/link` component and does not pass through the localized anchor wrapper.
+- Keep only the seven existing Ondo framework routes: `next`, `vite`, `tanstack`, `laravel`, `react-router`, `astro`, and `manual`.
+- Use `https://ui.shadcn.com/create` for shadcn/create links because Ondo has no local `/create` route.
+- Use `https://ui.ondo.dou.so/r/{name}.json` exactly for the Ondo registry namespace.
+- Use `/docs/...` in English MDX and `/ko/docs/...` in Korean `LinkedCard` hrefs.
 - Do not add a runtime route, API dependency, `basePath`, or component under `components/ui/`.
-- Do not change the existing registry payloads or generated `public/r` artifacts by hand.
+- Use `apply_patch` for source edits and do not modify generated `.source/`, `out/`, or `public/r` artifacts by hand.
 
 ---
 
-### Task 1: Cover all framework routes in the static smoke test
+### Task 1: Make the installation folder expose one sidebar page
 
 **Files:**
-- Modify: `scripts/smoke-static-export.ts`
+- Create: `lib/page-tree.test.ts`
+- Modify: `lib/page-tree.ts`
+- Move: `content/docs/installation.mdx` to `content/docs/installation/index.mdx`
+- Move: `content/docs/installation.ko.mdx` to `content/docs/installation/index.ko.mdx`
 
 **Interfaces:**
-- Produces a single `installationFrameworks` constant and derived `paths`/`htmlPaths` sets used by the existing smoke test.
-- The framework slugs are exactly `next`, `vite`, `tanstack`, `laravel`, `react-router`, `astro`, and `manual`.
+- `getSidebarGroups(tree: PageTree.Root): SidebarGroup[]` continues to serve the desktop sidebar, mobile navigation, and command menu.
+- An installation folder with `index` and child pages produces the index page only; all other folders retain their existing flattening behavior.
 
-- [ ] **Step 1: Add the framework slug list and derived URL paths**
+- [ ] **Step 1: Write the failing sidebar test**
 
-Insert the following constants before `paths` and replace the hard-coded installation entries in `paths` and `htmlPaths`:
+Create a focused fixture using Fumadocs page-tree shapes:
 
 ```ts
-const installationFrameworks = [
-  "next",
-  "vite",
-  "tanstack",
-  "laravel",
-  "react-router",
-  "astro",
-  "manual",
-] as const
+import type * as PageTree from "fumadocs-core/page-tree"
 
-const installationPaths = installationFrameworks.flatMap((framework) => [
-  `/docs/installation/${framework}/`,
-  `/ko/docs/installation/${framework}/`,
-])
+const installationIndex: PageTree.Item = {
+  type: "page",
+  name: "Installation",
+  url: "/docs/installation",
+}
 
-const paths = [
-  "/",
-  "/ko/",
-  "/docs/installation/",
-  "/ko/docs/installation/",
-  ...installationPaths,
-  "/docs.md",
-  "/docs/components/button.md",
-  "/llm/en",
-  "/llm/ko",
-  "/api/search",
-  "/r/registry.json",
-  "/r/button.json",
-] as const
-
-const htmlPaths = new Set([
-  "/",
-  "/ko/",
-  "/docs/installation/",
-  "/ko/docs/installation/",
-  ...installationPaths,
-])
+const tree = {
+  type: "root",
+  name: "Docs",
+  children: [
+    {
+      type: "folder",
+      $id: "en:installation",
+      $ref: { folder: "installation" },
+      name: "Frameworks",
+      index: installationIndex,
+      children: [
+        {
+          type: "page",
+          name: "Next",
+          url: "/docs/installation/next",
+        },
+      ],
+    },
+  ],
+} satisfies PageTree.Root
 ```
 
-Keep the existing Markdown, search, and registry assertions unchanged.
+The test must assert that the flattened pages equal `[installationIndex]` and do not include `/docs/installation/next`.
 
-- [ ] **Step 2: Run the type checker**
+- [ ] **Step 2: Run the focused test and verify it fails**
 
-Run: `bun run typecheck`
+Run: `bun test lib/page-tree.test.ts`
 
-Expected: PASS. The new derived arrays are accepted by the existing `paths` and `htmlPaths` consumers.
+Expected: FAIL because the current flattener emits the child page and does not emit the folder index.
 
-- [ ] **Step 3: Commit the smoke-test coverage**
+- [ ] **Step 3: Implement the minimal installation-folder boundary**
 
-```bash
-git add scripts/smoke-static-export.ts
-git commit -m "test: cover framework installation routes"
-```
+In `collectPages`, handle folders with `$ref?.folder === "installation"` before the generic recursion:
 
-### Task 2: Add the localized overview cards and sidebar order
-
-**Files:**
-- Create: `content/docs/installation/meta.json`
-- Modify: `content/docs/installation.mdx`
-- Modify: `content/docs/installation.ko.mdx`
-
-**Interfaces:**
-- `content/docs/installation/meta.json` controls the child-page order in the installation section.
-- The two root MDX pages link to the exact seven child slugs and preserve the existing registry installation content.
-
-- [ ] **Step 1: Register the child-page order**
-
-Create `content/docs/installation/meta.json` with:
-
-```json
-{
-  "title": "Frameworks",
-  "pages": [
-    "next",
-    "vite",
-    "tanstack",
-    "laravel",
-    "react-router",
-    "astro",
-    "manual"
-  ]
+```ts
+if (node.$ref?.folder === "installation") {
+  if (node.index) acc.push(node.index)
+  return
 }
 ```
 
-- [ ] **Step 2: Replace the English overview body with the framework chooser**
+Leave all other folder recursion unchanged. This uses the generated tree's stable folder reference and keeps the root `Installation` item available to all existing navigation consumers.
 
-Keep the existing frontmatter title `Installation`, and change the description to `Install Ondo UI in a new or existing project.`. The body must include:
+- [ ] **Step 4: Move the overview pages into the Fumadocs folder index**
 
-```mdx
-<Callout className="mb-6 border-emerald-600 bg-emerald-100 dark:border-emerald-400 dark:bg-emerald-900">
+Move the English and Korean overview files to `content/docs/installation/index.mdx` and `content/docs/installation/index.ko.mdx`. Do not change their route links during the move; Fumadocs will continue to publish `/docs/installation/` and `/ko/docs/installation/`.
 
-**Recommended for new projects:** Initialize your framework with the shadcn CLI, then register the `@ondo-ui` registry and install the theme.
+- [ ] **Step 5: Run the focused test and regenerate the MDX source**
 
-</Callout>
+Run: `bun test lib/page-tree.test.ts && bun run postinstall`
 
-## Use the CLI
+Expected: PASS, and the generated page tree contains an installation folder with an `index` page and framework children.
 
-Use the CLI to scaffold a supported project:
+- [ ] **Step 6: Commit the sidebar boundary**
 
 ```bash
-bunx shadcn@latest init -t [framework]
+git add lib/page-tree.ts lib/page-tree.test.ts content/docs/installation/index.mdx content/docs/installation/index.ko.mdx
+git commit -m "fix: collapse installation guides in navigation"
 ```
 
-Supported templates: `next`, `vite`, `start`, `react-router`, and `astro`. For Laravel, create the app first with `laravel new`, then run `bunx shadcn@latest init`.
+### Task 2: Rebuild the overview to match shadcn's chooser
 
-## Existing Project
+**Files:**
+- Modify: `content/docs/installation/index.mdx`
+- Modify: `content/docs/installation/index.ko.mdx`
+- Read-only reference: `/Users/initred/Code/ui/apps/v4/content/docs/installation/index.mdx`
 
-If your project already exists, choose its framework below and follow the registry setup steps on that page.
+**Interfaces:**
+- The English and Korean index pages render the same three setup cards and seven framework cards.
+- All framework cards link to the existing localized detail routes.
 
-## Choose Your Framework
+- [ ] **Step 1: Add the setup cards and anchor sections to English**
 
-<div className="mt-8 grid gap-4 sm:grid-cols-2 sm:gap-6">
-  <LinkedCard href="/docs/installation/next">
-    <IconBrandNextjs className="h-10 w-10" aria-hidden="true" />
-    <p className="mt-2 font-medium">Next.js</p>
-  </LinkedCard>
-  <LinkedCard href="/docs/installation/vite">
-    <IconBrandVite className="h-10 w-10" aria-hidden="true" />
-    <p className="mt-2 font-medium">Vite</p>
-  </LinkedCard>
-  <LinkedCard href="/docs/installation/tanstack">
-    <IconBinaryTree className="h-10 w-10" aria-hidden="true" />
-    <p className="mt-2 font-medium">TanStack Start</p>
-  </LinkedCard>
-  <LinkedCard href="/docs/installation/laravel">
-    <IconBrandLaravel className="h-10 w-10" aria-hidden="true" />
-    <p className="mt-2 font-medium">Laravel</p>
-  </LinkedCard>
-  <LinkedCard href="/docs/installation/react-router">
-    <IconBrandReact className="h-10 w-10" aria-hidden="true" />
-    <p className="mt-2 font-medium">React Router</p>
-  </LinkedCard>
-  <LinkedCard href="/docs/installation/astro">
-    <IconBrandAstro className="h-10 w-10" aria-hidden="true" />
-    <p className="mt-2 font-medium">Astro</p>
-  </LinkedCard>
-  <LinkedCard href="/docs/installation/manual">
-    <IconBraces className="h-10 w-10" aria-hidden="true" />
-    <p className="mt-2 font-medium">Manual</p>
-  </LinkedCard>
-</div>
-```
-
-Add this import at the top of the MDX file:
+Match shadcn's frontmatter and opening layout:
 
 ```mdx
-import {
-  IconBinaryTree,
-  IconBraces,
-  IconBrandAstro,
-  IconBrandLaravel,
-  IconBrandNextjs,
-  IconBrandReact,
-  IconBrandVite,
-} from "@tabler/icons-react"
+---
+title: Installation
+description: How to install dependencies and structure your app.
+---
 ```
 
-After the chooser, retain the existing registry registration, theme installation, component installation, and `Button` usage example. Change the opening prerequisite text so it points users to the framework cards when starting fresh.
+Use the existing `Callout`, `LinkedCard`, `Button`, and `Link` MDX components. Add the three cards with these exact labels/descriptions and anchors:
 
-- [ ] **Step 3: Add the Korean overview with locale-prefixed card links**
+```mdx
+<LinkedCard href="#use-create">
+  <div className="font-medium">Use shadcn/create</div>
+  <div className="leading-relaxed text-muted-foreground">
+    Build your preset visually and generate a setup command.
+  </div>
+</LinkedCard>
+<LinkedCard href="#use-cli">
+  <div className="font-medium">Use the CLI</div>
+  <div className="leading-relaxed text-muted-foreground">
+    Scaffold a supported template directly from the terminal.
+  </div>
+</LinkedCard>
+<LinkedCard href="#existing-project">
+  <div className="font-medium">Existing Project</div>
+  <div className="leading-relaxed text-muted-foreground">
+    Add Ondo UI to an app you already created.
+  </div>
+</LinkedCard>
+```
 
-Keep the existing frontmatter title `설치`, and change the description to `새 프로젝트 또는 기존 프로젝트에 Ondo UI를 설치합니다.`. Translate the English overview copy and use the same seven cards, but use these exact `href` values:
+Add the `Use shadcn/create` section with an external `Button` link to `https://ui.shadcn.com/create`, the `Use the CLI` section with `bunx shadcn@latest init -t [framework]`, and the `Existing Project` section before `Choose Your Framework`. Keep the Ondo registry/theme/component instructions after the framework chooser.
+
+- [ ] **Step 2: Replace the framework icon grid with shadcn-compatible inline logos**
+
+Use the inline SVG paths from the reference shadcn index for Next.js, Vite, TanStack Start, Laravel, React Router, and Astro. Use the existing React logo path for Manual. Preserve Ondo's seven slugs and these English hrefs:
+
+```text
+/docs/installation/next
+/docs/installation/vite
+/docs/installation/tanstack
+/docs/installation/laravel
+/docs/installation/react-router
+/docs/installation/astro
+/docs/installation/manual
+```
+
+Use the same `sm:grid-cols-2`/`sm:gap-6` responsive grid as the reference.
+
+- [ ] **Step 3: Mirror the structure in Korean**
+
+Translate headings, card descriptions, callout, CLI guidance, and Ondo setup text while preserving the same layout and explicit Korean card hrefs:
 
 ```text
 /ko/docs/installation/next
@@ -207,68 +182,74 @@ Keep the existing frontmatter title `설치`, and change the description to `새
 /ko/docs/installation/manual
 ```
 
-Keep the current Korean registry, theme, component, and usage examples after the chooser.
+Use `https://ui.shadcn.com/create` for the external create button in Korean as well. Keep normal Markdown theming links as `/docs/theming` so Ondo's locale-aware anchor wrapper adds `/ko` exactly once.
 
-- [ ] **Step 4: Build the MDX source**
+- [ ] **Step 4: Regenerate MDX and run the route tests**
 
-Run: `bun run postinstall`
+Run: `bun run postinstall && bun test app/_shared/docs/route-helpers.test.ts lib/page-tree.test.ts`
 
-Expected: Fumadocs regenerates `.source/` without MDX or frontmatter errors.
+Expected: PASS with the root installation route and all nested framework routes present in both locales.
 
-- [ ] **Step 5: Commit the overview and metadata**
+- [ ] **Step 5: Commit the overview update**
 
 ```bash
-git add content/docs/installation.mdx content/docs/installation.ko.mdx content/docs/installation/meta.json
-git commit -m "docs: add framework installation chooser"
+git add content/docs/installation/index.mdx content/docs/installation/index.ko.mdx
+git commit -m "docs: match shadcn installation chooser"
 ```
 
-### Task 3: Add the English framework installation guides
+### Task 3: Expand the English framework guides using shadcn's setup flow
 
 **Files:**
-- Create: `content/docs/installation/next.mdx`
-- Create: `content/docs/installation/vite.mdx`
-- Create: `content/docs/installation/tanstack.mdx`
-- Create: `content/docs/installation/laravel.mdx`
-- Create: `content/docs/installation/react-router.mdx`
-- Create: `content/docs/installation/astro.mdx`
-- Create: `content/docs/installation/manual.mdx`
+- Modify: `content/docs/installation/next.mdx`
+- Modify: `content/docs/installation/vite.mdx`
+- Modify: `content/docs/installation/tanstack.mdx`
+- Modify: `content/docs/installation/laravel.mdx`
+- Modify: `content/docs/installation/react-router.mdx`
+- Modify: `content/docs/installation/astro.mdx`
+- Modify: `content/docs/installation/manual.mdx`
+- Read-only references: `/Users/initred/Code/ui/apps/v4/content/docs/installation/next.mdx`, `vite.mdx`, `tanstack.mdx`, `laravel.mdx`, `react-router.mdx`, `astro.mdx`, `manual.mdx`
 
 **Interfaces:**
-- Each page is available at `/docs/installation/<slug>/` through the existing catch-all route.
-- Every page has the same registry, theme, component, and usage snippets so users can move between framework guides without learning a different Ondo flow.
+- Each page keeps its current route slug and adds the same three setup choices as the reference.
+- Ondo-specific registry/theme/component snippets are present in every page.
 
-- [ ] **Step 1: Create the framework frontmatter and initialization sections**
+- [ ] **Step 1: Add the shared setup-choice structure and frontmatter**
 
-Use these exact title/description/initialization values:
+Each English page must use framework-specific frontmatter and three cards:
 
-| File | `title` | `description` | New project command |
-| --- | --- | --- | --- |
-| `next.mdx` | `Next.js` | `Install Ondo UI in a Next.js project.` | `bunx shadcn@latest init -t next` |
-| `vite.mdx` | `Vite` | `Install Ondo UI in a Vite project.` | `bunx shadcn@latest init -t vite` |
-| `tanstack.mdx` | `TanStack Start` | `Install Ondo UI in a TanStack Start project.` | `bunx shadcn@latest init -t start` |
-| `laravel.mdx` | `Laravel` | `Install Ondo UI in a Laravel project.` | `laravel new my-app` followed by `bunx shadcn@latest init` |
-| `react-router.mdx` | `React Router` | `Install Ondo UI in a React Router project.` | `bunx shadcn@latest init -t react-router` |
-| `astro.mdx` | `Astro` | `Install Ondo UI in an Astro project.` | `bunx shadcn@latest init -t astro` |
-| `manual.mdx` | `Manual` | `Add Ondo UI to an existing project manually.` | `bunx shadcn@latest init` for an existing shadcn-compatible project |
+| File | Title | Description | shadcn/create template | CLI command |
+| --- | --- | --- | --- | --- |
+| `next.mdx` | `Next.js` | `Install and configure Ondo UI for Next.js.` | `next` | `npx shadcn@latest init -t next` |
+| `vite.mdx` | `Vite` | `Install and configure Ondo UI for Vite.` | `vite` | `npx shadcn@latest init -t vite` |
+| `tanstack.mdx` | `TanStack Start` | `Install and configure Ondo UI for TanStack Start.` | `start` | `npx shadcn@latest init -t start` |
+| `laravel.mdx` | `Laravel` | `Install and configure Ondo UI for Laravel.` | none | `laravel new my-app` then `npx shadcn@latest init` |
+| `react-router.mdx` | `React Router` | `Install and configure Ondo UI for React Router.` | `react-router` | `npx shadcn@latest init -t react-router` |
+| `astro.mdx` | `Astro` | `Install and configure Ondo UI for Astro.` | `astro` | `npx shadcn@latest init -t astro` |
+| `manual.mdx` | `Manual` | `Add Ondo UI to an existing project manually.` | none | `npx shadcn@latest init` |
 
-Every page must begin with `## Create a new project` and show the command in a `bash` block. Laravel must show:
+The three cards use `#scaffold-with-create`, `#scaffold-with-cli`, and `#existing-<framework>-project` anchors, matching each reference page's labels. Use `https://ui.shadcn.com/create?template=<template>` for supported create templates.
 
-```bash
-laravel new my-app
-cd my-app
-bunx shadcn@latest init
-```
+- [ ] **Step 2: Port the framework-specific shadcn/create and CLI sections**
 
-The manual page must explain that it is for a project that does not use one of the supported templates and that the project still needs Tailwind CSS v4, a `components.json`, and the shadcn `cn()` utility.
+For each supported template, include the reference's `Steps` sequence for building a preset, creating the project, and adding a component. Keep the command examples package-manager-neutral where the existing MDX transformer expects `npx`. Laravel documents `laravel new` first. Manual omits project scaffolding and starts from Tailwind CSS v4, `components.json`, and `cn()` prerequisites.
 
-- [ ] **Step 2: Add the common registry and installation sections to every English page**
+- [ ] **Step 3: Adapt existing-project instructions framework by framework**
 
-After the initialization section, add these exact sections to all seven files:
+Retain the reference's framework-specific setup details:
 
-```mdx
-## Register the registry
+- Next.js: create-next-app, Tailwind/import aliases, shadcn init, then add a component.
+- Vite: Vite scaffold, Tailwind Vite plugin, `src/index.css`, TypeScript aliases, `vite.config.ts`, shadcn init, then add a component.
+- TanStack Start: the reference's TanStack project scaffold, Tailwind setup, aliases, shadcn init, then add a component.
+- Laravel: Laravel creation, frontend setup, Tailwind/Vite configuration, shadcn init, then add a component.
+- React Router: React Router scaffold, Tailwind setup, aliases, shadcn init, then add a component.
+- Astro: Astro scaffold, React integration, Tailwind setup, aliases, shadcn init, then add a component.
+- Manual: existing project's Tailwind, alias, `components.json`, and shadcn init requirements.
 
-Add the `@ondo-ui` namespace to the `registries` field of your `components.json`:
+Replace shadcn local component installation in each final add-component section with `npx shadcn@latest add @ondo-ui/button` and keep the existing Ondo `Button` usage example.
+
+- [ ] **Step 4: Insert the Ondo registry and theme setup into every English guide**
+
+In each existing-project flow, add the following before adding Ondo components:
 
 ```json title="components.json"
 {
@@ -278,132 +259,98 @@ Add the `@ondo-ui` namespace to the `registries` field of your `components.json`
 }
 ```
 
-## Add the theme
+```bash
+npx shadcn@latest add @ondo-ui/theme @ondo-ui/theme-provider
+npx shadcn@latest add @ondo-ui/button
+```
 
-Install the Ondo theme. It adds Pretendard, Monaspace Neon, and the base CSS variables:
+Link to `/docs/theming` for the provider setup. Preserve the exact registry URL and explain that the provider is optional only when dark-mode switching is not used.
+
+- [ ] **Step 5: Regenerate MDX and check all English route params**
+
+Run: `bun run postinstall && bun test app/_shared/docs/route-helpers.test.ts`
+
+Expected: PASS with no MDX syntax or code-block transformation errors.
+
+- [ ] **Step 6: Commit the English guides**
 
 ```bash
-bunx shadcn@latest add @ondo-ui/theme @ondo-ui/theme-provider
+git add content/docs/installation/next.mdx content/docs/installation/vite.mdx content/docs/installation/tanstack.mdx content/docs/installation/laravel.mdx content/docs/installation/react-router.mdx content/docs/installation/astro.mdx content/docs/installation/manual.mdx
+git commit -m "docs: align English framework installation guides"
 ```
 
-`@ondo-ui/theme-provider` is optional when the framework is not using React dark-mode switching. If it is installed, follow the [theming guide](/docs/theming) to add `ThemeProvider` to the application root.
-
-## Add a component
-
-```bash
-bunx shadcn@latest add @ondo-ui/button
-```
-
-Dependencies such as `utils` are resolved automatically.
-
-## Use the component
-
-```tsx
-import { Button } from "@/components/ui/button"
-
-export default function Example() {
-  return <Button>Click me</Button>
-}
-```
-```
-
-For the Astro page, state that the component should be rendered through the project’s configured React integration. For Laravel, state that the component belongs in the configured frontend source directory generated by the shadcn setup.
-
-- [ ] **Step 3: Confirm all English links and commands**
-
-Run:
-
-```bash
-rg -n 'https://ui\.ondo\.dou\.so/r/\{name\}\.json|bunx shadcn@latest add @ondo-ui/(theme|theme-provider|button)' content/docs/installation/*.mdx content/docs/installation/*.mdx
-```
-
-Expected: every English framework file contains the registry URL, theme command, and button command; no framework page may be missing any of them.
-
-- [ ] **Step 4: Commit the English guides**
-
-```bash
-git add content/docs/installation/*.mdx
-git commit -m "docs: add English framework installation guides"
-```
-
-### Task 4: Add the Korean framework installation guides
+### Task 4: Localize the expanded framework guides in Korean
 
 **Files:**
-- Create: `content/docs/installation/next.ko.mdx`
-- Create: `content/docs/installation/vite.ko.mdx`
-- Create: `content/docs/installation/tanstack.ko.mdx`
-- Create: `content/docs/installation/laravel.ko.mdx`
-- Create: `content/docs/installation/react-router.ko.mdx`
-- Create: `content/docs/installation/astro.ko.mdx`
-- Create: `content/docs/installation/manual.ko.mdx`
+- Modify: `content/docs/installation/next.ko.mdx`
+- Modify: `content/docs/installation/vite.ko.mdx`
+- Modify: `content/docs/installation/tanstack.ko.mdx`
+- Modify: `content/docs/installation/laravel.ko.mdx`
+- Modify: `content/docs/installation/react-router.ko.mdx`
+- Modify: `content/docs/installation/astro.ko.mdx`
+- Modify: `content/docs/installation/manual.ko.mdx`
 
 **Interfaces:**
-- Each page is available at `/ko/docs/installation/<slug>/` through the existing Korean catch-all route.
-- Korean pages use the same command blocks and registry URL as English pages, with Korean prose and localized internal links.
+- Korean framework pages have the same sections, commands, registry URL, and component examples as the English pages.
+- Korean prose is localized while commands, JSON keys, paths, and package names remain executable.
 
-- [ ] **Step 1: Create the Korean frontmatter and initialization sections**
+- [ ] **Step 1: Mirror each English page's structure and command blocks**
 
-Use these exact title/description values and translate the corresponding English initialization section:
+Translate the setup cards, section headings, step descriptions, and explanatory prose. Keep every framework's exact CLI command and framework-specific configuration from Task 3.
 
-| File | `title` | `description` |
-| --- | --- | --- |
-| `next.ko.mdx` | `Next.js` | `Next.js 프로젝트에 Ondo UI를 설치합니다.` |
-| `vite.ko.mdx` | `Vite` | `Vite 프로젝트에 Ondo UI를 설치합니다.` |
-| `tanstack.ko.mdx` | `TanStack Start` | `TanStack Start 프로젝트에 Ondo UI를 설치합니다.` |
-| `laravel.ko.mdx` | `Laravel` | `Laravel 프로젝트에 Ondo UI를 설치합니다.` |
-| `react-router.ko.mdx` | `React Router` | `React Router 프로젝트에 Ondo UI를 설치합니다.` |
-| `astro.ko.mdx` | `Astro` | `Astro 프로젝트에 Ondo UI를 설치합니다.` |
-| `manual.ko.mdx` | `수동 설치` | `기존 프로젝트에 Ondo UI를 수동으로 추가합니다.` |
+- [ ] **Step 2: Apply Korean link conventions**
 
-Use `## 새 프로젝트 만들기`, the exact framework command from Task 3, and `## 기존 프로젝트` before the registry steps. The Laravel Korean command remains:
+Use explicit `/ko/docs/...` paths for `LinkedCard` framework links. Use `/docs/theming` in normal Markdown links so the localized anchor component produces `/ko/docs/theming` without double-prefixing.
 
-```bash
-laravel new my-app
-cd my-app
-bunx shadcn@latest init
-```
+- [ ] **Step 3: Verify registry and component snippets**
 
-- [ ] **Step 2: Add the translated common sections**
-
-Each Korean page must include these sections in order:
+Every Korean page must contain both exact strings:
 
 ```text
-## 레지스트리 등록
-## 테마 추가
-## 컴포넌트 추가
-## 컴포넌트 사용
+https://ui.ondo.dou.so/r/{name}.json
+npx shadcn@latest add @ondo-ui/button
 ```
 
-Use the exact registry URL and command blocks from Task 3. Translate the optional `theme-provider` note, link it to `/ko/docs/theming`, and keep the Button example text as `클릭`.
+- [ ] **Step 4: Regenerate MDX and run localized route tests**
 
-- [ ] **Step 3: Verify locale links**
+Run: `bun run postinstall && bun test app/_shared/docs/route-helpers.test.ts lib/page-tree.test.ts`
 
-Run:
+Expected: PASS with all Korean installation routes generated.
+
+- [ ] **Step 5: Commit the Korean guides**
 
 ```bash
-rg -n 'href="/docs/|\]\(/docs/' content/docs/installation/*.ko.mdx
+git add content/docs/installation/next.ko.mdx content/docs/installation/vite.ko.mdx content/docs/installation/tanstack.ko.mdx content/docs/installation/laravel.ko.mdx content/docs/installation/react-router.ko.mdx content/docs/installation/astro.ko.mdx content/docs/installation/manual.ko.mdx
+git commit -m "docs: align Korean framework installation guides"
 ```
 
-Expected: no output for framework links that should point to Korean pages. The only permitted `/docs/` references in Korean installation pages are external documentation URLs intentionally written as absolute `https://...` links, not local relative links.
-
-- [ ] **Step 4: Commit the Korean guides**
-
-```bash
-git add content/docs/installation/*.ko.mdx
-git commit -m "docs: add Korean framework installation guides"
-```
-
-### Task 5: Build, inspect, and verify the static export
+### Task 5: Verify static export coverage and quality
 
 **Files:**
-- Verify: `out/docs/installation/` and `out/ko/docs/installation/` generated output
-- Verify: `.generated/` and `out/` are build artifacts and are not committed unless already tracked by repository policy
+- Verify: `scripts/smoke-static-export.ts`
 
 **Interfaces:**
-- The final build must expose all fourteen localized framework pages as static directories with `index.html`.
-- The existing registry and Markdown artifact generation must remain valid.
+- `installationFrameworks` is the single source of truth for the seven English and Korean installation URLs requested by the smoke test.
 
-- [ ] **Step 1: Run unit tests, lint, and typecheck**
+- [ ] **Step 1: Confirm the smoke-test framework list**
+
+Keep this exact list and derive both locale paths from it:
+
+```ts
+const installationFrameworks = [
+  "next",
+  "vite",
+  "tanstack",
+  "laravel",
+  "react-router",
+  "astro",
+  "manual",
+] as const
+```
+
+The test must request `/docs/installation/`, `/ko/docs/installation/`, and both locale paths for every framework.
+
+- [ ] **Step 2: Run the complete automated checks**
 
 Run:
 
@@ -411,44 +358,24 @@ Run:
 bun run test
 bun run lint
 bun run typecheck
+bun run build
 ```
 
-Expected: all commands exit with status 0.
+Expected: all tests pass, lint has no errors, typecheck succeeds, and static export verification reports all required paths.
 
-- [ ] **Step 2: Build the complete static site**
-
-Run: `bun run build`
-
-Expected: `artifacts:build`, `registry:build`, `next build`, `export:finalize`, and `export:verify` all pass. The export verifier must report no missing local links or missing required paths.
-
-- [ ] **Step 3: Check every generated framework page directly**
+- [ ] **Step 3: Run the static smoke test against the generated export**
 
 Run:
 
 ```bash
-for framework in next vite tanstack laravel react-router astro manual; do
-  test -f "out/docs/installation/$framework/index.html"
-  test -f "out/ko/docs/installation/$framework/index.html"
-done
+python3 -m http.server 4173 --directory out
+bun run scripts/smoke-static-export.ts http://127.0.0.1:4173
 ```
 
-Expected: the loop exits successfully with no output.
+Expected: the overview plus 14 localized framework URLs report `PASS`, with no missing HTML pages or registry/search regressions. Stop the temporary server after the command.
 
-- [ ] **Step 4: Check the generated overview links**
-
-Run:
-
-```bash
-for framework in next vite tanstack laravel react-router astro manual; do
-  rg -q "/docs/installation/$framework" out/docs/installation/index.html
-  rg -q "/ko/docs/installation/$framework" out/ko/docs/installation/index.html
-done
-```
-
-Expected: every card link is present in the correct locale’s HTML.
-
-- [ ] **Step 5: Review the final diff and commit verification-safe changes**
+- [ ] **Step 4: Inspect the final diff**
 
 Run: `git diff --check && git status --short`
 
-Expected: no whitespace errors, no accidental edits to generated registry JSON, and only the planned documentation and smoke-test files are changed.
+Confirm that only source MDX, sidebar logic/tests, smoke coverage, and the design/plan documents changed; generated artifacts remain uncommitted. The current smoke test already derives all seven framework URLs from `installationFrameworks`, so no source change is required unless an earlier task accidentally removes that coverage.
