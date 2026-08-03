@@ -15,7 +15,7 @@ import {
 
 <Callout className="mb-6 border-emerald-600 bg-emerald-100 dark:border-emerald-400 dark:bg-emerald-900">
 
-**Recommended for new projects:** Use the shadcn CLI to initialize your framework, then register the `@ondo-ui` registry and install the theme.
+**Recommended for new projects:** Use the Ondo CLI to initialize your framework, configure the `@ondo-ui` registry, and install the framework-compatible theme.
 
 </Callout>
 
@@ -42,15 +42,15 @@ Choose the setup that matches your starting point.
 <div id="use-cli" className="scroll-mt-24" />
 ## Use the CLI
 
-Use the CLI to scaffold a new project directly from the terminal:
+Use the Ondo CLI to scaffold a new project, configure the registry, and install the initial theme directly from the terminal:
 
 ```bash title="Terminal"
-npx shadcn@latest init -t [framework]
+npx ondo-ui@latest init -t [framework]
 ```
 
 Supported templates: `next`, `vite`, `start`, `react-router`, and `astro`.
 
-For Laravel, create the app first with `laravel new`, then run `npx shadcn@latest init`.
+For Laravel, create the app first with `laravel new`, then run `npx ondo-ui@latest init -t laravel` from the app directory.
 
 <div id="existing-project" className="scroll-mt-24" />
 ## Existing Project
@@ -61,7 +61,7 @@ Pick your framework below and follow that path.
 
 ## Choose Your Framework
 
-For Laravel, start with `laravel new` before using `shadcn init`.
+For Laravel, start with `laravel new` before using `ondo-ui init`.
 
 <div className="mt-8 grid gap-4 sm:grid-cols-2 sm:gap-6">
   <LinkedCard href="/docs/installation/next">
@@ -98,25 +98,9 @@ For Laravel, start with `laravel new` before using `shadcn init`.
 
 ondo-ui components assume a project set up with the [shadcn CLI](https://ui.shadcn.com/docs/installation) — Tailwind CSS v4, a `components.json`, and the `cn()` utility. If you are starting fresh, choose a framework above to initialize the project first.
 
-## Register the registry
-
-Add the `@ondo-ui` namespace to the `registries` field of your `components.json`:
-
-```json title="components.json"
-{
-  "registries": {
-    "@ondo-ui": "https://ui.ondo.dou.so/r/{name}.json"
-  }
-}
-```
-
 ## Add the theme
 
-Install the ondo theme first — it brings the Pretendard and Monaspace Neon fonts plus the base CSS variables:
-
-```bash
-bunx shadcn@latest add @ondo-ui/theme @ondo-ui/theme-provider
-```
+The Ondo CLI installs the framework-compatible theme automatically. It also adds the `@ondo-ui` namespace to `components.json`.
 
 ## Add components
 

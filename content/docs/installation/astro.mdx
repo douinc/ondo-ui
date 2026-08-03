@@ -24,14 +24,18 @@ Choose the setup that matches your starting point.
 ### Create Project
 
 ```bash
-npx shadcn@latest init -t astro
+npx ondo-ui@latest init -t astro
 ```
 
 For a monorepo, add `--monorepo` to the command.
 
 ### Add Components
 
-Astro projects need the React integration before rendering Ondo React components. Register the Ondo namespace before adding them.
+Astro projects need the React integration before rendering Ondo React components. The command installs the Ondo theme and registers `@ondo-ui`; add components with:
+
+```bash
+npx shadcn@latest add @ondo-ui/button
+```
 
 </Steps>
 

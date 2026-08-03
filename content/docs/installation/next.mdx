@@ -23,15 +23,19 @@ Choose the setup that matches your starting point.
 
 ### Create Project
 
-Run the init command and follow the prompts to configure your Next.js project:
+Run the Ondo init command to configure your Next.js project, install the theme, and register the Ondo registry:
 
 ```bash
-npx shadcn@latest init -t next
+npx ondo-ui@latest init -t next
 ```
 
 ### Add Components
 
-Ondo components are added after registering the Ondo registry in the existing-project steps below.
+The command installs the Ondo theme and configures `@ondo-ui`. Add more components with:
+
+```bash
+npx shadcn@latest add @ondo-ui/button
+```
 
 </Steps>
 

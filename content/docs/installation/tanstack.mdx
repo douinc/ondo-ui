@@ -24,14 +24,18 @@ Choose the setup that matches your starting point.
 ### Create Project
 
 ```bash
-npx shadcn@latest init -t start
+npx ondo-ui@latest init -t start
 ```
 
-For a monorepo, use `npx shadcn@latest init -t start --monorepo`.
+For a monorepo, use `npx ondo-ui@latest init -t start --monorepo`.
 
 ### Add Components
 
-Register the Ondo namespace before adding components to the generated app.
+The command installs the Ondo theme and registers `@ondo-ui`. Add more components with:
+
+```bash
+npx shadcn@latest add @ondo-ui/button
+```
 
 </Steps>
 

@@ -18,10 +18,16 @@ description: Astro에 Ondo UI를 설치하고 설정합니다.
 ### 프로젝트 만들기
 
 ```bash
-npx shadcn@latest init -t astro
+npx ondo-ui@latest init -t astro
 ```
 
 monorepo라면 `--monorepo` 옵션을 추가하세요.
+
+명령이 Ondo 테마와 `@ondo-ui` 레지스트리를 자동으로 설정합니다. 추가 컴포넌트는 다음처럼 설치합니다:
+
+```bash
+npx shadcn@latest add @ondo-ui/button
+```
 
 </Steps>
 

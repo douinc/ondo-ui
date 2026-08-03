@@ -24,14 +24,18 @@ Choose the setup that matches your starting point.
 ### Create Project
 
 ```bash
-npx shadcn@latest init -t react-router
+npx ondo-ui@latest init -t react-router
 ```
 
 For a monorepo, add `--monorepo` to the command.
 
 ### Add Components
 
-Register the Ondo namespace before adding components to the generated app.
+The command installs the Ondo theme and registers `@ondo-ui`. Add more components with:
+
+```bash
+npx shadcn@latest add @ondo-ui/button
+```
 
 </Steps>
 

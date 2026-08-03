@@ -45,6 +45,11 @@ The command delegates supported shadcn options such as `--cwd`, `--name`,
 The wrapper passes these as direct URLs to `shadcn init`, then merges the Ondo
 namespace without removing user-defined registries.
 
+Laravel starters may include a single-package `pnpm-workspace.yaml`. The
+wrapper enables pnpm's workspace-root dependency installation guard only for
+the Laravel child process so shadcn can install dependencies in the Laravel
+app root.
+
 ## Package shape
 
 The repository package becomes publishable as `ondo-ui` and exposes a single
