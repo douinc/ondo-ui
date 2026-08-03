@@ -1,14 +1,15 @@
-# Framework Installation Guides Design
+# Shadcn-Style Installation Navigation and Guides Design
 
 ## Goal
 
-Make Ondo UI installation discoverable and actionable for the same seven
-framework paths shown by shadcn/ui, while keeping the site compatible with its
-GitHub Pages static export.
+Make Ondo UI's installation documentation match the local shadcn/ui documentation
+at `/Users/initred/Code/ui` wherever the projects are compatible. The sidebar
+must expose one `Installation` entry, while the installation overview provides
+shadcn-style selection cards for setup method and framework.
 
 ## Scope
 
-The installation documentation will support these paths:
+The existing seven Ondo framework paths remain supported:
 
 - Next.js
 - Vite
@@ -18,112 +19,86 @@ The installation documentation will support these paths:
 - Astro
 - Manual
 
-Every path will have English and Korean content. The root installation page
-will provide a framework card grid and link to the detailed guides.
+Both English and Korean pages use the same structure and route set. This work
+does not add shadcn-only Gatsby, Remix, or TanStack Router pages.
 
 ## Architecture
 
-The root `content/docs/installation.mdx` page remains the canonical overview.
-Framework-specific pages live under `content/docs/installation/` as ordinary
-Fumadocs MDX pages. `content/docs/installation/meta.json` fixes their sidebar
-order. This follows the repository's existing nested documentation pattern and
-requires no new runtime route or UI component.
+The existing Fumadocs MDX pages remain the source of truth. The root
+`content/docs/installation.mdx` and `installation.ko.mdx` pages provide the
+overview. Pages under `content/docs/installation/` remain separate framework
+routes so each guide is linkable, statically exported, and searchable.
 
-The existing catch-all docs routes already call `source.getPages(locale)` from
-`generateStaticParams()`. With the existing Next configuration
-(`output: "export"` and `trailingSlash: true`), each new page is emitted as a
-static `index.html` directory, suitable for GitHub Pages.
+The existing generic sidebar flattens nested Fumadocs folders. Update that
+flattening boundary so the `installation` folder's child pages are omitted
+from sidebar groups while the root `installation` page remains visible. This
+preserves the current page tree and avoids hard-coding a second sidebar model.
 
-## Content design
+## Navigation and overview design
 
-The overview page will:
+The sidebar shows `Installation` as a single menu item; it does not show a
+`Frameworks` group or the seven child guides.
 
-1. Explain that Ondo UI is installed through the shadcn CLI.
-2. Provide a short new-project command and an existing-project path.
-3. Render seven `LinkedCard` cards linking to the framework guides.
-4. Preserve the existing registry URL and first-component example.
+The overview follows shadcn's order and card layout:
 
-Each framework page will contain:
+1. A recommendation callout.
+2. Three setup cards linking to `#use-create`, `#use-cli`, and
+   `#existing-project`.
+3. A `Use shadcn/create` section with an external link to
+   `https://ui.shadcn.com/create`, because Ondo is hosted as a GitHub Pages
+   static site and does not own the `/create` route.
+4. A `Use the CLI` section with shadcn-compatible initialization commands.
+5. An `Existing Project` section.
+6. A seven-card framework chooser linking to each detailed guide.
 
-1. A framework-specific new-project command.
-2. An existing-project setup path.
-3. The `components.json` registry entry:
+The cards are `LinkedCard` route links, matching the actual shadcn source. They
+are not literal `<Tabs>` controls: each framework guide is a separate route,
+which preserves direct links, browser navigation, static export, and SEO.
+Use shadcn's inline framework logos where available so the visual presentation
+matches the reference. Korean `LinkedCard` URLs retain the explicit `/ko` prefix
+required by Ondo's direct-link implementation.
 
-   ```json
-   {
-     "registries": {
-       "@ondo-ui": "https://ui.ondo.dou.so/r/{name}.json"
-     }
-   }
-   ```
+## Framework guide content
 
-4. Theme installation:
+Each framework guide follows shadcn's three setup choices:
 
-   ```bash
-   bunx shadcn@latest add @ondo-ui/theme @ondo-ui/theme-provider
-   ```
+- `Use shadcn/create`: link to the external shadcn/create template for the
+  framework when the template exists.
+- `Use the CLI`: show the framework's shadcn initialization command.
+- `Existing Project`: show framework-specific manual prerequisites and setup.
 
-5. A first component installation example:
+Only Ondo-specific differences are inserted into the shared flow:
 
-   ```bash
-   bunx shadcn@latest add @ondo-ui/button
-   ```
+- register `@ondo-ui` using
+  `https://ui.ondo.dou.so/r/{name}.json` in `components.json`;
+- install `@ondo-ui/theme` and `@ondo-ui/theme-provider` where applicable;
+- install Ondo components such as `@ondo-ui/button` rather than shadcn's local
+  component registry;
+- change descriptions and examples to identify Ondo UI.
 
-The code-block transformer will continue to provide npm, pnpm, yarn, and bun
-variants. Laravel will document `laravel new` before the shadcn initialization
-command. `theme-provider` will be described as optional where a framework's
-React integration requires additional setup; the registry theme and component
-installation remain the common path.
+The existing registry URL, theme/provider guidance, and component examples are
+preserved rather than replaced by shadcn-only examples. All framework pages
+remain available in English and Korean.
 
-## Files
+## GitHub Pages compatibility
 
-### Create
-
-- `content/docs/installation/meta.json`
-- `content/docs/installation/next.mdx`
-- `content/docs/installation/next.ko.mdx`
-- `content/docs/installation/vite.mdx`
-- `content/docs/installation/vite.ko.mdx`
-- `content/docs/installation/tanstack.mdx`
-- `content/docs/installation/tanstack.ko.mdx`
-- `content/docs/installation/laravel.mdx`
-- `content/docs/installation/laravel.ko.mdx`
-- `content/docs/installation/react-router.mdx`
-- `content/docs/installation/react-router.ko.mdx`
-- `content/docs/installation/astro.mdx`
-- `content/docs/installation/astro.ko.mdx`
-- `content/docs/installation/manual.mdx`
-- `content/docs/installation/manual.ko.mdx`
-
-### Modify
-
-- `content/docs/installation.mdx`
-- `content/docs/installation.ko.mdx`
-- `scripts/smoke-static-export.ts`
-
-The smoke test will request the new English and Korean installation URLs so a
-missing generated page is caught during the GitHub Pages build.
-
-## Static-export behavior
-
-No client-side routing, server action, API route, or runtime registry lookup is
-needed. MDX content is compiled at build time, and the existing export
-verification already validates that generated local links resolve to published
-files. The implementation will not add `basePath`; that remains a deployment
-concern only for repository-subpath Pages deployments, not the current custom
-domain setup.
+The implementation keeps `output: "export"` and `trailingSlash: true`. It adds
+no runtime route, server action, API dependency, or client-side tab state.
+External shadcn/create links use absolute URLs. Local framework links use the
+existing locale-aware conventions and are verified against generated static
+files.
 
 ## Testing and acceptance criteria
 
+- Sidebar tests prove the root `Installation` page is present and its nested
+  framework pages are absent from sidebar groups.
+- The root English and Korean pages contain the three setup cards and all seven
+  framework cards.
+- All seven English and seven Korean framework routes build successfully.
+- Framework pages contain the applicable initialization command, Ondo registry
+  URL, theme/provider installation, and component installation example.
 - `bun run test` passes.
-- `bun run lint` passes.
+- `bun run lint` passes with no new errors.
 - `bun run typecheck` passes.
-- `bun run build` produces all seven English and Korean installation routes.
-- `scripts/verify-static-export.ts` accepts the generated static files.
-- The smoke path list includes `/docs/installation/<framework>/` and
-  `/ko/docs/installation/<framework>/` for every framework.
-- All framework cards resolve to existing localized documentation pages.
-- Every framework guide contains a working framework initialization command,
-  the Ondo registry URL, theme installation, and a component installation
-  example.
-
+- `bun run build` succeeds and emits the required static pages.
+- The static export smoke test passes for the overview and all framework routes.
