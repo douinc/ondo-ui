@@ -2,7 +2,7 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Publish an `ondo-ui init` executable that delegates to shadcn initialization, installs framework-compatible Ondo theme assets, and registers the Ondo namespace automatically.
+**Goal:** Publish an `@dou.so/ondo-ui init` executable that delegates to shadcn initialization, installs framework-compatible Ondo theme assets, and registers the Ondo namespace automatically.
 
 **Architecture:** Keep shadcn as the project scaffold and installer. The thin Node CLI selects direct Ondo registry item URLs based on the requested framework, invokes `shadcn init`, then safely merges `@ondo-ui` into every generated `components.json`. The package publishes only the CLI artifact while the repository remains the documentation and registry source.
 
@@ -169,9 +169,9 @@ Expected: PASS for framework selection, argument construction, and config mergin
 
 - [ ] **Step 1: Replace new-project CLI examples**
 
-Use `npx ondo-ui@latest init -t next`, `-t vite`, `-t start`,
+Use `npx @dou.so/ondo-ui@latest init -t next`, `-t vite`, `-t start`,
 `-t react-router`, and `-t astro`. For Laravel, document creating the Laravel
-app first and then running `npx ondo-ui@latest init -t laravel` from that app.
+app first and then running `npx @dou.so/ondo-ui@latest init -t laravel` from that app.
 
 - [ ] **Step 2: Remove redundant manual registry and theme setup from those paths**
 

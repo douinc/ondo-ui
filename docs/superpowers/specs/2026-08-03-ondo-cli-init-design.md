@@ -2,7 +2,7 @@
 
 ## Goal
 
-Provide a public `ondo-ui init` command that scaffolds a supported framework with
+Provide a public `@dou.so/ondo-ui init` command that scaffolds a supported framework with
 Ondo's theme assets, optional framework-compatible theme provider, and the
 `@ondo-ui` registry already configured.
 
@@ -16,7 +16,7 @@ instead of modifying or vendoring shadcn internals.
 ## User experience
 
 ```bash
-npx ondo-ui@latest init -t next
+npx @dou.so/ondo-ui@latest init -t next
 ```
 
 The command delegates supported shadcn options such as `--cwd`, `--name`,
