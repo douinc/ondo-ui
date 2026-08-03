@@ -10,11 +10,11 @@
 
 ## Global Constraints
 
-- Public variants are only `"default" | "success"`; `primary` remains an internal theme token.
+- Public variants are `"default" | "info" | "success" | "warning" | "destructive"` in that order; `primary` remains an internal theme token mapped from `default`.
 - `activeVariant` defaults to `variant`.
 - Inactive styling remains muted and is not affected by `activeVariant`.
 - Preserve existing Stepper components, controlled state, loading indicators, panel behavior, and generated IDs.
-- Use `cva` with `cn`; do not add new theme tokens or dependencies.
+- Use `cva` with `cn`; use `text-primary-foreground` for `default` and `text-white` for the other semantic variants; do not add new theme tokens or dependencies.
 - Update both `content/docs/components/stepper.mdx` and `.ko.mdx` where examples demonstrate state colors.
 
 ---
@@ -29,14 +29,14 @@
 **Interfaces:**
 
 - Consumes: current `Stepper` exports.
-- Produces: executable assertions for default, success, and active override recipes.
+- Produces: executable assertions for all five semantic variants and the active override recipe.
 
 - [ ] **Step 1: Write the failing tests**
 
 Add tests using `renderToStaticMarkup` that render a minimal Stepper with one completed item and one active item. Assert that:
 
 1. The default variant includes primary active/completed classes.
-2. `variant="success"` includes success active/completed classes.
+2. `variant="info"`, `variant="success"`, `variant="warning"`, and `variant="destructive"` include their corresponding active/completed classes.
 3. `variant="success" activeVariant="default"` includes success completed classes and primary active classes.
 4. The separator receives the base completed variant class.
 
@@ -71,7 +71,7 @@ Expected: the new variant assertions fail because `Stepper` does not yet accept 
 Define and export:
 
 ```ts
-type StepperVariant = "default" | "success"
+type StepperVariant = "default" | "info" | "success" | "warning" | "destructive"
 ```
 
 Add `variant?: StepperVariant` and `activeVariant?: StepperVariant` to `StepperProps`. Default `variant` to `"default"`; pass `activeVariant ?? variant` through `StepperContextValue`.
@@ -85,7 +85,7 @@ Add a `StepperIndicator` recipe with these state mappings:
 - `activeVariant` overrides only active background/text classes.
 - inactive remains `text-muted-foreground`.
 
-Add a separator recipe where the completed connector uses `bg-primary` for `default` and `bg-success` for `success`; preserve existing geometry and style-specific classes.
+Add a separator recipe where the completed connector uses the corresponding semantic token: `bg-primary` for `default`, then `bg-info`, `bg-success`, `bg-warning`, and `bg-destructive`; preserve existing geometry and style-specific classes.
 
 - [ ] **Step 3: Consume context in visual primitives and export the type**
 

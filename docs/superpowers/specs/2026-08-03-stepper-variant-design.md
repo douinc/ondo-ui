@@ -11,7 +11,7 @@ state-specific Tailwind color classes.
 name. The public variant names are:
 
 ```ts
-type StepperVariant = "default" | "success"
+type StepperVariant = "default" | "info" | "success" | "warning" | "destructive"
 ```
 
 The type is exported from the Stepper module.
@@ -34,7 +34,9 @@ Examples:
 <Stepper variant="default" />
 ```
 
-The active and completed indicators both use the `primary` token.
+The active and completed indicators both use the `primary` token. The other
+variants map to their corresponding Ondo UI color tokens in this order:
+`info`, `success`, `warning`, and `destructive`.
 
 ```tsx
 <Stepper variant="success" />
@@ -63,6 +65,8 @@ visual primitives consume that context:
 The variant recipes should use `cva` and `cn`, following the repository's
 component convention. `default` maps to the existing `primary` token; no public
 class or type should use `primary` as a Stepper variant name.
+The `default` variant uses `text-primary-foreground`; the other semantic
+variants use `text-white`. No `*-foreground` theme tokens are added.
 
 The existing size, border, layout, and consumer `className` overrides remain
 unchanged. Demos should retain geometry classes but remove direct state color
@@ -80,7 +84,8 @@ The change adds optional props and does not rename existing components.
 Add focused tests that verify:
 
 1. The default variant renders the primary active and completed recipes.
-2. The success variant renders the success active and completed recipes.
+2. Each of the `info`, `success`, `warning`, and `destructive` variants renders
+   its corresponding active, completed, and separator recipes.
 3. `activeVariant="default"` overrides only the active recipe.
 4. Existing controlled state, loading indicators, panel rendering, and unique
    IDs continue to pass.

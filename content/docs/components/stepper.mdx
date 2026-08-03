@@ -532,15 +532,15 @@ export default function StepperVerticalTitleDescription() {
 
 The root component that manages the active step and configuration.
 
-| Prop            | Type                         | Default        | Description                                             |
-| :-------------- | :--------------------------- | :------------- | :------------------------------------------------------ |
-| `defaultValue`  | `number`                     | `1`            | The step index to start with (uncontrolled).            |
-| `value`         | `number`                     | -              | The current active step index (controlled).             |
-| `onValueChange` | `(value: number) => void`    | -              | Callback fired when the active step changes.            |
-| `orientation`   | `"horizontal" \| "vertical"` | `"horizontal"` | The layout direction of the stepper.                    |
-| `variant`       | `"default" \| "success"`     | `"default"`    | The color variant shared by active and completed steps. |
-| `activeVariant` | `"default" \| "success"`     | `variant`      | Optional color override for the active step only.       |
-| `indicators`    | `StepIndicators`             | -              | Custom icons or elements for different step states.     |
+| Prop            | Type                                                             | Default        | Description                                                                               |
+| :-------------- | :--------------------------------------------------------------- | :------------- | :---------------------------------------------------------------------------------------- |
+| `defaultValue`  | `number`                                                         | `1`            | The step index to start with (uncontrolled).                                              |
+| `value`         | `number`                                                         | -              | The current active step index (controlled).                                               |
+| `onValueChange` | `(value: number) => void`                                        | -              | Callback fired when the active step changes.                                              |
+| `orientation`   | `"horizontal" \| "vertical"`                                     | `"horizontal"` | The layout direction of the stepper.                                                      |
+| `variant`       | `"default" \| "info" \| "success" \| "warning" \| "destructive"` | `"default"`    | The color variant shared by active and completed steps. `default` uses the primary color. |
+| `activeVariant` | `"default" \| "info" \| "success" \| "warning" \| "destructive"` | `variant`      | Optional color override for the active step only.                                         |
+| `indicators`    | `StepIndicators`                                                 | -              | Custom icons or elements for different step states.                                       |
 
 ---
 
@@ -633,5 +633,5 @@ type StepIndicators = {
 #### StepperVariant
 
 ```tsx
-type StepperVariant = "default" | "success"
+type StepperVariant = "default" | "info" | "success" | "warning" | "destructive"
 ```

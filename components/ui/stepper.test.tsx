@@ -19,8 +19,8 @@ function StepperFixture({
   activeVariant,
 }: {
   forceMount?: boolean
-  variant?: "default" | "success"
-  activeVariant?: "default" | "success"
+  variant?: "default" | "info" | "success" | "warning" | "destructive"
+  activeVariant?: "default" | "info" | "success" | "warning" | "destructive"
 }) {
   return (
     <Stepper
@@ -68,12 +68,23 @@ describe("Stepper", () => {
     expect(html).toContain("loading-icon")
   })
 
-  test("applies the success variant to active, completed, and separator colors", () => {
-    const html = renderToStaticMarkup(<StepperFixture variant="success" />)
+  test("applies each semantic variant to active, completed, and separator colors", () => {
+    const variants = [
+      { value: "default", color: "primary", foreground: "primary-foreground" },
+      { value: "info", color: "info", foreground: "white" },
+      { value: "success", color: "success", foreground: "white" },
+      { value: "warning", color: "warning", foreground: "white" },
+      { value: "destructive", color: "destructive", foreground: "white" },
+    ] as const
 
-    expect(html).toContain("data-[state=active]:bg-success")
-    expect(html).toContain("data-[state=completed]:bg-success")
-    expect(html).toContain("group-data-[state=completed]/step:bg-success")
+    for (const { value, color, foreground } of variants) {
+      const html = renderToStaticMarkup(<StepperFixture variant={value} />)
+
+      expect(html).toContain(`data-[state=active]:bg-${color}`)
+      expect(html).toContain(`data-[state=active]:text-${foreground}`)
+      expect(html).toContain(`data-[state=completed]:bg-${color}`)
+      expect(html).toContain(`group-data-[state=completed]/step:bg-${color}`)
+    }
   })
 
   test("allows active color to override the base variant", () => {

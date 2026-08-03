@@ -19,7 +19,7 @@ import { cn } from "@/lib/utils"
 
 type StepperOrientation = "horizontal" | "vertical"
 type StepState = "active" | "completed" | "inactive"
-type StepperVariant = "default" | "success"
+type StepperVariant = "default" | "info" | "success" | "warning" | "destructive"
 
 type StepIndicators = {
   active?: React.ReactNode
@@ -92,14 +92,24 @@ const stepperIndicatorVariants = cva(
       variant: {
         default:
           "data-[state=completed]:border-primary data-[state=completed]:bg-primary data-[state=completed]:text-primary-foreground",
+        info: "data-[state=completed]:border-info data-[state=completed]:bg-info data-[state=completed]:text-white",
         success:
           "data-[state=completed]:border-success data-[state=completed]:bg-success data-[state=completed]:text-white",
+        warning:
+          "data-[state=completed]:border-warning data-[state=completed]:bg-warning data-[state=completed]:text-white",
+        destructive:
+          "data-[state=completed]:border-destructive data-[state=completed]:bg-destructive data-[state=completed]:text-white",
       },
       activeVariant: {
         default:
           "data-[state=active]:border-primary data-[state=active]:bg-primary data-[state=active]:text-primary-foreground",
+        info: "data-[state=active]:border-info data-[state=active]:bg-info data-[state=active]:text-white",
         success:
           "data-[state=active]:border-success data-[state=active]:bg-success data-[state=active]:text-white",
+        warning:
+          "data-[state=active]:border-warning data-[state=active]:bg-warning data-[state=active]:text-white",
+        destructive:
+          "data-[state=active]:border-destructive data-[state=active]:bg-destructive data-[state=active]:text-white",
       },
     },
     defaultVariants: {
@@ -115,7 +125,10 @@ const stepperSeparatorVariants = cva(
     variants: {
       variant: {
         default: "group-data-[state=completed]/step:bg-primary",
+        info: "group-data-[state=completed]/step:bg-info",
         success: "group-data-[state=completed]/step:bg-success",
+        warning: "group-data-[state=completed]/step:bg-warning",
+        destructive: "group-data-[state=completed]/step:bg-destructive",
       },
     },
     defaultVariants: {
