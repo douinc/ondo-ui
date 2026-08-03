@@ -15,22 +15,13 @@ import {
 
 <Callout className="mb-6 border-emerald-600 bg-emerald-100 dark:border-emerald-400 dark:bg-emerald-900">
 
-**Recommended for new projects:** Use [shadcn/create](https://ui.shadcn.com/create) to build your preset visually and generate the right setup command for your framework.
+**Recommended for new projects:** Use the shadcn CLI to initialize your framework, then register the `@ondo-ui` registry and install the theme.
 
 </Callout>
 
 Choose the setup that matches your starting point.
 
-<div className="mt-6 grid gap-4 sm:grid-cols-3 sm:gap-6">
-  <LinkedCard
-    href="#use-create"
-    className="items-start gap-1 p-6 text-sm md:p-6"
-  >
-    <div className="font-medium">Use shadcn/create</div>
-    <div className="leading-relaxed text-muted-foreground">
-      Build your preset visually and generate a setup command.
-    </div>
-  </LinkedCard>
+<div className="mt-6 grid gap-4 sm:grid-cols-2 sm:gap-6">
   <LinkedCard href="#use-cli" className="items-start gap-1 p-6 text-sm md:p-6">
     <div className="font-medium">Use the CLI</div>
     <div className="leading-relaxed text-muted-foreground">
@@ -47,24 +38,6 @@ Choose the setup that matches your starting point.
     </div>
   </LinkedCard>
 </div>
-
-<div id="use-create" className="scroll-mt-24" />
-## Use shadcn/create
-
-Build your preset visually, preview your choices, and generate a framework-specific setup command.
-
-<Button asChild size="sm">
-  <Link
-    href="https://ui.shadcn.com/create"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="mt-6 no-underline!"
-  >
-    Open shadcn/create
-  </Link>
-</Button>
-
-Available for Next.js, Vite, Laravel, React Router, Astro, and TanStack Start.
 
 <div id="use-cli" className="scroll-mt-24" />
 ## Use the CLI
@@ -88,7 +61,7 @@ Pick your framework below and follow that path.
 
 ## Choose Your Framework
 
-For Laravel, start with `laravel new` before using `shadcn/create` or `shadcn init`.
+For Laravel, start with `laravel new` before using `shadcn init`.
 
 <div className="mt-8 grid gap-4 sm:grid-cols-2 sm:gap-6">
   <LinkedCard href="/docs/installation/next">

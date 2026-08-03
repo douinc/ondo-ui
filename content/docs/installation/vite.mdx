@@ -5,11 +5,7 @@ description: Install and configure Ondo UI for Vite.
 
 Choose the setup that matches your starting point.
 
-<div className="mt-6 grid gap-4 sm:grid-cols-3 sm:gap-6">
-  <LinkedCard href="#scaffold-with-create" className="items-start gap-1 p-6 text-sm md:p-6">
-    <div className="font-medium">Use shadcn/create</div>
-    <div className="leading-relaxed text-muted-foreground">Build your preset and generate a Vite project command.</div>
-  </LinkedCard>
+<div className="mt-6 grid gap-4 sm:grid-cols-2 sm:gap-6">
   <LinkedCard href="#scaffold-with-cli" className="items-start gap-1 p-6 text-sm md:p-6">
     <div className="font-medium">Use the CLI</div>
     <div className="leading-relaxed text-muted-foreground">Scaffold a new Vite project directly from the terminal.</div>
@@ -19,31 +15,6 @@ Choose the setup that matches your starting point.
     <div className="leading-relaxed text-muted-foreground">Configure Ondo UI manually in an existing Vite project.</div>
   </LinkedCard>
 </div>
-
-<div id="scaffold-with-create" className="scroll-mt-24" />
-## Use shadcn/create
-
-<Steps>
-
-### Build Your Preset
-
-Open [shadcn/create](https://ui.shadcn.com/create?template=vite) and build your preset visually.
-
-<Button asChild size="sm">
-  <Link href="https://ui.shadcn.com/create?template=vite" target="_blank" rel="noopener noreferrer" className="mt-6 no-underline!">
-    Open shadcn/create
-  </Link>
-</Button>
-
-### Create Project
-
-```bash
-npx shadcn@latest init --preset [CODE] --template vite
-```
-
-The generated command may include `--base`, `--monorepo`, or `--rtl`.
-
-</Steps>
 
 <div id="scaffold-with-cli" className="scroll-mt-24" />
 ## Use the CLI

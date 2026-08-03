@@ -18,43 +18,12 @@ Choose the React starter kit when prompted. If you already have Laravel with Rea
 
 </Steps>
 
-<div className="mt-10 grid gap-4 sm:grid-cols-2 sm:gap-6">
-  <LinkedCard href="#configure-with-create" className="items-start gap-1 p-6 text-sm md:p-6">
-    <div className="font-medium">Use shadcn/create</div>
-    <div className="leading-relaxed text-muted-foreground">Build your preset and generate a Laravel init command.</div>
-  </LinkedCard>
+<div className="mt-10 grid gap-4 sm:grid-cols-1 sm:gap-6">
   <LinkedCard href="#configure-with-cli" className="items-start gap-1 p-6 text-sm md:p-6">
     <div className="font-medium">Use the CLI</div>
     <div className="leading-relaxed text-muted-foreground">Configure Ondo UI in your Laravel app from the terminal.</div>
   </LinkedCard>
 </div>
-
-<div id="configure-with-create" className="scroll-mt-24" />
-## Use shadcn/create
-
-<Steps>
-
-### Build Your Preset
-
-Open [shadcn/create](https://ui.shadcn.com/create?template=laravel) and build your preset visually.
-
-<Button asChild size="sm">
-  <Link href="https://ui.shadcn.com/create?template=laravel" target="_blank" rel="noopener noreferrer" className="mt-6 no-underline!">
-    Open shadcn/create
-  </Link>
-</Button>
-
-### Run the Command
-
-The generated command will look similar to:
-
-```bash
-npx shadcn@latest init --preset [CODE] --template laravel
-```
-
-Run it from the root of the Laravel app. When asked to overwrite `components.json` and components, choose `Yes`.
-
-</Steps>
 
 <div id="configure-with-cli" className="scroll-mt-24" />
 ## Use the CLI

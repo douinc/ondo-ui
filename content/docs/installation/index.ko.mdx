@@ -15,22 +15,13 @@ import {
 
 <Callout className="mb-6 border-emerald-600 bg-emerald-100 dark:border-emerald-400 dark:bg-emerald-900">
 
-**새 프로젝트에 권장:** [shadcn/create](https://ui.shadcn.com/create)에서 프리셋을 시각적으로 만들고 framework에 맞는 설정 명령을 생성하세요.
+**새 프로젝트에 권장:** shadcn CLI로 framework를 초기화한 다음 `@ondo-ui` 레지스트리를 등록하고 테마를 설치하세요.
 
 </Callout>
 
 시작점에 맞는 설정 방법을 선택하세요.
 
-<div className="mt-6 grid gap-4 sm:grid-cols-3 sm:gap-6">
-  <LinkedCard
-    href="#use-create"
-    className="items-start gap-1 p-6 text-sm md:p-6"
-  >
-    <div className="font-medium">shadcn/create 사용</div>
-    <div className="leading-relaxed text-muted-foreground">
-      프리셋을 시각적으로 만들고 설정 명령을 생성합니다.
-    </div>
-  </LinkedCard>
+<div className="mt-6 grid gap-4 sm:grid-cols-2 sm:gap-6">
   <LinkedCard href="#use-cli" className="items-start gap-1 p-6 text-sm md:p-6">
     <div className="font-medium">CLI 사용</div>
     <div className="leading-relaxed text-muted-foreground">
@@ -47,24 +38,6 @@ import {
     </div>
   </LinkedCard>
 </div>
-
-<div id="use-create" className="scroll-mt-24" />
-## shadcn/create 사용
-
-프리셋을 시각적으로 만들고 선택 사항을 미리 본 뒤 framework에 맞는 설정 명령을 생성합니다.
-
-<Button asChild size="sm">
-  <Link
-    href="https://ui.shadcn.com/create"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="mt-6 no-underline!"
-  >
-    shadcn/create 열기
-  </Link>
-</Button>
-
-Next.js, Vite, Laravel, React Router, Astro, TanStack Start에서 사용할 수 있습니다.
 
 <div id="use-cli" className="scroll-mt-24" />
 ## CLI 사용
@@ -88,7 +61,7 @@ Laravel은 먼저 `laravel new`로 앱을 만든 뒤 `npx shadcn@latest init`을
 
 ## Framework 선택
 
-Laravel은 `shadcn/create` 또는 `shadcn init`을 사용하기 전에 `laravel new`로 시작하세요.
+Laravel은 `shadcn init`을 사용하기 전에 `laravel new`로 시작하세요.
 
 <div className="mt-8 grid gap-4 sm:grid-cols-2 sm:gap-6">
   <LinkedCard href="/ko/docs/installation/next">
