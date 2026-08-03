@@ -2,7 +2,7 @@
 
 import { spawnSync } from "node:child_process"
 import { readFile, readdir, writeFile } from "node:fs/promises"
-import { existsSync } from "node:fs"
+import { existsSync, realpathSync } from "node:fs"
 import { join, resolve } from "node:path"
 import { fileURLToPath } from "node:url"
 
@@ -123,6 +123,17 @@ function getName(args) {
   return getFlagValue(args, ["-n", "--name"])
 }
 
+export function isDirectInvocation(entryPath, modulePath) {
+  if (!entryPath) return false
+  if (resolve(entryPath) === modulePath) return true
+
+  try {
+    return realpathSync(entryPath) === modulePath
+  } catch {
+    return false
+  }
+}
+
 function getProjectRoots(args) {
   const cwd = getCwd(args)
   const name = getName(args)
@@ -210,7 +221,7 @@ export async function run(argv = process.argv.slice(2)) {
 const entryPath = process.argv[1] ? resolve(process.argv[1]) : undefined
 const currentPath = fileURLToPath(import.meta.url)
 
-if (entryPath === currentPath) {
+if (isDirectInvocation(entryPath, currentPath)) {
   run().catch((error) => {
     console.error(`ondo-ui: ${error.message}`)
     process.exitCode = 1
