@@ -23,6 +23,8 @@ export default function StepperVerticalTitle() {
         className="flex flex-col items-center justify-center gap-10"
         defaultValue={2}
         orientation="vertical"
+        variant="success"
+        activeVariant="default"
         indicators={{
           completed: <IconCheck className="size-3.5" />,
           loading: <IconLoader2 className="size-3.5 animate-spin" />,
@@ -36,15 +38,13 @@ export default function StepperVerticalTitle() {
               className="relative items-start not-last:flex-1"
             >
               <StepperTrigger className="items-start gap-2.5 pb-12 last:pb-0">
-                <StepperIndicator className="data-[state=completed]:bg-success data-[state=completed]:text-white">
-                  {index + 1}
-                </StepperIndicator>
+                <StepperIndicator>{index + 1}</StepperIndicator>
                 <div className="mt-0.5 text-left">
                   <StepperTitle>{step.title}</StepperTitle>
                 </div>
               </StepperTrigger>
               {index < steps.length - 1 && (
-                <StepperSeparator className="absolute inset-y-0 top-7 left-3 -order-1 m-0 -translate-x-1/2 group-data-[orientation=vertical]/stepper-nav:h-[calc(100%-2rem)] group-data-[state=completed]/step:bg-success" />
+                <StepperSeparator className="absolute inset-y-0 top-7 left-3 -order-1 m-0 -translate-x-1/2 group-data-[orientation=vertical]/stepper-nav:h-[calc(100%-2rem)]" />
               )}
             </StepperItem>
           ))}

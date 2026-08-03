@@ -35,7 +35,7 @@ export default function StepperInlineTitle() {
             </StepperTrigger>
 
             {steps.length > index + 1 && (
-              <StepperSeparator className="group-data-[state=completed]/step:bg-primary md:mx-2.5" />
+              <StepperSeparator className="md:mx-2.5" />
             )}
           </StepperItem>
         ))}

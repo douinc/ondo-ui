@@ -95,7 +95,7 @@ import {
 
 export default function StepperStates() {
   return (
-    <Stepper defaultValue={2}>
+    <Stepper defaultValue={2} variant="success" activeVariant="default">
       <StepperNav>
         {[1, 2, 3].map((step) => (
           <StepperItem key={step} step={step}>
@@ -130,6 +130,8 @@ export default function StepperIndicators() {
   return (
     <Stepper
       defaultValue={2}
+      variant="success"
+      activeVariant="default"
       indicators={{
         completed: <IconCheck />,
         loading: <IconLoader2 className="animate-spin" />,
@@ -167,7 +169,12 @@ export default function StepperControlled() {
   const [step, setStep] = useState(2)
 
   return (
-    <Stepper value={step} onValueChange={setStep}>
+    <Stepper
+      value={step}
+      onValueChange={setStep}
+      variant="success"
+      activeVariant="default"
+    >
       <Button onClick={() => setStep(step - 1)} disabled={step === 1}>
         이전
       </Button>
@@ -525,13 +532,15 @@ export default function StepperVerticalTitleDescription() {
 
 활성 단계와 설정을 관리하는 루트 컴포넌트입니다.
 
-| Prop            | 타입                         | 기본값         | 설명                                       |
-| :-------------- | :--------------------------- | :------------- | :----------------------------------------- |
-| `defaultValue`  | `number`                     | `1`            | 시작할 단계 인덱스(비제어 방식).           |
-| `value`         | `number`                     | -              | 현재 활성 단계 인덱스(제어 방식).          |
-| `onValueChange` | `(value: number) => void`    | -              | 활성 단계가 바뀔 때 호출되는 콜백입니다.   |
-| `orientation`   | `"horizontal" \| "vertical"` | `"horizontal"` | 스테퍼의 배치 방향입니다.                  |
-| `indicators`    | `StepIndicators`             | -              | 단계 상태별 커스텀 아이콘 또는 요소입니다. |
+| Prop            | 타입                         | 기본값         | 설명                                             |
+| :-------------- | :--------------------------- | :------------- | :----------------------------------------------- |
+| `defaultValue`  | `number`                     | `1`            | 시작할 단계 인덱스(비제어 방식).                 |
+| `value`         | `number`                     | -              | 현재 활성 단계 인덱스(제어 방식).                |
+| `onValueChange` | `(value: number) => void`    | -              | 활성 단계가 바뀔 때 호출되는 콜백입니다.         |
+| `orientation`   | `"horizontal" \| "vertical"` | `"horizontal"` | 스테퍼의 배치 방향입니다.                        |
+| `variant`       | `"default" \| "success"`     | `"default"`    | 활성 및 완료 단계에 공유할 색상 variant입니다.   |
+| `activeVariant` | `"default" \| "success"`     | `variant`      | 활성 단계에만 적용할 선택적 색상 override입니다. |
+| `indicators`    | `StepIndicators`             | -              | 단계 상태별 커스텀 아이콘 또는 요소입니다.       |
 
 ---
 
@@ -567,6 +576,9 @@ export default function StepperVerticalTitleDescription() {
 ### StepperIndicator
 
 숫자, 체크 표시, 커스텀 아이콘과 같은 단계 상태를 표시합니다.
+
+Indicator 색상은 부모 `Stepper`의 `variant`와 선택적인 `activeVariant`로
+제어합니다.
 
 ---
 
@@ -616,4 +628,10 @@ type StepIndicators = {
   inactive?: React.ReactNode
   loading?: React.ReactNode
 }
+```
+
+#### StepperVariant
+
+```tsx
+type StepperVariant = "default" | "success"
 ```

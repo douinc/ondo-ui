@@ -13,11 +13,21 @@ import {
   StepperTrigger,
 } from "./stepper"
 
-function StepperFixture({ forceMount = false }: { forceMount?: boolean }) {
+function StepperFixture({
+  forceMount = false,
+  variant,
+  activeVariant,
+}: {
+  forceMount?: boolean
+  variant?: "default" | "success"
+  activeVariant?: "default" | "success"
+}) {
   return (
     <Stepper
       value={2}
       orientation="vertical"
+      variant={variant}
+      activeVariant={activeVariant}
       indicators={{
         completed: <span>complete-icon</span>,
         loading: <span>loading-icon</span>,
@@ -56,6 +66,24 @@ describe("Stepper", () => {
     expect(html).toContain('data-loading="true"')
     expect(html).toContain("complete-icon")
     expect(html).toContain("loading-icon")
+  })
+
+  test("applies the success variant to active, completed, and separator colors", () => {
+    const html = renderToStaticMarkup(<StepperFixture variant="success" />)
+
+    expect(html).toContain("data-[state=active]:bg-success")
+    expect(html).toContain("data-[state=completed]:bg-success")
+    expect(html).toContain("group-data-[state=completed]/step:bg-success")
+  })
+
+  test("allows active color to override the base variant", () => {
+    const html = renderToStaticMarkup(
+      <StepperFixture variant="success" activeVariant="default" />
+    )
+
+    expect(html).toContain("data-[state=active]:bg-primary")
+    expect(html).toContain("data-[state=completed]:bg-success")
+    expect(html).toContain("group-data-[state=completed]/step:bg-success")
   })
 
   test("renders linked vertical tabs and the active panel", () => {

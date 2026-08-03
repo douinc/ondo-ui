@@ -22,9 +22,7 @@ export default function StepperDemo() {
             <StepperTrigger>
               <StepperIndicator>{step}</StepperIndicator>
             </StepperTrigger>
-            {steps.length > step && (
-              <StepperSeparator className="group-data-[state=completed]/step:bg-primary" />
-            )}
+            {steps.length > step && <StepperSeparator />}
           </StepperItem>
         ))}
       </StepperNav>

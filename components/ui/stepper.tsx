@@ -13,11 +13,13 @@ import {
 } from "react"
 import { mergeProps } from "@base-ui/react/merge-props"
 import { useRender } from "@base-ui/react/use-render"
+import { cva } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
 
 type StepperOrientation = "horizontal" | "vertical"
 type StepState = "active" | "completed" | "inactive"
+type StepperVariant = "default" | "success"
 
 type StepIndicators = {
   active?: React.ReactNode
@@ -30,6 +32,8 @@ interface StepperContextValue {
   activeStep: number
   setActiveStep: (step: number) => void
   orientation: StepperOrientation
+  variant: StepperVariant
+  activeVariant: StepperVariant
   indicators: StepIndicators
   baseId: string
   registerTrigger: (node: HTMLButtonElement) => () => void
@@ -76,14 +80,57 @@ interface StepperProps extends HTMLAttributes<HTMLDivElement> {
   value?: number
   onValueChange?: (value: number) => void
   orientation?: StepperOrientation
+  variant?: StepperVariant
+  activeVariant?: StepperVariant
   indicators?: StepIndicators
 }
+
+const stepperIndicatorVariants = cva(
+  "relative flex size-6 shrink-0 items-center justify-center overflow-hidden rounded-full border-background bg-accent text-xs text-accent-foreground data-[state=inactive]:text-muted-foreground",
+  {
+    variants: {
+      variant: {
+        default:
+          "data-[state=completed]:border-primary data-[state=completed]:bg-primary data-[state=completed]:text-primary-foreground",
+        success:
+          "data-[state=completed]:border-success data-[state=completed]:bg-success data-[state=completed]:text-white",
+      },
+      activeVariant: {
+        default:
+          "data-[state=active]:border-primary data-[state=active]:bg-primary data-[state=active]:text-primary-foreground",
+        success:
+          "data-[state=active]:border-success data-[state=active]:bg-success data-[state=active]:text-white",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+      activeVariant: "default",
+    },
+  }
+)
+
+const stepperSeparatorVariants = cva(
+  "style-vega:rounded-sm style-nova:rounded-sm style-maia:rounded-full style-lyra:rounded-none style-mira:rounded-sm style-luma:rounded-full style-rhea:rounded-full style-sera:rounded-none m-0.5 bg-muted group-data-[orientation=horizontal]/stepper-nav:h-0.5 group-data-[orientation=horizontal]/stepper-nav:flex-1 group-data-[orientation=vertical]/stepper-nav:h-12 group-data-[orientation=vertical]/stepper-nav:w-0.5",
+  {
+    variants: {
+      variant: {
+        default: "group-data-[state=completed]/step:bg-primary",
+        success: "group-data-[state=completed]/step:bg-success",
+      },
+    },
+    defaultVariants: {
+      variant: "default",
+    },
+  }
+)
 
 function Stepper({
   defaultValue = 1,
   value,
   onValueChange,
   orientation = "horizontal",
+  variant = "default",
+  activeVariant,
   indicators = {},
   className,
   children,
@@ -166,6 +213,8 @@ function Stepper({
       activeStep,
       setActiveStep,
       orientation,
+      variant,
+      activeVariant: activeVariant ?? variant,
       indicators,
       baseId,
       registerTrigger,
@@ -177,6 +226,7 @@ function Stepper({
     [
       activeStep,
       baseId,
+      activeVariant,
       focusFirst,
       focusLast,
       focusNext,
@@ -185,6 +235,7 @@ function Stepper({
       orientation,
       registerTrigger,
       setActiveStep,
+      variant,
     ]
   )
 
@@ -351,7 +402,7 @@ function StepperIndicator({
   ...props
 }: React.ComponentProps<"div">) {
   const { state, isLoading } = useStepItem()
-  const { indicators } = useStepper()
+  const { indicators, variant, activeVariant } = useStepper()
   let content = children
 
   if (isLoading && indicators.loading !== undefined) {
@@ -365,7 +416,7 @@ function StepperIndicator({
       data-slot="stepper-indicator"
       data-state={state}
       className={cn(
-        "relative flex size-6 shrink-0 items-center justify-center overflow-hidden rounded-full border-background bg-accent text-xs text-accent-foreground data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=completed]:bg-primary data-[state=completed]:text-primary-foreground",
+        stepperIndicatorVariants({ variant, activeVariant }),
         className
       )}
       {...props}
@@ -380,15 +431,13 @@ function StepperSeparator({
   ...props
 }: React.ComponentProps<"div">) {
   const { state } = useStepItem()
+  const { variant } = useStepper()
 
   return (
     <div
       data-slot="stepper-separator"
       data-state={state}
-      className={cn(
-        "style-vega:rounded-sm style-nova:rounded-sm style-maia:rounded-full style-lyra:rounded-none style-mira:rounded-sm style-luma:rounded-full style-rhea:rounded-full style-sera:rounded-none m-0.5 bg-muted group-data-[orientation=horizontal]/stepper-nav:h-0.5 group-data-[orientation=horizontal]/stepper-nav:flex-1 group-data-[orientation=vertical]/stepper-nav:h-12 group-data-[orientation=vertical]/stepper-nav:w-0.5",
-        className
-      )}
+      className={cn(stepperSeparatorVariants({ variant }), className)}
       {...props}
     />
   )
@@ -525,6 +574,7 @@ export {
   useStepItem,
   useStepper,
   type StepIndicators,
+  type StepperVariant,
   type StepperContentProps,
   type StepperItemProps,
   type StepperProps,

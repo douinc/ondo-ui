@@ -22,6 +22,8 @@ export default function StepperVertical() {
         className="flex flex-col items-center justify-center gap-10"
         defaultValue={2}
         orientation="vertical"
+        variant="success"
+        activeVariant="default"
         indicators={{
           completed: <IconCheck className="size-3.5" />,
           loading: <IconLoader2 className="size-3.5 animate-spin" />,
@@ -31,13 +33,9 @@ export default function StepperVertical() {
           {steps.map((step) => (
             <StepperItem key={step} step={step} loading={step === 2}>
               <StepperTrigger>
-                <StepperIndicator className="data-[state=completed]:bg-success data-[state=completed]:text-white">
-                  {step}
-                </StepperIndicator>
+                <StepperIndicator>{step}</StepperIndicator>
               </StepperTrigger>
-              {steps.length > step && (
-                <StepperSeparator className="group-data-[state=completed]/step:bg-success" />
-              )}
+              {steps.length > step && <StepperSeparator />}
             </StepperItem>
           ))}
         </StepperNav>

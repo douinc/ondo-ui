@@ -23,19 +23,17 @@ export default function StepperControlled() {
     <Stepper
       value={currentStep}
       onValueChange={setCurrentStep}
+      variant="success"
+      activeVariant="default"
       className="w-full max-w-md space-y-8"
     >
       <StepperNav>
         {steps.map((step) => (
           <StepperItem key={step} step={step}>
             <StepperTrigger>
-              <StepperIndicator className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=completed]:bg-green-500 data-[state=completed]:text-white data-[state=inactive]:text-gray-500">
-                {step}
-              </StepperIndicator>
+              <StepperIndicator>{step}</StepperIndicator>
             </StepperTrigger>
-            {steps.length > step && (
-              <StepperSeparator className="group-data-[state=completed]/step:bg-green-500" />
-            )}
+            {steps.length > step && <StepperSeparator />}
           </StepperItem>
         ))}
       </StepperNav>

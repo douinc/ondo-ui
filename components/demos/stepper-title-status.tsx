@@ -45,6 +45,8 @@ export default function StepperTitleStatus() {
     <Stepper
       value={currentStep}
       onValueChange={setCurrentStep}
+      variant="success"
+      activeVariant="default"
       indicators={{
         completed: <IconCheck className="size-3.5" />,
         loading: <IconLoader2 className="size-3.5 animate-spin" />,
@@ -59,7 +61,7 @@ export default function StepperTitleStatus() {
             className="relative flex-1 items-start"
           >
             <StepperTrigger className="flex grow flex-col items-start justify-center gap-2.5">
-              <StepperIndicator className="size-8 border-2 data-[state=completed]:bg-success data-[state=completed]:text-white data-[state=inactive]:border-border data-[state=inactive]:bg-transparent data-[state=inactive]:text-muted-foreground">
+              <StepperIndicator className="size-8 border-2 data-[state=inactive]:border-border data-[state=inactive]:bg-transparent data-[state=inactive]:text-muted-foreground">
                 {step.icon}
               </StepperIndicator>
               <div className="flex flex-col items-start gap-1">
@@ -93,7 +95,7 @@ export default function StepperTitleStatus() {
             </StepperTrigger>
 
             {steps.length > index + 1 && (
-              <StepperSeparator className="absolute inset-x-0 start-9 top-4 m-0 group-data-[orientation=horizontal]/stepper-nav:w-[calc(100%-2rem)] group-data-[orientation=horizontal]/stepper-nav:flex-none group-data-[state=completed]/step:bg-success" />
+              <StepperSeparator className="absolute inset-x-0 start-9 top-4 m-0 group-data-[orientation=horizontal]/stepper-nav:w-[calc(100%-2rem)] group-data-[orientation=horizontal]/stepper-nav:flex-none" />
             )}
           </StepperItem>
         ))}

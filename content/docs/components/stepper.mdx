@@ -95,7 +95,7 @@ import {
 
 export default function StepperStates() {
   return (
-    <Stepper defaultValue={2}>
+    <Stepper defaultValue={2} variant="success" activeVariant="default">
       <StepperNav>
         {[1, 2, 3].map((step) => (
           <StepperItem key={step} step={step}>
@@ -130,6 +130,8 @@ export default function StepperIndicators() {
   return (
     <Stepper
       defaultValue={2}
+      variant="success"
+      activeVariant="default"
       indicators={{
         completed: <IconCheck />,
         loading: <IconLoader2 className="animate-spin" />,
@@ -167,7 +169,12 @@ export default function StepperControlled() {
   const [step, setStep] = useState(2)
 
   return (
-    <Stepper value={step} onValueChange={setStep}>
+    <Stepper
+      value={step}
+      onValueChange={setStep}
+      variant="success"
+      activeVariant="default"
+    >
       <Button onClick={() => setStep(step - 1)} disabled={step === 1}>
         Previous
       </Button>
@@ -525,13 +532,15 @@ export default function StepperVerticalTitleDescription() {
 
 The root component that manages the active step and configuration.
 
-| Prop            | Type                         | Default        | Description                                         |
-| :-------------- | :--------------------------- | :------------- | :-------------------------------------------------- |
-| `defaultValue`  | `number`                     | `1`            | The step index to start with (uncontrolled).        |
-| `value`         | `number`                     | -              | The current active step index (controlled).         |
-| `onValueChange` | `(value: number) => void`    | -              | Callback fired when the active step changes.        |
-| `orientation`   | `"horizontal" \| "vertical"` | `"horizontal"` | The layout direction of the stepper.                |
-| `indicators`    | `StepIndicators`             | -              | Custom icons or elements for different step states. |
+| Prop            | Type                         | Default        | Description                                             |
+| :-------------- | :--------------------------- | :------------- | :------------------------------------------------------ |
+| `defaultValue`  | `number`                     | `1`            | The step index to start with (uncontrolled).            |
+| `value`         | `number`                     | -              | The current active step index (controlled).             |
+| `onValueChange` | `(value: number) => void`    | -              | Callback fired when the active step changes.            |
+| `orientation`   | `"horizontal" \| "vertical"` | `"horizontal"` | The layout direction of the stepper.                    |
+| `variant`       | `"default" \| "success"`     | `"default"`    | The color variant shared by active and completed steps. |
+| `activeVariant` | `"default" \| "success"`     | `variant`      | Optional color override for the active step only.       |
+| `indicators`    | `StepIndicators`             | -              | Custom icons or elements for different step states.     |
 
 ---
 
@@ -567,6 +576,9 @@ The interactive element used to navigate between steps.
 ### StepperIndicator
 
 Displays the status of the step, such as a number, checkmark, or custom icon.
+
+The indicator color is controlled by the parent `Stepper`'s `variant` and
+optional `activeVariant` props.
 
 ---
 
@@ -616,4 +628,10 @@ type StepIndicators = {
   inactive?: React.ReactNode
   loading?: React.ReactNode
 }
+```
+
+#### StepperVariant
+
+```tsx
+type StepperVariant = "default" | "success"
 ```

@@ -29,7 +29,7 @@ export default function StepperTitleBar() {
             className="relative flex-1 items-start"
           >
             <StepperTrigger className="flex grow flex-col items-start justify-center gap-3.5">
-              <StepperIndicator className="h-1 w-full rounded-full bg-border data-[state=active]:bg-primary data-[state=completed]:bg-primary">
+              <StepperIndicator className="h-1 w-full rounded-full bg-border">
                 <span className="sr-only">{index + 1}</span>
               </StepperIndicator>
               <StepperTitle className="text-start font-semibold group-data-[state=inactive]/step:text-muted-foreground">

@@ -20,6 +20,8 @@ export default function StepperIndicators() {
     <Stepper
       className="w-full max-w-md"
       defaultValue={2}
+      variant="success"
+      activeVariant="default"
       indicators={{
         completed: <IconCheck className="size-3.5" />,
         loading: <IconLoader2 className="size-3.5 animate-spin" />,
@@ -29,13 +31,11 @@ export default function StepperIndicators() {
         {steps.map((step) => (
           <StepperItem key={step} step={step} loading={step === 2}>
             <StepperTrigger>
-              <StepperIndicator className="size-5 border-2 data-[state=active]:border-primary data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=completed]:border-green-500 data-[state=completed]:bg-green-500 data-[state=completed]:text-white data-[state=inactive]:border-muted">
+              <StepperIndicator className="size-5 border-2 data-[state=inactive]:border-muted">
                 <span className="hidden size-1.5 rounded-full bg-primary-foreground group-data-[state=active]/step:block" />
               </StepperIndicator>
             </StepperTrigger>
-            {steps.length > step && (
-              <StepperSeparator className="group-data-[state=completed]/step:bg-green-500" />
-            )}
+            {steps.length > step && <StepperSeparator />}
           </StepperItem>
         ))}
       </StepperNav>
