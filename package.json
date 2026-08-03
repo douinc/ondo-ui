@@ -6,7 +6,7 @@
     "access": "public"
   },
   "bin": {
-    "ondo-ui": "./bin/ondo-ui.mjs"
+    "ondo-ui": "bin/ondo-ui.mjs"
   },
   "files": [
     "bin",
