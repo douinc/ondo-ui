@@ -1,0 +1,106 @@
+---
+title: Next.js
+description: Next.js에 Ondo UI를 설치하고 설정합니다.
+---
+
+시작점에 맞는 설정 방법을 선택하세요.
+
+<div className="mt-6 grid gap-4 sm:grid-cols-2 sm:gap-6">
+  <LinkedCard href="#scaffold-with-cli" className="items-start gap-1 p-6 text-sm md:p-6">
+    <div className="font-medium">CLI 사용</div>
+    <div className="leading-relaxed text-muted-foreground">터미널에서 새 Next.js 프로젝트를 생성합니다.</div>
+  </LinkedCard>
+  <LinkedCard href="#existing-next-project" className="items-start gap-1 p-6 text-sm md:p-6">
+    <div className="font-medium">기존 프로젝트</div>
+    <div className="leading-relaxed text-muted-foreground">기존 Next.js 프로젝트에 Ondo UI를 직접 설정합니다.</div>
+  </LinkedCard>
+</div>
+
+<div id="scaffold-with-cli" className="scroll-mt-24" />
+## CLI 사용
+
+<Steps>
+
+### 프로젝트 만들기
+
+```bash
+npx @dou.so/ondo-ui@latest init -t next
+```
+
+### 컴포넌트 추가
+
+명령이 Ondo 테마와 `@ondo-ui` 레지스트리를 자동으로 설정합니다. 추가 컴포넌트는 다음처럼 설치합니다:
+
+```bash
+npx shadcn@latest add @ondo-ui/button
+```
+
+</Steps>
+
+<div id="existing-next-project" className="scroll-mt-24" />
+## 기존 프로젝트
+
+<Steps>
+
+### 프로젝트 만들기
+
+새 프로젝트라면 먼저 생성하고, 이미 있다면 이 단계를 건너뛰세요:
+
+```bash
+npx create-next-app@latest my-app
+cd my-app
+```
+
+TypeScript, Tailwind CSS, `@/*` import alias는 권장 기본값을 사용하세요.
+
+### Import Alias 설정
+
+`tsconfig.json`에 alias가 없다면 추가합니다:
+
+```json title="tsconfig.json"
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": { "@/*": ["./*"] }
+  }
+}
+```
+
+### CLI 실행
+
+```bash
+npx shadcn@latest init
+```
+
+### Ondo registry 등록
+
+`components.json`에 `@ondo-ui` 네임스페이스를 추가합니다:
+
+```json title="components.json"
+{
+  "registries": {
+    "@ondo-ui": "https://ui.ondo.dou.so/r/{name}.json"
+  }
+}
+```
+
+### 테마와 컴포넌트 추가
+
+```bash
+npx shadcn@latest add @ondo-ui/theme @ondo-ui/theme-provider
+npx shadcn@latest add @ondo-ui/button
+```
+
+React 다크 모드 전환을 사용한다면 [테마 가이드](/docs/theming)에 따라 `ThemeProvider`를 루트에 추가하세요.
+
+### 컴포넌트 사용
+
+```tsx
+import { Button } from "@/components/ui/button"
+
+export default function Example() {
+  return <Button>클릭</Button>
+}
+```
+
+</Steps>

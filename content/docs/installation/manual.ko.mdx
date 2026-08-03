@@ -1,0 +1,102 @@
+---
+title: 수동 설치
+description: 기존 프로젝트에 Ondo UI를 수동으로 추가합니다.
+---
+
+지원되는 템플릿을 사용하지 않는 프로젝트를 위한 경로입니다. 프로젝트에는 Tailwind CSS v4, `components.json`, shadcn `cn()` 유틸리티가 필요합니다.
+
+<div className="mt-6 grid gap-4 sm:grid-cols-2 sm:gap-6">
+  <LinkedCard href="#configure-with-cli" className="items-start gap-1 p-6 text-sm md:p-6"><div className="font-medium">CLI 사용</div><div className="leading-relaxed text-muted-foreground">기존 프로젝트에 shadcn과 Ondo UI를 설정합니다.</div></LinkedCard>
+  <LinkedCard href="#configure-manually" className="items-start gap-1 p-6 text-sm md:p-6"><div className="font-medium">수동 설정</div><div className="leading-relaxed text-muted-foreground">스타일, alias, registry를 직접 추가합니다.</div></LinkedCard>
+</div>
+
+<div id="configure-with-cli" className="scroll-mt-24" />
+## CLI 사용
+
+<Steps>
+
+### CLI 실행
+
+프로젝트 루트에서 실행합니다:
+
+```bash
+npx shadcn@latest init
+```
+
+생성된 `components.json`의 CSS 파일과 컴포넌트 alias가 현재 프로젝트와 맞는지 확인하세요.
+
+### Ondo registry 등록
+
+```json title="components.json"
+{
+  "registries": {
+    "@ondo-ui": "https://ui.ondo.dou.so/r/{name}.json"
+  }
+}
+```
+
+### 테마와 컴포넌트 추가
+
+```bash
+npx shadcn@latest add @ondo-ui/theme @ondo-ui/theme-provider
+npx shadcn@latest add @ondo-ui/button
+```
+
+다크 모드 전환이 필요하다면 [테마 가이드](/docs/theming)에 따라 `ThemeProvider`를 추가하세요.
+
+</Steps>
+
+<div id="configure-manually" className="scroll-mt-24" />
+## 수동 설정
+
+<Steps>
+
+### Tailwind CSS 추가
+
+[Tailwind CSS 설치 안내](https://tailwindcss.com/docs/installation)에 따라 framework에 맞게 설정합니다.
+
+### 의존성 추가
+
+```bash
+npm install shadcn class-variance-authority clsx tailwind-merge tw-animate-css
+```
+
+### Import Alias 설정
+
+```json title="tsconfig.json"
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": { "@/*": ["./src/*"] }
+  }
+}
+```
+
+### 스타일 설정
+
+```css title="src/styles/globals.css"
+@import "tailwindcss";
+```
+
+### `components.json` 생성
+
+`npx shadcn@latest init`을 한 번 실행해 파일을 생성한 뒤 CSS와 alias 경로가 프로젝트와 맞는지 확인합니다.
+
+### 테마와 컴포넌트 추가
+
+```bash
+npx shadcn@latest add @ondo-ui/theme @ondo-ui/theme-provider
+npx shadcn@latest add @ondo-ui/button
+```
+
+### 컴포넌트 사용
+
+```tsx
+import { Button } from "@/components/ui/button"
+
+export default function Example() {
+  return <Button>클릭</Button>
+}
+```
+
+</Steps>

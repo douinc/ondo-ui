@@ -1,0 +1,93 @@
+---
+title: Astro
+description: Astro에 Ondo UI를 설치하고 설정합니다.
+---
+
+시작점에 맞는 설정 방법을 선택하세요.
+
+<div className="mt-6 grid gap-4 sm:grid-cols-2 sm:gap-6">
+  <LinkedCard href="#scaffold-with-cli" className="items-start gap-1 p-6 text-sm md:p-6"><div className="font-medium">CLI 사용</div><div className="leading-relaxed text-muted-foreground">터미널에서 새 Astro 프로젝트를 생성합니다.</div></LinkedCard>
+  <LinkedCard href="#existing-astro-project" className="items-start gap-1 p-6 text-sm md:p-6"><div className="font-medium">기존 프로젝트</div><div className="leading-relaxed text-muted-foreground">기존 Astro 프로젝트에 Ondo UI를 직접 설정합니다.</div></LinkedCard>
+</div>
+
+<div id="scaffold-with-cli" className="scroll-mt-24" />
+## CLI 사용
+
+<Steps>
+
+### 프로젝트 만들기
+
+```bash
+npx @dou.so/ondo-ui@latest init -t astro
+```
+
+monorepo라면 `--monorepo` 옵션을 추가하세요.
+
+명령이 Ondo 테마와 `@ondo-ui` 레지스트리를 자동으로 설정합니다. 추가 컴포넌트는 다음처럼 설치합니다:
+
+```bash
+npx shadcn@latest add @ondo-ui/button
+```
+
+</Steps>
+
+<div id="existing-astro-project" className="scroll-mt-24" />
+## 기존 프로젝트
+
+<Steps>
+
+### 프로젝트 만들기
+
+Tailwind CSS와 React integration을 함께 설정합니다:
+
+```bash
+npm create astro@latest astro-app -- --template with-tailwindcss --install --add react --git
+```
+
+### Import Alias 설정
+
+`tsconfig.json`에 alias가 없다면 추가합니다:
+
+```json title="tsconfig.json"
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": { "@/*": ["./src/*"] }
+  }
+}
+```
+
+### CLI 실행 및 registry 등록
+
+```bash
+npx shadcn@latest init
+```
+
+```json title="components.json"
+{
+  "registries": {
+    "@ondo-ui": "https://ui.ondo.dou.so/r/{name}.json"
+  }
+}
+```
+
+### 테마와 컴포넌트 추가
+
+```bash
+npx shadcn@latest add @ondo-ui/theme @ondo-ui/theme-provider
+npx shadcn@latest add @ondo-ui/button
+```
+
+[테마 가이드](/docs/theming)에 따라 `ThemeProvider`를 설정할 수 있습니다.
+
+### 컴포넌트 사용
+
+```astro
+---
+import { Button } from "@/components/ui/button"
+---
+
+<Button>클릭</Button>
+```
+
+</Steps>

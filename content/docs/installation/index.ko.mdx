@@ -1,0 +1,121 @@
+---
+title: 설치
+description: 의존성과 앱 구조를 설정하고 설치하는 방법입니다.
+---
+
+import {
+  IconBinaryTree,
+  IconBraces,
+  IconBrandAstro,
+  IconBrandLaravel,
+  IconBrandNextjs,
+  IconBrandReact,
+  IconBrandVite,
+} from "@tabler/icons-react"
+
+<Callout className="mb-6 border-emerald-600 bg-emerald-100 dark:border-emerald-400 dark:bg-emerald-900">
+
+**새 프로젝트에 권장:** Ondo CLI로 framework를 초기화하면 `@ondo-ui` 레지스트리와 framework에 맞는 테마가 자동으로 설정됩니다.
+
+</Callout>
+
+시작점에 맞는 설정 방법을 선택하세요.
+
+<div className="mt-6 grid gap-4 sm:grid-cols-2 sm:gap-6">
+  <LinkedCard href="#use-cli" className="items-start gap-1 p-6 text-sm md:p-6">
+    <div className="font-medium">CLI 사용</div>
+    <div className="leading-relaxed text-muted-foreground">
+      터미널에서 지원되는 템플릿을 바로 생성합니다.
+    </div>
+  </LinkedCard>
+  <LinkedCard
+    href="#existing-project"
+    className="items-start gap-1 p-6 text-sm md:p-6"
+  >
+    <div className="font-medium">기존 프로젝트</div>
+    <div className="leading-relaxed text-muted-foreground">
+      이미 만든 앱에 Ondo UI를 추가합니다.
+    </div>
+  </LinkedCard>
+</div>
+
+<div id="use-cli" className="scroll-mt-24" />
+## CLI 사용
+
+터미널에서 Ondo CLI로 새 프로젝트를 만들고 레지스트리와 테마를 함께 설정합니다:
+
+```bash title="터미널"
+npx @dou.so/ondo-ui@latest init -t [framework]
+```
+
+지원 템플릿은 `next`, `vite`, `start`, `react-router`, `astro`입니다.
+
+Laravel은 먼저 `laravel new`로 앱을 만든 뒤 앱 디렉터리에서 `npx @dou.so/ondo-ui@latest init -t laravel`을 실행하세요.
+
+<div id="existing-project" className="scroll-mt-24" />
+## 기존 프로젝트
+
+각 framework 안내에는 해당 framework의 기존 프로젝트를 위한 수동 설정 단계가 포함되어 있습니다.
+
+아래에서 framework를 선택해 진행하세요.
+
+## Framework 선택
+
+Laravel은 `npx @dou.so/ondo-ui@latest init`을 사용하기 전에 `laravel new`로 시작하세요.
+
+<div className="mt-8 grid gap-4 sm:grid-cols-2 sm:gap-6">
+  <LinkedCard href="/ko/docs/installation/next">
+    <IconBrandNextjs className="h-10 w-10" aria-hidden="true" />
+    <p className="mt-2 font-medium">Next.js</p>
+  </LinkedCard>
+  <LinkedCard href="/ko/docs/installation/vite">
+    <IconBrandVite className="h-10 w-10" aria-hidden="true" />
+    <p className="mt-2 font-medium">Vite</p>
+  </LinkedCard>
+  <LinkedCard href="/ko/docs/installation/tanstack">
+    <IconBinaryTree className="h-10 w-10" aria-hidden="true" />
+    <p className="mt-2 font-medium">TanStack Start</p>
+  </LinkedCard>
+  <LinkedCard href="/ko/docs/installation/laravel">
+    <IconBrandLaravel className="h-10 w-10" aria-hidden="true" />
+    <p className="mt-2 font-medium">Laravel</p>
+  </LinkedCard>
+  <LinkedCard href="/ko/docs/installation/react-router">
+    <IconBrandReact className="h-10 w-10" aria-hidden="true" />
+    <p className="mt-2 font-medium">React Router</p>
+  </LinkedCard>
+  <LinkedCard href="/ko/docs/installation/astro">
+    <IconBrandAstro className="h-10 w-10" aria-hidden="true" />
+    <p className="mt-2 font-medium">Astro</p>
+  </LinkedCard>
+  <LinkedCard href="/ko/docs/installation/manual">
+    <IconBraces className="h-10 w-10" aria-hidden="true" />
+    <p className="mt-2 font-medium">수동 설치</p>
+  </LinkedCard>
+</div>
+
+## 사전 준비
+
+ondo-ui 컴포넌트는 [shadcn CLI](https://ui.shadcn.com/docs/installation)로 설정된 프로젝트를 전제로 합니다 — Tailwind CSS v4, `components.json`, `cn()` 유틸리티. 새 프로젝트라면 위에서 framework를 선택해 먼저 프로젝트를 초기화하세요.
+
+## 테마 추가
+
+Ondo CLI가 framework에 맞는 테마를 자동으로 설치하고 `components.json`에 `@ondo-ui` 네임스페이스를 추가합니다.
+
+## 컴포넌트 추가
+
+이름으로 원하는 컴포넌트를 추가합니다. `utils` 같은 의존성은 자동으로 해결됩니다:
+
+```bash
+bunx shadcn@latest add @ondo-ui/button
+```
+
+그다음 프로젝트에서 import 하세요:
+
+```tsx
+import { Button } from "@/components/ui/button"
+
+export default function Example() {
+  return <Button>클릭</Button>
+}
+```

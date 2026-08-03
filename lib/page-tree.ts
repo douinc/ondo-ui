@@ -10,6 +10,16 @@ function collectPages(node: PageTree.Node, acc: Array<PageTree.Item>) {
   if (node.type === "page") {
     acc.push(node as PageTree.Item)
   } else if (node.type === "folder") {
+    if (node.$ref?.folder === "installation") {
+      if (node.index) {
+        acc.push({
+          ...node.index,
+          name: node.index.url.startsWith("/ko/") ? "설치" : "Installation",
+        })
+      }
+      return
+    }
+
     for (const child of node.children) {
       collectPages(child, acc)
     }

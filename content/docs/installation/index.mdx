@@ -1,0 +1,121 @@
+---
+title: Installation
+description: How to install dependencies and structure your app.
+---
+
+import {
+  IconBinaryTree,
+  IconBraces,
+  IconBrandAstro,
+  IconBrandLaravel,
+  IconBrandNextjs,
+  IconBrandReact,
+  IconBrandVite,
+} from "@tabler/icons-react"
+
+<Callout className="mb-6 border-emerald-600 bg-emerald-100 dark:border-emerald-400 dark:bg-emerald-900">
+
+**Recommended for new projects:** Use the Ondo CLI to initialize your framework, configure the `@ondo-ui` registry, and install the framework-compatible theme.
+
+</Callout>
+
+Choose the setup that matches your starting point.
+
+<div className="mt-6 grid gap-4 sm:grid-cols-2 sm:gap-6">
+  <LinkedCard href="#use-cli" className="items-start gap-1 p-6 text-sm md:p-6">
+    <div className="font-medium">Use the CLI</div>
+    <div className="leading-relaxed text-muted-foreground">
+      Scaffold a supported template directly from the terminal.
+    </div>
+  </LinkedCard>
+  <LinkedCard
+    href="#existing-project"
+    className="items-start gap-1 p-6 text-sm md:p-6"
+  >
+    <div className="font-medium">Existing Project</div>
+    <div className="leading-relaxed text-muted-foreground">
+      Add Ondo UI to an app you already created.
+    </div>
+  </LinkedCard>
+</div>
+
+<div id="use-cli" className="scroll-mt-24" />
+## Use the CLI
+
+Use the Ondo CLI to scaffold a new project, configure the registry, and install the initial theme directly from the terminal:
+
+```bash title="Terminal"
+npx @dou.so/ondo-ui@latest init -t [framework]
+```
+
+Supported templates: `next`, `vite`, `start`, `react-router`, and `astro`.
+
+For Laravel, create the app first with `laravel new`, then run `npx @dou.so/ondo-ui@latest init -t laravel` from the app directory.
+
+<div id="existing-project" className="scroll-mt-24" />
+## Existing Project
+
+Each framework guide includes an `Existing Project` section with the manual setup steps for that framework.
+
+Pick your framework below and follow that path.
+
+## Choose Your Framework
+
+For Laravel, start with `laravel new` before using `npx @dou.so/ondo-ui@latest init`.
+
+<div className="mt-8 grid gap-4 sm:grid-cols-2 sm:gap-6">
+  <LinkedCard href="/docs/installation/next">
+    <IconBrandNextjs className="h-10 w-10" aria-hidden="true" />
+    <p className="mt-2 font-medium">Next.js</p>
+  </LinkedCard>
+  <LinkedCard href="/docs/installation/vite">
+    <IconBrandVite className="h-10 w-10" aria-hidden="true" />
+    <p className="mt-2 font-medium">Vite</p>
+  </LinkedCard>
+  <LinkedCard href="/docs/installation/tanstack">
+    <IconBinaryTree className="h-10 w-10" aria-hidden="true" />
+    <p className="mt-2 font-medium">TanStack Start</p>
+  </LinkedCard>
+  <LinkedCard href="/docs/installation/laravel">
+    <IconBrandLaravel className="h-10 w-10" aria-hidden="true" />
+    <p className="mt-2 font-medium">Laravel</p>
+  </LinkedCard>
+  <LinkedCard href="/docs/installation/react-router">
+    <IconBrandReact className="h-10 w-10" aria-hidden="true" />
+    <p className="mt-2 font-medium">React Router</p>
+  </LinkedCard>
+  <LinkedCard href="/docs/installation/astro">
+    <IconBrandAstro className="h-10 w-10" aria-hidden="true" />
+    <p className="mt-2 font-medium">Astro</p>
+  </LinkedCard>
+  <LinkedCard href="/docs/installation/manual">
+    <IconBraces className="h-10 w-10" aria-hidden="true" />
+    <p className="mt-2 font-medium">Manual</p>
+  </LinkedCard>
+</div>
+
+## Prerequisites
+
+ondo-ui components assume a project set up with the [shadcn CLI](https://ui.shadcn.com/docs/installation) — Tailwind CSS v4, a `components.json`, and the `cn()` utility. If you are starting fresh, choose a framework above to initialize the project first.
+
+## Add the theme
+
+The Ondo CLI installs the framework-compatible theme automatically. It also adds the `@ondo-ui` namespace to `components.json`.
+
+## Add components
+
+Add any component by name. Dependencies such as `utils` are resolved automatically:
+
+```bash
+bunx shadcn@latest add @ondo-ui/button
+```
+
+Then import it from your project:
+
+```tsx
+import { Button } from "@/components/ui/button"
+
+export default function Example() {
+  return <Button>Click me</Button>
+}
+```

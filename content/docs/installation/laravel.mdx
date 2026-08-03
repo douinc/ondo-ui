@@ -1,0 +1,78 @@
+---
+title: Laravel
+description: Install and configure Ondo UI for Laravel.
+---
+
+The shadcn CLI does not scaffold a new Laravel app. Start by creating a Laravel app with the React starter kit, then choose how to configure Ondo UI.
+
+<Steps>
+
+### Create Project
+
+```bash
+laravel new my-app
+cd my-app
+```
+
+Choose the React starter kit when prompted. If you already have Laravel with React and Inertia configured, skip this step.
+
+</Steps>
+
+<div className="mt-10 grid gap-4 sm:grid-cols-1 sm:gap-6">
+  <LinkedCard href="#configure-with-cli" className="items-start gap-1 p-6 text-sm md:p-6">
+    <div className="font-medium">Use the CLI</div>
+    <div className="leading-relaxed text-muted-foreground">Configure Ondo UI in your Laravel app from the terminal.</div>
+  </LinkedCard>
+</div>
+
+<div id="configure-with-cli" className="scroll-mt-24" />
+## Use the CLI
+
+<Steps>
+
+### Run the CLI
+
+```bash
+npx @dou.so/ondo-ui@latest init -t laravel
+```
+
+The command installs the Ondo theme and provider, configures the `@ondo-ui` registry, and keeps the Laravel frontend paths detected by shadcn.
+
+</Steps>
+
+## Existing Project
+
+<Steps>
+
+### Register the Ondo Registry
+
+Add the `@ondo-ui` namespace to `components.json`:
+
+```json title="components.json"
+{
+  "registries": {
+    "@ondo-ui": "https://ui.ondo.dou.so/r/{name}.json"
+  }
+}
+```
+
+### Add the Theme and a Component
+
+```bash
+npx shadcn@latest add @ondo-ui/theme @ondo-ui/theme-provider
+npx shadcn@latest add @ondo-ui/button
+```
+
+The component is placed in the configured frontend source directory. Follow the [theming guide](/docs/theming) for `ThemeProvider` setup.
+
+### Use the Component
+
+```tsx
+import { Button } from "@/components/ui/button"
+
+export default function Example() {
+  return <Button>Click me</Button>
+}
+```
+
+</Steps>

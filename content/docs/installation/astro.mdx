@@ -1,0 +1,103 @@
+---
+title: Astro
+description: Install and configure Ondo UI for Astro.
+---
+
+Choose the setup that matches your starting point.
+
+<div className="mt-6 grid gap-4 sm:grid-cols-2 sm:gap-6">
+  <LinkedCard href="#scaffold-with-cli" className="items-start gap-1 p-6 text-sm md:p-6">
+    <div className="font-medium">Use the CLI</div>
+    <div className="leading-relaxed text-muted-foreground">Scaffold a new Astro project directly from the terminal.</div>
+  </LinkedCard>
+  <LinkedCard href="#existing-astro-project" className="items-start gap-1 p-6 text-sm md:p-6">
+    <div className="font-medium">Existing Project</div>
+    <div className="leading-relaxed text-muted-foreground">Configure Ondo UI manually in an existing Astro project.</div>
+  </LinkedCard>
+</div>
+
+<div id="scaffold-with-cli" className="scroll-mt-24" />
+## Use the CLI
+
+<Steps>
+
+### Create Project
+
+```bash
+npx @dou.so/ondo-ui@latest init -t astro
+```
+
+For a monorepo, add `--monorepo` to the command.
+
+### Add Components
+
+Astro projects need the React integration before rendering Ondo React components. The command installs the Ondo theme and registers `@ondo-ui`; add components with:
+
+```bash
+npx shadcn@latest add @ondo-ui/button
+```
+
+</Steps>
+
+<div id="existing-astro-project" className="scroll-mt-24" />
+## Existing Project
+
+<Steps>
+
+### Create Project
+
+If you need a new Astro project, use the Tailwind and React integrations:
+
+```bash
+npm create astro@latest astro-app -- --template with-tailwindcss --install --add react --git
+```
+
+### Configure Import Aliases
+
+If `@/*` is not configured, add it to `tsconfig.json`:
+
+```json title="tsconfig.json"
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": { "@/*": ["./src/*"] }
+  }
+}
+```
+
+### Run the CLI
+
+```bash
+npx shadcn@latest init
+```
+
+### Register the Ondo Registry
+
+```json title="components.json"
+{
+  "registries": {
+    "@ondo-ui": "https://ui.ondo.dou.so/r/{name}.json"
+  }
+}
+```
+
+### Add the Theme and a Component
+
+```bash
+npx shadcn@latest add @ondo-ui/theme @ondo-ui/theme-provider
+npx shadcn@latest add @ondo-ui/button
+```
+
+Follow the [theming guide](/docs/theming) when using `ThemeProvider`.
+
+### Use the Component
+
+```astro
+---
+import { Button } from "@/components/ui/button"
+---
+
+<Button>Click me</Button>
+```
+
+</Steps>

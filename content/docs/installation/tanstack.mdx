@@ -1,0 +1,92 @@
+---
+title: TanStack Start
+description: Install and configure Ondo UI for TanStack Start.
+---
+
+Choose the setup that matches your starting point.
+
+<div className="mt-6 grid gap-4 sm:grid-cols-2 sm:gap-6">
+  <LinkedCard href="#scaffold-with-cli" className="items-start gap-1 p-6 text-sm md:p-6">
+    <div className="font-medium">Use the CLI</div>
+    <div className="leading-relaxed text-muted-foreground">Scaffold a new TanStack project from the terminal.</div>
+  </LinkedCard>
+  <LinkedCard href="#existing-start-project" className="items-start gap-1 p-6 text-sm md:p-6">
+    <div className="font-medium">Existing Project</div>
+    <div className="leading-relaxed text-muted-foreground">Configure Ondo UI manually in an existing TanStack project.</div>
+  </LinkedCard>
+</div>
+
+<div id="scaffold-with-cli" className="scroll-mt-24" />
+## Use the CLI
+
+<Steps>
+
+### Create Project
+
+```bash
+npx @dou.so/ondo-ui@latest init -t start
+```
+
+For a monorepo, use `npx @dou.so/ondo-ui@latest init -t start --monorepo`.
+
+### Add Components
+
+The command installs the Ondo theme and registers `@ondo-ui`. Add more components with:
+
+```bash
+npx shadcn@latest add @ondo-ui/button
+```
+
+</Steps>
+
+<div id="existing-start-project" className="scroll-mt-24" />
+## Existing Project
+
+<Steps>
+
+### Create Project
+
+If you need a new project, run the TanStack CLI and choose TanStack Start, React, and the recommended defaults:
+
+```bash
+npx @tanstack/cli@latest create
+```
+
+The CLI configures Tailwind CSS and the default `@/*` import alias. Do not add the shadcn add-on; configure it in the next step.
+
+### Run the CLI
+
+```bash
+npx shadcn@latest init
+```
+
+### Register the Ondo Registry
+
+```json title="components.json"
+{
+  "registries": {
+    "@ondo-ui": "https://ui.ondo.dou.so/r/{name}.json"
+  }
+}
+```
+
+### Add the Theme and a Component
+
+```bash
+npx shadcn@latest add @ondo-ui/theme @ondo-ui/theme-provider
+npx shadcn@latest add @ondo-ui/button
+```
+
+Follow the [theming guide](/docs/theming) to add `ThemeProvider` when needed.
+
+### Use the Component
+
+```tsx
+import { Button } from "@/components/ui/button"
+
+export function Example() {
+  return <Button>Click me</Button>
+}
+```
+
+</Steps>

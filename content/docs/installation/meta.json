@@ -1,0 +1,12 @@
+{
+  "title": "Frameworks",
+  "pages": [
+    "next",
+    "vite",
+    "tanstack",
+    "laravel",
+    "react-router",
+    "astro",
+    "manual"
+  ]
+}
