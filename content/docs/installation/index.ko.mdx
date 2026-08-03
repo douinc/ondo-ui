@@ -1,6 +1,6 @@
 ---
 title: 설치
-description: 새 프로젝트 또는 기존 프로젝트에 Ondo UI를 설치합니다.
+description: 의존성과 앱 구조를 설정하고 설치하는 방법입니다.
 ---
 
 import {
@@ -15,25 +15,80 @@ import {
 
 <Callout className="mb-6 border-emerald-600 bg-emerald-100 dark:border-emerald-400 dark:bg-emerald-900">
 
-**새 프로젝트에 권장:** framework를 shadcn CLI로 초기화한 다음 `@ondo-ui` 레지스트리를 등록하고 테마를 설치하세요.
+**새 프로젝트에 권장:** [shadcn/create](https://ui.shadcn.com/create)에서 프리셋을 시각적으로 만들고 framework에 맞는 설정 명령을 생성하세요.
 
 </Callout>
 
+시작점에 맞는 설정 방법을 선택하세요.
+
+<div className="mt-6 grid gap-4 sm:grid-cols-3 sm:gap-6">
+  <LinkedCard
+    href="#use-create"
+    className="items-start gap-1 p-6 text-sm md:p-6"
+  >
+    <div className="font-medium">shadcn/create 사용</div>
+    <div className="leading-relaxed text-muted-foreground">
+      프리셋을 시각적으로 만들고 설정 명령을 생성합니다.
+    </div>
+  </LinkedCard>
+  <LinkedCard href="#use-cli" className="items-start gap-1 p-6 text-sm md:p-6">
+    <div className="font-medium">CLI 사용</div>
+    <div className="leading-relaxed text-muted-foreground">
+      터미널에서 지원되는 템플릿을 바로 생성합니다.
+    </div>
+  </LinkedCard>
+  <LinkedCard
+    href="#existing-project"
+    className="items-start gap-1 p-6 text-sm md:p-6"
+  >
+    <div className="font-medium">기존 프로젝트</div>
+    <div className="leading-relaxed text-muted-foreground">
+      이미 만든 앱에 Ondo UI를 추가합니다.
+    </div>
+  </LinkedCard>
+</div>
+
+<div id="use-create" className="scroll-mt-24" />
+## shadcn/create 사용
+
+프리셋을 시각적으로 만들고 선택 사항을 미리 본 뒤 framework에 맞는 설정 명령을 생성합니다.
+
+<Button asChild size="sm">
+  <Link
+    href="https://ui.shadcn.com/create"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="mt-6 no-underline!"
+  >
+    shadcn/create 열기
+  </Link>
+</Button>
+
+Next.js, Vite, Laravel, React Router, Astro, TanStack Start에서 사용할 수 있습니다.
+
+<div id="use-cli" className="scroll-mt-24" />
 ## CLI 사용
 
-CLI로 지원되는 프로젝트를 바로 만들 수 있습니다:
+터미널에서 CLI로 새 프로젝트를 바로 만들 수 있습니다:
 
-```bash
-bunx shadcn@latest init -t [framework]
+```bash title="터미널"
+npx shadcn@latest init -t [framework]
 ```
 
-지원 템플릿은 `next`, `vite`, `start`, `react-router`, `astro`입니다. Laravel은 먼저 `laravel new`로 앱을 만든 뒤 `bunx shadcn@latest init`을 실행하세요.
+지원 템플릿은 `next`, `vite`, `start`, `react-router`, `astro`입니다.
 
+Laravel은 먼저 `laravel new`로 앱을 만든 뒤 `npx shadcn@latest init`을 실행하세요.
+
+<div id="existing-project" className="scroll-mt-24" />
 ## 기존 프로젝트
 
-이미 프로젝트가 있다면 아래에서 framework를 선택하고 해당 페이지의 레지스트리 설정을 따라 하세요.
+각 framework 안내에는 해당 framework의 기존 프로젝트를 위한 수동 설정 단계가 포함되어 있습니다.
+
+아래에서 framework를 선택해 진행하세요.
 
 ## Framework 선택
+
+Laravel은 `shadcn/create` 또는 `shadcn init`을 사용하기 전에 `laravel new`로 시작하세요.
 
 <div className="mt-8 grid gap-4 sm:grid-cols-2 sm:gap-6">
   <LinkedCard href="/ko/docs/installation/next">
