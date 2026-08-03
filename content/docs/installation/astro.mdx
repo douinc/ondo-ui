@@ -1,0 +1,56 @@
+---
+title: Astro
+description: Install Ondo UI in an Astro project.
+---
+
+## Create a new project
+
+Use the shadcn CLI to scaffold an Astro project:
+
+```bash
+bunx shadcn@latest init -t astro
+```
+
+## Existing Project
+
+If you already have an Astro project, run `bunx shadcn@latest init` first if it does not have a `components.json` file.
+
+## Register the registry
+
+Add the `@ondo-ui` namespace to the `registries` field of your `components.json`:
+
+```json title="components.json"
+{
+  "registries": {
+    "@ondo-ui": "https://ui.ondo.dou.so/r/{name}.json"
+  }
+}
+```
+
+## Add the theme
+
+Install the Ondo theme. It adds Pretendard, Monaspace Neon, and the base CSS variables:
+
+```bash
+bunx shadcn@latest add @ondo-ui/theme @ondo-ui/theme-provider
+```
+
+`@ondo-ui/theme-provider` is optional when your project does not use React dark-mode switching. If it is installed, follow the [theming guide](/docs/theming) to add `ThemeProvider` to the application root.
+
+## Add a component
+
+```bash
+bunx shadcn@latest add @ondo-ui/button
+```
+
+Dependencies such as `utils` are resolved automatically. Render the component through the React integration configured in your Astro project.
+
+## Use the component
+
+```tsx
+import { Button } from "@/components/ui/button"
+
+export default function Example() {
+  return <Button>Click me</Button>
+}
+```
