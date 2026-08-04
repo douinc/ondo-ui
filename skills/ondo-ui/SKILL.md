@@ -65,3 +65,12 @@ Bare item names passed to the Ondo CLI select Ondo items. Use an explicit namesp
 - Read [Customization and theming](./customization.md) before changing tokens, fonts, dark mode, variants, or global CSS.
 - Read [MCP](./mcp.md) before configuring an AI client or invoking shadcn registry tools.
 - Read [Registry](./registry.md) before authoring or debugging registry items and dependencies.
+
+Load the rules that match the task:
+
+- [Base UI APIs](./rules/base-ui.md) for composition, Select, ToggleGroup, Slider, and overlays.
+- [Forms](./rules/forms.md) for fields, input groups, and validation.
+- [Component composition](./rules/composition.md) for groups, Cards, empty states, status, loading, and accessibility.
+- [Styling](./rules/styling.md) for semantic tokens and Tailwind conventions.
+- [Icons](./rules/icons.md) for configured imports, placement, and sizing.
+- [Chat](./rules/chat.md) for streaming threads, messages, bubbles, attachments, and markers.

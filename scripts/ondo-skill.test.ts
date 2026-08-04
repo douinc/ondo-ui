@@ -12,7 +12,19 @@ const requiredFiles = [
   "customization.md",
   "mcp.md",
   "registry.md",
+  "agents/openai.yml",
+  "assets/ondo-small.png",
+  "assets/ondo.png",
+  "evals/evals.json",
+  "rules/base-ui.md",
+  "rules/chat.md",
+  "rules/composition.md",
+  "rules/forms.md",
+  "rules/icons.md",
+  "rules/styling.md",
 ]
+
+const ruleFiles = requiredFiles.filter((file) => file.startsWith("rules/"))
 
 describe("Ondo UI skill contract", () => {
   test("ships every required skill file", async () => {
@@ -65,6 +77,39 @@ describe("Ondo UI skill contract", () => {
       const path = resolve(skillRoot, link.split("#")[0])
       expect(path.startsWith(`${skillRoot}${sep}`)).toBe(true)
       await access(path)
+    }
+  })
+
+  test("keeps rule examples on the Base UI contract", async () => {
+    const ruleText = (
+      await Promise.all(
+        ruleFiles.map((file) => readFile(resolve(skillRoot, file), "utf8"))
+      )
+    ).join("\n")
+
+    expect(ruleText).not.toMatch(/Correct \(radix\)|Correct \(aria\)/i)
+    expect(ruleText).not.toMatch(/<\w+[^>]*\basChild(?:=|\s|>)/)
+    expect(ruleText).toContain("render")
+  })
+
+  test("defines five distinct Ondo evaluation scenarios", async () => {
+    const evals = JSON.parse(
+      await readFile(resolve(skillRoot, "evals/evals.json"), "utf8")
+    ) as {
+      skill_name: string
+      evals: Array<{
+        id: string
+        prompt: string
+        expectations: string[]
+      }>
+    }
+
+    expect(evals.skill_name).toBe("ondo-ui")
+    expect(evals.evals).toHaveLength(5)
+    expect(new Set(evals.evals.map((item) => item.id)).size).toBe(5)
+    for (const item of evals.evals) {
+      expect(item.prompt.length).toBeGreaterThan(20)
+      expect(item.expectations.length).toBeGreaterThanOrEqual(4)
     }
   })
 })
