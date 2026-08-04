@@ -35,15 +35,7 @@ jobs:
           registry-url: https://registry.npmjs.org
 
       - name: Ensure npm supports trusted publishing
-        run: |
-          current_npm_version="$(npm --version)"
-          node --input-type=module - "$current_npm_version" <<'NODE' || npm install -g npm@11.5.1
-          const current = process.argv[2]
-          const minimum = [11, 5, 1]
-          const version = current.split(".").map(Number)
-          process.exit(version.some((part, index) => part !== minimum[index] ? part > minimum[index] : false) || version.every((part, index) => part === minimum[index]) ? 0 : 1)
-          NODE
-          npm --version
+        run: npm install --global npm@11.5.1
 
       - name: Install dependencies
         run: bun install --frozen-lockfile
