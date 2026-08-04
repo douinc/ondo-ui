@@ -1,10 +1,17 @@
 #!/usr/bin/env node
 
-import { spawnSync } from "node:child_process"
 import { readFile, readdir, writeFile } from "node:fs/promises"
 import { existsSync, realpathSync } from "node:fs"
 import { join, resolve } from "node:path"
 import { fileURLToPath } from "node:url"
+
+import {
+  ONDO_REGISTRY_INDEX_URL,
+  buildRegistryChoices,
+  getSelectableRegistryItems,
+  normalizeOndoItemAddress,
+} from "./registry-menu.mjs"
+import { runShadcn } from "./shadcn-process.mjs"
 
 export const ONDO_REGISTRY_URL = "https://ui.ondo.dou.so/r/{name}.json"
 
@@ -23,6 +30,122 @@ const FRAMEWORK_ITEMS = {
 }
 
 const SUPPORTED_FRAMEWORKS = Object.keys(FRAMEWORK_ITEMS)
+
+export const PUBLIC_COMMANDS = [
+  "init",
+  "add",
+  "search",
+  "list",
+  "view",
+  "docs",
+  "diff",
+  "apply",
+  "info",
+  "migrate",
+  "eject",
+  "mcp",
+  "preset",
+  "build",
+  "registry",
+]
+
+const ADD_VALUE_FLAGS = new Set(["-c", "--cwd", "-p", "--path", "--diff", "--view"])
+
+export function parseCommand(argv = []) {
+  const [command, ...args] = argv
+  return { command, args }
+}
+
+export function parseAddArgs(args = []) {
+  const components = []
+  const forwardedArgs = []
+  let all = false
+
+  for (let index = 0; index < args.length; index += 1) {
+    const arg = args[index]
+
+    if (arg === "--all" || arg === "-a") {
+      all = true
+      continue
+    }
+
+    if (arg.startsWith("--all=")) {
+      all = arg !== "--all=false"
+      continue
+    }
+
+    if (arg.startsWith("-")) {
+      forwardedArgs.push(arg)
+
+      if (ADD_VALUE_FLAGS.has(arg) && args[index + 1] && !args[index + 1].startsWith("-")) {
+        forwardedArgs.push(args[index + 1])
+        index += 1
+      }
+      continue
+    }
+
+    components.push(arg)
+  }
+
+  return { components, args: forwardedArgs, all }
+}
+
+export function getSelectableNames(registry, mode = "all") {
+  const { components, compositions } = getSelectableRegistryItems(registry)
+  if (mode === "components") return components.map((item) => item.name)
+  if (mode === "compositions") return compositions.map((item) => item.name)
+  return [...components, ...compositions].map((item) => item.name)
+}
+
+async function fetchOndoRegistry() {
+  const response = await fetch(ONDO_REGISTRY_INDEX_URL)
+  if (!response.ok) {
+    throw new Error(`Could not fetch the Ondo registry (${response.status})`)
+  }
+
+  const registry = await response.json()
+  if (!Array.isArray(registry?.items)) {
+    throw new Error("The Ondo registry returned an invalid registry index")
+  }
+
+  return registry
+}
+
+async function promptForOndoItems(registry) {
+  const { default: prompts } = await import("prompts")
+  return prompts({
+    type: "multiselect",
+    name: "items",
+    message: "Which Ondo items would you like to add?",
+    choices: buildRegistryChoices(registry),
+    instructions: false,
+    hint: "Space to select. Return to submit.",
+  })
+}
+
+export async function runAdd(args = [], dependencies = {}) {
+  const parsed = parseAddArgs(args)
+  let components = parsed.components
+
+  if (parsed.all || components.length === 0) {
+    const registry = await (dependencies.fetchRegistry ?? fetchOndoRegistry)()
+
+    if (parsed.all) {
+      components = getSelectableNames(registry)
+    } else {
+      const result = await (dependencies.prompt ?? promptForOndoItems)(registry)
+      components = result?.items ?? []
+    }
+  }
+
+  if (components.length === 0) return 0
+
+  const addresses = components.map(normalizeOndoItemAddress)
+  return (dependencies.runShadcn ?? runShadcn)("add", [
+    ...addresses,
+    ...parsed.args,
+  ])
+}
 
 export function getFrameworkItems(framework) {
   const items = FRAMEWORK_ITEMS[framework]
@@ -191,39 +314,67 @@ async function configureOndoRegistry(args) {
   return files
 }
 
-export async function run(argv = process.argv.slice(2)) {
-  const [command, ...args] = argv
+function getUsage() {
+  return `Usage: ondo-ui <${PUBLIC_COMMANDS.join("|")}> [options]`
+}
 
-  if (command !== "init") {
-    throw new Error("Usage: ondo-ui init -t <next|vite|start|react-router|laravel|astro>")
+export async function run(argv = process.argv.slice(2), dependencies = {}) {
+  const { command, args } = parseCommand(argv)
+  const delegate = dependencies.runShadcn ?? runShadcn
+
+  if (command === "init") {
+    const framework = getFramework(args)
+    const childStatus = delegate(
+      "init",
+      buildShadcnArgs(args, framework).slice(1),
+      {
+        cwd: process.cwd(),
+        env: getShadcnEnvironment(framework),
+      }
+    )
+
+    if (childStatus !== 0) {
+      process.exitCode = childStatus
+      return childStatus
+    }
+
+    const files = await configureOndoRegistry(args)
+    console.log(`Ondo registry configured in ${files.length} components.json file(s).`)
+    return 0
   }
 
-  const framework = getFramework(args)
-  const child = spawnSync(
-    process.platform === "win32" ? "npx.cmd" : "npx",
-    ["--yes", "shadcn@latest", ...buildShadcnArgs(args, framework)],
-    {
-      cwd: process.cwd(),
-      env: getShadcnEnvironment(framework),
-      stdio: "inherit",
-    }
-  )
+  if (command === "add") {
+    return runAdd(args, { ...dependencies, runShadcn: delegate })
+  }
 
-  if (child.error) throw child.error
-  if (child.status !== 0) process.exitCode = child.status ?? 1
-  if (child.status !== 0) return child.status ?? 1
+  if (command === "list") {
+    return delegate("search", args)
+  }
 
-  const files = await configureOndoRegistry(args)
-  console.log(`Ondo registry configured in ${files.length} components.json file(s).`)
-  return 0
+  if (command === "diff") {
+    const hasDiffFlag = args.some(
+      (arg) => arg === "--diff" || arg.startsWith("--diff=")
+    )
+    return delegate("add", hasDiffFlag ? args : [...args, "--diff"])
+  }
+
+  if (PUBLIC_COMMANDS.includes(command)) {
+    return delegate(command, args)
+  }
+
+  throw new Error(getUsage())
 }
 
 const entryPath = process.argv[1] ? resolve(process.argv[1]) : undefined
 const currentPath = fileURLToPath(import.meta.url)
 
 if (isDirectInvocation(entryPath, currentPath)) {
-  run().catch((error) => {
-    console.error(`ondo-ui: ${error.message}`)
-    process.exitCode = 1
-  })
+  run()
+    .then((status) => {
+      if (typeof status === "number" && status !== 0) process.exitCode = status
+    })
+    .catch((error) => {
+      console.error(`ondo-ui: ${error.message}`)
+      process.exitCode = 1
+    })
 }

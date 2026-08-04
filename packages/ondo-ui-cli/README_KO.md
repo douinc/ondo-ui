@@ -35,7 +35,7 @@ flowchart TD
     end
 
     subgraph dev["🛠️ 개발팀"]
-        add["컴포넌트 탐색·설치<br/>(npx shadcn@latest add)"] --> product["제품 구현"]
+        add["컴포넌트 탐색·설치<br/>(ondo-ui add)"] --> product["제품 구현"]
     end
 
     registry -->|"컴포넌트 & 토큰"| mcp
@@ -48,7 +48,7 @@ flowchart TD
 1. **Ondo UI**가 컴포넌트·테마·토큰을 shadcn registry로 배포합니다.
 2. **디자인팀**과 **개발팀** 모두 shadcn MCP를 통해 동일한 registry에 접근합니다.
 3. 디자인팀이 Ondo UI 컴포넌트를 기반으로 제품 화면을 디자인해 개발팀에 전달합니다.
-4. 개발팀이 MCP로 컴포넌트를 탐색하고 `npx shadcn@latest add`로 설치해 디자인을 구현합니다.
+4. 개발팀이 MCP나 `ondo-ui add`로 컴포넌트를 탐색하고 설치해 디자인을 구현합니다.
 5. 디자인 과정에서 나온 신규 컴포넌트와 개선 제안은 다시 Ondo UI에 반영되고, 순환이 반복됩니다.
 
 ## shadcn MCP 설정
@@ -80,15 +80,68 @@ npx shadcn@latest mcp init --client vscode   # VS Code
 
 자세한 내용은 [설치 문서](https://ui.ondo.dou.so/ko/docs/installation)를 참고하세요.
 
+## Ondo CLI
+
+지원되는 framework를 초기화하고 Ondo 테마를 설치합니다:
+
+```bash
+bunx --bun @dou.so/ondo-ui init -t astro
+```
+
+Components와 Compositions를 그룹별로 선택하려면 다음 명령어를 실행합니다:
+
+```bash
+bunx --bun @dou.so/ondo-ui add
+```
+
+이름을 직접 지정하거나 설치 결과를 미리 볼 수도 있습니다:
+
+```bash
+bunx --bun @dou.so/ondo-ui add button empty-view
+bunx --bun @dou.so/ondo-ui add button --dry-run
+bunx --bun @dou.so/ondo-ui add --all
+```
+
+메뉴에서는 일반 registry UI 컴포넌트와 `empty-view`, `number-badge` 같은
+조합 컴포넌트를 분리해 보여줍니다. `theme-provider` 같은 시스템 항목은
+이름을 직접 지정할 때만 설치됩니다.
+
+shadcn의 전체 명령을 사용할 수 있습니다. `list`는 `search`의 별칭이며,
+deprecated된 `diff`는 `add --diff`로 변환됩니다:
+
+```bash
+bunx --bun @dou.so/ondo-ui search --query button
+bunx --bun @dou.so/ondo-ui list --query button
+bunx --bun @dou.so/ondo-ui view @ondo-ui/button
+bunx --bun @dou.so/ondo-ui diff button
+bunx --bun @dou.so/ondo-ui apply <preset>
+bunx --bun @dou.so/ondo-ui docs button
+bunx --bun @dou.so/ondo-ui info
+bunx --bun @dou.so/ondo-ui migrate --list
+bunx --bun @dou.so/ondo-ui eject
+bunx --bun @dou.so/ondo-ui mcp init --client claude
+bunx --bun @dou.so/ondo-ui preset --help
+bunx --bun @dou.so/ondo-ui build
+bunx --bun @dou.so/ondo-ui registry validate
+```
+
+다른 프로젝트에서 실행하려면 `--cwd <path>`를 사용하세요. `build`와
+`registry` 같은 registry 제작 명령도 maintainer를 위해 전달됩니다.
+
 ## 컴포넌트 추가하기
 
 앱에 컴포넌트를 추가하려면 다음 명령어를 실행하세요:
 
 ```bash
-npx shadcn@latest add button
+bunx --bun @dou.so/ondo-ui add button
 ```
 
-이 명령어는 UI 컴포넌트를 `components` 디렉토리에 배치합니다.
+이 명령어는 UI 컴포넌트를 `components` 디렉토리에 배치합니다. 공식
+shadcn 명령어를 직접 사용하려면 Ondo namespace를 지정하세요:
+
+```bash
+bunx --bun shadcn@latest add @ondo-ui/button
+```
 
 ## 컴포넌트 사용하기
 

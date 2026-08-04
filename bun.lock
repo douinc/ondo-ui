@@ -60,6 +60,9 @@
       "bin": {
         "ondo-ui": "bin/ondo-ui.mjs",
       },
+      "dependencies": {
+        "prompts": "^2.4.2",
+      },
     },
   },
   "packages": {

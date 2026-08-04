@@ -104,7 +104,25 @@ The Ondo CLI installs the framework-compatible theme automatically. It also adds
 
 ## Add components
 
-Add any component by name. Dependencies such as `utils` are resolved automatically:
+Use the Ondo CLI to browse Components and Compositions in a grouped menu:
+
+```bash
+bunx --bun @dou.so/ondo-ui add
+```
+
+You can also install items directly, preview changes, or install every
+menu-visible item:
+
+```bash
+bunx --bun @dou.so/ondo-ui add button empty-view
+bunx --bun @dou.so/ondo-ui add button --dry-run
+bunx --bun @dou.so/ondo-ui add --all
+```
+
+Compositions such as `empty-view` and `number-badge` are shown separately from
+registry UI components. Dependencies such as `utils` are resolved automatically.
+
+Use the official shadcn command directly when preferred:
 
 ```bash
 bunx shadcn@latest add @ondo-ui/button
@@ -119,3 +137,8 @@ export default function Example() {
   return <Button>Click me</Button>
 }
 ```
+
+The Ondo CLI supports the full shadcn command surface: `search` (`list` alias),
+`view`, `docs`, `diff` (translated to `add --diff`), `apply`, `info`, `migrate`,
+`eject`, `mcp`, `preset`, `build`, and `registry`. Use `--cwd <path>` to target
+another project.
