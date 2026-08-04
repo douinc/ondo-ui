@@ -181,9 +181,24 @@ describe("Ondo command surface", () => {
     expect(invoked).toBe(false)
   })
 
-  test("forwards every public command and maps list to search", async () => {
+  test("routes docs through the Ondo docs resolver", async () => {
+    const calls: unknown[] = []
+    const status = await run(["docs", "button", "--json"], {
+      runDocs: async (args: string[]) => {
+        calls.push(args)
+        return 0
+      },
+    })
+
+    expect(status).toBe(0)
+    expect(calls).toEqual([["button", "--json"]])
+  })
+
+  test("forwards remaining public commands and maps list to search", async () => {
     const invocations: Array<{ command: string; args: string[] }> = []
-    for (const command of PUBLIC_COMMANDS.filter((item) => item !== "init" && item !== "add")) {
+    for (const command of PUBLIC_COMMANDS.filter(
+      (item) => item !== "init" && item !== "add" && item !== "docs"
+    )) {
       const status = await run([command, "--json"], {
         runShadcn(forwardedCommand: string, args: string[]) {
           invocations.push({ command: forwardedCommand, args })
