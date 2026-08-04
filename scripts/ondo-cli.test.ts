@@ -9,13 +9,13 @@ import {
   getShadcnEnvironment,
   isDirectInvocation,
   mergeOndoRegistry,
-} from "../bin/ondo-ui.mjs"
+} from "../packages/ondo-ui-cli/bin/ondo-ui.mjs"
 
 describe("Ondo init CLI", () => {
   test("runs when invoked through a package manager bin symlink", () => {
     const directory = mkdtempSync(resolve(tmpdir(), "ondo-cli-test-"))
     const entryPath = resolve(directory, "ondo-ui")
-    const modulePath = resolve("bin/ondo-ui.mjs")
+    const modulePath = resolve("packages/ondo-ui-cli/bin/ondo-ui.mjs")
 
     try {
       symlinkSync(modulePath, entryPath)
