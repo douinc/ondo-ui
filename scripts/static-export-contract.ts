@@ -73,6 +73,7 @@ export function extractLocalReferences(html: string): string[] {
 }
 
 type RegistryIndex = {
+  name?: unknown
   items?: Array<{ name?: unknown }>
 }
 
@@ -100,6 +101,8 @@ export async function validateRegistry(outDir: string): Promise<string[]> {
     return [`Registry index has no items array: ${registryPath}`]
   }
 
+  const registryNamespace =
+    typeof registry.name === "string" ? `@${registry.name}/` : undefined
   const names = new Set<string>()
   const payloadPaths = new Map<string, string>()
 
@@ -155,14 +158,22 @@ export async function validateRegistry(outDir: string): Promise<string[]> {
     for (const dependency of dependencies) {
       if (dependency.startsWith("https://")) continue
 
-      if (!names.has(dependency)) {
+      let localDependency = dependency
+      if (dependency.startsWith("@")) {
+        if (!registryNamespace || !dependency.startsWith(registryNamespace)) {
+          continue
+        }
+        localDependency = dependency.slice(registryNamespace.length)
+      }
+
+      if (!names.has(localDependency)) {
         errors.push(
           `Registry item "${name}" references missing dependency "${dependency}"`
         )
         continue
       }
 
-      const dependencyPath = payloadPaths.get(dependency)!
+      const dependencyPath = payloadPaths.get(localDependency)!
       if (!(await isFile(dependencyPath))) {
         errors.push(
           `Registry item "${name}" dependency "${dependency}" has no payload`
