@@ -1,0 +1,94 @@
+name: Release npm Package
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: npm-release-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+
+jobs:
+  release:
+    name: Version or publish package
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2
+        with:
+          bun-version: 1.3.14
+
+      - name: Setup Node
+        uses: actions/setup-node@2028fbc5c25fe9cf00d9f06a71cc4710d4507903 # v6.0.0
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+
+      - name: Ensure npm supports trusted publishing
+        run: |
+          current_npm_version="$(npm --version)"
+          node --input-type=module - "$current_npm_version" <<'NODE' || npm install -g npm@11.5.1
+          const current = process.argv[2]
+          const minimum = [11, 5, 1]
+          const version = current.split(".").map(Number)
+          process.exit(version.some((part, index) => part !== minimum[index] ? part > minimum[index] : false) || version.every((part, index) => part === minimum[index]) ? 0 : 1)
+          NODE
+          npm --version
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Test
+        run: bun run test
+
+      - name: Lint
+        run: bun run lint
+
+      - name: Typecheck
+        run: bun run typecheck
+
+      - name: Build and verify static export
+        run: bun run build
+        env:
+          NEXT_TELEMETRY_DISABLED: "1"
+
+      - name: Verify CLI package contents
+        working-directory: packages/ondo-ui-cli
+        run: |
+          npm pack --dry-run --json > pack-dry-run.json
+          node --input-type=module <<'NODE'
+          import { readFile } from "node:fs/promises"
+
+          const [pack] = JSON.parse(await readFile("pack-dry-run.json", "utf8"))
+          const files = pack.files.map((file) => file.path).sort()
+          const expected = ["README.md", "README_KO.md", "bin/ondo-ui.mjs", "package.json"]
+          const missing = expected.filter((file) => !files.includes(file))
+          const extra = files.filter((file) => !expected.includes(file))
+
+          if (missing.length > 0 || extra.length > 0) {
+            throw new Error(`Unexpected package contents. Missing: ${missing.join(", ") || "none"}. Extra: ${extra.join(", ") || "none"}.`)
+          }
+          NODE
+
+      - name: Create release PR or publish to npm
+        id: changesets
+        uses: changesets/action@a45c4d594aa4e2c509dc14a9f2b3b67ba3780d0d # v1.9.0
+        with:
+          version: bun run release:version
+          publish: bun run release:publish -- --tag latest
+          title: Version Packages
+          commit: Version Packages
+          createGithubReleases: true
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          NPM_CONFIG_PROVENANCE: "true"
