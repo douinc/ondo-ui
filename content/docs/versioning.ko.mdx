@@ -3,15 +3,15 @@ title: 버전 관리
 description: ondo-ui의 버전 번호가 어떻게 매겨지는지, Changelog와 어떻게 연결되는지 알아보세요.
 ---
 
-ondo-ui는 `package.json`의 `version` 필드로 `MAJOR.MINOR.PATCH` 형태의 버전 번호를 관리합니다. 다만 각 자리의 의미는 표준 semver와 다르며, 레지스트리에 어떤 종류의 변경이 반영되었는지를 나타냅니다.
+ondo-ui는 npm 패키지의 버전 번호를 `MAJOR.MINOR.PATCH` 형태로 관리합니다(`packages/ondo-ui-cli/package.json`). 공개 웹사이트는 private 패키지이며, 직접 작성하는 영문/국문 Changelog는 Changesets가 npm용으로 생성하는 패키지 changelog와 별도로 유지합니다.
 
 ## 각 자리의 의미
 
-| 자리  | 언제 올라가는가                                | 예시                                                      |
-| ----- | ----------------------------------------------- | ----------------------------------------------------------- |
-| MAJOR | shadcn/ui 원본의 큰(브레이킹) 변경사항이 반영될 때 | CLI 스키마 마이그레이션, 여러 컴포넌트에 걸친 구조 변경     |
-| MINOR | 레지스트리에 새 항목이 추가될 때                 | 새 컴포넌트, [조합 컴포넌트](/compositions), 유틸리티 추가 |
-| PATCH | 기존 레지스트리 항목의 코드가 변경될 때          | prop 추가, 버그 수정, 스타일 조정                           |
+| 자리  | 언제 올라가는가                 | 예시                                                      |
+| ----- | -------------------------------- | --------------------------------------------------------- |
+| MAJOR | 브레이킹 변경이 배포될 때        | CLI 스키마 마이그레이션, 여러 컴포넌트에 걸친 구조 변경   |
+| MINOR | 기능이 호환되는 방식으로 추가될 때 | 새 컴포넌트, [조합 컴포넌트](/compositions), 유틸리티 추가 |
+| PATCH | 수정이나 호환되는 조정이 배포될 때 | 버그 수정, 스타일 조정, 메타데이터 수정                   |
 
 상위 자리가 올라가면 그 아래 자리는 모두 `0`으로 초기화됩니다 — 표준 semver와 동일합니다 (`1.2.3` → MAJOR 변경 → `2.0.0`).
 
@@ -23,6 +23,8 @@ ondo-ui는 `package.json`의 `version` 필드로 `MAJOR.MINOR.PATCH` 형태의 �
 
 Changelog의 순서를 정하는 것은 이 frontmatter 필드입니다. 파일명에는 날짜만 담기는데 같은 날 두 번 릴리스할 수 있고, 그럴 때 어느 쪽이 먼저인지는 버전이 결정합니다.
 
-## 단일 진실 공급원
+## 릴리스의 단일 진실 공급원
 
-`package.json`의 `version` 필드가 유일한 기준입니다. Changelog 항목을 추가할 때 위 표에 따라 이 값을 올리고, 항목 본문에도 동일한 번호를 표기하세요.
+패키지 릴리스의 기준은 Changesets입니다. 기능 브랜치에서는 `bun run changeset`으로 changeset을 추가하고, 릴리스 과정에서 이를 `packages/ondo-ui-cli/package.json`에 적용해 `packages/ondo-ui-cli/CHANGELOG.md`를 갱신하고 lockfile을 새로 맞춘 뒤 Changesets로 publish합니다.
+
+직접 큐레이션하는 영문/국문 웹사이트 Changelog 항목(`content/docs/changelog/`)은 생성되는 npm 패키지 changelog와 분리해서 유지하세요. 이미 배포된 `1.3.1` 패키지 다음의 호환 기능 추가 릴리스는 `1.4.0`입니다.

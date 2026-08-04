@@ -3,15 +3,15 @@ title: Versioning
 description: How ondo-ui's version number works and how it relates to the Changelog.
 ---
 
-ondo-ui uses a `MAJOR.MINOR.PATCH` version number (tracked in `package.json`), but the digits don't follow standard semver — each one maps to a specific kind of change to the registry.
+ondo-ui uses a `MAJOR.MINOR.PATCH` version number for the npm package (tracked in `packages/ondo-ui-cli/package.json`). The public website is private and keeps its hand-written bilingual Changelog separate from the package changelog that Changesets generates for npm.
 
 ## What each digit means
 
-| Digit | Bumps when...                                            | Example                                                          |
-| ----- | --------------------------------------------------------- | ----------------------------------------------------------------- |
-| MAJOR | A major upstream shadcn/ui change is adopted              | Migrating the CLI schema, or a breaking restructure across many components |
-| MINOR | A new item is added to the registry                       | A new component, [composition](/compositions), or util ships      |
-| PATCH | An existing registry item's code changes                  | A prop is added, a bug is fixed, styles are tweaked                |
+| Digit | Bumps when...                               | Example                                                     |
+| ----- | -------------------------------------------- | ----------------------------------------------------------- |
+| MAJOR | A breaking change ships                      | Migrating the CLI schema, or a breaking restructure across many components |
+| MINOR | An additive feature ships                    | A new component, [composition](/compositions), or util ships |
+| PATCH | A fix or other compatible adjustment ships   | A bug is fixed, styles are tweaked, metadata is corrected   |
 
 Bumping a higher digit resets every digit below it to `0` — same as standard semver (`1.2.3` → a MAJOR change → `2.0.0`).
 
@@ -23,6 +23,8 @@ The version goes in the entry's frontmatter as `version: 0.1.0`, and is repeated
 
 The frontmatter field is what orders the Changelog. The filename only carries the date, and two releases can land on the same day — when they do, the version decides which comes first.
 
-## Source of truth
+## Release source of truth
 
-`package.json`'s `version` field is the single source of truth. When you add a Changelog entry, bump it according to the table above, and reference the same number in the entry.
+Changesets is the source of truth for package releases. Feature branches should add a changeset with `bun run changeset`; the release process applies those changesets to `packages/ondo-ui-cli/package.json`, updates `packages/ondo-ui-cli/CHANGELOG.md`, refreshes the lockfile, and then publishes through Changesets.
+
+Keep the manually curated English and Korean website Changelog entries under `content/docs/changelog/` separate from the generated npm package changelog. After the published `1.3.1` package, the next additive release is `1.4.0`.

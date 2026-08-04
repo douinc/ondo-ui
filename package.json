@@ -1,20 +1,10 @@
 {
-  "name": "@dou.so/ondo-ui",
-  "version": "1.3.1",
+  "private": true,
   "type": "module",
-  "publishConfig": {
-    "access": "public"
-  },
-  "bin": {
-    "ondo-ui": "bin/ondo-ui.mjs"
-  },
-  "files": [
-    "bin",
-    "package.json",
-    "README.md",
-    "README_KO.md"
-  ],
   "packageManager": "bun@1.3.14",
+  "workspaces": [
+    "packages/*"
+  ],
   "scripts": {
     "dev": "next dev",
     "build": "bun run artifacts:build && bun run registry:build && next build && bun run export:finalize && bun run export:verify",
@@ -23,6 +13,9 @@
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
+    "changeset": "changeset",
+    "release:version": "bun run scripts/release-version.ts",
+    "release:publish": "changeset publish",
     "artifacts:build": "bun run scripts/generate-static-artifacts.ts",
     "export:finalize": "bun run scripts/finalize-static-export.ts",
     "export:verify": "bun run scripts/verify-static-export.ts",
@@ -63,6 +56,8 @@
     "zbsearch": "3.3.4"
   },
   "devDependencies": {
+    "@changesets/changelog-github": "^0.7.0",
+    "@changesets/cli": "^2.31.1",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/bun": "1.3.14",
     "@types/node": "^20.19.43",
