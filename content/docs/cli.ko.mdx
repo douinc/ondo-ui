@@ -1,0 +1,59 @@
+---
+title: CLI
+description: 터미널에서 프로젝트를 초기화하고 Ondo 레지스트리 항목을 설치합니다.
+---
+
+Ondo CLI는 Ondo 레지스트리와 framework 설정을 shadcn CLI 위에 연결합니다.
+
+## 설치
+
+전역 설치 없이 CLI를 실행합니다:
+
+```bash
+bunx --bun @dou.so/ondo-ui@latest --help
+```
+
+## 프로젝트 초기화
+
+지원되는 framework를 초기화하고 Ondo 레지스트리를 설정합니다:
+
+```bash
+bunx --bun @dou.so/ondo-ui@latest init -t astro
+```
+
+Next.js, Vite, TanStack Start, React Router, Laravel, Astro를 지원합니다.
+framework에 맞는 Ondo 테마를 설치하고 `components.json`에 `@ondo-ui`
+레지스트리를 추가합니다.
+
+## 레지스트리 항목 추가
+
+Components와 Compositions를 그룹으로 나누어 선택하는 메뉴를 엽니다:
+
+```bash
+bunx --bun @dou.so/ondo-ui@latest add
+```
+
+항목을 직접 지정하거나 선택 가능한 모든 항목을 설치합니다:
+
+```bash
+bunx --bun @dou.so/ondo-ui@latest add button empty-view
+bunx --bun @dou.so/ondo-ui@latest add --all
+bunx --bun @dou.so/ondo-ui@latest add -a
+bunx --bun @dou.so/ondo-ui@latest add button --dry-run
+```
+
+`theme-provider` 같은 시스템 항목은 이름을 직접 지정하면 설치할 수 있지만
+기본 메뉴에는 표시되지 않습니다.
+
+## 명령어 목록
+
+프로젝트와 레지스트리 작업을 위해 shadcn 명령을 지원합니다:
+
+`init`, `add`, `search`, `list`, `view`, `docs`, `diff`, `apply`, `info`,
+`migrate`, `eject`, `mcp`, `preset`, `build`, `registry`.
+
+`list`는 `search`의 별칭입니다. deprecated된 `diff`는 `add --diff`로
+변환됩니다. 다른 프로젝트에서 실행하려면 `--cwd <path>`를 사용하세요.
+
+레지스트리 maintainer는 `build`와 `registry`로 레지스트리 파일을 만들고
+검증할 수 있습니다.
