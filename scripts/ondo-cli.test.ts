@@ -16,6 +16,47 @@ import {
   getSelectableRegistryItems,
   normalizeOndoItemAddress,
 } from "../packages/ondo-ui-cli/bin/registry-menu.mjs"
+import {
+  buildShadcnCommandArgs,
+  runShadcn,
+} from "../packages/ondo-ui-cli/bin/shadcn-process.mjs"
+
+describe("shadcn process adapter", () => {
+  test("preserves command and arguments", () => {
+    expect(buildShadcnCommandArgs("search", ["@ondo-ui", "--json"])).toEqual([
+      "search",
+      "@ondo-ui",
+      "--json",
+    ])
+    expect(buildShadcnCommandArgs("registry", ["validate"])).toEqual([
+      "registry",
+      "validate",
+    ])
+  })
+
+  test("invokes shadcn with the project options", () => {
+    let invocation
+    const status = runShadcn("search", ["@ondo-ui", "--json"], {
+      cwd: "/tmp/ondo-project",
+      env: { TEST_ENV: "1" },
+      spawnSync(file, args, options) {
+        invocation = { file, args, options }
+        return { status: 0 }
+      },
+    })
+
+    expect(status).toBe(0)
+    expect(invocation).toEqual({
+      file: process.platform === "win32" ? "npx.cmd" : "npx",
+      args: ["--yes", "shadcn@latest", "search", "@ondo-ui", "--json"],
+      options: {
+        cwd: "/tmp/ondo-project",
+        env: { TEST_ENV: "1" },
+        stdio: "inherit",
+      },
+    })
+  })
+})
 
 describe("Ondo registry menu", () => {
   test("classifies registry UI items as Components", () => {
