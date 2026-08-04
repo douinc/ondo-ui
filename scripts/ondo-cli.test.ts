@@ -27,6 +27,26 @@ import {
   runShadcn,
 } from "../packages/ondo-ui-cli/bin/shadcn-process.mjs"
 
+type TestRegistry = {
+  items: Array<{
+    name: string
+    type: string
+    description?: string
+    files?: Array<{ path: string }>
+  }>
+}
+
+type RegistryGroups = {
+  components: Array<{ name: string }>
+  compositions: Array<{ name: string }>
+}
+
+type PromptChoice = {
+  title: string
+  value: string
+  disabled?: boolean
+}
+
 describe("shadcn process adapter", () => {
   test("preserves command and arguments", () => {
     expect(buildShadcnCommandArgs("search", ["@ondo-ui", "--json"])).toEqual([
@@ -41,11 +61,15 @@ describe("shadcn process adapter", () => {
   })
 
   test("invokes shadcn with the project options", () => {
-    let invocation
+    let invocation: unknown
     const status = runShadcn("search", ["@ondo-ui", "--json"], {
       cwd: "/tmp/ondo-project",
       env: { TEST_ENV: "1" },
-      spawnSync(file, args, options) {
+      spawnSync(
+        file: string,
+        args: string[],
+        options: { cwd?: string; env?: Record<string, string>; stdio?: string }
+      ) {
         invocation = { file, args, options }
         return { status: 0 }
       },
@@ -79,7 +103,7 @@ describe("Ondo command surface", () => {
         files: [{ path: "components/theme-provider.tsx" }],
       },
     ],
-  }
+  } satisfies TestRegistry
 
   test("parses a command without changing its arguments", () => {
     expect(parseCommand(["search", "@ondo-ui", "--json"])).toEqual({
@@ -104,9 +128,9 @@ describe("Ondo command surface", () => {
   })
 
   test("delegates explicit add names and flags", async () => {
-    let invocation
+    let invocation: unknown
     const status = await runAdd(["button", "--dry-run"], {
-      runShadcn(command, args) {
+      runShadcn(command: string, args: string[]) {
         invocation = { command, args }
         return 0
       },
@@ -120,10 +144,10 @@ describe("Ondo command surface", () => {
   })
 
   test("uses an injected menu and delegates all selectable items", async () => {
-    let invocation
+    let invocation: unknown
     const status = await runAdd(["--all"], {
       fetchRegistry: async () => registry,
-      runShadcn(command, args) {
+      runShadcn(command: string, args: string[]) {
         invocation = { command, args }
         return 0
       },
@@ -152,10 +176,10 @@ describe("Ondo command surface", () => {
   })
 
   test("forwards every public command and maps list to search", async () => {
-    const invocations = []
+    const invocations: Array<{ command: string; args: string[] }> = []
     for (const command of PUBLIC_COMMANDS.filter((item) => item !== "init" && item !== "add")) {
       const status = await run([command, "--json"], {
-        runShadcn(forwardedCommand, args) {
+        runShadcn(forwardedCommand: string, args: string[]) {
           invocations.push({ command: forwardedCommand, args })
           return 0
         },
@@ -208,10 +232,14 @@ describe("Ondo registry menu", () => {
           files: [{ path: "components/theme-provider.tsx" }],
         },
       ],
-    })
+    } satisfies TestRegistry) as RegistryGroups
 
-    expect(result.components.map((item) => item.name)).toEqual(["button"])
-    expect(result.compositions.map((item) => item.name)).toEqual(["empty-view"])
+    expect(result.components.map((item: { name: string }) => item.name)).toEqual([
+      "button",
+    ])
+    expect(
+      result.compositions.map((item: { name: string }) => item.name)
+    ).toEqual(["empty-view"])
   })
 
   test("normalizes bare names without changing registry addresses", () => {
@@ -233,7 +261,7 @@ describe("Ondo registry menu", () => {
           files: [{ path: "components/compositions/empty-view.tsx" }],
         },
       ],
-    })
+    }) as PromptChoice[]
 
     expect(choices).toEqual([
       { title: "Components", value: "__group_components", disabled: true },
