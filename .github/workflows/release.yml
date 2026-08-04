@@ -65,7 +65,14 @@ jobs:
 
           const [pack] = JSON.parse(await readFile("pack-dry-run.json", "utf8"))
           const files = pack.files.map((file) => file.path).sort()
-          const expected = ["README.md", "README_KO.md", "bin/ondo-ui.mjs", "package.json"]
+          const expected = [
+            "README.md",
+            "README_KO.md",
+            "bin/ondo-ui.mjs",
+            "bin/registry-menu.mjs",
+            "bin/shadcn-process.mjs",
+            "package.json",
+          ]
           const missing = expected.filter((file) => !files.includes(file))
           const extra = files.filter((file) => !expected.includes(file))
 
