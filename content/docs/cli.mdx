@@ -25,6 +25,12 @@ Supported frameworks are Next.js, Vite, TanStack Start, React Router, Laravel,
 and Astro. The command installs the framework-compatible Ondo theme and adds
 the `@ondo-ui` registry to `components.json`.
 
+For an existing project, use the same command with `--cwd`:
+
+```bash
+bunx --bun @dou.so/ondo-ui@latest init -t vite --cwd ../my-vite-app
+```
+
 ## Add registry items
 
 Open the grouped Components and Compositions menu:
@@ -45,6 +51,19 @@ bunx --bun @dou.so/ondo-ui@latest add button --dry-run
 System items such as `theme-provider` can be installed by explicit name but do
 not appear in the default menu.
 
+### Common add options
+
+| Option | Purpose |
+| --- | --- |
+| `--all`, `-a` | Install every Component and Composition shown in the menu. |
+| `--dry-run` | Preview files and dependencies without changing the project. |
+| `--diff [path]` | Show the changes that would be applied. |
+| `--view [path]` | View registry file contents without applying them. |
+| `--cwd <path>` | Run against another project directory. |
+
+Names without a registry namespace are resolved as `@ondo-ui/<name>`. A name
+that is already a registry address or URL is passed through unchanged.
+
 ## Command reference
 
 Ondo supports the shadcn command surface for project and registry workflows:
@@ -54,6 +73,14 @@ Ondo supports the shadcn command surface for project and registry workflows:
 
 `list` is an alias for `search`. The deprecated `diff` command is translated to
 `add --diff`. Use `--cwd <path>` to run a command for another project.
+
+For example:
+
+```bash
+bunx --bun @dou.so/ondo-ui@latest search @ondo-ui --query button
+bunx --bun @dou.so/ondo-ui@latest view @ondo-ui/button
+bunx --bun @dou.so/ondo-ui@latest mcp init --client claude
+```
 
 Registry maintainers can use `build` and `registry` to author and validate
 registry files.

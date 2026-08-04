@@ -25,6 +25,12 @@ Next.js, Vite, TanStack Start, React Router, Laravel, Astro를 지원합니다.
 framework에 맞는 Ondo 테마를 설치하고 `components.json`에 `@ondo-ui`
 레지스트리를 추가합니다.
 
+기존 프로젝트는 `--cwd`와 함께 같은 명령을 사용할 수 있습니다:
+
+```bash
+bunx --bun @dou.so/ondo-ui@latest init -t vite --cwd ../my-vite-app
+```
+
 ## 레지스트리 항목 추가
 
 Components와 Compositions를 그룹으로 나누어 선택하는 메뉴를 엽니다:
@@ -45,6 +51,19 @@ bunx --bun @dou.so/ondo-ui@latest add button --dry-run
 `theme-provider` 같은 시스템 항목은 이름을 직접 지정하면 설치할 수 있지만
 기본 메뉴에는 표시되지 않습니다.
 
+### add 주요 옵션
+
+| 옵션 | 용도 |
+| --- | --- |
+| `--all`, `-a` | 메뉴에 표시되는 모든 Component와 Composition을 설치합니다. |
+| `--dry-run` | 프로젝트를 변경하지 않고 파일과 의존성을 미리 봅니다. |
+| `--diff [path]` | 적용될 변경 사항을 보여줍니다. |
+| `--view [path]` | 레지스트리 파일 내용을 적용하지 않고 보여줍니다. |
+| `--cwd <path>` | 다른 프로젝트 디렉터리를 대상으로 실행합니다. |
+
+레지스트리 namespace가 없는 이름은 `@ondo-ui/<name>`으로 해석합니다. 이미
+registry 주소나 URL인 값은 그대로 전달합니다.
+
 ## 명령어 목록
 
 프로젝트와 레지스트리 작업을 위해 shadcn 명령을 지원합니다:
@@ -54,6 +73,14 @@ bunx --bun @dou.so/ondo-ui@latest add button --dry-run
 
 `list`는 `search`의 별칭입니다. deprecated된 `diff`는 `add --diff`로
 변환됩니다. 다른 프로젝트에서 실행하려면 `--cwd <path>`를 사용하세요.
+
+예시:
+
+```bash
+bunx --bun @dou.so/ondo-ui@latest search @ondo-ui --query button
+bunx --bun @dou.so/ondo-ui@latest view @ondo-ui/button
+bunx --bun @dou.so/ondo-ui@latest mcp init --client claude
+```
 
 레지스트리 maintainer는 `build`와 `registry`로 레지스트리 파일을 만들고
 검증할 수 있습니다.

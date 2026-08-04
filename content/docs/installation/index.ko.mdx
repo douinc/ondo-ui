@@ -42,15 +42,15 @@ import {
 <div id="use-cli" className="scroll-mt-24" />
 ## CLI 사용
 
-터미널에서 Ondo CLI로 새 프로젝트를 만들고 레지스트리와 테마를 함께 설정합니다:
+터미널에서 Ondo CLI로 새 프로젝트를 만들고 레지스트리와 테마를 함께 설정합니다. 전체 명령은 [CLI 레퍼런스](/docs/cli)에서 확인하세요:
 
 ```bash title="터미널"
-npx @dou.so/ondo-ui@latest init -t [framework]
+bunx --bun @dou.so/ondo-ui@latest init -t [framework]
 ```
 
 지원 템플릿은 `next`, `vite`, `start`, `react-router`, `astro`입니다.
 
-Laravel은 먼저 `laravel new`로 앱을 만든 뒤 앱 디렉터리에서 `npx @dou.so/ondo-ui@latest init -t laravel`을 실행하세요.
+Laravel은 먼저 `laravel new`로 앱을 만든 뒤 앱 디렉터리에서 `bunx --bun @dou.so/ondo-ui@latest init -t laravel`을 실행하세요.
 
 <div id="existing-project" className="scroll-mt-24" />
 ## 기존 프로젝트
@@ -61,7 +61,7 @@ Laravel은 먼저 `laravel new`로 앱을 만든 뒤 앱 디렉터리에서 `npx
 
 ## Framework 선택
 
-Laravel은 `npx @dou.so/ondo-ui@latest init`을 사용하기 전에 `laravel new`로 시작하세요.
+Laravel은 `bunx --bun @dou.so/ondo-ui@latest init`을 사용하기 전에 `laravel new`로 시작하세요.
 
 <div className="mt-8 grid gap-4 sm:grid-cols-2 sm:gap-6">
   <LinkedCard href="/ko/docs/installation/next">
@@ -117,6 +117,7 @@ bunx --bun @dou.so/ondo-ui add
 bunx --bun @dou.so/ondo-ui add button empty-view
 bunx --bun @dou.so/ondo-ui add button --dry-run
 bunx --bun @dou.so/ondo-ui add --all
+bunx --bun @dou.so/ondo-ui add -a
 ```
 
 `empty-view`, `number-badge` 같은 Compositions는 일반 registry UI
@@ -141,4 +142,5 @@ export default function Example() {
 Ondo CLI는 shadcn의 전체 명령을 지원합니다: `search`(`list` 별칭), `view`,
 `docs`, `diff`(`add --diff`로 변환), `apply`, `info`, `migrate`, `eject`, `mcp`,
 `preset`, `build`, `registry`. 다른 프로젝트를 대상으로 하려면 `--cwd <path>`를
-사용하세요.
+사용하세요. 전체 명령과 예시는 [CLI 레퍼런스](/docs/cli)에서 확인할 수
+있습니다.

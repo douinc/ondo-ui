@@ -19,6 +19,14 @@ Add the `@ondo-ui` namespace to the `registries` field of your `components.json`
 }
 ```
 
+If you initialized the project with the [Ondo CLI](/docs/cli), this registry
+entry is added automatically. You can also initialize each client through the
+Ondo CLI:
+
+```bash
+bunx --bun @dou.so/ondo-ui@latest mcp init --client claude
+```
+
 ## Set up your client
 
 <Tabs defaultValue="claude">
@@ -33,7 +41,7 @@ Add the `@ondo-ui` namespace to the `registries` field of your `components.json`
     **Run the following command** in your project:
 
     ```bash
-    bunx shadcn@latest mcp init --client claude
+    bunx --bun @dou.so/ondo-ui@latest mcp init --client claude
     ```
 
     This creates a `.mcp.json` file with the shadcn MCP server configured.
@@ -51,7 +59,7 @@ Add the `@ondo-ui` namespace to the `registries` field of your `components.json`
     **Run the following command** in your project:
 
     ```bash
-    bunx shadcn@latest mcp init --client cursor
+    bunx --bun @dou.so/ondo-ui@latest mcp init --client cursor
     ```
 
     Open **Cursor Settings** and **enable the MCP server** for shadcn. Then try the following prompts:
@@ -65,7 +73,7 @@ Add the `@ondo-ui` namespace to the `registries` field of your `components.json`
     **Run the following command** in your project:
 
     ```bash
-    bunx shadcn@latest mcp init --client vscode
+    bunx --bun @dou.so/ondo-ui@latest mcp init --client vscode
     ```
 
     Open `.vscode/mcp.json` and click **Start** next to the shadcn server. Then try the following prompts with GitHub Copilot:
@@ -80,8 +88,8 @@ Add the `@ondo-ui` namespace to the `registries` field of your `components.json`
 
     ```toml
     [mcp_servers.shadcn]
-    command = "npx"
-    args = ["shadcn@latest", "mcp"]
+    command = "bunx"
+    args = ["--bun", "@dou.so/ondo-ui@latest", "mcp"]
     ```
 
     **Restart Codex** and try the following prompts:
@@ -95,7 +103,7 @@ Add the `@ondo-ui` namespace to the `registries` field of your `components.json`
     **Run the following command** in your project:
 
     ```bash
-    bunx shadcn@latest mcp init --client opencode
+    bunx --bun @dou.so/ondo-ui@latest mcp init --client opencode
     ```
 
     This adds the shadcn MCP server to your `opencode.json` file.

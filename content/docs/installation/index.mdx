@@ -42,15 +42,15 @@ Choose the setup that matches your starting point.
 <div id="use-cli" className="scroll-mt-24" />
 ## Use the CLI
 
-Use the Ondo CLI to scaffold a new project, configure the registry, and install the initial theme directly from the terminal:
+Use the Ondo CLI to scaffold a new project, configure the registry, and install the initial theme directly from the terminal. See the [CLI reference](/docs/cli) for the complete command list:
 
 ```bash title="Terminal"
-npx @dou.so/ondo-ui@latest init -t [framework]
+bunx --bun @dou.so/ondo-ui@latest init -t [framework]
 ```
 
 Supported templates: `next`, `vite`, `start`, `react-router`, and `astro`.
 
-For Laravel, create the app first with `laravel new`, then run `npx @dou.so/ondo-ui@latest init -t laravel` from the app directory.
+For Laravel, create the app first with `laravel new`, then run `bunx --bun @dou.so/ondo-ui@latest init -t laravel` from the app directory.
 
 <div id="existing-project" className="scroll-mt-24" />
 ## Existing Project
@@ -61,7 +61,7 @@ Pick your framework below and follow that path.
 
 ## Choose Your Framework
 
-For Laravel, start with `laravel new` before using `npx @dou.so/ondo-ui@latest init`.
+For Laravel, start with `laravel new` before using `bunx --bun @dou.so/ondo-ui@latest init`.
 
 <div className="mt-8 grid gap-4 sm:grid-cols-2 sm:gap-6">
   <LinkedCard href="/docs/installation/next">
@@ -117,6 +117,7 @@ menu-visible item:
 bunx --bun @dou.so/ondo-ui add button empty-view
 bunx --bun @dou.so/ondo-ui add button --dry-run
 bunx --bun @dou.so/ondo-ui add --all
+bunx --bun @dou.so/ondo-ui add -a
 ```
 
 Compositions such as `empty-view` and `number-badge` are shown separately from
@@ -141,4 +142,5 @@ export default function Example() {
 The Ondo CLI supports the full shadcn command surface: `search` (`list` alias),
 `view`, `docs`, `diff` (translated to `add --diff`), `apply`, `info`, `migrate`,
 `eject`, `mcp`, `preset`, `build`, and `registry`. Use `--cwd <path>` to target
-another project.
+another project. See the [CLI reference](/docs/cli) for the full command
+reference and examples.

@@ -35,7 +35,7 @@ flowchart TD
     end
 
     subgraph dev["🛠️ 개발팀"]
-        add["컴포넌트 탐색·설치<br/>(npx shadcn@latest add)"] --> product["제품 구현"]
+        add["컴포넌트 탐색·설치<br/>(ondo-ui add)"] --> product["제품 구현"]
     end
 
     registry -->|"컴포넌트 & 토큰"| mcp
@@ -48,7 +48,7 @@ flowchart TD
 1. **Ondo UI**가 컴포넌트·테마·토큰을 shadcn registry로 배포합니다.
 2. **디자인팀**과 **개발팀** 모두 shadcn MCP를 통해 동일한 registry에 접근합니다.
 3. 디자인팀이 Ondo UI 컴포넌트를 기반으로 제품 화면을 디자인해 개발팀에 전달합니다.
-4. 개발팀이 MCP로 컴포넌트를 탐색하고 `npx shadcn@latest add`로 설치해 디자인을 구현합니다.
+4. 개발팀이 MCP나 `ondo-ui add`로 컴포넌트를 탐색하고 설치해 디자인을 구현합니다.
 5. 디자인 과정에서 나온 신규 컴포넌트와 개선 제안은 다시 Ondo UI에 반영되고, 순환이 반복됩니다.
 
 ## shadcn MCP 설정
@@ -68,9 +68,9 @@ flowchart TD
 **2. MCP 서버 등록** — 사용하는 클라이언트에 맞춰 실행합니다:
 
 ```bash
-npx shadcn@latest mcp init --client claude   # Claude Code
-npx shadcn@latest mcp init --client cursor   # Cursor
-npx shadcn@latest mcp init --client vscode   # VS Code
+bunx --bun @dou.so/ondo-ui@latest mcp init --client claude   # Claude Code
+bunx --bun @dou.so/ondo-ui@latest mcp init --client cursor   # Cursor
+bunx --bun @dou.so/ondo-ui@latest mcp init --client vscode   # VS Code
 ```
 
 설정 후에는 AI에게 자연어로 요청하면 됩니다:
@@ -80,12 +80,29 @@ npx shadcn@latest mcp init --client vscode   # VS Code
 
 자세한 내용은 [설치 문서](https://ui.ondo.dou.so/ko/docs/installation)를 참고하세요.
 
+## Ondo CLI
+
+Ondo CLI로 지원되는 framework를 초기화하고 레지스트리를 설정한 뒤
+Components와 Compositions를 설치할 수 있습니다:
+
+```bash
+bunx --bun @dou.so/ondo-ui@latest init -t astro
+bunx --bun @dou.so/ondo-ui@latest add
+bunx --bun @dou.so/ondo-ui@latest add button empty-view
+bunx --bun @dou.so/ondo-ui@latest add --all
+```
+
+`search`, `list`, `view`, `docs`, `diff`, `apply`, `info`, `migrate`, `eject`,
+`mcp`, `preset`, `build`, `registry` 같은 shadcn 프로젝트·registry 명령도
+지원합니다. 명령 옵션, Compositions, 시스템 항목, `--cwd` 사용법은
+[CLI 레퍼런스](https://ui.ondo.dou.so/ko/docs/cli)에서 확인하세요.
+
 ## 컴포넌트 추가하기
 
 앱에 컴포넌트를 추가하려면 다음 명령어를 실행하세요:
 
 ```bash
-npx shadcn@latest add button
+bunx --bun @dou.so/ondo-ui@latest add button
 ```
 
 이 명령어는 UI 컴포넌트를 `components` 디렉토리에 배치합니다.
