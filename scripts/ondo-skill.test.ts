@@ -81,6 +81,34 @@ describe("Ondo UI skill contract", () => {
     }
   })
 
+  test("keeps local links inside the installable skill bundle", async () => {
+    const markdownFiles = requiredFiles.filter(
+      (file) => file.endsWith(".md") || file.endsWith(".mdx")
+    )
+
+    for (const file of markdownFiles) {
+      const sourcePath = resolve(skillRoot, file)
+      const source = await readFile(sourcePath, "utf8")
+      const links = [...source.matchAll(/\]\(([^)]+)\)/g)].map(
+        (match) => match[1]
+      )
+
+      for (const link of links) {
+        if (
+          link.startsWith("#") ||
+          link.startsWith("https://") ||
+          link.startsWith("http://")
+        ) {
+          continue
+        }
+
+        const path = resolve(dirname(sourcePath), link.split("#")[0])
+        expect(path.startsWith(`${skillRoot}${sep}`)).toBe(true)
+        await access(path)
+      }
+    }
+  })
+
   test("keeps rule examples on the Base UI contract", async () => {
     const ruleText = (
       await Promise.all(

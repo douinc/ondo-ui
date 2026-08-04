@@ -48,7 +48,7 @@ Do not use a bare Ondo dependency such as `"button"`; that silently resolves aga
 
 ## Maintainer workflow
 
-Before adding, renaming, removing, or registering anything under `components/ui/`, read [`.claude/skills/add-component/SKILL.md`](../../.claude/skills/add-component/SKILL.md). It defines the seven registration points for components, demos, bilingual docs, navigation, the gallery, and the registry.
+When maintaining the Ondo UI repository, read the [add-component maintainer guide](https://github.com/douinc/ondo-ui/blob/main/.claude/skills/add-component/SKILL.md) before adding, renaming, removing, or registering anything under `components/ui/`. It defines the seven registration points for components, demos, bilingual docs, navigation, the gallery, and the registry.
 
 Verify one item or the complete registry:
 
