@@ -68,9 +68,9 @@ flowchart TD
 **2. MCP 서버 등록** — 사용하는 클라이언트에 맞춰 실행합니다:
 
 ```bash
-npx shadcn@latest mcp init --client claude   # Claude Code
-npx shadcn@latest mcp init --client cursor   # Cursor
-npx shadcn@latest mcp init --client vscode   # VS Code
+bunx --bun @dou.so/ondo-ui@latest mcp init --client claude   # Claude Code
+bunx --bun @dou.so/ondo-ui@latest mcp init --client cursor   # Cursor
+bunx --bun @dou.so/ondo-ui@latest mcp init --client vscode   # VS Code
 ```
 
 설정 후에는 AI에게 자연어로 요청하면 됩니다:
@@ -100,6 +100,7 @@ bunx --bun @dou.so/ondo-ui add
 bunx --bun @dou.so/ondo-ui add button empty-view
 bunx --bun @dou.so/ondo-ui add button --dry-run
 bunx --bun @dou.so/ondo-ui add --all
+bunx --bun @dou.so/ondo-ui add -a
 ```
 
 메뉴에서는 일반 registry UI 컴포넌트와 `empty-view`, `number-badge` 같은

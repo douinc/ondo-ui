@@ -35,7 +35,7 @@ flowchart TD
     end
 
     subgraph dev["🛠️ Dev Team"]
-        add["Browse & install components<br/>(npx shadcn@latest add)"] --> product["Product Implementation"]
+        add["Browse & install components<br/>(ondo-ui add)"] --> product["Product Implementation"]
     end
 
     registry -->|"components & tokens"| mcp
@@ -48,7 +48,7 @@ flowchart TD
 1. **Ondo UI** publishes components, themes, and tokens as a shadcn registry.
 2. Both the **design team** and the **dev team** access the same registry through the shadcn MCP.
 3. The design team designs product screens on top of Ondo UI components and hands them off to the dev team.
-4. The dev team browses components via the MCP and installs them with `npx shadcn@latest add` to implement the designs.
+4. The dev team browses components via the MCP or `ondo-ui add` and installs them to implement the designs.
 5. New components and improvements proposed during design flow back into Ondo UI, and the loop repeats.
 
 ## Setting up the shadcn MCP
@@ -68,9 +68,9 @@ Two steps make the Ondo UI registry available to AI tools (Claude Code, Cursor, 
 **2. Register the MCP server** — run the command for your client:
 
 ```bash
-npx shadcn@latest mcp init --client claude   # Claude Code
-npx shadcn@latest mcp init --client cursor   # Cursor
-npx shadcn@latest mcp init --client vscode   # VS Code
+bunx --bun @dou.so/ondo-ui@latest mcp init --client claude   # Claude Code
+bunx --bun @dou.so/ondo-ui@latest mcp init --client cursor   # Cursor
+bunx --bun @dou.so/ondo-ui@latest mcp init --client vscode   # VS Code
 ```
 
 Once configured, just ask your AI in natural language:
@@ -80,12 +80,29 @@ Once configured, just ask your AI in natural language:
 
 See the [installation docs](https://ui.ondo.dou.so/docs/installation) for details.
 
+## Ondo CLI
+
+Use the Ondo CLI to initialize a supported framework, configure the registry,
+and install Components or Compositions:
+
+```bash
+bunx --bun @dou.so/ondo-ui@latest init -t astro
+bunx --bun @dou.so/ondo-ui@latest add
+bunx --bun @dou.so/ondo-ui@latest add button empty-view
+bunx --bun @dou.so/ondo-ui@latest add --all
+```
+
+The CLI also exposes the shadcn project and registry commands, including
+`search`, `list`, `view`, `docs`, `diff`, `apply`, `info`, `migrate`, `eject`,
+`mcp`, `preset`, `build`, and `registry`. See the [CLI reference](https://ui.ondo.dou.so/docs/cli)
+for command options, Compositions, system items, and `--cwd` usage.
+
 ## Adding components
 
 To add components to your app, run the following command:
 
 ```bash
-npx shadcn@latest add button
+bunx --bun @dou.so/ondo-ui@latest add button
 ```
 
 This will place the ui components in the `components` directory.

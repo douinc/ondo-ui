@@ -19,6 +19,13 @@ MCP 서버는 [`https://ui.ondo.dou.so/r/registry.json`](https://ui.ondo.dou.so/
 }
 ```
 
+[Ondo CLI](/docs/cli)로 프로젝트를 초기화했다면 이 레지스트리 항목은
+자동으로 추가됩니다. 각 클라이언트 설정도 Ondo CLI로 실행할 수 있습니다:
+
+```bash
+bunx --bun @dou.so/ondo-ui@latest mcp init --client claude
+```
+
 ## 클라이언트 설정
 
 <Tabs defaultValue="claude">
@@ -33,7 +40,7 @@ MCP 서버는 [`https://ui.ondo.dou.so/r/registry.json`](https://ui.ondo.dou.so/
     프로젝트에서 **다음 명령을 실행하세요**:
 
     ```bash
-    bunx shadcn@latest mcp init --client claude
+    bunx --bun @dou.so/ondo-ui@latest mcp init --client claude
     ```
 
     shadcn MCP 서버가 구성된 `.mcp.json` 파일이 생성됩니다.
@@ -51,7 +58,7 @@ MCP 서버는 [`https://ui.ondo.dou.so/r/registry.json`](https://ui.ondo.dou.so/
     프로젝트에서 **다음 명령을 실행하세요**:
 
     ```bash
-    bunx shadcn@latest mcp init --client cursor
+    bunx --bun @dou.so/ondo-ui@latest mcp init --client cursor
     ```
 
     **Cursor Settings**를 열어 shadcn **MCP 서버를 활성화**하세요. 그다음 아래 프롬프트를 시도해 보세요:
@@ -65,7 +72,7 @@ MCP 서버는 [`https://ui.ondo.dou.so/r/registry.json`](https://ui.ondo.dou.so/
     프로젝트에서 **다음 명령을 실행하세요**:
 
     ```bash
-    bunx shadcn@latest mcp init --client vscode
+    bunx --bun @dou.so/ondo-ui@latest mcp init --client vscode
     ```
 
     `.vscode/mcp.json`을 열고 shadcn 서버 옆의 **Start**를 클릭하세요. 그다음 GitHub Copilot에서 아래 프롬프트를 시도해 보세요:
@@ -80,8 +87,8 @@ MCP 서버는 [`https://ui.ondo.dou.so/r/registry.json`](https://ui.ondo.dou.so/
 
     ```toml
     [mcp_servers.shadcn]
-    command = "npx"
-    args = ["shadcn@latest", "mcp"]
+    command = "bunx"
+    args = ["--bun", "@dou.so/ondo-ui@latest", "mcp"]
     ```
 
     **Codex를 재시작**하고 다음 프롬프트를 시도해 보세요:
@@ -95,7 +102,7 @@ MCP 서버는 [`https://ui.ondo.dou.so/r/registry.json`](https://ui.ondo.dou.so/
     프로젝트에서 **다음 명령을 실행하세요**:
 
     ```bash
-    bunx shadcn@latest mcp init --client opencode
+    bunx --bun @dou.so/ondo-ui@latest mcp init --client opencode
     ```
 
     `opencode.json` 파일에 shadcn MCP 서버가 추가됩니다.

@@ -25,6 +25,6 @@ The frontmatter field is what orders the Changelog. The filename only carries th
 
 ## Release source of truth
 
-Changesets is the source of truth for package releases. Feature branches should add a changeset with `bun run changeset`; the release process applies those changesets to `packages/ondo-ui-cli/package.json`, updates `packages/ondo-ui-cli/CHANGELOG.md`, refreshes the lockfile, and then publishes through Changesets.
+Changesets is the source of truth for package releases. Feature branches should add a changeset with `bun run changeset`; the release process opens a `Version Packages` PR that applies those changesets to `packages/ondo-ui-cli/package.json`, updates `packages/ondo-ui-cli/CHANGELOG.md`, and refreshes the lockfile. Merge that PR to publish through the trusted npm publisher.
 
-Keep the manually curated English and Korean website Changelog entries under `content/docs/changelog/` separate from the generated npm package changelog. After the published `1.3.1` package, the next additive release is `1.4.0`.
+Keep the manually curated English and Korean website Changelog entries under `content/docs/changelog/` separate from the generated npm package changelog. After the published `1.3.1` package, the next additive release is `1.4.0`, which includes the Ondo CLI command surface.

@@ -68,9 +68,9 @@ Two steps make the Ondo UI registry available to AI tools (Claude Code, Cursor, 
 **2. Register the MCP server** — run the command for your client:
 
 ```bash
-npx shadcn@latest mcp init --client claude   # Claude Code
-npx shadcn@latest mcp init --client cursor   # Cursor
-npx shadcn@latest mcp init --client vscode   # VS Code
+bunx --bun @dou.so/ondo-ui@latest mcp init --client claude   # Claude Code
+bunx --bun @dou.so/ondo-ui@latest mcp init --client cursor   # Cursor
+bunx --bun @dou.so/ondo-ui@latest mcp init --client vscode   # VS Code
 ```
 
 Once configured, just ask your AI in natural language:
@@ -100,6 +100,7 @@ Install items directly or preview the changes:
 bunx --bun @dou.so/ondo-ui add button empty-view
 bunx --bun @dou.so/ondo-ui add button --dry-run
 bunx --bun @dou.so/ondo-ui add --all
+bunx --bun @dou.so/ondo-ui add -a
 ```
 
 The menu separates registry UI components from ready-made Compositions such

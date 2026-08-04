@@ -25,6 +25,6 @@ Changelog의 순서를 정하는 것은 이 frontmatter 필드입니다. 파일�
 
 ## 릴리스의 단일 진실 공급원
 
-패키지 릴리스의 기준은 Changesets입니다. 기능 브랜치에서는 `bun run changeset`으로 changeset을 추가하고, 릴리스 과정에서 이를 `packages/ondo-ui-cli/package.json`에 적용해 `packages/ondo-ui-cli/CHANGELOG.md`를 갱신하고 lockfile을 새로 맞춘 뒤 Changesets로 publish합니다.
+패키지 릴리스의 기준은 Changesets입니다. 기능 브랜치에서는 `bun run changeset`으로 changeset을 추가합니다. 릴리스 과정에서 `Version Packages` PR이 생성되고, 이 PR이 `packages/ondo-ui-cli/package.json`과 `packages/ondo-ui-cli/CHANGELOG.md`, lockfile을 갱신합니다. 해당 PR을 merge하면 trusted npm publisher를 통해 publish됩니다.
 
-직접 큐레이션하는 영문/국문 웹사이트 Changelog 항목(`content/docs/changelog/`)은 생성되는 npm 패키지 changelog와 분리해서 유지하세요. 이미 배포된 `1.3.1` 패키지 다음의 호환 기능 추가 릴리스는 `1.4.0`입니다.
+직접 큐레이션하는 영문/국문 웹사이트 Changelog 항목(`content/docs/changelog/`)은 생성되는 npm 패키지 changelog와 분리해서 유지하세요. 이미 배포된 `1.3.1` 패키지 다음의 호환 기능 추가 릴리스는 Ondo CLI 명령 표면을 포함하는 `1.4.0`입니다.
