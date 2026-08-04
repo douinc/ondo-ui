@@ -42,6 +42,7 @@ describe("Ondo UI skill contract", () => {
     ) as { files?: string[] }
 
     expect(packageJson.files).toBeArray()
+    expect(packageJson.files).toContain("bin/ondo-docs.mjs")
     expect(packageJson.files?.some((file) => file.startsWith("skills"))).toBe(
       false
     )

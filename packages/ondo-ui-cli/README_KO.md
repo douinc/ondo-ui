@@ -116,7 +116,8 @@ bunx --bun @dou.so/ondo-ui list --query button
 bunx --bun @dou.so/ondo-ui view @ondo-ui/button
 bunx --bun @dou.so/ondo-ui diff button
 bunx --bun @dou.so/ondo-ui apply <preset>
-bunx --bun @dou.so/ondo-ui docs button
+bunx --bun @dou.so/ondo-ui@latest docs button
+bunx --bun @dou.so/ondo-ui@latest docs empty-view --json
 bunx --bun @dou.so/ondo-ui info
 bunx --bun @dou.so/ondo-ui migrate --list
 bunx --bun @dou.so/ondo-ui eject
@@ -128,6 +129,18 @@ bunx --bun @dou.so/ondo-ui registry validate
 
 다른 프로젝트에서 실행하려면 `--cwd <path>`를 사용하세요. `build`와
 `registry` 같은 registry 제작 명령도 maintainer를 위해 전달됩니다.
+
+## Ondo UI Skill
+
+AI 어시스턴트에 Ondo 프로젝트 컨텍스트, Base UI 패턴, 컴포넌트와
+Composition 규칙을 제공하는 저장소 기반 Skill을 설치합니다:
+
+```bash
+npx skills add douinc/ondo-ui
+```
+
+Skill은 이 npm 패키지가 아니라 GitHub 저장소에서 설치됩니다. 자세한 내용은
+[Skills 가이드](https://ui.ondo.dou.so/ko/docs/skills)를 참고하세요.
 
 ## 컴포넌트 추가하기
 

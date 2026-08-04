@@ -9,6 +9,7 @@
     "ondo-ui": "bin/ondo-ui.mjs"
   },
   "files": [
+    "bin/ondo-docs.mjs",
     "bin/ondo-ui.mjs",
     "bin/registry-menu.mjs",
     "bin/shadcn-process.mjs",
