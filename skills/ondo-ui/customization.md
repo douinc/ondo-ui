@@ -66,4 +66,3 @@ Confirm `tailwindVersion` before changing theme registration. Preserve the proje
 4. Build a wrapper or Composition when several primitives form one repeated product pattern.
 
 Use `cn()` for conditional classes. Prefer `gap-*` for spacing between children and `size-*` when width and height are equal.
-

@@ -3,4 +3,3 @@ interface:
   short_description: "Builds and manages Base UI interfaces with the Ondo registry, CLI, components, Compositions, and design rules."
   icon_small: "./assets/ondo-small.png"
   icon_large: "./assets/ondo.png"
-

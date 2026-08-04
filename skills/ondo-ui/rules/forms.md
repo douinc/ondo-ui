@@ -78,4 +78,3 @@ Group related checkboxes, radios, or switches with `FieldSet` and `FieldLegend`,
 ```
 
 Use `data-disabled` with the control's `disabled` prop for disabled fields. Keep a programmatic label for every input, including visually hidden labels.
-

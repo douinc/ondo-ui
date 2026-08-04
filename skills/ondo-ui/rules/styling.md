@@ -62,4 +62,3 @@ Use existing variants first, then `className`, then a reusable `cva` variant, th
 ```
 
 Use shipped utilities such as `shimmer` and `scroll-fade-*` instead of custom keyframes or mask gradients when they match the behavior.
-

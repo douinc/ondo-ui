@@ -76,4 +76,3 @@ bunx --bun @dou.so/ondo-ui@latest info --json
 `search`, `view`, `info`, `apply`, `migrate`, `eject`, `mcp`, `preset`, `build`, and `registry` use shadcn's implementation. `list` aliases `search`; `diff` aliases `add --diff`. `apply` and `preset` are shadcn features and do not define an Ondo preset format.
 
 Most delegated project commands accept `--cwd <path>`. Use `info --json --cwd <path>` first when operating outside the current project.
-

@@ -72,4 +72,3 @@ Use `MessageAvatar`, `MessageHeader`, and `MessageFooter` for sender metadata. G
 ```
 
 Use attachment `state` values for upload and processing feedback. Use `MessageScrollerButton` directly rather than duplicating its visibility state. Reach for `useMessageScroller`, `useMessageScrollerVisibility`, or `useMessageScrollerScrollable` only when the provided composition cannot express required behavior. Use `render` for polymorphic chat actions.
-

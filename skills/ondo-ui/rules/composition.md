@@ -74,4 +74,3 @@ Apply the same structure to `DropdownMenuGroup`, `ContextMenuGroup`, `MenubarGro
 ```
 
 Every `Dialog`, `Sheet`, `Drawer`, and `AlertDialog` content includes its matching title.
-

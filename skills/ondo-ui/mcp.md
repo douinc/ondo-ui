@@ -54,4 +54,3 @@ MCP tools do not expose the complete project context. Run this separately for fr
 ```bash
 bunx --bun @dou.so/ondo-ui@latest info --json
 ```
-

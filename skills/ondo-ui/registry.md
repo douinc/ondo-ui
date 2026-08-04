@@ -59,4 +59,3 @@ npm run build
 ```
 
 Use the checker before the build because missing registration points otherwise fail silently. The build verifies MDX compilation, registry payload generation, and static export behavior.
-

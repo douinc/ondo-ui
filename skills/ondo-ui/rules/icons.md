@@ -48,4 +48,3 @@ function Status({ icon: Icon }: { icon: ComponentType }) {
 ```
 
 Name icon-only controls with `aria-label` or an `sr-only` label. Use `render` when an icon-bearing trigger composes another Ondo component.
-
