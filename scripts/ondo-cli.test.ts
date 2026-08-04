@@ -93,6 +93,13 @@ describe("Ondo command surface", () => {
     items: [
       { name: "button", type: "registry:ui" },
       {
+        name: "agent-workspace",
+        type: "registry:block",
+        files: [
+          { path: "components/blocks/agent-workspace/agent-workspace.tsx" },
+        ],
+      },
+      {
         name: "empty-view",
         type: "registry:component",
         files: [{ path: "components/compositions/empty-view.tsx" }],
@@ -133,9 +140,9 @@ describe("Ondo command surface", () => {
     ])
   })
 
-  test("delegates explicit add names and flags", async () => {
+  test("delegates explicit Block add names and flags", async () => {
     let invocation: unknown
-    const status = await runAdd(["button", "--dry-run"], {
+    const status = await runAdd(["agent-workspace", "--dry-run"], {
       runShadcn(command: string, args: string[]) {
         invocation = { command, args }
         return 0
@@ -145,7 +152,7 @@ describe("Ondo command surface", () => {
     expect(status).toBe(0)
     expect(invocation).toEqual({
       command: "add",
-      args: ["@ondo-ui/button", "--dry-run"],
+      args: ["@ondo-ui/agent-workspace", "--dry-run"],
     })
   })
 
@@ -240,6 +247,45 @@ describe("Ondo registry menu", () => {
         files: [{ path: "components/theme-provider.tsx" }],
       })
     ).toBeNull()
+  })
+
+  test("keeps Blocks out of the interactive selection groups", () => {
+    const registry = {
+      items: [
+        { name: "button", type: "registry:ui" },
+        {
+          name: "empty-view",
+          type: "registry:component",
+          files: [{ path: "components/compositions/empty-view.tsx" }],
+        },
+        {
+          name: "agent-workspace",
+          type: "registry:block",
+          files: [
+            {
+              path: "components/blocks/agent-workspace/agent-workspace.tsx",
+            },
+          ],
+        },
+      ],
+    } satisfies TestRegistry
+    const blockItem = {
+      name: "agent-workspace",
+      type: "registry:block",
+      files: [
+        { path: "components/blocks/agent-workspace/agent-workspace.tsx" },
+      ],
+    }
+
+    expect(classifyRegistryItem(blockItem)).toBeNull()
+    expect(getSelectableNames(registry, "all")).not.toContain(
+      "agent-workspace"
+    )
+    expect(
+      buildRegistryChoices(registry).some(
+        (choice) => choice.value === "agent-workspace"
+      )
+    ).toBe(false)
   })
 
   test("keeps only Components and Compositions in selectable groups", () => {

@@ -1385,6 +1385,53 @@
           "type": "registry:component"
         }
       ]
+    },
+    {
+      "name": "agent-workspace",
+      "type": "registry:block",
+      "description": "A full-screen AI workspace with task navigation, agent progress, and reviewable deliverables.",
+      "dependencies": [
+        "@tabler/icons-react"
+      ],
+      "registryDependencies": [
+        "@ondo-ui/attachment",
+        "@ondo-ui/badge",
+        "@ondo-ui/bubble",
+        "@ondo-ui/button",
+        "@ondo-ui/collapsible",
+        "@ondo-ui/dropdown-menu",
+        "@ondo-ui/empty",
+        "@ondo-ui/input-group",
+        "@ondo-ui/message",
+        "@ondo-ui/message-scroller",
+        "@ondo-ui/progress",
+        "@ondo-ui/sheet",
+        "@ondo-ui/sidebar",
+        "@ondo-ui/tooltip",
+        "@ondo-ui/utils"
+      ],
+      "files": [
+        {
+          "path": "components/blocks/agent-workspace/agent-workspace.tsx",
+          "type": "registry:block"
+        },
+        {
+          "path": "components/blocks/agent-workspace/workspace-sidebar.tsx",
+          "type": "registry:block"
+        },
+        {
+          "path": "components/blocks/agent-workspace/workspace-thread.tsx",
+          "type": "registry:block"
+        },
+        {
+          "path": "components/blocks/agent-workspace/workspace-artifacts.tsx",
+          "type": "registry:block"
+        },
+        {
+          "path": "components/blocks/agent-workspace/workspace-data.ts",
+          "type": "registry:block"
+        }
+      ]
     }
   ]
 }
