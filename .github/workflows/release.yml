@@ -59,11 +59,14 @@ jobs:
       - name: Verify CLI package contents
         working-directory: packages/ondo-ui-cli
         run: |
-          npm pack --dry-run --json > pack-dry-run.json
-          node --input-type=module <<'NODE'
+          pack_json="$RUNNER_TEMP/ondo-ui-pack-dry-run.json"
+          npm pack --dry-run --json > "$pack_json"
+          PACK_JSON="$pack_json" node --input-type=module <<'NODE'
           import { readFile } from "node:fs/promises"
 
-          const [pack] = JSON.parse(await readFile("pack-dry-run.json", "utf8"))
+          const [pack] = JSON.parse(
+            await readFile(process.env.PACK_JSON, "utf8")
+          )
           const files = pack.files.map((file) => file.path).sort()
           const expected = [
             "README.md",

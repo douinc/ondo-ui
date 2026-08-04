@@ -1,0 +1,59 @@
+---
+title: CLI
+description: Initialize projects and install Ondo registry items from the terminal.
+---
+
+The Ondo CLI wraps the shadcn CLI with Ondo's registry and framework setup.
+
+## Install
+
+Run the CLI without installing it globally:
+
+```bash
+bunx --bun @dou.so/ondo-ui@latest --help
+```
+
+## Initialize a project
+
+Create or initialize a supported framework and configure the Ondo registry:
+
+```bash
+bunx --bun @dou.so/ondo-ui@latest init -t astro
+```
+
+Supported frameworks are Next.js, Vite, TanStack Start, React Router, Laravel,
+and Astro. The command installs the framework-compatible Ondo theme and adds
+the `@ondo-ui` registry to `components.json`.
+
+## Add registry items
+
+Open the grouped Components and Compositions menu:
+
+```bash
+bunx --bun @dou.so/ondo-ui@latest add
+```
+
+Install items directly or install every selectable item:
+
+```bash
+bunx --bun @dou.so/ondo-ui@latest add button empty-view
+bunx --bun @dou.so/ondo-ui@latest add --all
+bunx --bun @dou.so/ondo-ui@latest add -a
+bunx --bun @dou.so/ondo-ui@latest add button --dry-run
+```
+
+System items such as `theme-provider` can be installed by explicit name but do
+not appear in the default menu.
+
+## Command reference
+
+Ondo supports the shadcn command surface for project and registry workflows:
+
+`init`, `add`, `search`, `list`, `view`, `docs`, `diff`, `apply`, `info`,
+`migrate`, `eject`, `mcp`, `preset`, `build`, and `registry`.
+
+`list` is an alias for `search`. The deprecated `diff` command is translated to
+`add --diff`. Use `--cwd <path>` to run a command for another project.
+
+Registry maintainers can use `build` and `registry` to author and validate
+registry files.
