@@ -58,3 +58,10 @@ Bare item names passed to the Ondo CLI select Ondo items. Use an explicit namesp
 - Preserve accessible names and required titles for overlays and form controls.
 - Use the configured icon library and semantic theme tokens from project context.
 - Keep generated components owned by the application: inspect and edit their source rather than wrapping them in an opaque dependency.
+
+## References
+
+- Read [CLI](./cli.md) before initializing projects, installing or updating items, or using delegated commands.
+- Read [Customization and theming](./customization.md) before changing tokens, fonts, dark mode, variants, or global CSS.
+- Read [MCP](./mcp.md) before configuring an AI client or invoking shadcn registry tools.
+- Read [Registry](./registry.md) before authoring or debugging registry items and dependencies.
