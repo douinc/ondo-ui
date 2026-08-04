@@ -5,10 +5,16 @@ import { resolve } from "node:path"
 
 import {
   buildShadcnArgs,
+  getSelectableNames,
   getFrameworkItems,
   getShadcnEnvironment,
   isDirectInvocation,
   mergeOndoRegistry,
+  parseAddArgs,
+  parseCommand,
+  PUBLIC_COMMANDS,
+  run,
+  runAdd,
 } from "../packages/ondo-ui-cli/bin/ondo-ui.mjs"
 import {
   buildRegistryChoices,
@@ -55,6 +61,111 @@ describe("shadcn process adapter", () => {
         stdio: "inherit",
       },
     })
+  })
+})
+
+describe("Ondo command surface", () => {
+  const registry = {
+    items: [
+      { name: "button", type: "registry:ui" },
+      {
+        name: "empty-view",
+        type: "registry:component",
+        files: [{ path: "components/compositions/empty-view.tsx" }],
+      },
+      {
+        name: "theme-provider",
+        type: "registry:component",
+        files: [{ path: "components/theme-provider.tsx" }],
+      },
+    ],
+  }
+
+  test("parses a command without changing its arguments", () => {
+    expect(parseCommand(["search", "@ondo-ui", "--json"])).toEqual({
+      command: "search",
+      args: ["@ondo-ui", "--json"],
+    })
+  })
+
+  test("parses add names and supported flags separately", () => {
+    expect(parseAddArgs(["button", "empty-view", "--cwd", "/tmp/project", "--dry-run"])).toEqual({
+      components: ["button", "empty-view"],
+      args: ["--cwd", "/tmp/project", "--dry-run"],
+      all: false,
+    })
+  })
+
+  test("selects only Components and Compositions for all", () => {
+    expect(getSelectableNames(registry, "all")).toEqual([
+      "button",
+      "empty-view",
+    ])
+  })
+
+  test("delegates explicit add names and flags", async () => {
+    let invocation
+    const status = await runAdd(["button", "--dry-run"], {
+      runShadcn(command, args) {
+        invocation = { command, args }
+        return 0
+      },
+    })
+
+    expect(status).toBe(0)
+    expect(invocation).toEqual({
+      command: "add",
+      args: ["@ondo-ui/button", "--dry-run"],
+    })
+  })
+
+  test("uses an injected menu and delegates all selectable items", async () => {
+    let invocation
+    const status = await runAdd(["--all"], {
+      fetchRegistry: async () => registry,
+      runShadcn(command, args) {
+        invocation = { command, args }
+        return 0
+      },
+    })
+
+    expect(status).toBe(0)
+    expect(invocation).toEqual({
+      command: "add",
+      args: ["@ondo-ui/button", "@ondo-ui/empty-view"],
+    })
+  })
+
+  test("returns without spawning shadcn when the menu is empty", async () => {
+    let invoked = false
+    const status = await runAdd([], {
+      fetchRegistry: async () => registry,
+      prompt: async () => ({ items: [] }),
+      runShadcn() {
+        invoked = true
+        return 0
+      },
+    })
+
+    expect(status).toBe(0)
+    expect(invoked).toBe(false)
+  })
+
+  test("forwards every public command and maps list to search", async () => {
+    const invocations = []
+    for (const command of PUBLIC_COMMANDS.filter((item) => item !== "init" && item !== "add")) {
+      const status = await run([command, "--json"], {
+        runShadcn(forwardedCommand, args) {
+          invocations.push({ command: forwardedCommand, args })
+          return 0
+        },
+      })
+      expect(status).toBe(0)
+    }
+
+    expect(invocations).toContainEqual({ command: "search", args: ["--json"] })
+    expect(invocations).toContainEqual({ command: "registry", args: ["--json"] })
+    expect(invocations).not.toContainEqual({ command: "list", args: ["--json"] })
   })
 })
 
