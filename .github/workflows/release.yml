@@ -16,6 +16,8 @@ permissions:
 jobs:
   release:
     name: Version or publish package
+    environment:
+      name: npm-release
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
