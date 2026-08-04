@@ -120,6 +120,12 @@ bunx shadcn@latest add @ondo-ui/agent-workspace
 The install must resolve every transitive registry dependency and place the
 Block under the consumer's configured components alias.
 
+Following shadcn's Block convention, `agent-workspace` is an explicit-name
+install target. It does not appear in the component picker opened by an
+argument-free `add`, and it is not included in `--all`. Discovery happens on
+the `/blocks` gallery; installation happens through the namespaced command
+above (or the equivalent explicit `ondo-ui add agent-workspace` wrapper).
+
 ## Public Component Contract
 
 The Block is source-first: consumers are expected to edit its copied files.
@@ -321,7 +327,8 @@ Manual browser verification covers:
    mobile moves both side panels into Sheets.
 4. The Block works without network access and has no automatic lifecycle timer.
 5. `bunx shadcn@latest add @ondo-ui/agent-workspace` installs every required file
-   and Ondo dependency.
+   and Ondo dependency, while the argument-free picker and `--all` continue to
+   omit Blocks.
 6. Empty selections and empty collections render intentional fallback UI rather
    than throwing.
 7. Status, progress, controls, and responsive panels are keyboard and screen
