@@ -116,7 +116,8 @@ bunx --bun @dou.so/ondo-ui list --query button
 bunx --bun @dou.so/ondo-ui view @ondo-ui/button
 bunx --bun @dou.so/ondo-ui diff button
 bunx --bun @dou.so/ondo-ui apply <preset>
-bunx --bun @dou.so/ondo-ui docs button
+bunx --bun @dou.so/ondo-ui@latest docs button
+bunx --bun @dou.so/ondo-ui@latest docs empty-view --json
 bunx --bun @dou.so/ondo-ui info
 bunx --bun @dou.so/ondo-ui migrate --list
 bunx --bun @dou.so/ondo-ui eject
@@ -128,6 +129,18 @@ bunx --bun @dou.so/ondo-ui registry validate
 
 Use `--cwd <path>` for another project directory. `build` and `registry` are
 forwarded for registry maintainers.
+
+## Ondo UI Skill
+
+Install the repository-hosted Skill to give AI assistants Ondo project context,
+Base UI patterns, and component and Composition rules:
+
+```bash
+npx skills add douinc/ondo-ui
+```
+
+The Skill is installed from GitHub and is not part of this npm package. See the
+[Skills guide](https://ui.ondo.dou.so/docs/skills) for details.
 
 ## Adding components
 

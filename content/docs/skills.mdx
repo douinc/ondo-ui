@@ -1,0 +1,67 @@
+---
+title: Skills
+description: Give your AI assistant project-aware knowledge of Ondo UI components, Compositions, Base UI patterns, and registry workflows.
+---
+
+The Ondo UI Skill gives coding agents the same component, Composition, CLI,
+theme, and registry conventions documented on this site. It reads the current
+project before suggesting code, so framework settings, aliases, installed
+files, and the configured icon library shape the result.
+
+Try prompts such as:
+
+- Build a profile form with Ondo Field components and accessible validation.
+- Create a metrics dashboard using Cards, NumberCount, and NumberBadge.
+- Use the EmptyView Composition for a project list with no results.
+- Build a streaming chat with Ondo message and attachment components.
+
+## Install
+
+Install the Skill directly from the Ondo UI GitHub repository:
+
+```bash
+npx skills add douinc/ondo-ui
+```
+
+Select `ondo-ui` when the installer asks which Skill to add. The Skill is
+versioned with the repository and is separate from the `@dou.so/ondo-ui` npm
+CLI package.
+
+## What's included
+
+- **Project context** — framework, RSC mode, aliases, Tailwind version, global
+  CSS path, icon library, installed component files, and registry mappings.
+- **CLI workflows** — framework-aware initialization, registry search,
+  installation previews, diffs, documentation links, and item inspection.
+- **Components and Compositions** — guidance for selecting reusable primitives
+  and higher-level patterns such as EmptyView and NumberBadge.
+- **Base UI patterns** — `render` composition, value shapes, overlay
+  accessibility, forms, and group structure.
+- **Theming** — Ondo semantic tokens, Tailwind conventions, Pretendard, and
+  Monaspace Neon.
+- **Registry authoring** — source and built payloads, item types, file targets,
+  and namespaced `@ondo-ui` dependencies.
+- **MCP** — shadcn MCP setup and prompts that target the `@ondo-ui` registry.
+
+## How it works
+
+1. The agent detects an Ondo UI task and loads the repository-hosted Skill.
+2. It runs `bunx --bun @dou.so/ondo-ui@latest info --json` to inspect the
+   target project instead of assuming its setup.
+3. It applies the Base UI, styling, form, icon, composition, and chat patterns
+   relevant to the request.
+4. It searches and views `@ondo-ui` items before creating equivalent custom UI.
+5. It previews installations with `add --dry-run` or `add --diff`, then reviews
+   the generated source after installation.
+
+The Skill provides instructions and project awareness. Registry discovery and
+installation still use the Ondo CLI and the shadcn registry tooling.
+
+## Learn more
+
+- [Installation](/docs/installation)
+- [CLI](/docs/cli)
+- [Theming](/docs/theming)
+- [MCP](/docs/mcp)
+- [Components](/docs/components/button)
+- [Compositions](/docs/compositions/empty-view)

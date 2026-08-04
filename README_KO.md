@@ -90,12 +90,27 @@ bunx --bun @dou.so/ondo-ui@latest init -t astro
 bunx --bun @dou.so/ondo-ui@latest add
 bunx --bun @dou.so/ondo-ui@latest add button empty-view
 bunx --bun @dou.so/ondo-ui@latest add --all
+bunx --bun @dou.so/ondo-ui@latest docs button
+bunx --bun @dou.so/ondo-ui@latest docs empty-view --json
 ```
 
 `search`, `list`, `view`, `docs`, `diff`, `apply`, `info`, `migrate`, `eject`,
 `mcp`, `preset`, `build`, `registry` 같은 shadcn 프로젝트·registry 명령도
 지원합니다. 명령 옵션, Compositions, 시스템 항목, `--cwd` 사용법은
 [CLI 레퍼런스](https://ui.ondo.dou.so/ko/docs/cli)에서 확인하세요.
+
+## Ondo UI Skill
+
+AI 어시스턴트에 Ondo 프로젝트 컨텍스트, Base UI 패턴, 컴포넌트와
+Composition 규칙을 제공하는 저장소 기반 Skill을 설치합니다:
+
+```bash
+npx skills add douinc/ondo-ui
+```
+
+Skill은 npm CLI 패키지가 아니라 GitHub 저장소에서 설치됩니다. 포함된 지식과
+예시 프롬프트는 [Skills 가이드](https://ui.ondo.dou.so/ko/docs/skills)에서
+확인하세요.
 
 ## 컴포넌트 추가하기
 

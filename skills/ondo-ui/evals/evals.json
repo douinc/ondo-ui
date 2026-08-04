@@ -1,0 +1,70 @@
+{
+  "skill_name": "ondo-ui",
+  "evals": [
+    {
+      "id": "profile-form",
+      "prompt": "Build an Ondo UI profile form with name, email, biography, and notification preferences, including accessible validation states for invalid fields.",
+      "expected_output": "A form composed from Ondo Field primitives and controls with semantic validation and project-aware imports.",
+      "files": [],
+      "expectations": [
+        "Uses FieldGroup and Field for the form layout",
+        "Uses FieldSet and FieldLegend for related notification preferences",
+        "Uses data-invalid on Field and aria-invalid on the invalid control",
+        "Uses InputGroupInput or InputGroupTextarea whenever an InputGroup is present",
+        "Uses semantic tokens and gap utilities instead of raw state colors or space utilities"
+      ]
+    },
+    {
+      "id": "base-dialog",
+      "prompt": "Create an Ondo UI dialog for editing a team member with an avatar, name and role fields, Save and Cancel actions, and the project's configured icon library.",
+      "expected_output": "An accessible Base UI Dialog using render composition, complete field structure, Avatar fallback, and configured icons.",
+      "files": [],
+      "expectations": [
+        "Uses DialogTrigger with the Base UI render prop",
+        "Includes DialogTitle and DialogDescription in DialogContent",
+        "Includes AvatarFallback alongside AvatarImage",
+        "Reads and uses config.iconLibrary instead of assuming an icon package",
+        "Uses data-icon on inline button icons without component-owned sizing overrides"
+      ]
+    },
+    {
+      "id": "metrics-dashboard",
+      "prompt": "Build an Ondo UI metrics dashboard with four cards, animated values, count badges, loading skeletons, and positive, warning, and destructive status treatments.",
+      "expected_output": "A dashboard using complete Card composition, NumberCount or NumberBadge, Skeleton, Badge, and Ondo semantic status tokens.",
+      "files": [],
+      "expectations": [
+        "Uses CardHeader, CardTitle, CardDescription, CardContent, and CardFooter or CardAction appropriately",
+        "Uses NumberCount for animated metrics and NumberBadge when a count annotates another element",
+        "Uses Skeleton instead of custom animate-pulse placeholders",
+        "Uses Badge and semantic info, success, warning, or destructive tokens instead of raw palette colors",
+        "Uses gap and size utilities for layout"
+      ]
+    },
+    {
+      "id": "empty-view",
+      "prompt": "Create an Ondo UI empty state for a project list with an icon, explanatory copy, primary create action, and secondary documentation link.",
+      "expected_output": "A standard EmptyView Composition, with lower-level Empty guidance only when the requested layout exceeds the Composition API.",
+      "files": [],
+      "expectations": [
+        "Chooses EmptyView before rebuilding the standard pattern from Empty primitives",
+        "Uses a Button rendered as a link with nativeButton false for the documentation action",
+        "Uses the configured icon library",
+        "Explains that lower-level Empty primitives are the escape hatch for unsupported layouts",
+        "Uses semantic tokens and accessible action labels"
+      ]
+    },
+    {
+      "id": "streaming-chat",
+      "prompt": "Build an Ondo UI streaming support chat with user and assistant messages, file attachments, a Today divider, automatic follow behavior, and a jump-to-latest control.",
+      "expected_output": "A chat composed from MessageScroller, Message, Bubble, Attachment, and Marker without hand-written scrolling behavior.",
+      "files": [],
+      "expectations": [
+        "Uses the fixed MessageScrollerProvider, MessageScroller, MessageScrollerViewport, MessageScrollerContent, and MessageScrollerItem nesting",
+        "Uses Message and Bubble parts for message rows and surfaces",
+        "Uses Attachment parts for files and Marker for the Today divider",
+        "Uses MessageScrollerButton and autoScroll for jump-to-latest and streaming follow behavior",
+        "Does not implement ResizeObserver, scrollTop math, or a custom stick-to-bottom hook"
+      ]
+    }
+  ]
+}

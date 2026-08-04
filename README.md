@@ -90,12 +90,27 @@ bunx --bun @dou.so/ondo-ui@latest init -t astro
 bunx --bun @dou.so/ondo-ui@latest add
 bunx --bun @dou.so/ondo-ui@latest add button empty-view
 bunx --bun @dou.so/ondo-ui@latest add --all
+bunx --bun @dou.so/ondo-ui@latest docs button
+bunx --bun @dou.so/ondo-ui@latest docs empty-view --json
 ```
 
 The CLI also exposes the shadcn project and registry commands, including
 `search`, `list`, `view`, `docs`, `diff`, `apply`, `info`, `migrate`, `eject`,
 `mcp`, `preset`, `build`, and `registry`. See the [CLI reference](https://ui.ondo.dou.so/docs/cli)
 for command options, Compositions, system items, and `--cwd` usage.
+
+## Ondo UI Skill
+
+Install the repository-hosted Skill to give AI assistants Ondo project context,
+Base UI patterns, and component and Composition rules:
+
+```bash
+npx skills add douinc/ondo-ui
+```
+
+The Skill is installed from GitHub rather than the npm CLI package. See the
+[Skills guide](https://ui.ondo.dou.so/docs/skills) for included knowledge and
+example prompts.
 
 ## Adding components
 

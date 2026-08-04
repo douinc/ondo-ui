@@ -11,6 +11,7 @@ import {
   getSelectableRegistryItems,
   normalizeOndoItemAddress,
 } from "./registry-menu.mjs"
+import { runOndoDocs } from "./ondo-docs.mjs"
 import { runShadcn } from "./shadcn-process.mjs"
 
 export const ONDO_REGISTRY_URL = "https://ui.ondo.dou.so/r/{name}.json"
@@ -345,6 +346,12 @@ export async function run(argv = process.argv.slice(2), dependencies = {}) {
 
   if (command === "add") {
     return runAdd(args, { ...dependencies, runShadcn: delegate })
+  }
+
+  if (command === "docs") {
+    return (dependencies.runDocs ?? runOndoDocs)(args, {
+      runShadcn: delegate,
+    })
   }
 
   if (command === "list") {
