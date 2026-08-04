@@ -1,9 +1,10 @@
-# Ondo CLI `add` command
+# Ondo CLI command surface
 
 ## Goal
 
-Add an Ondo-aware component installation command while continuing to use the
-official shadcn CLI for registry resolution and file updates.
+Expose the project-facing shadcn CLI commands through the Ondo CLI while
+adding Ondo-aware registry behavior. Continue to use the official shadcn CLI
+for registry resolution and file updates instead of copying its implementation.
 
 The supported user experience is:
 
@@ -37,11 +38,38 @@ without relying on `type` alone:
 
 ## Architecture
 
-Extend the small CLI entrypoint with an `add` command. Keep runtime
+Extend the small CLI entrypoint with a command dispatcher. Keep runtime
 dependencies minimal: adding the same `prompts` dependency used by the
 official shadcn CLI is acceptable for the interactive menu. Keep the
 command-specific logic in small pure helpers so it can be tested without a
-network or an interactive terminal:
+network or an interactive terminal.
+
+The public command surface is:
+
+| Command | Ondo behavior |
+| --- | --- |
+| `init` | Existing framework-aware Ondo setup and registry registration. |
+| `add` | Ondo Components/Compositions menu, explicit names, and shadcn delegation. |
+| `search` / `list` | Search configured Ondo registries by default; preserve shadcn filters and JSON output. |
+| `view` | View explicit `@ondo-ui/*` registry items. |
+| `docs` | Forward compatible shadcn docs behavior; document that registry docs require item metadata. |
+| `diff` | Compatibility alias that delegates to `add --diff`. |
+| `apply` | Forward shadcn preset application. |
+| `info` | Forward project inspection. |
+| `migrate` | Forward shadcn migrations. |
+| `eject` | Forward shadcn dependency/style ejection. |
+| `mcp` | Forward MCP setup and configuration commands, with Ondo registry guidance. |
+| `preset` | Forward preset decode/url/open/resolve operations. |
+| `build` | Forward registry build operations for registry authors. |
+| `registry` | Forward registry authoring subcommands and validation. |
+
+Registry-authoring commands (`build` and `registry`) are exposed as thin
+passthroughs for teams maintaining a registry. Ondo maintains its own
+registry in the website repository and continues to use the local shadcn
+tooling for its release build; the published wrapper does not reimplement
+registry authoring.
+
+Keep command-specific logic in small pure helpers:
 
 - parse the command and shared options (`--cwd`, `--yes`, `--overwrite`,
   `--dry-run`, `--all`);
@@ -69,10 +97,14 @@ helpers if extraction is needed.
 3. `ondo-ui add --all` selects every menu-visible Component and Composition.
 4. Existing shadcn flags supported by the wrapper are forwarded. `--cwd`
    controls both registry installation and the project working directory.
-5. The registry index is fetched only when menu selection or `--all` requires
-   it; explicit item installation can delegate directly to shadcn.
-6. A registry fetch failure, malformed index, empty selection, or non-zero
-   shadcn exit produces a concise error and a non-zero exit status.
+5. `search` with no registry argument uses the Ondo registry configured in the
+   target project's `components.json`; `search @ondo-ui` explicitly scopes the
+   result to Ondo.
+6. Commands that need Ondo item addresses normalize bare names to the
+   `@ondo-ui/` namespace. Commands that are project-only are forwarded without
+   registry rewriting.
+7. A registry fetch failure, malformed index, empty selection, unknown command,
+   or non-zero shadcn exit produces a concise error and a non-zero exit status.
 
 ## Documentation
 
@@ -81,6 +113,7 @@ Update both package READMEs and both installation index pages to document:
 - the explicit namespaced shadcn command;
 - the Ondo CLI interactive menu;
 - the Components and Compositions groups;
+- the complete command list, including registry-authoring passthroughs;
 - explicit item, `--all`, `--dry-run`, and `--cwd` examples;
 - the fact that `init` installs framework setup while `add` installs registry
   items.
@@ -93,10 +126,12 @@ published version is `1.3.1`, so this feature is intended for `1.4.0`.
 Write tests before implementation for:
 
 - command parsing and explicit-name normalization;
+- dispatch and argument forwarding for every public project-facing command;
 - Components vs Compositions classification, including the fact that
   `theme-provider` is not a Composition;
 - `--all` selecting exactly the two menu categories;
 - forwarding `--cwd`, dry-run, overwrite, and yes flags;
+- search/view namespace behavior and build/registry passthrough handling;
 - registry failure and empty-selection behavior;
 - the existing package-manager symlink and init behavior remaining green.
 
