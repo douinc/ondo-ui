@@ -1,6 +1,8 @@
 ---
 name: add-component
 description: Add a new component (or composition) to the ondo-ui registry, covering the component file, demos, EN/KO docs, registry entry, the /components gallery listing, and the changelog + version bump. Use this whenever work touches adding, registering, renaming, or removing an ondo-ui registry item -- and also when something already built is mysteriously missing from the docs sidebar, the /components page, or a shadcn install, since that is almost always a missed registration step rather than a bug in the component.
+metadata:
+  internal: true
 ---
 
 # Adding a component to ondo-ui

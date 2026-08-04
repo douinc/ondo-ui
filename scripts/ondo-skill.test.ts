@@ -33,6 +33,15 @@ describe("Ondo UI skill contract", () => {
     )
   })
 
+  test("marks the repository maintainer skill as internal", async () => {
+    const maintainerSkill = await readFile(
+      resolve(repositoryRoot, ".claude/skills/add-component/SKILL.md"),
+      "utf8"
+    )
+
+    expect(maintainerSkill).toMatch(/metadata:\s*\n\s+internal: true/)
+  })
+
   test("keeps the GitHub-hosted skill out of the npm package", async () => {
     const packageJson = JSON.parse(
       await readFile(
