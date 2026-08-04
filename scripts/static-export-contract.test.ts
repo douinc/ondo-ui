@@ -80,6 +80,7 @@ describe("validateRegistry", () => {
   test("accepts matching payloads and skips external registry dependencies", async () => {
     const outDir = await createOutDir()
     await writeRegistryFile(outDir, "registry.json", {
+      name: "ondo-ui",
       items: [{ name: "utils" }, { name: "button" }],
     })
     await writeRegistryFile(outDir, "utils.json", {
@@ -90,8 +91,26 @@ describe("validateRegistry", () => {
       name: "button",
       registryDependencies: [
         "utils",
+        "@ondo-ui/utils",
         "https://example.com/r/external.json",
       ],
+    })
+
+    expect(await validateRegistry(outDir)).toEqual([])
+  })
+
+  test("resolves namespaced dependencies from the current registry", async () => {
+    const outDir = await createOutDir()
+    await writeRegistryFile(outDir, "registry.json", {
+      name: "ondo-ui",
+      items: [{ name: "utils" }, { name: "number-count" }],
+    })
+    await writeRegistryFile(outDir, "utils.json", {
+      name: "utils",
+    })
+    await writeRegistryFile(outDir, "number-count.json", {
+      name: "number-count",
+      registryDependencies: ["@ondo-ui/utils"],
     })
 
     expect(await validateRegistry(outDir)).toEqual([])

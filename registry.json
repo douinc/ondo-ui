@@ -138,7 +138,7 @@
         "@tabler/icons-react"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -155,7 +155,7 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -172,8 +172,8 @@
         "@base-ui/react"
       ],
       "registryDependencies": [
-        "button",
-        "utils"
+        "@ondo-ui/button",
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -187,7 +187,7 @@
       "type": "registry:ui",
       "description": "Displays content within a desired ratio.",
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -205,8 +205,8 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "button",
-        "utils"
+        "@ondo-ui/button",
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -223,7 +223,7 @@
         "@base-ui/react"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -241,7 +241,7 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -259,7 +259,7 @@
         "@tabler/icons-react"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -277,7 +277,7 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -295,7 +295,7 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -313,8 +313,8 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "separator",
-        "utils"
+        "@ondo-ui/separator",
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -332,8 +332,8 @@
         "react-day-picker"
       ],
       "registryDependencies": [
-        "button",
-        "utils"
+        "@ondo-ui/button",
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -347,7 +347,7 @@
       "type": "registry:ui",
       "description": "Displays a card with header, content, and footer.",
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -365,8 +365,8 @@
         "embla-carousel-react"
       ],
       "registryDependencies": [
-        "button",
-        "utils"
+        "@ondo-ui/button",
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -383,7 +383,7 @@
         "recharts"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -401,7 +401,7 @@
         "@tabler/icons-react"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -433,9 +433,9 @@
         "@tabler/icons-react"
       ],
       "registryDependencies": [
-        "button",
-        "input-group",
-        "utils"
+        "@ondo-ui/button",
+        "@ondo-ui/input-group",
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -453,9 +453,9 @@
         "cmdk"
       ],
       "registryDependencies": [
-        "dialog",
-        "input-group",
-        "utils"
+        "@ondo-ui/dialog",
+        "@ondo-ui/input-group",
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -473,7 +473,7 @@
         "@tabler/icons-react"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -490,7 +490,7 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -508,8 +508,8 @@
         "@tabler/icons-react"
       ],
       "registryDependencies": [
-        "button",
-        "utils"
+        "@ondo-ui/button",
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -526,7 +526,7 @@
         "@base-ui/react"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -544,7 +544,7 @@
         "@tabler/icons-react"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -561,7 +561,7 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -578,9 +578,9 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "label",
-        "separator",
-        "utils"
+        "@ondo-ui/label",
+        "@ondo-ui/separator",
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -597,7 +597,7 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -615,7 +615,7 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -632,7 +632,7 @@
         "@base-ui/react"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -650,7 +650,7 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -667,10 +667,10 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "button",
-        "input",
-        "textarea",
-        "utils"
+        "@ondo-ui/button",
+        "@ondo-ui/input",
+        "@ondo-ui/textarea",
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -688,7 +688,7 @@
         "input-otp"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -706,8 +706,8 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "separator",
-        "utils"
+        "@ondo-ui/separator",
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -721,7 +721,7 @@
       "type": "registry:ui",
       "description": "Used to display textual user input from keyboard.",
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -735,7 +735,7 @@
       "type": "registry:ui",
       "description": "Renders an accessible label associated with controls.",
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -749,7 +749,7 @@
       "type": "registry:ui",
       "description": "A canvas-based real-time audio waveform visualizer with microphone input and customizable rendering modes.",
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -767,7 +767,7 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -785,8 +785,8 @@
         "@tabler/icons-react"
       ],
       "registryDependencies": [
-        "dropdown-menu",
-        "utils"
+        "@ondo-ui/dropdown-menu",
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -800,7 +800,7 @@
       "type": "registry:ui",
       "description": "Displays a message in a conversation, with optional avatar, header, footer, and alignment.",
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -818,8 +818,8 @@
         "@tabler/icons-react"
       ],
       "registryDependencies": [
-        "button",
-        "utils"
+        "@ondo-ui/button",
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -837,7 +837,7 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -855,7 +855,7 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -872,7 +872,7 @@
         "@tabler/icons-react"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -891,7 +891,7 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -908,7 +908,7 @@
         "@number-flow/react"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -925,8 +925,8 @@
         "@tabler/icons-react"
       ],
       "registryDependencies": [
-        "button",
-        "utils"
+        "@ondo-ui/button",
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -943,7 +943,7 @@
         "@base-ui/react"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -961,7 +961,7 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -979,7 +979,7 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -996,7 +996,7 @@
         "@base-ui/react"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -1013,7 +1013,7 @@
         "react-resizable-panels"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -1030,7 +1030,7 @@
         "@base-ui/react"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -1048,7 +1048,7 @@
         "@tabler/icons-react"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -1065,7 +1065,7 @@
         "@base-ui/react"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -1083,8 +1083,8 @@
         "@tabler/icons-react"
       ],
       "registryDependencies": [
-        "button",
-        "utils"
+        "@ondo-ui/button",
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -1103,14 +1103,14 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "button",
-        "input",
-        "separator",
-        "sheet",
-        "skeleton",
-        "tooltip",
-        "use-mobile",
-        "utils"
+        "@ondo-ui/button",
+        "@ondo-ui/input",
+        "@ondo-ui/separator",
+        "@ondo-ui/sheet",
+        "@ondo-ui/skeleton",
+        "@ondo-ui/tooltip",
+        "@ondo-ui/use-mobile",
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -1124,7 +1124,7 @@
       "type": "registry:ui",
       "description": "Use to show a placeholder while content is loading.",
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -1141,7 +1141,7 @@
         "@base-ui/react"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -1158,7 +1158,7 @@
         "@tabler/icons-react"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -1175,7 +1175,7 @@
         "@base-ui/react"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -1192,7 +1192,7 @@
         "@base-ui/react"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -1206,7 +1206,7 @@
       "type": "registry:ui",
       "description": "A responsive table component.",
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -1224,7 +1224,7 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -1238,7 +1238,7 @@
       "type": "registry:ui",
       "description": "Displays a form textarea or a component that looks like a textarea.",
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -1258,7 +1258,7 @@
         "@base-ui/react"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -1276,8 +1276,8 @@
         "@tabler/icons-react"
       ],
       "registryDependencies": [
-        "button",
-        "utils"
+        "@ondo-ui/button",
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -1295,7 +1295,7 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -1313,8 +1313,8 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "toggle",
-        "utils"
+        "@ondo-ui/toggle",
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -1331,7 +1331,7 @@
         "@base-ui/react"
       ],
       "registryDependencies": [
-        "utils"
+        "@ondo-ui/utils"
       ],
       "files": [
         {
@@ -1356,8 +1356,8 @@
       "type": "registry:component",
       "description": "A ready-made empty state composed from Empty and Button.",
       "registryDependencies": [
-        "empty",
-        "button"
+        "@ondo-ui/empty",
+        "@ondo-ui/button"
       ],
       "files": [
         {
@@ -1375,9 +1375,9 @@
         "class-variance-authority"
       ],
       "registryDependencies": [
-        "utils",
-        "badge",
-        "number-count"
+        "@ondo-ui/utils",
+        "@ondo-ui/badge",
+        "@ondo-ui/number-count"
       ],
       "files": [
         {
