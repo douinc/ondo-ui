@@ -118,6 +118,12 @@ describe("Ondo command surface", () => {
       args: ["--cwd", "/tmp/project", "--dry-run"],
       all: false,
     })
+
+    expect(parseAddArgs(["-a"])).toEqual({
+      components: [],
+      args: [],
+      all: true,
+    })
   })
 
   test("selects only Components and Compositions for all", () => {
@@ -188,6 +194,10 @@ describe("Ondo command surface", () => {
     }
 
     expect(invocations).toContainEqual({ command: "search", args: ["--json"] })
+    expect(invocations).toContainEqual({
+      command: "add",
+      args: ["--json", "--diff"],
+    })
     expect(invocations).toContainEqual({ command: "registry", args: ["--json"] })
     expect(invocations).not.toContainEqual({ command: "list", args: ["--json"] })
   })

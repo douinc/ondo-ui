@@ -106,17 +106,27 @@ The menu separates registry UI components from ready-made Compositions such
 as `empty-view` and `number-badge`. System items such as `theme-provider` are
 available by explicit name but are not included in the default menu.
 
-The CLI also forwards the project and registry commands from shadcn:
+The CLI supports the full shadcn command surface. `list` is an alias for
+`search`, and the deprecated `diff` command is translated to `add --diff`:
 
 ```bash
 bunx --bun @dou.so/ondo-ui search --query button
+bunx --bun @dou.so/ondo-ui list --query button
 bunx --bun @dou.so/ondo-ui view @ondo-ui/button
+bunx --bun @dou.so/ondo-ui diff button
+bunx --bun @dou.so/ondo-ui apply <preset>
+bunx --bun @dou.so/ondo-ui docs button
 bunx --bun @dou.so/ondo-ui info
+bunx --bun @dou.so/ondo-ui migrate --list
+bunx --bun @dou.so/ondo-ui eject
 bunx --bun @dou.so/ondo-ui mcp init --client claude
+bunx --bun @dou.so/ondo-ui preset --help
+bunx --bun @dou.so/ondo-ui build
+bunx --bun @dou.so/ondo-ui registry validate
 ```
 
-Use `--cwd <path>` for another project directory. Registry authoring commands
-such as `build` and `registry` are forwarded for maintainers.
+Use `--cwd <path>` for another project directory. `build` and `registry` are
+forwarded for registry maintainers.
 
 ## Adding components
 

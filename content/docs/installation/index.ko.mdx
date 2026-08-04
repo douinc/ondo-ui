@@ -138,6 +138,7 @@ export default function Example() {
 }
 ```
 
-Ondo CLI는 `search`, `view`, `info`, `mcp`, `build`, `registry` 같은 프로젝트와
-registry 명령도 shadcn으로 전달합니다. 다른 프로젝트를 대상으로 하려면
-`--cwd <path>`를 사용하세요.
+Ondo CLI는 shadcn의 전체 명령을 지원합니다: `search`(`list` 별칭), `view`,
+`docs`, `diff`(`add --diff`로 변환), `apply`, `info`, `migrate`, `eject`, `mcp`,
+`preset`, `build`, `registry`. 다른 프로젝트를 대상으로 하려면 `--cwd <path>`를
+사용하세요.

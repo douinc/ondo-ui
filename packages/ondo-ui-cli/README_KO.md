@@ -106,13 +106,23 @@ bunx --bun @dou.so/ondo-ui add --all
 조합 컴포넌트를 분리해 보여줍니다. `theme-provider` 같은 시스템 항목은
 이름을 직접 지정할 때만 설치됩니다.
 
-shadcn의 프로젝트·registry 명령도 그대로 사용할 수 있습니다:
+shadcn의 전체 명령을 사용할 수 있습니다. `list`는 `search`의 별칭이며,
+deprecated된 `diff`는 `add --diff`로 변환됩니다:
 
 ```bash
 bunx --bun @dou.so/ondo-ui search --query button
+bunx --bun @dou.so/ondo-ui list --query button
 bunx --bun @dou.so/ondo-ui view @ondo-ui/button
+bunx --bun @dou.so/ondo-ui diff button
+bunx --bun @dou.so/ondo-ui apply <preset>
+bunx --bun @dou.so/ondo-ui docs button
 bunx --bun @dou.so/ondo-ui info
+bunx --bun @dou.so/ondo-ui migrate --list
+bunx --bun @dou.so/ondo-ui eject
 bunx --bun @dou.so/ondo-ui mcp init --client claude
+bunx --bun @dou.so/ondo-ui preset --help
+bunx --bun @dou.so/ondo-ui build
+bunx --bun @dou.so/ondo-ui registry validate
 ```
 
 다른 프로젝트에서 실행하려면 `--cwd <path>`를 사용하세요. `build`와

@@ -10,6 +10,8 @@
   },
   "files": [
     "bin/ondo-ui.mjs",
+    "bin/registry-menu.mjs",
+    "bin/shadcn-process.mjs",
     "README.md",
     "README_KO.md"
   ],

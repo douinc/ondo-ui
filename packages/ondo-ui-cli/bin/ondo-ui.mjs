@@ -64,7 +64,7 @@ export function parseAddArgs(args = []) {
   for (let index = 0; index < args.length; index += 1) {
     const arg = args[index]
 
-    if (arg === "--all") {
+    if (arg === "--all" || arg === "-a") {
       all = true
       continue
     }
@@ -351,6 +351,13 @@ export async function run(argv = process.argv.slice(2), dependencies = {}) {
     return delegate("search", args)
   }
 
+  if (command === "diff") {
+    const hasDiffFlag = args.some(
+      (arg) => arg === "--diff" || arg.startsWith("--diff=")
+    )
+    return delegate("add", hasDiffFlag ? args : [...args, "--diff"])
+  }
+
   if (PUBLIC_COMMANDS.includes(command)) {
     return delegate(command, args)
   }
@@ -362,8 +369,12 @@ const entryPath = process.argv[1] ? resolve(process.argv[1]) : undefined
 const currentPath = fileURLToPath(import.meta.url)
 
 if (isDirectInvocation(entryPath, currentPath)) {
-  run().catch((error) => {
-    console.error(`ondo-ui: ${error.message}`)
-    process.exitCode = 1
-  })
+  run()
+    .then((status) => {
+      if (typeof status === "number" && status !== 0) process.exitCode = status
+    })
+    .catch((error) => {
+      console.error(`ondo-ui: ${error.message}`)
+      process.exitCode = 1
+    })
 }

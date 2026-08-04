@@ -138,6 +138,7 @@ export default function Example() {
 }
 ```
 
-The Ondo CLI also forwards project and registry commands such as `search`,
-`view`, `info`, `mcp`, `build`, and `registry` to shadcn. Use `--cwd <path>` to
-target another project.
+The Ondo CLI supports the full shadcn command surface: `search` (`list` alias),
+`view`, `docs`, `diff` (translated to `add --diff`), `apply`, `info`, `migrate`,
+`eject`, `mcp`, `preset`, `build`, and `registry`. Use `--cwd <path>` to target
+another project.
