@@ -112,4 +112,25 @@ describe("Ondo UI skill contract", () => {
       expect(item.expectations.length).toBeGreaterThanOrEqual(4)
     }
   })
+
+  test("registers bilingual Skills documentation", async () => {
+    for (const suffix of ["", ".ko"]) {
+      const meta = JSON.parse(
+        await readFile(
+          resolve(repositoryRoot, `content/docs/meta${suffix}.json`),
+          "utf8"
+        )
+      ) as { pages: string[] }
+      const cliIndex = meta.pages.indexOf("cli")
+
+      expect(meta.pages).toContain("skills")
+      expect(meta.pages.indexOf("skills")).toBe(cliIndex + 1)
+
+      const page = await readFile(
+        resolve(repositoryRoot, `content/docs/skills${suffix}.mdx`),
+        "utf8"
+      )
+      expect(page).toContain("npx skills add douinc/ondo-ui")
+    }
+  })
 })

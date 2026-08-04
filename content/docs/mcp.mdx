@@ -118,6 +118,8 @@ bunx --bun @dou.so/ondo-ui@latest mcp init --client claude
 
 ## How it works
 
-Every registry item ships with a description, its npm `dependencies`, and its `registryDependencies`, so the MCP server can explain what an item is for and install everything it needs in one step. For example, asking for `@ondo-ui/alert-dialog` also pulls in `button` and `utils` automatically.
+Every registry item ships with a description, its npm `dependencies`, and its `registryDependencies`, so the MCP server can explain what an item is for and install everything it needs in one step. For example, asking for `@ondo-ui/alert-dialog` also pulls in `@ondo-ui/button` and `@ondo-ui/utils` automatically.
+
+MCP provides registry access. Add the [Ondo UI Skill](/docs/skills) when you also want project-aware Base UI, theming, composition, and review instructions.
 
 You can read more about the MCP server in the [shadcn MCP documentation](https://ui.shadcn.com/docs/mcp).

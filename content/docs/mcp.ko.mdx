@@ -117,6 +117,8 @@ bunx --bun @dou.so/ondo-ui@latest mcp init --client claude
 
 ## 동작 방식
 
-모든 레지스트리 아이템에는 description, npm `dependencies`, `registryDependencies`가 포함되어 있어 MCP 서버가 아이템의 용도를 설명하고 필요한 것을 한 번에 설치할 수 있습니다. 예를 들어 `@ondo-ui/alert-dialog`를 요청하면 `button`과 `utils`도 자동으로 함께 설치됩니다.
+모든 레지스트리 아이템에는 description, npm `dependencies`, `registryDependencies`가 포함되어 있어 MCP 서버가 아이템의 용도를 설명하고 필요한 것을 한 번에 설치할 수 있습니다. 예를 들어 `@ondo-ui/alert-dialog`를 요청하면 `@ondo-ui/button`과 `@ondo-ui/utils`도 자동으로 함께 설치됩니다.
+
+MCP는 레지스트리 접근을 제공합니다. 프로젝트를 인식하는 Base UI, 테마, 조합과 검토 지침도 필요하다면 [Ondo UI Skill](/docs/skills)을 추가하세요.
 
 MCP 서버에 대한 자세한 내용은 [shadcn MCP 문서](https://ui.shadcn.com/docs/mcp)를 참고하세요.

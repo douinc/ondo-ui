@@ -1,0 +1,65 @@
+---
+title: Skills
+description: AI 어시스턴트에 Ondo UI 컴포넌트, Compositions, Base UI 패턴과 레지스트리 작업 흐름을 제공합니다.
+---
+
+Ondo UI Skill은 이 사이트의 컴포넌트, Composition, CLI, 테마와
+레지스트리 규칙을 코딩 에이전트에 제공합니다. 코드를 제안하기 전에 현재
+프로젝트를 읽으므로 프레임워크 설정, alias, 설치된 파일과 아이콘 라이브러리가
+결과에 반영됩니다.
+
+다음과 같은 프롬프트를 사용해 보세요:
+
+- Ondo Field 컴포넌트와 접근 가능한 유효성 검사를 사용해 프로필 폼을 만들어줘.
+- Card, NumberCount와 NumberBadge를 사용해 지표 대시보드를 만들어줘.
+- 결과가 없는 프로젝트 목록에 EmptyView Composition을 사용해줘.
+- Ondo 메시지와 첨부 파일 컴포넌트로 스트리밍 채팅을 만들어줘.
+
+## 설치
+
+Ondo UI GitHub 저장소에서 Skill을 직접 설치합니다:
+
+```bash
+npx skills add douinc/ondo-ui
+```
+
+설치 프로그램이 추가할 Skill을 물으면 `ondo-ui`를 선택하세요. Skill은 저장소와
+함께 버전 관리되며 `@dou.so/ondo-ui` npm CLI 패키지와 별도로 배포됩니다.
+
+## 포함된 내용
+
+- **프로젝트 컨텍스트** — 프레임워크, RSC 모드, alias, Tailwind 버전,
+  전역 CSS 경로, 아이콘 라이브러리, 설치된 컴포넌트 파일과 레지스트리 매핑.
+- **CLI 작업 흐름** — 프레임워크별 초기화, 레지스트리 검색, 설치 미리보기,
+  diff, 문서 링크와 아이템 확인.
+- **Components와 Compositions** — 재사용 프리미티브와 EmptyView,
+  NumberBadge 같은 상위 패턴을 선택하는 기준.
+- **Base UI 패턴** — `render` 조합, 값 형태, 오버레이 접근성, 폼과 그룹 구조.
+- **테마** — Ondo 시맨틱 토큰, Tailwind 규칙, Pretendard와 Monaspace Neon.
+- **레지스트리 작성** — 소스와 빌드 payload, 아이템 타입, 파일 대상과
+  `@ondo-ui` 네임스페이스 의존성.
+- **MCP** — shadcn MCP 설정과 `@ondo-ui` 레지스트리를 지정하는 프롬프트.
+
+## 동작 방식
+
+1. 에이전트가 Ondo UI 작업을 감지하고 저장소에서 설치한 Skill을 불러옵니다.
+2. `bunx --bun @dou.so/ondo-ui@latest info --json`을 실행해 프로젝트 설정을
+   추측하지 않고 확인합니다.
+3. 요청에 필요한 Base UI, 스타일링, 폼, 아이콘, Composition과 채팅 규칙을
+   적용합니다.
+4. 같은 UI를 새로 만들기 전에 `@ondo-ui` 아이템을 검색하고 소스를 확인합니다.
+5. `add --dry-run` 또는 `add --diff`로 설치를 미리 확인하고, 설치 후 생성된
+   소스를 검토합니다.
+
+Skill은 지침과 프로젝트 인식을 제공합니다. 레지스트리 탐색과 설치는 계속
+Ondo CLI와 shadcn 레지스트리 도구가 담당합니다.
+
+## 더 알아보기
+
+- [설치](/docs/installation)
+- [CLI](/docs/cli)
+- [테마](/docs/theming)
+- [MCP](/docs/mcp)
+- [컴포넌트](/docs/components/button)
+- [Compositions](/docs/compositions/empty-view)
+
