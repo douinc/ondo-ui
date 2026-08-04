@@ -35,7 +35,7 @@ flowchart TD
     end
 
     subgraph dev["🛠️ Dev Team"]
-        add["Browse & install components<br/>(npx shadcn@latest add)"] --> product["Product Implementation"]
+        add["Browse & install components<br/>(ondo-ui add)"] --> product["Product Implementation"]
     end
 
     registry -->|"components & tokens"| mcp
@@ -48,7 +48,7 @@ flowchart TD
 1. **Ondo UI** publishes components, themes, and tokens as a shadcn registry.
 2. Both the **design team** and the **dev team** access the same registry through the shadcn MCP.
 3. The design team designs product screens on top of Ondo UI components and hands them off to the dev team.
-4. The dev team browses components via the MCP and installs them with `npx shadcn@latest add` to implement the designs.
+4. The dev team browses components via the MCP or `ondo-ui add` and installs them to implement the designs.
 5. New components and improvements proposed during design flow back into Ondo UI, and the loop repeats.
 
 ## Setting up the shadcn MCP
@@ -80,15 +80,58 @@ Once configured, just ask your AI in natural language:
 
 See the [installation docs](https://ui.ondo.dou.so/docs/installation) for details.
 
+## Ondo CLI
+
+Initialize a supported framework and install the Ondo theme:
+
+```bash
+bunx --bun @dou.so/ondo-ui init -t astro
+```
+
+Open the grouped Components and Compositions menu:
+
+```bash
+bunx --bun @dou.so/ondo-ui add
+```
+
+Install items directly or preview the changes:
+
+```bash
+bunx --bun @dou.so/ondo-ui add button empty-view
+bunx --bun @dou.so/ondo-ui add button --dry-run
+bunx --bun @dou.so/ondo-ui add --all
+```
+
+The menu separates registry UI components from ready-made Compositions such
+as `empty-view` and `number-badge`. System items such as `theme-provider` are
+available by explicit name but are not included in the default menu.
+
+The CLI also forwards the project and registry commands from shadcn:
+
+```bash
+bunx --bun @dou.so/ondo-ui search --query button
+bunx --bun @dou.so/ondo-ui view @ondo-ui/button
+bunx --bun @dou.so/ondo-ui info
+bunx --bun @dou.so/ondo-ui mcp init --client claude
+```
+
+Use `--cwd <path>` for another project directory. Registry authoring commands
+such as `build` and `registry` are forwarded for maintainers.
+
 ## Adding components
 
 To add components to your app, run the following command:
 
 ```bash
-npx shadcn@latest add button
+bunx --bun @dou.so/ondo-ui add button
 ```
 
-This will place the ui components in the `components` directory.
+This places the UI component in the `components` directory. You can also use
+the official command directly with the Ondo namespace:
+
+```bash
+bunx --bun shadcn@latest add @ondo-ui/button
+```
 
 ## Using components
 

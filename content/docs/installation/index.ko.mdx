@@ -104,7 +104,25 @@ Ondo CLI가 framework에 맞는 테마를 자동으로 설치하고 `components.
 
 ## 컴포넌트 추가
 
-이름으로 원하는 컴포넌트를 추가합니다. `utils` 같은 의존성은 자동으로 해결됩니다:
+Ondo CLI로 Components와 Compositions를 그룹별 메뉴에서 선택할 수 있습니다:
+
+```bash
+bunx --bun @dou.so/ondo-ui add
+```
+
+이름을 직접 지정하거나 변경 사항을 미리 보고, 메뉴에 표시되는 모든 항목을
+설치할 수도 있습니다:
+
+```bash
+bunx --bun @dou.so/ondo-ui add button empty-view
+bunx --bun @dou.so/ondo-ui add button --dry-run
+bunx --bun @dou.so/ondo-ui add --all
+```
+
+`empty-view`, `number-badge` 같은 Compositions는 일반 registry UI
+컴포넌트와 별도 그룹으로 표시됩니다. `utils` 같은 의존성은 자동으로 해결됩니다.
+
+공식 shadcn 명령어를 직접 사용하려면 다음과 같이 실행하세요:
 
 ```bash
 bunx shadcn@latest add @ondo-ui/button
@@ -119,3 +137,7 @@ export default function Example() {
   return <Button>클릭</Button>
 }
 ```
+
+Ondo CLI는 `search`, `view`, `info`, `mcp`, `build`, `registry` 같은 프로젝트와
+registry 명령도 shadcn으로 전달합니다. 다른 프로젝트를 대상으로 하려면
+`--cwd <path>`를 사용하세요.
