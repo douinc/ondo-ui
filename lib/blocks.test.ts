@@ -1,0 +1,67 @@
+import { describe, expect, test } from "bun:test"
+
+import {
+  BLOCK_CATEGORIES,
+  getBlockCategoryStaticParams,
+  getBlockInstallCommand,
+  getBlockNameStaticParams,
+  getBlockPreviewUrl,
+  getBlockScreenshotUrl,
+  getBlockSourceLanguage,
+  listBlockItems,
+} from "@/lib/blocks"
+
+const items = [
+  { name: "button", type: "registry:ui", files: [] },
+  {
+    name: "agent-workspace-01",
+    type: "registry:block",
+    description: "Agent workspace",
+    categories: ["ai", "workspace"],
+    files: [
+      {
+        path: "components/blocks/agent-workspace-01/page.tsx",
+        type: "registry:page",
+        target: "app/agent-workspace/page.tsx",
+      },
+    ],
+    meta: { iframeHeight: "900px" },
+  },
+] as const
+
+describe("Block catalog helpers", () => {
+  test("lists only registry:block items and filters categories", () => {
+    expect(listBlockItems(items)).toHaveLength(1)
+    expect(listBlockItems(items, "ai").map((item) => item.name)).toEqual([
+      "agent-workspace-01",
+    ])
+    expect(listBlockItems(items, "login")).toEqual([])
+  })
+
+  test("builds every static param", () => {
+    expect(getBlockNameStaticParams(items)).toEqual([
+      { name: "agent-workspace-01" },
+    ])
+    expect(getBlockCategoryStaticParams()).toEqual(
+      BLOCK_CATEGORIES.map(({ slug }) => ({ category: slug }))
+    )
+  })
+
+  test("builds namespaced commands and static asset URLs", () => {
+    expect(getBlockInstallCommand("agent-workspace-01")).toBe(
+      "npx shadcn@latest add @ondo-ui/agent-workspace-01"
+    )
+    expect(getBlockPreviewUrl("agent-workspace-01")).toBe(
+      "/view/agent-workspace-01/"
+    )
+    expect(getBlockScreenshotUrl("agent-workspace-01", "dark")).toBe(
+      "/r/styles/base-vega/agent-workspace-01-dark.png"
+    )
+  })
+
+  test("maps source extensions to Shiki languages", () => {
+    expect(getBlockSourceLanguage("page.tsx")).toBe("tsx")
+    expect(getBlockSourceLanguage("data.ts")).toBe("ts")
+    expect(getBlockSourceLanguage("fixture.json")).toBe("json")
+  })
+})
