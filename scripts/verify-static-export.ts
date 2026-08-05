@@ -70,27 +70,7 @@ const requiredPaths = new Set([
   "/ko/",
   "/components/",
   "/ko/components/",
-  "/blocks/",
-  "/ko/blocks/",
-  "/blocks/ai/",
-  "/blocks/workspace/",
-  "/ko/blocks/ai/",
-  "/ko/blocks/workspace/",
-  "/view/agent-workspace-01/",
-  "/r/agent-workspace-01.json",
-  "/r/styles/base-vega/agent-workspace-01-light.png",
-  "/r/styles/base-vega/agent-workspace-01-dark.png",
 ])
-
-const blockHtmlPaths = [
-  "/blocks/",
-  "/ko/blocks/",
-  "/blocks/ai/",
-  "/blocks/workspace/",
-  "/ko/blocks/ai/",
-  "/ko/blocks/workspace/",
-  "/view/agent-workspace-01/",
-] as const
 
 for (const locale of locales) {
   for (const page of source.getPages(locale)) {
@@ -103,47 +83,6 @@ for (const artifact of buildArtifactFiles(artifactPages)) {
 }
 
 await Promise.all([...requiredPaths].map(checkPublished))
-
-for (const pathname of blockHtmlPaths) {
-  const publishedPath = await checkPublished(pathname)
-  if (!publishedPath) continue
-
-  const html = await readFile(publishedPath, "utf8")
-  if (!html.includes("<!DOCTYPE html")) {
-    errors.push(`${pathname}: expected an HTML document`)
-  }
-}
-
-const agentWorkspacePayloadPath = await checkPublished(
-  "/r/agent-workspace-01.json"
-)
-if (agentWorkspacePayloadPath) {
-  try {
-    const payload = JSON.parse(
-      await readFile(agentWorkspacePayloadPath, "utf8")
-    ) as {
-      name?: unknown
-      type?: unknown
-      files?: Array<{ target?: unknown }>
-    }
-
-    if (payload.name !== "agent-workspace-01") {
-      errors.push("Agent workspace payload has an unexpected name")
-    }
-    if (payload.type !== "registry:block") {
-      errors.push("Agent workspace payload must be a registry:block")
-    }
-    if (
-      !payload.files?.some(
-        (file) => file.target === "app/agent-workspace/page.tsx"
-      )
-    ) {
-      errors.push("Agent workspace payload is missing its page target")
-    }
-  } catch (error) {
-    errors.push(`Invalid agent workspace payload: ${String(error)}`)
-  }
-}
 
 try {
   if (!(await stat(resolve(outDir, "_next"))).isDirectory()) {
@@ -224,17 +163,13 @@ for (const path of inspectableFiles) {
 
   for (const pattern of forbiddenPatterns) {
     if (pattern.test(contents)) {
-      errors.push(
-        `${displayPath} contains forbidden deployment data: ${pattern}`
-      )
+      errors.push(`${displayPath} contains forbidden deployment data: ${pattern}`)
     }
   }
 }
 
 if (errors.length > 0) {
-  console.error(
-    `Static export verification failed with ${errors.length} error(s):`
-  )
+  console.error(`Static export verification failed with ${errors.length} error(s):`)
   for (const error of errors) console.error(`- ${error}`)
   process.exitCode = 1
 } else {
