@@ -3,6 +3,7 @@ import { describe, expect, test } from "bun:test"
 import { getBlockPreview } from "@/components/blocks"
 import {
   BLOCK_CATEGORIES,
+  FEATURED_BLOCK_NAMES,
   getBlockCategoryStaticParams,
   getBlockInstallCommand,
   getBlockNameStaticParams,
@@ -12,6 +13,7 @@ import {
   listBlockItems,
 } from "@/lib/blocks"
 import { getDictionary } from "@/lib/dictionaries"
+import registry from "@/registry.json"
 
 const items = [
   { name: "button", type: "registry:ui", files: [] },
@@ -75,5 +77,23 @@ describe("Block catalog helpers", () => {
   test("localizes Block viewer labels", () => {
     expect(getDictionary("en").blocks.viewer.preview).toBe("Preview")
     expect(getDictionary("ko").blocks.viewer.preview).toBe("미리 보기")
+  })
+
+  test("publishes agent-workspace-01 in featured, AI, and workspace views", () => {
+    expect(FEATURED_BLOCK_NAMES).toContain("agent-workspace-01")
+    expect(
+      listBlockItems(registry.items, "ai").map((item) => item.name)
+    ).toEqual(["agent-workspace-01"])
+    expect(
+      listBlockItems(registry.items, "workspace").map((item) => item.name)
+    ).toEqual(["agent-workspace-01"])
+  })
+
+  test("localizes Block catalog labels", () => {
+    expect(getDictionary("en").blocks.featured).toBe("Featured")
+    expect(getDictionary("ko").blocks.featured).toBe("추천")
+    expect(getDictionary("en").blocks.browseComponents).toBe(
+      "Browse components"
+    )
   })
 })
