@@ -38,10 +38,22 @@ const en = {
   },
   blocks: {
     title: "Blocks",
-    description: "Ready-made sections built from ondo-ui components.",
-    comingSoon: "Coming soon",
-    comingSoonDescription:
-      "Blocks are under construction. Check back after more components land in the registry.",
+    description:
+      "Complete application screens built from Ondo UI components and ready to install with shadcn.",
+    featured: "Featured",
+    browseComponents: "Browse components",
+    emptyCategory: "No Blocks are available in this category yet.",
+    viewer: {
+      preview: "Preview",
+      code: "Code",
+      desktop: "Desktop",
+      tablet: "Tablet",
+      mobile: "Mobile",
+      openNewTab: "Open in new tab",
+      refresh: "Refresh preview",
+      files: "Files",
+      copyInstall: "Copy install command",
+    },
   },
   changelog: {
     title: "Changelog",
@@ -133,10 +145,22 @@ const ko: typeof en = {
   },
   blocks: {
     title: "블록",
-    description: "ondo-ui 컴포넌트로 조합한 바로 쓸 수 있는 섹션입니다.",
-    comingSoon: "준비 중",
-    comingSoonDescription:
-      "블록은 준비 중입니다. 레지스트리에 컴포넌트가 더 추가되면 만나보실 수 있어요.",
+    description:
+      "Ondo UI 컴포넌트로 완성한 애플리케이션 화면을 shadcn으로 바로 설치하세요.",
+    featured: "추천",
+    browseComponents: "컴포넌트 둘러보기",
+    emptyCategory: "이 카테고리에는 아직 블록이 없습니다.",
+    viewer: {
+      preview: "미리 보기",
+      code: "코드",
+      desktop: "데스크톱",
+      tablet: "태블릿",
+      mobile: "모바일",
+      openNewTab: "새 탭에서 열기",
+      refresh: "미리 보기 새로고침",
+      files: "파일",
+      copyInstall: "설치 명령 복사",
+    },
   },
   changelog: {
     title: "변경 내역",

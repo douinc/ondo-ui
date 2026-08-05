@@ -3,9 +3,7 @@ export {}
 const baseUrl = process.argv[2]?.replace(/\/+$/, "")
 
 if (!baseUrl) {
-  throw new Error(
-    "Usage: bun run scripts/smoke-static-export.ts <base-url>"
-  )
+  throw new Error("Usage: bun run scripts/smoke-static-export.ts <base-url>")
 }
 
 const installationFrameworks = [
@@ -26,6 +24,13 @@ const installationPaths = installationFrameworks.flatMap((framework) => [
 const paths = [
   "/",
   "/ko/",
+  "/blocks/",
+  "/ko/blocks/",
+  "/blocks/ai/",
+  "/blocks/workspace/",
+  "/ko/blocks/ai/",
+  "/ko/blocks/workspace/",
+  "/view/agent-workspace-01/",
   "/docs/installation/",
   "/ko/docs/installation/",
   ...installationPaths,
@@ -36,14 +41,28 @@ const paths = [
   "/api/search",
   "/r/registry.json",
   "/r/button.json",
+  "/r/agent-workspace-01.json",
+  "/r/styles/base-vega/agent-workspace-01-light.png",
+  "/r/styles/base-vega/agent-workspace-01-dark.png",
 ] as const
 
 const htmlPaths = new Set([
   "/",
   "/ko/",
+  "/blocks/",
+  "/ko/blocks/",
+  "/blocks/ai/",
+  "/blocks/workspace/",
+  "/ko/blocks/ai/",
+  "/ko/blocks/workspace/",
+  "/view/agent-workspace-01/",
   "/docs/installation/",
   "/ko/docs/installation/",
   ...installationPaths,
+])
+const imagePaths = new Set([
+  "/r/styles/base-vega/agent-workspace-01-light.png",
+  "/r/styles/base-vega/agent-workspace-01-dark.png",
 ])
 const expectedMarkdownTitles = new Map([
   ["/docs.md", "Introduction"],
@@ -56,7 +75,7 @@ const errors: string[] = []
 for (const path of paths) {
   try {
     const response = await fetch(`${baseUrl}${path}`, { redirect: "follow" })
-    const body = await response.text()
+    const body = imagePaths.has(path) ? "" : await response.text()
 
     if (!response.ok) {
       errors.push(`${path}: HTTP ${response.status}`)
@@ -65,6 +84,13 @@ for (const path of paths) {
 
     if (htmlPaths.has(path) && !body.includes("<!DOCTYPE html")) {
       errors.push(`${path}: expected an HTML document`)
+    }
+
+    if (
+      imagePaths.has(path) &&
+      !response.headers.get("content-type")?.startsWith("image/png")
+    ) {
+      errors.push(`${path}: expected a PNG response`)
     }
 
     const expectedTitle = expectedMarkdownTitles.get(path)
@@ -103,6 +129,28 @@ for (const path of paths) {
       }
     }
 
+    if (path === "/r/agent-workspace-01.json") {
+      const payload = JSON.parse(body) as {
+        name?: unknown
+        type?: unknown
+        files?: Array<{ target?: unknown }>
+      }
+
+      if (payload.name !== "agent-workspace-01") {
+        errors.push(`${path}: payload name is not agent-workspace-01`)
+      }
+      if (payload.type !== "registry:block") {
+        errors.push(`${path}: payload type is not registry:block`)
+      }
+      if (
+        !payload.files?.some(
+          (file) => file.target === "app/agent-workspace/page.tsx"
+        )
+      ) {
+        errors.push(`${path}: payload is missing its page target`)
+      }
+    }
+
     if (path === "/llm/en" || path === "/llm/ko") {
       const preview = body
         .slice(0, 80)
@@ -120,7 +168,9 @@ for (const path of paths) {
 }
 
 if (errors.length > 0) {
-  console.error(`Static export smoke test failed with ${errors.length} error(s):`)
+  console.error(
+    `Static export smoke test failed with ${errors.length} error(s):`
+  )
   for (const error of errors) console.error(`- ${error}`)
   process.exitCode = 1
 } else {

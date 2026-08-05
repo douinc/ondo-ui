@@ -1385,6 +1385,106 @@
           "type": "registry:component"
         }
       ]
+    },
+    {
+      "name": "agent-workspace-01",
+      "type": "registry:block",
+      "description": "An agent workspace with conversation, task progress, and artifacts.",
+      "dependencies": [
+        "@tabler/icons-react"
+      ],
+      "registryDependencies": [
+        "@ondo-ui/alert",
+        "@ondo-ui/attachment",
+        "@ondo-ui/avatar",
+        "@ondo-ui/badge",
+        "@ondo-ui/breadcrumb",
+        "@ondo-ui/bubble",
+        "@ondo-ui/button",
+        "@ondo-ui/button-group",
+        "@ondo-ui/collapsible",
+        "@ondo-ui/dropdown-menu",
+        "@ondo-ui/frame",
+        "@ondo-ui/heading",
+        "@ondo-ui/hover-card",
+        "@ondo-ui/input-group",
+        "@ondo-ui/item",
+        "@ondo-ui/kbd",
+        "@ondo-ui/marker",
+        "@ondo-ui/message",
+        "@ondo-ui/message-scroller",
+        "@ondo-ui/popover",
+        "@ondo-ui/progress",
+        "@ondo-ui/progress-ring",
+        "@ondo-ui/resizable",
+        "@ondo-ui/scroll-area",
+        "@ondo-ui/separator",
+        "@ondo-ui/sheet",
+        "@ondo-ui/sidebar",
+        "@ondo-ui/spinner",
+        "@ondo-ui/tabs",
+        "@ondo-ui/timeline",
+        "@ondo-ui/tooltip"
+      ],
+      "categories": [
+        "ai",
+        "workspace"
+      ],
+      "meta": {
+        "iframeHeight": "900px"
+      },
+      "files": [
+        {
+          "path": "components/blocks/agent-workspace-01/page.tsx",
+          "type": "registry:page",
+          "target": "app/agent-workspace/page.tsx"
+        },
+        {
+          "path": "components/blocks/agent-workspace-01/data.ts",
+          "type": "registry:file",
+          "target": "components/blocks/agent-workspace-01/data.ts"
+        },
+        {
+          "path": "components/blocks/agent-workspace-01/components/agent-sidebar.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/agent-workspace-01/components/agent-sidebar.tsx"
+        },
+        {
+          "path": "components/blocks/agent-workspace-01/components/artifact-panel.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/agent-workspace-01/components/artifact-panel.tsx"
+        },
+        {
+          "path": "components/blocks/agent-workspace-01/components/conversation-panel.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/agent-workspace-01/components/conversation-panel.tsx"
+        },
+        {
+          "path": "components/blocks/agent-workspace-01/components/conversation-row.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/agent-workspace-01/components/conversation-row.tsx"
+        },
+        {
+          "path": "components/blocks/agent-workspace-01/components/prompt-composer.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/agent-workspace-01/components/prompt-composer.tsx"
+        },
+        {
+          "path": "components/blocks/agent-workspace-01/components/reader-rail.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/agent-workspace-01/components/reader-rail.tsx"
+        },
+        {
+          "path": "components/blocks/agent-workspace-01/components/task-progress.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/agent-workspace-01/components/task-progress.tsx"
+        },
+        {
+          "path": "components/blocks/agent-workspace-01/components/workspace-header.tsx",
+          "type": "registry:component",
+          "target": "components/blocks/agent-workspace-01/components/workspace-header.tsx"
+        }
+      ]
     }
   ]
 }
