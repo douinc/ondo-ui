@@ -21,8 +21,8 @@ describe("blocksList", () => {
       (item) => item.type === "registry:block"
     )
 
-    expect(registryBlocks.map((item) => item.name)).toEqual(
-      blocksList.map((item) => item.name)
+    expect(blocksList.map((item) => item.name)).toEqual(
+      registryBlocks.map((item) => item.name)
     )
     expect(registryBlocks[0].files?.map((file) => file.path)).toEqual([
       "components/blocks/agent-workspace/agent-workspace.tsx",
