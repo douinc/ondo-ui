@@ -39,16 +39,9 @@ const en = {
   blocks: {
     title: "Blocks",
     description: "Ready-made sections built from ondo-ui components.",
-    item: {
-      title: "Agent Workspace",
-      install: "Install",
-      previewLabel: "Workspace state",
-      states: {
-        start: "Start",
-        running: "Running",
-        complete: "Complete",
-      },
-    },
+    comingSoon: "Coming soon",
+    comingSoonDescription:
+      "Blocks are under construction. Check back after more components land in the registry.",
   },
   changelog: {
     title: "Changelog",
@@ -141,16 +134,9 @@ const ko: typeof en = {
   blocks: {
     title: "블록",
     description: "ondo-ui 컴포넌트로 조합한 바로 쓸 수 있는 섹션입니다.",
-    item: {
-      title: "에이전트 워크스페이스",
-      install: "설치",
-      previewLabel: "워크스페이스 상태",
-      states: {
-        start: "시작",
-        running: "진행",
-        complete: "완료",
-      },
-    },
+    comingSoon: "준비 중",
+    comingSoonDescription:
+      "블록은 준비 중입니다. 레지스트리에 컴포넌트가 더 추가되면 만나보실 수 있어요.",
   },
   changelog: {
     title: "변경 내역",

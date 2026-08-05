@@ -70,8 +70,6 @@ const requiredPaths = new Set([
   "/ko/",
   "/components/",
   "/ko/components/",
-  "/blocks/",
-  "/ko/blocks/",
 ])
 
 for (const locale of locales) {
