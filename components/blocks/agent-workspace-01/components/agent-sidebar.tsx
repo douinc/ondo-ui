@@ -4,14 +4,12 @@ import {
   IconBolt,
   IconChevronDown,
   IconCircleCheck,
-  IconFileCode,
   IconFolder,
   IconRobot,
   IconSettings,
 } from "@tabler/icons-react"
 
 import {
-  workspaceFiles,
   workspaceNavigation,
   workspaceTask,
 } from "@/components/blocks/agent-workspace-01/data"
@@ -100,23 +98,6 @@ export function AgentSidebar() {
                     <span>{task.label}</span>
                   </SidebarMenuButton>
                   <SidebarMenuBadge>{task.id}</SidebarMenuBadge>
-                </SidebarMenuItem>
-              ))}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-
-        <SidebarGroup>
-          <SidebarGroupLabel>Changed files</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              {workspaceFiles.map((file) => (
-                <SidebarMenuItem key={file.path}>
-                  <SidebarMenuButton tooltip={file.path}>
-                    <IconFileCode />
-                    <span>{file.path.split("/").at(-1)}</span>
-                  </SidebarMenuButton>
-                  <SidebarMenuBadge>+{file.additions}</SidebarMenuBadge>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>

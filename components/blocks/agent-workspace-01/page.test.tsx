@@ -1,6 +1,7 @@
 import { describe, expect, test } from "bun:test"
 import { renderToStaticMarkup } from "react-dom/server"
 
+import { workspaceFiles } from "@/components/blocks/agent-workspace-01/data"
 import { AgentWorkspaceBlock } from "@/components/blocks/agent-workspace-01/page"
 
 describe("AgentWorkspaceBlock", () => {
@@ -55,6 +56,16 @@ describe("AgentWorkspaceBlock", () => {
     const html = renderToStaticMarkup(<AgentWorkspaceBlock />)
 
     expect(html).toContain("pr-16")
+  })
+
+  test("keeps changed files in the inspector but not the sidebar", () => {
+    const html = renderToStaticMarkup(<AgentWorkspaceBlock />)
+
+    expect(html).not.toContain("Changed files")
+    expect(html).toContain(">Changes</button>")
+    expect(workspaceFiles.some((file) => file.path.endsWith("page.tsx"))).toBe(
+      true
+    )
   })
 
   test("disables prompt submission only after completion", () => {
