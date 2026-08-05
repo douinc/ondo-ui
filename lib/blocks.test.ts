@@ -11,6 +11,7 @@ import {
   getBlockSourceLanguage,
   listBlockItems,
 } from "@/lib/blocks"
+import { getDictionary } from "@/lib/dictionaries"
 
 const items = [
   { name: "button", type: "registry:ui", files: [] },
@@ -69,5 +70,10 @@ describe("Block catalog helpers", () => {
   test("resolves only registered Block preview components", () => {
     expect(getBlockPreview("agent-workspace-01")).toBeTypeOf("function")
     expect(getBlockPreview("unknown-block")).toBeUndefined()
+  })
+
+  test("localizes Block viewer labels", () => {
+    expect(getDictionary("en").blocks.viewer.preview).toBe("Preview")
+    expect(getDictionary("ko").blocks.viewer.preview).toBe("미리 보기")
   })
 })

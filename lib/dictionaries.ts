@@ -42,6 +42,17 @@ const en = {
     comingSoon: "Coming soon",
     comingSoonDescription:
       "Blocks are under construction. Check back after more components land in the registry.",
+    viewer: {
+      preview: "Preview",
+      code: "Code",
+      desktop: "Desktop",
+      tablet: "Tablet",
+      mobile: "Mobile",
+      openNewTab: "Open in new tab",
+      refresh: "Refresh preview",
+      files: "Files",
+      copyInstall: "Copy install command",
+    },
   },
   changelog: {
     title: "Changelog",
@@ -137,6 +148,17 @@ const ko: typeof en = {
     comingSoon: "준비 중",
     comingSoonDescription:
       "블록은 준비 중입니다. 레지스트리에 컴포넌트가 더 추가되면 만나보실 수 있어요.",
+    viewer: {
+      preview: "미리 보기",
+      code: "코드",
+      desktop: "데스크톱",
+      tablet: "태블릿",
+      mobile: "모바일",
+      openNewTab: "새 탭에서 열기",
+      refresh: "미리 보기 새로고침",
+      files: "파일",
+      copyInstall: "설치 명령 복사",
+    },
   },
   changelog: {
     title: "변경 내역",
