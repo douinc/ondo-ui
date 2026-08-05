@@ -20,6 +20,7 @@ import { Badge } from "@/components/ui/badge"
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -64,13 +65,15 @@ export function AgentSidebar() {
                 <IconChevronDown />
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" side="right">
-                <DropdownMenuLabel>Workspaces</DropdownMenuLabel>
-                {workspaceNavigation.workspaces.map((workspace) => (
-                  <DropdownMenuItem key={workspace}>
-                    <IconFolder />
-                    {workspace}
-                  </DropdownMenuItem>
-                ))}
+                <DropdownMenuGroup>
+                  <DropdownMenuLabel>Workspaces</DropdownMenuLabel>
+                  {workspaceNavigation.workspaces.map((workspace) => (
+                    <DropdownMenuItem key={workspace}>
+                      <IconFolder />
+                      {workspace}
+                    </DropdownMenuItem>
+                  ))}
+                </DropdownMenuGroup>
               </DropdownMenuContent>
             </DropdownMenu>
           </SidebarMenuItem>
@@ -87,6 +90,7 @@ export function AgentSidebar() {
                   <SidebarMenuButton
                     isActive={index === 0}
                     tooltip={task.label}
+                    className="pr-16"
                   >
                     {task.status === "complete" ? (
                       <IconCircleCheck />
@@ -141,14 +145,18 @@ export function AgentSidebar() {
                 <Badge variant="success">Ready</Badge>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" side="right">
-                <DropdownMenuLabel>Agent</DropdownMenuLabel>
-                <DropdownMenuItem>
-                  <IconRobot /> Model settings
-                </DropdownMenuItem>
+                <DropdownMenuGroup>
+                  <DropdownMenuLabel>Agent</DropdownMenuLabel>
+                  <DropdownMenuItem>
+                    <IconRobot /> Model settings
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem>
-                  <IconSettings /> Workspace settings
-                </DropdownMenuItem>
+                <DropdownMenuGroup>
+                  <DropdownMenuItem>
+                    <IconSettings /> Workspace settings
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
               </DropdownMenuContent>
             </DropdownMenu>
           </SidebarMenuItem>

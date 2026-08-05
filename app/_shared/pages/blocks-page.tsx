@@ -47,6 +47,7 @@ export async function BlocksPage({
           </p>
           <Button
             variant="outline"
+            nativeButton={false}
             render={<Link href={localizeHref(locale, "/components")} />}
           >
             {dict.blocks.browseComponents}

@@ -42,6 +42,21 @@ describe("AgentWorkspaceBlock", () => {
     }
   })
 
+  test("sizes the conversation and inspector panels as percentages", () => {
+    const html = renderToStaticMarkup(<AgentWorkspaceBlock />)
+    const panels = html.match(/data-slot="resizable-panel"[^>]*/g) ?? []
+
+    expect(panels).toHaveLength(2)
+    expect(panels[0]).toContain("flex-basis:70%")
+    expect(panels[1]).toContain("flex-basis:30%")
+  })
+
+  test("reserves sidebar task space for the issue badge", () => {
+    const html = renderToStaticMarkup(<AgentWorkspaceBlock />)
+
+    expect(html).toContain("pr-16")
+  })
+
   test("disables prompt submission only after completion", () => {
     const runningHtml = renderToStaticMarkup(
       <AgentWorkspaceBlock initialStage="running" />

@@ -17,6 +17,7 @@
     "release:version": "bun run scripts/release-version.ts",
     "release:publish": "changeset publish",
     "artifacts:build": "bun run scripts/generate-static-artifacts.ts",
+    "blocks:capture": "bun run scripts/capture-blocks.ts",
     "export:finalize": "bun run scripts/finalize-static-export.ts",
     "export:verify": "bun run scripts/verify-static-export.ts",
     "registry:build": "shadcn build",
@@ -68,6 +69,7 @@
     "eslint-config-next": "16.2.11",
     "prettier": "^3.9.6",
     "prettier-plugin-tailwindcss": "^0.8.1",
+    "puppeteer": "^23.6.0",
     "tailwindcss": "^4.3.3",
     "typescript": "^5.9.3"
   }

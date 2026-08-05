@@ -61,7 +61,7 @@ export function AgentWorkspaceStage({ stage }: { stage: WorkspaceStage }) {
             orientation="horizontal"
             className="min-h-0 flex-1"
           >
-            <ResizablePanel defaultSize={70} minSize={50}>
+            <ResizablePanel defaultSize="70%" minSize="50%">
               <div className="flex size-full min-h-0 flex-col">
                 <ConversationPanel stage={stage} />
                 <PromptComposer stage={stage} />
@@ -69,9 +69,9 @@ export function AgentWorkspaceStage({ stage }: { stage: WorkspaceStage }) {
             </ResizablePanel>
             <ResizableHandle withHandle className="hidden lg:flex" />
             <ResizablePanel
-              defaultSize={30}
-              minSize={22}
-              maxSize={42}
+              defaultSize="30%"
+              minSize="22%"
+              maxSize="42%"
               className="hidden lg:block"
             >
               {inspector}

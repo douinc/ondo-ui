@@ -152,6 +152,7 @@ export function BlockViewer({
           <Button
             variant="ghost"
             size="icon-sm"
+            nativeButton={false}
             aria-label={labels.openNewTab}
             render={
               <a href={previewUrl} target="_blank" rel="noopener noreferrer" />
