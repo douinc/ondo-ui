@@ -23,7 +23,7 @@ type RegistryCatalogItem = {
   type: string
   description?: string
   categories?: readonly string[]
-  files: readonly BlockFile[]
+  files?: readonly BlockFile[]
   meta?: {
     iframeHeight?: string
   }
@@ -43,7 +43,7 @@ export const BLOCK_VIEWPORTS = {
 } as const
 
 function isBlockItem(item: RegistryCatalogItem): item is BlockItem {
-  return item.type === "registry:block"
+  return item.type === "registry:block" && Array.isArray(item.files)
 }
 
 export function listBlockItems(

@@ -1,5 +1,6 @@
 import { describe, expect, test } from "bun:test"
 
+import { getBlockPreview } from "@/components/blocks"
 import {
   BLOCK_CATEGORIES,
   getBlockCategoryStaticParams,
@@ -63,5 +64,10 @@ describe("Block catalog helpers", () => {
     expect(getBlockSourceLanguage("page.tsx")).toBe("tsx")
     expect(getBlockSourceLanguage("data.ts")).toBe("ts")
     expect(getBlockSourceLanguage("fixture.json")).toBe("json")
+  })
+
+  test("resolves only registered Block preview components", () => {
+    expect(getBlockPreview("agent-workspace-01")).toBeTypeOf("function")
+    expect(getBlockPreview("unknown-block")).toBeUndefined()
   })
 })
