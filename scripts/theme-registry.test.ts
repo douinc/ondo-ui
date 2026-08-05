@@ -53,8 +53,11 @@ function extractVariables(css: string, selector: ":root" | ".dark") {
     [
       ...css
         .slice(blockStart, blockEnd)
-        .matchAll(/^\s*--([\w-]+):\s*(.+);\s*$/gm),
-    ].map(([, name, value]) => [name, value.trim()])
+        .matchAll(/^\s*--([\w-]+):\s*([^;]+);\s*(\/\*.*\*\/)?\s*$/gm),
+    ].map(([, name, value, comment]) => [
+      name,
+      [value.trim(), comment?.trim()].filter(Boolean).join(" "),
+    ])
   )
 }
 
