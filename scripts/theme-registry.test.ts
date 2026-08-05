@@ -184,7 +184,7 @@ describe("theme registry", () => {
 
       for (const [name, value] of Object.entries(theme.cssVars?.[mode] ?? {})) {
         expect(value).toMatch(/\/\* .+ \*\/$/)
-        expect(value).toBe(declarations.get(name))
+        expect(declarations.get(name)).toBe(value)
       }
     }
   })
