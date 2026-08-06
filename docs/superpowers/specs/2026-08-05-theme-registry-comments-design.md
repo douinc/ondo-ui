@@ -57,6 +57,25 @@ The registry's typography-only `cssVars.theme` entries are outside the comment
 requirement because they are Tailwind theme mappings rather than the authored
 light/dark color declarations.
 
+The derived radius variables are an exception to that typography-only rule:
+they are part of the authored `@theme inline` block and must also retain their
+calculation comments. With the authored `--radius` value of `0.625rem` (10px at
+the default 16px root size), the values are:
+
+```css
+--radius-sm: calc(var(--radius) * 0.6); /* 10 * 0.6 = 6px */
+--radius-md: calc(var(--radius) * 0.8); /* 10 * 0.8 = 8px */
+--radius-lg: var(--radius); /* 10 * 1 = 10px */
+--radius-xl: calc(var(--radius) * 1.4); /* 10 * 1.4 = 14px */
+--radius-2xl: calc(var(--radius) * 1.8); /* 10 * 1.8 = 18px */
+--radius-3xl: calc(var(--radius) * 2.2); /* 10 * 2.2 = 22px */
+--radius-4xl: calc(var(--radius) * 2.6); /* 10 * 2.6 = 26px */
+```
+
+The same seven declarations will be explicit entries in `cssVars.theme`. This
+prevents shadcn's default radius expansion from replacing them with
+comment-free declarations when a consumer installs the theme.
+
 ## Documentation
 
 The full installation palette in `content/docs/components/chart.mdx` and its

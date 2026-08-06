@@ -23,6 +23,15 @@ const repoRoot = dirname(
   fileURLToPath(new URL("../package.json", import.meta.url))
 )
 const temporaryProjects: string[] = []
+const RADIUS_THEME_VALUES = {
+  "radius-sm": "calc(var(--radius) * 0.6) /* 10 * 0.6 = 6px */",
+  "radius-md": "calc(var(--radius) * 0.8) /* 10 * 0.8 = 8px */",
+  "radius-lg": "var(--radius) /* 10 * 1 = 10px */",
+  "radius-xl": "calc(var(--radius) * 1.4) /* 10 * 1.4 = 14px */",
+  "radius-2xl": "calc(var(--radius) * 1.8) /* 10 * 1.8 = 18px */",
+  "radius-3xl": "calc(var(--radius) * 2.2) /* 10 * 2.2 = 22px */",
+  "radius-4xl": "calc(var(--radius) * 2.6) /* 10 * 2.6 = 26px */",
+} as const
 
 async function readThemeInputs() {
   const [globals, registryText] = await Promise.all([
@@ -176,6 +185,8 @@ describe("theme registry", () => {
   test("matches every exported global variable including its comment", async () => {
     const { globals, theme } = await readThemeInputs()
 
+    expect(theme.cssVars?.theme).toMatchObject(RADIUS_THEME_VALUES)
+
     for (const [mode, selector] of [
       ["light", ":root"],
       ["dark", ".dark"],
@@ -197,5 +208,9 @@ describe("theme registry", () => {
       "--primary: oklch(62.3% 0.214 259.815) /* blue-500 */;"
     )
     expect(css).toContain("--radius: 0.625rem /* Spacing-2.5 10px */;")
+
+    for (const [name, value] of Object.entries(RADIUS_THEME_VALUES)) {
+      expect(css).toContain(`--${name}: ${value};`)
+    }
   }, 30_000)
 })
