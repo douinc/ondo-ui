@@ -44,7 +44,14 @@
         "theme": {
           "font-sans": "\"Pretendard\", ui-sans-serif, system-ui, sans-serif, \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", \"Noto Color Emoji\"",
           "font-mono": "\"Monaspace Neon\", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, \"Liberation Mono\", \"Courier New\", monospace",
-          "font-heading": "var(--font-sans)"
+          "font-heading": "var(--font-sans)",
+          "radius-sm": "calc(var(--radius) * 0.6) /* 10 * 0.6 = 6px */",
+          "radius-md": "calc(var(--radius) * 0.8) /* 10 * 0.8 = 8px */",
+          "radius-lg": "var(--radius) /* 10 * 1 = 10px */",
+          "radius-xl": "calc(var(--radius) * 1.4) /* 10 * 1.4 = 14px */",
+          "radius-2xl": "calc(var(--radius) * 1.8) /* 10 * 1.8 = 18px */",
+          "radius-3xl": "calc(var(--radius) * 2.2) /* 10 * 2.2 = 22px */",
+          "radius-4xl": "calc(var(--radius) * 2.6) /* 10 * 2.6 = 26px */"
         },
         "light": {
           "background": "oklch(1 0 0) /* white */",
