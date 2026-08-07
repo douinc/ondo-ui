@@ -15,6 +15,8 @@
 @import "@fontsource/monaspace-neon/500.css";
 @import "@fontsource/monaspace-neon/700.css";
 
+@source "../packages/design-inspector/src";
+
 @custom-variant dark (&:is(.dark *));
 @custom-variant fixed (&:is(.layout-fixed *));
 

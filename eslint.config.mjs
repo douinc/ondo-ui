@@ -14,6 +14,8 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
     // fumadocs-mdx generated output
     ".source/**",
+    // workspace package build output
+    "packages/*/dist/**",
   ]),
 ]);
 

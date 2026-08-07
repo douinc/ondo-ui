@@ -1,0 +1,313 @@
+---
+title: Design Inspector
+description: 로컬 페이지에서 사용한 Ondo 컴포넌트, variant와 반응형 표시 상태를 검사합니다.
+---
+
+Design Inspector는 실제로 렌더링된 페이지를 확인하는 개발 전용
+오버레이입니다. 현재와 같은 origin의 경로를 모바일, 태블릿, FHD, QHD 크기로
+각각 다시 열고, 각 화면에 마운트된 Ondo 컴포넌트와 Composition을 목록으로
+보여줍니다. 왼쪽 페이지 사이드바에는 검사 화면에서 찾은 같은-origin 링크가
+모이므로 인스펙터를 닫지 않고 다른 경로로 이동할 수 있습니다.
+
+임의의 운영 URL을 크롤링하거나 소스 코드를 정적으로 분석하지 않습니다.
+
+## 설치
+
+Design Inspector는 레지스트리 아이템이 아니라 npm 패키지로 배포됩니다.
+개발 도구이므로 코드가 프로젝트에 복사되지 않고 `node_modules`에 머뭅니다:
+
+```bash
+bun add -D @dou.so/design-inspector
+```
+
+패키지는 `DesignInspector` 컴포넌트와 사전 컴파일된 `styles.css`를
+내보냅니다. 스타일은 인스펙터 요소에만 스코프되어 있어 Tailwind나 Ondo
+테마를 쓰지 않는 애플리케이션에서도 동작합니다. 검사 대상 페이지를 소유한
+애플리케이션 안에서 실행하는 도구이며 원격 URL 크롤러가 아닙니다.
+
+## 개발 환경에 마운트하기
+
+스타일시트를 가져오는 클라이언트 마운트를 만들고 애플리케이션 루트 가까이에
+한 번 렌더링합니다. 운영 환경에는 마운트도, 다운로드도 되지 않도록 환경
+조건을 유지하세요:
+
+```tsx
+// design-inspector-mount.tsx
+"use client"
+
+import "@dou.so/design-inspector/styles.css"
+
+import { DesignInspector } from "@dou.so/design-inspector"
+
+export function DesignInspectorMount() {
+  return <DesignInspector locale="ko" />
+}
+```
+
+```tsx
+// app/layout.tsx
+import { DesignInspectorMount } from "./design-inspector-mount"
+
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <html lang="ko">
+      <body>
+        {children}
+        {process.env.NODE_ENV !== "production" ? (
+          <DesignInspectorMount />
+        ) : null}
+      </body>
+    </html>
+  )
+}
+```
+
+검사 대상 프레임 안에서는 런처가 자동으로 숨겨지므로 루트에 한 번만
+마운트하면 됩니다.
+
+## 프레임워크 연결
+
+런타임에서는 클라이언트 React 마운트와 같은 origin 페이지만 필요합니다. 라우트
+변경에도 인스펙터가 유지되도록 지속되는 루트 영역에 마운트하세요:
+
+```tsx
+// Vite 또는 클라이언트 렌더링 React 앱
+import "@dou.so/design-inspector/styles.css"
+
+import { DesignInspector } from "@dou.so/design-inspector"
+
+export function AppShell({ children }: { children: React.ReactNode }) {
+  return (
+    <>
+      {children}
+      <DesignInspector enabled={import.meta.env.DEV} />
+    </>
+  )
+}
+```
+
+React Router에서는 호스트 라우터를 선택 사항인 콜백으로 연결할 수 있습니다:
+
+```tsx
+const navigate = useNavigate()
+
+<DesignInspector
+  pages={pages}
+  onNavigate={(href) => navigate(href)}
+/>
+```
+
+Next.js App Router에서는 루트 레이아웃 아래 Client Component에 마운트하고
+같은 방식으로 `useRouter`를 연결합니다. 선택한 경로는 인스펙터의 미리보기
+프레임에도 계속 로드됩니다.
+
+## 페이지 검사하기
+
+1. 개발 모드로 애플리케이션을 실행하고 검사할 페이지를 엽니다.
+2. **검사** 버튼을 선택합니다 — 기본 위치는 오른쪽 아래이며, `position`
+   prop으로 화면 가장자리 8개 위치(`top-left`, `top-center`, `top-right`,
+   `center-left`, `center-right`, `bottom-left`, `bottom-center`,
+   `bottom-right`) 중 하나로 옮길 수 있습니다.
+3. 모바일, 태블릿, FHD, QHD 또는 비교 모드를 선택합니다.
+4. 목록의 항목을 선택해 해당 인스턴스로 스크롤하고 강조 표시합니다.
+5. 노출된 variant 속성을 확인하고 반복된 인스턴스 사이를 이동합니다.
+
+경로 입력란에는 `/ko/docs/components/button`처럼 같은 origin의 경로를 사용할 수
+있습니다. 프리셋은 각각 `390 × 844`, `768 × 1024`, `1920 × 1080`,
+`2560 × 1440`의 정확한 캔버스를 사용합니다. 각 뷰포트는 별도의 페이지
+세션이므로 모바일, 태블릿, FHD, QHD 사이에 인터랙션 상태는 공유되지 않습니다.
+각 iframe은 Ondo의 `DesktopWindow` 크롬 안에 표시되며 타이틀바 가운데에는
+`모바일 [390 × 844]`처럼 뷰포트 이름과 정확한 해상도가 함께 표시됩니다.
+
+## 인스펙터 환경설정
+
+우측 상단 헤더에는 세 가지 환경설정 드롭다운이 있습니다:
+
+- **테마**는 시스템, 밝게, 어둡게 중 하나를 선택하며 계산된 색상 모드를
+  인스펙터와 현재 열린 같은-origin 미리보기에 적용합니다.
+- **데스크톱 OS**는 모든 뷰포트 프레임을 macOS, Windows, Ubuntu
+  `DesktopWindow` 크롬 중 하나로 변경합니다.
+- **언어**는 인스펙터 UI와 컴포넌트 문서 링크를 함께 변경합니다. 검사 대상의
+  `<html lang>`은 확인하지 않고 명시적으로 선택한 언어를 사용합니다.
+
+환경설정은 `ondo-design-inspector-settings` 키로 `localStorage`에 저장됩니다.
+다음 마운트에서는 유효한 저장값이 `locale`·`defaultTheme` prop과 macOS 프레임
+기본값보다 우선합니다.
+
+### 프레임워크별 테마 연동
+
+테마 방식은 애플리케이션마다 다릅니다 — `<html>`의 클래스, `data-theme`
+속성, 별도 스토어 등. 그래서 인스펙터는 특정 방식을 가정하지 않습니다.
+시스템·밝게·어둡게 상태를 자체로 유지하고(시스템은 `prefers-color-scheme`으로
+계산), 계산된 색상 모드를 자신의 오버레이에만 스코프해 적용하며, 나머지는
+두 개의 선택적 콜백에 위임합니다:
+
+- `onThemeChange`는 테마 컨트롤이나 단축키로 테마가 바뀔 때 호출됩니다.
+  호스트 애플리케이션의 테마 전환 함수에 연결하면 양쪽이 함께 바뀝니다.
+- `applyPreviewTheme`는 기본 미리보기 테마 적용(각 미리보기 문서 루트에
+  `light`/`dark` 클래스 추가)을 검사 대상 페이지가 실제로 이해하는 방식으로
+  대체합니다.
+
+```tsx
+// next-themes 호스트: 앱과 인스펙터를 함께 전환
+const { setTheme, theme } = useTheme()
+
+<DesignInspector
+  defaultTheme={theme === "dark" || theme === "light" ? theme : "system"}
+  onThemeChange={(nextTheme) => setTheme(nextTheme)}
+/>
+```
+
+```tsx
+// data-theme 호스트: 미리보기에 애플리케이션의 속성 방식을 알려주기
+<DesignInspector
+  applyPreviewTheme={(document, scheme) => {
+    document.documentElement.dataset.theme = scheme
+  }}
+/>
+```
+
+`onThemeChange`를 넘기지 않으면 인스펙터는 호스트 페이지를 변경하지 않고
+자신의 오버레이와 미리보기 프레임만 변경합니다.
+
+## 키보드 단축키
+
+새로고침 오른쪽의 모든 인스펙터 도구는 Tooltip으로 단축키를 안내합니다. 키보드
+아이콘을 열면 전체 단축키를 한 번에 확인할 수 있으며, 각 항목을 직접 선택해
+명령을 실행할 수도 있습니다. 키캡 표시는 사용자의 Mac 또는 Windows 키보드에
+맞게 바뀝니다.
+
+- **Shift**를 빠르게 두 번 누르면 Design Inspector가 열립니다. 같은 origin의
+  검사 뷰포트에 포커스가 있어도 단축키를 반복하면 닫힙니다.
+- Inspector 헤더의 **레이어** 버튼을 선택하거나 **Option/Alt**를 빠르게 두 번
+  누르면 활성 `DesktopWindow` iframe 안의 컴포넌트 레이어를 토글합니다. 헤더
+  버튼은 현재 활성 상태와 플랫폼에 맞는 단축키 힌트를 표시합니다. Inspector가
+  닫혀 있으면 단축키가 레이어를 켠 상태로 Inspector를 열며, 비교 모드에서는
+  표시 중인 모든 iframe에 적용합니다. Design Inspector 바깥의 원본 페이지에는
+  레이어를 표시하지 않습니다. 레이어 모드에서는 전체
+  외곽선만 표시하고, 포인터 아래의 가장 안쪽 컴포넌트 하나만 라벨로 보여줍니다.
+  중첩된 다른 후보는 라벨을 겹치지 않고 `+N`으로 표시합니다.
+- Hover한 컴포넌트를 클릭하면 선택이 고정되고 우측 Selected Component 영역과
+  동기화됩니다. **Escape**를 누르면 고정을 해제합니다. 레이어 모드가 켜져 있는
+  동안 컴포넌트 클릭은 미리보기 페이지를 실행하지 않고 검사 동작으로 사용됩니다.
+- 고정된 선택과 열린 메뉴가 없으면 **Escape**가 Design Inspector를 닫습니다.
+  미리보기 프레임 안에서는 Escape가 프레임 페이지에 전달되어 해당 페이지의
+  다이얼로그가 그대로 동작합니다.
+- **Option/Alt + 왼쪽 화살표** 또는 **Option/Alt + 오른쪽 화살표**를 누르면
+  모바일, 태블릿, FHD, QHD, 비교 모드를 순서대로 이동합니다. 양 끝을 지나면
+  반대편 끝으로 이어집니다. Viewport 컨트롤에 Hover하거나 포커스하면 아래쪽
+  Tooltip에서 이전·다음 단축키를 확인할 수 있습니다.
+- **Option/Alt + S**를 누르면 스크린샷 메뉴가 열립니다. 즉시 다운로드하지 않고
+  선택지를 먼저 열기 때문에 원하는 뷰포트와 `DesktopWindow` 크롬 포함 여부를
+  확인한 뒤 캡처할 수 있습니다.
+- Design Inspector가 열려 있을 때 **Option/Alt + T**는 시스템·밝게·어둡게,
+  **Option/Alt + O**는 macOS·Windows·Ubuntu를 순환하고,
+  **Option/Alt + L**은 English·한국어를 전환합니다. 폼 컨트롤에 입력 중일
+  때는 Option/Alt 단축키가 작동하지 않습니다.
+
+컴포넌트 외곽선과 활성 라벨 하나는 각 뷰포트 안에만 표시되며 iframe을
+스크롤하거나 미리보기 크기가 달라져도 위치를 다시 맞춥니다.
+
+## 스크린샷 캡처하기
+
+Viewport 컨트롤 옆의 카메라 메뉴를 열면 현재 미리보기를 PNG로 저장할 수
+있습니다. 표시 중인 각 뷰포트에는 두 가지 캡처 방식이 제공됩니다:
+
+- **iframe만**은 현재 스크롤 위치의 페이지를 정확한 프리셋 해상도로 캡처하며,
+  인스펙터 컨트롤과 `DesktopWindow` 크롬은 포함하지 않습니다.
+- **DesktopWindow 포함**은 같은 이미지 주위에 선택한 macOS, Windows 또는
+  Ubuntu 타이틀바, 테두리, 둥근 모서리와 그림자를 함께 담습니다.
+
+비교 모드에서는 모바일, 태블릿, FHD, QHD별로 두 동작을 묶어 다운로드 전에
+대상을 명확하게 선택할 수 있습니다. 두 방식 모두 선택 표시와 컴포넌트 레이어
+오버레이를 제외한 깨끗한 페이지를 캡처합니다. 원격 에셋에는 브라우저의 CORS
+규칙이 그대로 적용됩니다.
+
+## 페이지 이동하기
+
+왼쪽 사이드바는 현재 경로에서 시작하고, 검사 프레임에서 찾은 같은-origin 링크를
+자동으로 추가합니다. 목록을 검색하거나 페이지를 선택하면 현재 뷰포트 또는 비교
+모드의 모든 뷰포트가 해당 경로를 엽니다.
+
+렌더링된 페이지에 링크가 없는 경로는 명시적으로 제공할 수 있습니다. 문자열은
+경로를 이름으로 사용하며 객체에는 디자이너가 읽기 좋은 이름을 지정할 수 있습니다:
+
+```tsx
+<DesignInspector
+  registry={ondoRegistry}
+  pages={[
+    { href: "/dashboard", label: "대시보드" },
+    { href: "/orders", label: "주문" },
+    "/settings",
+  ]}
+/>
+```
+
+기본 레지스트리와 다른 컴포넌트 이름이나 슬롯을 사용하는 경우에는
+`registry`를 애플리케이션 레지스트리로 교체할 수 있습니다. 페이지를
+선택하면 `onNavigate`가 호출되므로 프레임워크 라우터와 연결할 수 있습니다.
+선택한 경로는 인스펙터 미리보기 프레임에도 계속 로드됩니다.
+
+```tsx
+<DesignInspector
+  registry={{
+    components: [{ name: "menu", slots: ["app-menu-trigger"] }],
+    compositions: [{ name: "dashboard-shell", slots: ["dashboard-shell"] }],
+  }}
+  pages={pages}
+  onNavigate={(href) => router.push(href)}
+/>
+```
+
+외부 URL과 안전하지 않은 프로토콜은 무시합니다. 직접 이동할 때는 기존 경로
+입력란을 계속 사용할 수 있습니다.
+
+### 공개 Props
+
+| Prop                | 용도                                                                                        |
+| ------------------- | ------------------------------------------------------------------------------------------- |
+| `registry`          | `data-slot`을 컴포넌트 또는 Composition 이름으로 매핑합니다. 기본값은 `ondoRegistry`입니다. |
+| `pages`             | 사이드바에 명시적 경로를 추가합니다. 링크 자동 탐색도 fallback으로 유지됩니다.              |
+| `onNavigate`        | 사이드바 경로 선택 후 호스트 라우터에 알립니다.                                             |
+| `enabled`           | 개발 도구 마운트 여부를 제어합니다.                                                         |
+| `locale`            | 초기 언어를 설정합니다. 이후에는 저장된 설정이 우선합니다.                                  |
+| `defaultTheme`      | 초기 테마를 설정합니다. 이후에는 저장된 설정이 우선합니다.                                  |
+| `position`          | 런처 버튼을 화면 가장자리 8개 위치 중 하나에 배치합니다. 기본값은 `bottom-right`입니다.     |
+| `onThemeChange`     | 인스펙터 테마가 바뀔 때 계산된 색상 모드와 함께 호스트에 알립니다.                          |
+| `applyPreviewTheme` | 미리보기 문서의 기본 `light`/`dark` 클래스 적용을 대체합니다.                               |
+
+선택한 컴포넌트의 문서 링크는 활성 언어에 맞춰 Ondo 문서 사이트
+(`https://ui.ondo.dou.so`)로 연결됩니다. 레지스트리 항목의 `docsPath`로
+컴포넌트별 문서 경로를 재정의할 수 있고, `presentationAttributes`로 추가
+`data-*` 메타데이터를 지정할 수 있습니다.
+
+## 감지 규칙
+
+Design Inspector는 등록된 Ondo 루트의 `data-slot` 값을 인식합니다. 더 정확한
+컴포넌트 이름과 표현 속성을 제공하려면 예약된 DOM 속성을 사용할 수 있습니다:
+
+```tsx
+<button data-slot="button" data-variant="outline" data-size="sm">
+  저장
+</button>
+```
+
+Composition 루트에는 컴포넌트의 `data-slot`을 사용합니다. 표준 Base UI
+`data-*` 속성은 표현 속성으로
+표시됩니다. 스캐너는 기존의 `data-variant`, `data-size`,
+`data-orientation` 같은 일반 속성도 인식합니다. 컴포넌트와 Composition 이름은
+소문자 kebab-case를 사용합니다.
+
+하나의 논리적 컴포넌트가 마커 요소를 여러 개 렌더링할 때는 같은
+`data-instance` id를 부여하세요. 같은 id를 가진 반복 마커는 하나의
+인스턴스로 집계됩니다.
+
+## 범위와 제한
+
+- 같은 origin의 페이지만 열고 검사할 수 있습니다.
+- 렌더링된 DOM에 마운트된 컴포넌트만 집계합니다.
+- 반응형 상태는 **표시**, **숨김**, **없음**으로 구분합니다.
+- variant 정보는 컴포넌트가 DOM 메타데이터로 노출한 경우에만 표시됩니다.
+- 로컬 디자인 QA를 위한 도구이며 운영 모니터링 용도가 아닙니다.

@@ -1,0 +1,200 @@
+/*
+ * Precompiled stylesheet for @dou.so/design-inspector.
+ *
+ * Self-contained on purpose: no Tailwind preflight and no :root token
+ * definitions, so the sheet can be imported into any application without
+ * fighting its global styles. Every token and reset is scoped to the
+ * inspector's own elements, and the light/dark scheme resolves from the
+ * nearest `.light`/`.dark` class — the inspector sets one on its overlay
+ * root, and a class-themed host page provides its own on <html>.
+ */
+
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+@import "tw-animate-css";
+
+@source "./";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme inline {
+  --font-sans:
+    ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
+    "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-mono:
+    ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
+    "Courier New", monospace;
+  --font-heading: var(--font-sans);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-info: var(--info);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+@layer base {
+  /* Ondo light tokens, scoped to inspector-owned elements. */
+  :where([data-slot="design-inspector"], [data-inspector-ui]) {
+    --background: oklch(1 0 0);
+    --foreground: oklch(13% 0.028 261.692);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(13% 0.028 261.692);
+    --popover: oklch(1 0 0);
+    --popover-foreground: oklch(13% 0.028 261.692);
+    --primary: oklch(62.3% 0.214 259.815);
+    --primary-foreground: oklch(1 0 0);
+    --secondary: oklch(96.7% 0.001 286.375);
+    --secondary-foreground: oklch(0.21 0.006 285.885);
+    --muted: oklch(96.7% 0.001 286.375);
+    --muted-foreground: oklch(55.1% 0.027 264.364);
+    --accent: oklch(96.7% 0.001 286.375);
+    --accent-foreground: oklch(21% 0.006 285.885);
+    --info: oklch(68.5% 0.169 237.323);
+    --success: oklch(72.3% 0.219 149.579);
+    --warning: oklch(70.5% 0.213 47.604);
+    --destructive: oklch(63.7% 0.237 25.331);
+    --border: oklch(92% 0.004 286.32);
+    --input: oklch(92% 0.004 286.32);
+    --ring: oklch(62.3% 0.214 259.815);
+    --radius: 0.625rem;
+  }
+
+  /* Ondo dark tokens when the element or an ancestor opts into dark. */
+  :where([data-slot="design-inspector"], [data-inspector-ui]):where(
+      .dark,
+      .dark *
+    ) {
+    --background: oklch(14.5% 0 none);
+    --foreground: oklch(98.5% 0 none);
+    --card: oklch(20.5% 0 none);
+    --card-foreground: oklch(98.5% 0 none);
+    --popover: oklch(20.5% 0 none);
+    --popover-foreground: oklch(98.5% 0 none);
+    --primary: oklch(48.8% 0.243 264.376);
+    --primary-foreground: oklch(97% 0.014 254.604);
+    --secondary: oklch(27.4% 0.006 286.033);
+    --secondary-foreground: oklch(98.5% 0 none);
+    --muted: oklch(26.9% 0 none);
+    --muted-foreground: oklch(70.8% 0 none);
+    --accent: oklch(26.9% 0 none);
+    --accent-foreground: oklch(98.5% 0 none);
+    --info: oklch(68.5% 0.169 237.323);
+    --success: oklch(72.3% 0.219 149.579);
+    --warning: oklch(70.5% 0.213 47.604);
+    --destructive: oklch(70.4% 0.191 22.216);
+    --border: oklch(1 0 0 / 10%);
+    --input: oklch(1 0 0 / 15%);
+    --ring: oklch(62.3% 0.214 259.815);
+  }
+
+  /* Forced light wins over an inherited dark host theme (source order). */
+  :where([data-slot="design-inspector"], [data-inspector-ui]):where(
+      .light,
+      .light *
+    ) {
+    --background: oklch(1 0 0);
+    --foreground: oklch(13% 0.028 261.692);
+    --card: oklch(1 0 0);
+    --card-foreground: oklch(13% 0.028 261.692);
+    --popover: oklch(1 0 0);
+    --popover-foreground: oklch(13% 0.028 261.692);
+    --primary: oklch(62.3% 0.214 259.815);
+    --primary-foreground: oklch(1 0 0);
+    --secondary: oklch(96.7% 0.001 286.375);
+    --secondary-foreground: oklch(0.21 0.006 285.885);
+    --muted: oklch(96.7% 0.001 286.375);
+    --muted-foreground: oklch(55.1% 0.027 264.364);
+    --accent: oklch(96.7% 0.001 286.375);
+    --accent-foreground: oklch(21% 0.006 285.885);
+    --info: oklch(68.5% 0.169 237.323);
+    --success: oklch(72.3% 0.219 149.579);
+    --warning: oklch(70.5% 0.213 47.604);
+    --destructive: oklch(63.7% 0.237 25.331);
+    --border: oklch(92% 0.004 286.32);
+    --input: oklch(92% 0.004 286.32);
+    --ring: oklch(62.3% 0.214 259.815);
+  }
+
+  /* Scoped preflight: the essentials the components rely on, without
+     touching anything outside the inspector. */
+  :where([data-slot="design-inspector"], [data-inspector-ui]),
+  :where([data-slot="design-inspector"], [data-inspector-ui]) :where(*),
+  :where([data-slot="design-inspector"], [data-inspector-ui])
+    :where(*)::before,
+  :where([data-slot="design-inspector"], [data-inspector-ui])
+    :where(*)::after {
+    box-sizing: border-box;
+    border-width: 0;
+    border-style: solid;
+    border-color: var(--border);
+  }
+
+  :where([data-slot="design-inspector"], [data-inspector-ui])
+    :where(h1, h2, h3, h4, p, dl, dd, figure, form, fieldset) {
+    margin: 0;
+  }
+
+  :where([data-slot="design-inspector"], [data-inspector-ui])
+    :where(ol, ul, menu) {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  :where([data-slot="design-inspector"], [data-inspector-ui])
+    :where(button, input, select, textarea) {
+    margin: 0;
+    padding: 0;
+    font: inherit;
+    font-feature-settings: inherit;
+    letter-spacing: inherit;
+    color: inherit;
+    background-color: transparent;
+    border-radius: 0;
+  }
+
+  :where([data-slot="design-inspector"], [data-inspector-ui])
+    :where(button, [role="button"]):not(:disabled) {
+    cursor: pointer;
+  }
+
+  :where([data-slot="design-inspector"], [data-inspector-ui])
+    :where(img, svg, video, canvas, iframe) {
+    display: block;
+    vertical-align: middle;
+  }
+
+  :where([data-slot="design-inspector"], [data-inspector-ui])
+    :where(kbd, code, pre, samp) {
+    font-family: var(--font-mono);
+  }
+
+  [data-slot="design-inspector"],
+  [data-inspector-ui] {
+    font-family: var(--font-sans);
+  }
+}

@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
   output: "export",
   trailingSlash: true,
   reactCompiler: true,
+  transpilePackages: ["@dou.so/design-inspector"],
   turbopack: {
     root: import.meta.dirname,
   },

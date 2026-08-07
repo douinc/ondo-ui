@@ -1,0 +1,21 @@
+---
+title: Design Inspector
+description: Add a development-only inspector package for auditing rendered Ondo components.
+version: 1.5.0
+---
+
+**v1.5.0**
+
+- Add the `@dou.so/design-inspector` npm package: a development-only,
+  same-origin overlay that audits mounted Components and Compositions across
+  mobile, tablet, FHD, and QHD viewports, with component layers, comparison
+  mode, keyboard shortcuts, page navigation, and `DesktopWindow` screenshots.
+  It is imported from the package — with a precompiled, inspector-scoped
+  stylesheet — rather than installed from the registry.
+- Delegate theming to the host application: the inspector resolves System
+  through `prefers-color-scheme`, scopes the scheme to its own overlay, and
+  exposes `onThemeChange` and `applyPreviewTheme` for applications whose theme
+  mechanism differs from a `light`/`dark` class.
+- Add a root `data-variant` marker to Frame, and root `data-slot` markers to
+  LiveWaveform, NumberCount, EmptyView, and NumberBadge so the inspector can
+  identify instances and their presentation props.

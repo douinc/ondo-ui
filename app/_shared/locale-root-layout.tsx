@@ -1,5 +1,6 @@
 import type { Metadata } from "next"
 
+import { DesignInspectorMount } from "@/app/_shared/design-inspector-mount"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/toast"
 import { TooltipProvider } from "@/components/ui/tooltip"
@@ -50,6 +51,9 @@ export function LocaleRootLayout({
         <ThemeProvider>
           <TooltipProvider>{children}</TooltipProvider>
           <Toaster />
+          {process.env.NODE_ENV !== "production" ? (
+            <DesignInspectorMount locale={locale} />
+          ) : null}
         </ThemeProvider>
       </body>
     </html>

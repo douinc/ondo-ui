@@ -66,6 +66,7 @@ function Frame({
         className
       )}
       data-slot="frame"
+      data-variant={variant}
       data-spacing={spacing}
       {...props}
     />
