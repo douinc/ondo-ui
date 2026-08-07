@@ -97,3 +97,14 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
           NPM_CONFIG_PROVENANCE: "true"
+          # OIDC trusted publishing cannot perform a package's first-ever
+          # publish -- npm has no package page yet to attach a trusted
+          # publisher to, and rejects the OIDC token with a 404. Routing an
+          # optional classic token through both var names covers npm's
+          # newer OIDC-aware check (NPM_TOKEN) and the older
+          # actions/setup-node .npmrc substitution (NODE_AUTH_TOKEN). Unset
+          # in the repo, this resolves to an empty string and every package
+          # keeps publishing over OIDC exactly as before; set it only to
+          # bootstrap a brand-new package's first publish, then remove it.
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
