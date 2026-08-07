@@ -579,6 +579,7 @@ export const LiveWaveform = ({
             : "Audio waveform idle"
       }
       role="img"
+      data-slot="live-waveform"
       {...props}
     >
       {!active && !processing && (

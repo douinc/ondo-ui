@@ -7,7 +7,7 @@
   ],
   "scripts": {
     "dev": "next dev",
-    "build": "bun run artifacts:build && bun run registry:build && next build && bun run export:finalize && bun run export:verify",
+    "build": "fumadocs-mdx && bun run artifacts:build && bun run registry:build && next build && bun run export:finalize && bun run export:verify",
     "start": "next start",
     "test": "bun test",
     "lint": "eslint",

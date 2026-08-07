@@ -25,7 +25,7 @@ function EmptyView({
   ...props
 }: EmptyViewProps) {
   return (
-    <Empty {...props}>
+    <Empty {...props} data-slot="empty-view">
       <EmptyHeader>
         {icon ? <EmptyMedia variant="icon">{icon}</EmptyMedia> : null}
         <EmptyTitle>{title}</EmptyTitle>

@@ -19,7 +19,11 @@
       }
     ],
     "paths": {
-      "@/*": ["./*"]
+      "@/*": ["./*"],
+      "@dou.so/design-inspector": ["./packages/design-inspector/src/index.ts"],
+      "@dou.so/design-inspector/styles.css": [
+        "./packages/design-inspector/src/styles.css"
+      ]
     }
   },
   "include": [

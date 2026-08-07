@@ -36,6 +36,11 @@ what makes each one worth checking rather than trusting.
 | 5 | `content/docs/components/meta.json` (`pages` array) | Page exists but is absent from the sidebar |
 | 6 | `registry.json` (`items`) | `shadcn add` cannot install it |
 | 7 | `lib/components-list.ts` | Missing from the `/components` gallery |
+| 8 | `packages/design-inspector/src/catalog.ts` (`ONDO_COMPONENT_NAMES` / `ONDO_COMPOSITION_NAMES`) | Design Inspector cannot identify it; `bun test` fails on the registry-vs-catalog cross-check in `catalog.test.ts` |
+
+Point 8 is the one list that does fail loudly -- a test asserts it matches
+`registry.json` -- but only if the tests are actually run, so it still belongs
+in the checklist.
 
 A release additionally needs a changelog entry and a version bump -- see
 "Releasing" below.
@@ -52,7 +57,8 @@ and are exactly where things get dropped, so finish them before moving on.
    the `"<demo-name>": Component,` entry, both kept alphabetical.
 4. **Write both docs pages** (`<name>.mdx` and `<name>.ko.mdx`). Mirror the
    structure of a recent, similar component rather than inventing a layout.
-5. **Add to `meta.json`, `registry.json`, and `lib/components-list.ts`** --
+5. **Add to `meta.json`, `registry.json`, `lib/components-list.ts`, and the
+   Design Inspector catalog** (`packages/design-inspector/src/catalog.ts`) --
    alphabetically in each.
 6. **Verify** (see below). Do not skip this even when you are sure.
 7. **Release** if the change is shipping: changelog entry + version bump.
@@ -67,11 +73,13 @@ python3 .claude/skills/add-component/scripts/check-registration.py <name>
 python3 .claude/skills/add-component/scripts/check-registration.py   # every component
 ```
 
-Then run the build, which is the only thing that proves the MDX compiles and the
-registry builds:
+Then run the tests, which enforce the Design Inspector catalog against
+`registry.json`, and the build, which is the only thing that proves the MDX
+compiles and the registry builds:
 
 ```bash
-npm run build
+bun test
+bun run build
 ```
 
 The checker is deliberately narrow -- it only asserts things that are always
@@ -181,6 +189,6 @@ records a rule violation, so branch unless the user asks otherwise.
 
 ## Removing or renaming a component
 
-The same seven places apply in reverse. Run the checker afterwards with no
+The same eight places apply in reverse. Run the checker afterwards with no
 arguments -- it flags entries in `meta.json` or `lib/components-list.ts` that
 point at docs pages which no longer exist, which is the usual leftover.

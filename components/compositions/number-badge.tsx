@@ -42,7 +42,7 @@ function NumberBadge({
   max = 99,
   showZero = false,
   placement = "top-right",
-  variant,
+  variant = "default",
   className,
   children,
   ...props
@@ -51,7 +51,13 @@ function NumberBadge({
   const hidden = value <= 0 && !showZero
 
   return (
-    <span className="relative inline-flex w-fit shrink-0">
+    <span
+      className="relative inline-flex w-fit shrink-0"
+      data-slot="number-badge"
+      data-variant={variant}
+      data-placement={placement}
+      data-hidden={String(hidden)}
+    >
       {children}
       <Badge
         variant={variant}

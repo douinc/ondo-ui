@@ -1,0 +1,321 @@
+---
+title: Design Inspector
+description: Audit the Ondo components, variants, and responsive visibility used by a local page.
+---
+
+Design Inspector is a development-only overlay for checking a page as it is
+actually rendered. It reloads the current same-origin route at mobile, tablet,
+FHD, and QHD viewport sizes, then lists the mounted Ondo components and
+Compositions found in each viewport. A Pages sidebar collects same-origin links
+from the inspected page so the audit can move between routes without leaving
+the inspector.
+
+It does not crawl arbitrary production URLs or statically analyze source code.
+
+## Installation
+
+Design Inspector ships as an npm package, not as a registry item — it is a
+development tool, so its code stays in `node_modules` instead of being copied
+into your project:
+
+```bash
+bun add -D @dou.so/design-inspector
+```
+
+The package exports the `DesignInspector` component and a precompiled
+`styles.css` that is fully scoped to the inspector's own elements, so it works
+in applications that do not use Tailwind or the Ondo theme. Mount it in the
+application that owns the inspected pages; it is not a remote URL crawler.
+
+## Mount in development
+
+Create a client mount that imports the stylesheet, then render it once near
+the root of your application. Keep the environment guard so nothing is mounted
+— or downloaded — in production:
+
+```tsx
+// design-inspector-mount.tsx
+"use client"
+
+import "@dou.so/design-inspector/styles.css"
+
+import { DesignInspector } from "@dou.so/design-inspector"
+
+export function DesignInspectorMount() {
+  return <DesignInspector locale="en" />
+}
+```
+
+```tsx
+// app/layout.tsx
+import { DesignInspectorMount } from "./design-inspector-mount"
+
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
+  return (
+    <html lang="en">
+      <body>
+        {children}
+        {process.env.NODE_ENV !== "production" ? (
+          <DesignInspectorMount />
+        ) : null}
+      </body>
+    </html>
+  )
+}
+```
+
+The inspector hides its own launcher inside inspected frames, so one root mount
+is enough.
+
+## Framework integration
+
+The runtime only requires a client-side React mount and same-origin pages. Keep
+the mount in a persistent root so it survives route changes:
+
+```tsx
+// Vite or another client-rendered React app
+import "@dou.so/design-inspector/styles.css"
+
+import { DesignInspector } from "@dou.so/design-inspector"
+
+export function AppShell({ children }: { children: React.ReactNode }) {
+  return (
+    <>
+      {children}
+      <DesignInspector enabled={import.meta.env.DEV} />
+    </>
+  )
+}
+```
+
+With React Router, connect the host router as an optional callback:
+
+```tsx
+const navigate = useNavigate()
+
+<DesignInspector
+  pages={pages}
+  onNavigate={(href) => navigate(href)}
+/>
+```
+
+For Next.js App Router, mount from a Client Component under the root layout
+and connect `useRouter` in the same way. The inspector still loads the selected
+same-origin URL inside its preview frames.
+
+## Inspect a page
+
+1. Start the application in development mode and open the page to audit.
+2. Select **Inspect** — in the lower-right corner by default. The `position`
+   prop moves the launcher to any of eight positions around the viewport
+   edges: `top-left`, `top-center`, `top-right`, `center-left`,
+   `center-right`, `bottom-left`, `bottom-center`, or `bottom-right`.
+3. Choose Mobile, Tablet, FHD, QHD, or Compare.
+4. Select an inventory row to scroll to and highlight that instance.
+5. Review exposed variant properties and move between repeated instances.
+
+The path field accepts same-origin routes such as `/docs/components/button`.
+The presets use exact `390 × 844`, `768 × 1024`, `1920 × 1080`, and
+`2560 × 1440` canvases. Each viewport is a separate page session, so interaction
+state is not shared between Mobile, Tablet, FHD, and QHD. Each iframe is
+presented inside Ondo's `DesktopWindow` chrome, with its viewport name in the
+titlebar followed by its exact resolution, such as `Mobile [390 × 844]`.
+
+## Inspector preferences
+
+The upper-right header has three preference dropdowns:
+
+- **Theme** switches between System, Light, and Dark and applies the resolved
+  color scheme to the inspector and its currently loaded same-origin previews.
+- **Desktop OS** changes every viewport frame between macOS, Windows, and Ubuntu
+  `DesktopWindow` chrome.
+- **Language** changes the inspector UI and component documentation links
+  together. It is explicit and does not inspect the target page's `<html lang>`.
+
+Preferences are stored in `localStorage` under
+`ondo-design-inspector-settings`. On the next mount, valid stored values take
+priority over the `locale` and `defaultTheme` props and the default macOS
+frame.
+
+### Theming across frameworks
+
+Theme mechanisms differ per application — a class on `<html>`, a `data-theme`
+attribute, a store — so the inspector does not assume one. It keeps its own
+System/Light/Dark state (System resolves through `prefers-color-scheme`),
+scopes the resolved scheme to its own overlay, and delegates everything else
+to two optional callbacks:
+
+- `onThemeChange` fires when the theme control or its shortcut changes the
+  theme. Wire it to the host application's own switcher so both stay in sync.
+- `applyPreviewTheme` replaces the default preview theming — adding a
+  `light`/`dark` class to each preview document root — with whatever the
+  inspected pages actually understand.
+
+```tsx
+// next-themes host: keep the app and the inspector in sync
+const { setTheme, theme } = useTheme()
+
+<DesignInspector
+  defaultTheme={theme === "dark" || theme === "light" ? theme : "system"}
+  onThemeChange={(nextTheme) => setTheme(nextTheme)}
+/>
+```
+
+```tsx
+// data-theme host: teach the previews the application's attribute
+<DesignInspector
+  applyPreviewTheme={(document, scheme) => {
+    document.documentElement.dataset.theme = scheme
+  }}
+/>
+```
+
+Without `onThemeChange`, the inspector never mutates the host page — only its
+own overlay and the preview frames.
+
+## Keyboard shortcuts
+
+Every inspector tool to the right of Reload shows its shortcut in a tooltip.
+Open the keyboard icon to review the complete shortcut map; each row is also an
+action, so it can be selected before the shortcut is memorized. Keycaps adapt to
+the user's Mac or Windows keyboard.
+
+- Press **Shift** twice quickly to open Design Inspector. Repeat the shortcut
+  to close it, including when focus is inside a same-origin inspection viewport.
+- Select **Layers** in the inspector header or press **Option/Alt** twice
+  quickly to toggle component layers inside the active `DesktopWindow` iframe. The
+  header button shows the current state and a platform-specific shortcut hint.
+  If the inspector is closed, the shortcut opens it with layers enabled.
+  Compare mode applies layers to every visible iframe.
+  The original page outside Design Inspector is never overlaid. Layer mode
+  shows outlines only; hover to reveal the deepest component beneath the
+  pointer. A `+N` suffix reports additional nested candidates without stacking
+  their labels.
+- Click a hovered component to pin it and synchronize the right-hand Selected
+  Component panel. Press **Escape** to clear the pinned selection. While layer
+  mode is enabled, inspected component clicks are captured instead of activating
+  the preview page.
+- With no pinned selection and no open menu, **Escape** closes Design
+  Inspector. Inside a preview frame, Escape stays with the previewed page, so
+  its own dialogs keep working.
+- Press **Option/Alt + Left Arrow** or **Option/Alt + Right Arrow** to cycle
+  through Mobile, Tablet, FHD, QHD, and Compare. Moving past either end wraps
+  around to the other end. Hover or focus the Viewport controls to see these
+  previous and next shortcuts in a tooltip below the controls.
+- Press **Option/Alt + S** to open the Screenshot menu. The shortcut opens the
+  choices without downloading immediately, so you can select the intended
+  viewport and whether to include `DesktopWindow` chrome.
+- While Design Inspector is open, press **Option/Alt + T** to cycle System,
+  Light, and Dark; **Option/Alt + O** to cycle macOS, Windows, and Ubuntu; or
+  **Option/Alt + L** to switch between English and Korean. Option/Alt shortcuts
+  are ignored while typing in a form control.
+
+Component outlines and the single active label remain contained by each
+viewport and stay aligned while its iframe scrolls or the preview is resized.
+
+## Capture screenshots
+
+Open the camera menu beside the Viewport controls to save the current preview
+as a PNG. Each visible viewport has two capture options:
+
+- **iframe only** captures the page at the exact preset resolution and current
+  scroll position, without the inspector controls or `DesktopWindow` chrome.
+- **Include DesktopWindow** adds the selected macOS, Windows, or Ubuntu
+  titlebar, border, rounded corners, and shadow around the same image.
+
+In Compare mode, the menu groups these two actions under Mobile, Tablet, FHD,
+and QHD so the target is explicit before downloading. Inspector selection and
+component-layer overlays are omitted from both options, producing a clean page
+capture. Remote assets still follow the browser's CORS rules.
+
+## Navigate pages
+
+The left sidebar starts with the current route and automatically adds
+same-origin links found in each inspected frame. Search the list or select a
+page to load that route in the active viewport or every Compare viewport.
+
+For routes that are not linked from the rendered page, provide an explicit
+list. Strings use the path as their label; objects can provide a designer-friendly
+label:
+
+```tsx
+<DesignInspector
+  registry={ondoRegistry}
+  pages={[
+    { href: "/dashboard", label: "Dashboard" },
+    { href: "/orders", label: "Orders" },
+    "/settings",
+  ]}
+/>
+```
+
+The `registry` can be replaced with an application registry when component
+names or slots differ from Ondo's defaults. `onNavigate` is called when a page
+is selected, so framework routers can observe or handle the navigation. The
+selected route is still loaded in the inspector preview frames:
+
+```tsx
+<DesignInspector
+  registry={{
+    components: [{ name: "menu", slots: ["app-menu-trigger"] }],
+    compositions: [{ name: "dashboard-shell", slots: ["dashboard-shell"] }],
+  }}
+  pages={pages}
+  onNavigate={(href) => router.push(href)}
+/>
+```
+
+External URLs and unsafe protocols are ignored. The path field remains
+available for direct same-origin navigation.
+
+### Public props
+
+| Prop                | Purpose                                                                                |
+| ------------------- | -------------------------------------------------------------------------------------- |
+| `registry`          | Maps `data-slot` values to component or Composition names. Defaults to `ondoRegistry`. |
+| `pages`             | Adds explicit sidebar routes; link discovery remains a fallback.                       |
+| `onNavigate`        | Notifies the host router after a sidebar route is selected.                            |
+| `enabled`           | Controls whether the development tool is mounted.                                      |
+| `locale`            | Sets the initial inspector language; persisted settings take priority later.           |
+| `defaultTheme`      | Sets the initial theme; persisted settings take priority later.                        |
+| `position`          | Places the launcher on one of eight viewport-edge positions. Defaults to `bottom-right`. |
+| `onThemeChange`     | Notifies the host when the inspector theme changes, with the resolved scheme.          |
+| `applyPreviewTheme` | Replaces the default `light`/`dark` class theming inside preview documents.            |
+
+Selected-component documentation links point to the Ondo docs site
+(`https://ui.ondo.dou.so`) in the active language. Registry entries can
+override the destination per component with `docsPath`, and can provide
+additional `presentationAttributes` for project-specific `data-*` metadata.
+
+## Detection contract
+
+Design Inspector recognizes registered Ondo root `data-slot` values. Components
+can expose more reliable identity and presentation metadata with reserved DOM
+attributes:
+
+```tsx
+<button data-slot="button" data-variant="outline" data-size="sm">
+  Save
+</button>
+```
+
+Use the component's `data-slot` for a Composition root. Standard Base UI
+`data-*` attributes are shown as presentation properties. The scanner also
+understands common existing attributes such as `data-variant`, `data-size`,
+and `data-orientation`. Component and Composition names use lowercase
+kebab-case.
+
+When one logical component renders several marker elements, give them a shared
+`data-instance` id; repeated markers with the same id collapse into a single
+reported instance.
+
+## Scope and limitations
+
+- Only same-origin pages can be loaded and inspected.
+- Only components mounted in the rendered DOM can be reported.
+- Responsive visibility is reported as **Visible**, **Hidden**, or **Absent**.
+- Variant details are available only when a component exposes them in DOM
+  metadata.
+- The inspector is intended for local design QA, not production monitoring.
