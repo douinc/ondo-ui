@@ -1,6 +1,6 @@
 {
   "name": "@dou.so/design-inspector",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Development-only, same-origin design inspector for auditing rendered Ondo UI components across viewports.",
   "type": "module",
   "license": "MIT",
