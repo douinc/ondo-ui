@@ -1,5 +1,11 @@
 # @dou.so/ondo-ui
 
+## 1.5.0
+
+### Minor Changes
+
+- [#29](https://github.com/douinc/ondo-ui/pull/29) [`1197671`](https://github.com/douinc/ondo-ui/commit/119767147adebcdcf64b74c69bf937aa1136b426) Thanks [@initred](https://github.com/initred)! - Add the Questionnaire registry component with multi-step navigation, fixed and freeform answers, validation, shortcuts, and complete bilingual documentation.
+
 ## 1.4.1
 
 ### Patch Changes
