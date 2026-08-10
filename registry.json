@@ -996,6 +996,25 @@
       ]
     },
     {
+      "name": "questionnaire",
+      "type": "registry:ui",
+      "description": "A multi-step questionnaire with single-choice, multiple-choice, freeform, and skippable questions.",
+      "dependencies": [
+        "@shadcn/react",
+        "@tabler/icons-react"
+      ],
+      "registryDependencies": [
+        "@ondo-ui/button",
+        "@ondo-ui/utils"
+      ],
+      "files": [
+        {
+          "path": "components/ui/questionnaire.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "radio-group",
       "type": "registry:ui",
       "description": "A set of checkable buttons—known as radio buttons—where no more than one of the buttons can be checked at a time.",

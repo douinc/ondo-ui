@@ -396,6 +396,14 @@ export const componentsList = [
     },
   },
   {
+    name: "questionnaire",
+    title: "Questionnaire",
+    description: {
+      en: "A multi-step questionnaire with single-choice, multiple-choice, freeform, and skippable questions.",
+      ko: "단일 선택, 다중 선택, 자유 입력 및 건너뛰기를 지원하는 다단계 설문 컴포넌트입니다.",
+    },
+  },
+  {
     name: "radio-group",
     title: "Radio Group",
     description: {
