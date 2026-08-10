@@ -1,0 +1,42 @@
+{
+  "skill_name": "ondo-onboarding",
+  "evals": [
+    {
+      "id": "new-next-bun",
+      "prompt": "ondo-ui 풀 셋업 부탁해. 새 폴더에 Next.js로 만들어줘. 프로젝트 이름은 ondo-playground, 패키지 매니저는 bun, MCP는 claude만 설정해줘.",
+      "expected_output": "A new ondo-playground Next.js app with the @ondo-ui registry configured, every Component and Composition installed, the Ondo Skills installed for claude-code, the Design Inspector mounted dev-only, .mcp.json configured, and a verified (typechecked) result reported.",
+      "files": [],
+      "expectations": [
+        "Next.js app 'ondo-playground' scaffolded with a bun lockfile",
+        "components.json registers the @ondo-ui registry URL",
+        "At least 60 component files installed under components/ui",
+        "Compositions installed under components/compositions",
+        "@dou.so/design-inspector added as a devDependency",
+        "Design Inspector mount imports the package styles.css",
+        "Design Inspector mounted behind a dev-only guard",
+        ".mcp.json configures the shadcn MCP server for claude",
+        "Ondo Skill installed project-level under .claude/skills",
+        "Typecheck/build verification recorded as passing"
+      ]
+    },
+    {
+      "id": "existing-vite-pnpm",
+      "prompt": "현재 폴더의 기존 Vite 프로젝트에 ondo-ui 온보딩해줘. 패키지 매니저는 pnpm 그대로 쓰고, MCP는 claude만 설정해줘.",
+      "expected_output": "The existing Vite React app initialized with the @ondo-ui registry and theme using pnpm (no stray lockfiles), every Component and Composition installed, the Ondo Skills installed for claude-code, the Design Inspector mounted dev-only, .mcp.json configured, and a verified (typechecked) result reported.",
+      "files": ["fixture: bare Vite react-ts app with pnpm-lock.yaml and a clean git history"],
+      "expectations": [
+        "Existing Vite app preserved (vite.config.ts intact, no re-scaffold)",
+        "pnpm stays the only package manager (pnpm-lock.yaml kept, no stray lockfiles)",
+        "components.json registers the @ondo-ui registry URL",
+        "At least 60 component files installed under components/ui",
+        "Compositions installed under components/compositions",
+        "@dou.so/design-inspector added as a devDependency",
+        "Design Inspector mount imports the package styles.css",
+        "Design Inspector mounted behind a dev-only guard",
+        ".mcp.json configures the shadcn MCP server for claude",
+        "Ondo Skill installed project-level under .claude/skills",
+        "Typecheck/build verification recorded as passing"
+      ]
+    }
+  ]
+}

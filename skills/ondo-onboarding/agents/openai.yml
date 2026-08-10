@@ -1,0 +1,5 @@
+interface:
+  display_name: "Ondo UI Onboarding"
+  short_description: "Sets up a complete Ondo UI environment: project init, every Component and Composition, the Ondo Skills, the Design Inspector, and MCP clients."
+  icon_small: "./assets/ondo-small.png"
+  icon_large: "./assets/ondo.png"
