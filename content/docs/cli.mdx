@@ -31,6 +31,11 @@ For an existing project, use the same command with `--cwd`:
 bunx --bun @dou.so/ondo-ui@latest init -t vite --cwd ../my-vite-app
 ```
 
+An existing app must already have Tailwind CSS v4 wired into its build and a
+working `@/*` import alias — shadcn's preflight validates both, and `init`
+does not create them. Each framework guide's `Existing Project` section lists
+the exact steps.
+
 ## Add registry items
 
 Open the grouped Components and Compositions menu:

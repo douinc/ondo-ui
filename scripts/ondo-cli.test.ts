@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { mkdtempSync, symlinkSync, rmSync } from "node:fs"
+import { mkdirSync, mkdtempSync, symlinkSync, rmSync, writeFileSync } from "node:fs"
 import { tmpdir } from "node:os"
 import { resolve } from "node:path"
 
@@ -8,6 +8,7 @@ import {
   getSelectableNames,
   getFrameworkItems,
   getShadcnEnvironment,
+  getTemplateStockItems,
   isDirectInvocation,
   mergeOndoRegistry,
   parseAddArgs,
@@ -380,5 +381,91 @@ describe("Ondo init CLI", () => {
     expect(
       getShadcnEnvironment("next", { PATH: "/usr/bin", NODE_ENV: "test" })
     ).toEqual({ PATH: "/usr/bin", NODE_ENV: "test" })
+  })
+
+  test("collects only registry-known names from init-created ui files", () => {
+    expect(
+      getTemplateStockItems(
+        [
+          "/app/components/ui/button.tsx",
+          "/app/components/ui/custom-widget.tsx",
+        ],
+        { items: [{ name: "button", type: "registry:ui" }] }
+      )
+    ).toEqual(["button"])
+  })
+
+  test("replaces template stock components with @ondo-ui sources after init", async () => {
+    const directory = mkdtempSync(resolve(tmpdir(), "ondo-cli-init-"))
+    const calls: Array<{ command: string; args: string[] }> = []
+
+    try {
+      const projectRoot = resolve(directory, "my-app")
+      const status = await run(
+        ["init", "-t", "next", "--name", "my-app", "--cwd", directory],
+        {
+          runShadcn: (command: string, args: string[] = []) => {
+            calls.push({ command, args })
+            if (command === "init") {
+              mkdirSync(resolve(projectRoot, "components/ui"), {
+                recursive: true,
+              })
+              writeFileSync(resolve(projectRoot, "components.json"), "{}\n")
+              writeFileSync(
+                resolve(projectRoot, "components/ui/button.tsx"),
+                "stock button\n"
+              )
+            }
+            return 0
+          },
+          fetchRegistry: async () => ({
+            items: [{ name: "button", type: "registry:ui" }],
+          }),
+        }
+      )
+
+      expect(status).toBe(0)
+      const add = calls.find((call) => call.command === "add")
+      expect(add?.args).toEqual([
+        "@ondo-ui/button",
+        "--overwrite",
+        "--yes",
+        "--cwd",
+        projectRoot,
+      ])
+    } finally {
+      rmSync(directory, { recursive: true, force: true })
+    }
+  })
+
+  test("never replaces ui components that existed before init", async () => {
+    const directory = mkdtempSync(resolve(tmpdir(), "ondo-cli-init-"))
+    const calls: Array<{ command: string; args: string[] }> = []
+
+    try {
+      mkdirSync(resolve(directory, "components/ui"), { recursive: true })
+      writeFileSync(
+        resolve(directory, "components/ui/button.tsx"),
+        "user button\n"
+      )
+
+      const status = await run(["init", "-t", "vite", "--cwd", directory], {
+        runShadcn: (command: string, args: string[] = []) => {
+          calls.push({ command, args })
+          if (command === "init") {
+            writeFileSync(resolve(directory, "components.json"), "{}\n")
+          }
+          return 0
+        },
+        fetchRegistry: async () => ({
+          items: [{ name: "button", type: "registry:ui" }],
+        }),
+      })
+
+      expect(status).toBe(0)
+      expect(calls.some((call) => call.command === "add")).toBe(false)
+    } finally {
+      rmSync(directory, { recursive: true, force: true })
+    }
   })
 })

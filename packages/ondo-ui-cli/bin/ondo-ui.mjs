@@ -2,7 +2,7 @@
 
 import { readFile, readdir, writeFile } from "node:fs/promises"
 import { existsSync, realpathSync } from "node:fs"
-import { join, resolve } from "node:path"
+import { basename, dirname, join, resolve } from "node:path"
 import { fileURLToPath } from "node:url"
 
 import {
@@ -315,6 +315,93 @@ async function configureOndoRegistry(args) {
   return files
 }
 
+async function findUiFiles(root) {
+  if (!existsSync(root)) return []
+
+  const entries = await readdir(root, { withFileTypes: true })
+  const files = []
+
+  for (const entry of entries) {
+    if (entry.name === "node_modules" || entry.name === ".git") continue
+
+    const path = join(root, entry.name)
+    if (entry.isDirectory()) {
+      files.push(...(await findUiFiles(path)))
+    } else if (
+      entry.isFile() &&
+      /\.(tsx|ts|jsx|js)$/.test(entry.name) &&
+      dirname(path).replaceAll("\\", "/").endsWith("components/ui")
+    ) {
+      files.push(path)
+    }
+  }
+
+  return files
+}
+
+async function snapshotUiFiles(roots) {
+  const files = new Set()
+
+  for (const root of roots) {
+    for (const file of await findUiFiles(root)) files.add(file)
+  }
+
+  return files
+}
+
+export function getTemplateStockItems(createdFiles, registry) {
+  const registryNames = new Set(
+    (registry?.items ?? []).map((item) => item?.name).filter(Boolean)
+  )
+  const stock = new Set()
+
+  for (const file of createdFiles) {
+    const name = basename(file).replace(/\.(tsx|ts|jsx|js)$/, "")
+    if (registryNames.has(name)) stock.add(name)
+  }
+
+  return [...stock].sort()
+}
+
+async function replaceTemplateStockItems(args, framework, uiBefore, dependencies = {}) {
+  const roots = getProjectRoots(args)
+  const uiAfter = await snapshotUiFiles(roots)
+  const created = [...uiAfter].filter((file) => !uiBefore.has(file))
+
+  if (created.length === 0) return { replaced: [], status: 0 }
+
+  let registry
+
+  try {
+    registry = await (dependencies.fetchRegistry ?? fetchOndoRegistry)()
+  } catch (error) {
+    console.error(
+      `ondo-ui: could not check template components against the Ondo registry (${error.message}). If typechecking later fails around stock components, run "ondo-ui add <name> --overwrite" for them.`
+    )
+    return { replaced: [], status: 0 }
+  }
+
+  const stock = getTemplateStockItems(created, registry)
+  if (stock.length === 0) return { replaced: [], status: 0 }
+
+  const status = (dependencies.runShadcn ?? runShadcn)(
+    "add",
+    [
+      ...stock.map((name) => `@ondo-ui/${name}`),
+      "--overwrite",
+      "--yes",
+      "--cwd",
+      roots[0],
+    ],
+    {
+      cwd: process.cwd(),
+      env: getShadcnEnvironment(framework),
+    }
+  )
+
+  return { replaced: stock, status }
+}
+
 function getUsage() {
   return `Usage: ondo-ui <${PUBLIC_COMMANDS.join("|")}> [options]`
 }
@@ -325,6 +412,7 @@ export async function run(argv = process.argv.slice(2), dependencies = {}) {
 
   if (command === "init") {
     const framework = getFramework(args)
+    const uiBefore = await snapshotUiFiles(getProjectRoots(args))
     const childStatus = delegate(
       "init",
       buildShadcnArgs(args, framework).slice(1),
@@ -341,6 +429,29 @@ export async function run(argv = process.argv.slice(2), dependencies = {}) {
 
     const files = await configureOndoRegistry(args)
     console.log(`Ondo registry configured in ${files.length} components.json file(s).`)
+
+    // Framework templates can leave stock shadcn components behind (the Next.js
+    // template ships a Radix-based button.tsx). Mixing them with Ondo components
+    // breaks typechecking, so anything init created that exists in the Ondo
+    // registry is reinstalled from @ondo-ui. Files that predate init are the
+    // user's and are never touched.
+    const replacement = await replaceTemplateStockItems(args, framework, uiBefore, {
+      ...dependencies,
+      runShadcn: delegate,
+    })
+
+    if (replacement.replaced.length > 0) {
+      if (replacement.status === 0) {
+        console.log(
+          `Replaced template stock component(s) with @ondo-ui sources: ${replacement.replaced.join(", ")}.`
+        )
+      } else {
+        console.error(
+          `ondo-ui: could not replace template stock component(s): ${replacement.replaced.join(", ")}. Run "ondo-ui add ${replacement.replaced.join(" ")} --overwrite" to finish the setup.`
+        )
+      }
+    }
+
     return 0
   }
 
