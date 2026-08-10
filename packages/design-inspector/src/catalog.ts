@@ -48,6 +48,7 @@ export const ONDO_COMPONENT_NAMES = [
   "popover",
   "progress",
   "progress-ring",
+  "questionnaire",
   "radio-group",
   "resizable",
   "scroll-area",

@@ -1,0 +1,328 @@
+---
+title: Questionnaire (설문)
+description: 단일 선택, 다중 선택, 자유 입력 및 건너뛰기를 지원하는 다단계 설문 컴포넌트입니다.
+---
+
+<ComponentPreview
+  align="end"
+  name="questionnaire-demo"
+  previewClassName="min-h-[560px] p-4 sm:p-8"
+/>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/questionnaire
+```
+
+### 수동 설치
+
+헤드리스 Primitive와 아이콘 의존성을 설치합니다:
+
+```bash
+bun add @shadcn/react@^0.3.0 @tabler/icons-react
+```
+
+Questionnaire는 `@/components/ui/button`의 `buttonVariants`와
+`@/lib/utils`의 `cn`도 가져옵니다. `@ondo-ui/button`과
+`@ondo-ui/utils`를 추가한 다음, `components/ui/questionnaire.tsx`를
+프로젝트의 같은 경로에 복사합니다.
+
+## 사용법
+
+```tsx
+import {
+  Questionnaire,
+  QuestionnaireActions,
+  QuestionnaireChoice,
+  QuestionnaireChoices,
+  QuestionnaireDescription,
+  QuestionnaireError,
+  QuestionnaireInput,
+  QuestionnaireItem,
+  QuestionnaireNext,
+  QuestionnairePrevious,
+  QuestionnaireProgress,
+  QuestionnaireSkip,
+  QuestionnaireSubmit,
+  QuestionnaireTitle,
+} from "@/components/ui/questionnaire"
+```
+
+```tsx
+const items = [
+  {
+    name: "direction",
+    required: true,
+    prompt: "다음으로 무엇을 프로토타이핑할까요?",
+    description: "방향을 선택하거나 직접 입력하세요.",
+    choices: [
+      {
+        value: "delegation",
+        label: "위임",
+        description: "작업이 전문가에게 전달되는 과정을 보여줍니다.",
+      },
+      {
+        value: "questions",
+        label: "질문 프롬프트",
+        description: "인터페이스가 기다리는 동안 선택지를 표시합니다.",
+      },
+      { value: "both", label: "둘 다" },
+    ],
+    input: { label: "다른 답변", placeholder: "다른 답변을 입력하세요…" },
+  },
+  {
+    name: "detail",
+    required: false,
+    prompt: "어느 정도의 상세 내용을 포함할까요?",
+    description: "아직 확실하지 않다면 건너뛰세요.",
+    choices: [
+      { value: "focused", label: "핵심만" },
+      { value: "complete", label: "전체 흐름" },
+    ],
+  },
+] as const
+```
+
+컬렉션을 한 번 정의합니다. 서버에서 렌더링되는 진행률, 액션, 단축키를 위해
+`Questionnaire`에 전달한 다음 각 파트로 매핑합니다.
+
+```tsx
+<Questionnaire items={items} onSubmit={handleSubmit}>
+  <QuestionnaireProgress />
+  {items.map((question) => (
+    <QuestionnaireItem
+      key={question.name}
+      name={question.name}
+      required={question.required}
+    >
+      <QuestionnaireTitle>{question.prompt}</QuestionnaireTitle>
+      <QuestionnaireDescription>
+        {question.description}
+      </QuestionnaireDescription>
+      <QuestionnaireChoices>
+        {question.choices.map((choice) => (
+          <QuestionnaireChoice key={choice.value} value={choice.value}>
+            <span className="font-medium">{choice.label}</span>
+            {"description" in choice ? (
+              <span className="text-muted-foreground">
+                {choice.description}
+              </span>
+            ) : null}
+          </QuestionnaireChoice>
+        ))}
+        {"input" in question ? (
+          <QuestionnaireInput
+            aria-label={question.input.label}
+            placeholder={question.input.placeholder}
+          />
+        ) : null}
+      </QuestionnaireChoices>
+      <QuestionnaireError />
+    </QuestionnaireItem>
+  ))}
+  <QuestionnaireActions>
+    <QuestionnairePrevious />
+    <QuestionnaireSkip />
+    <QuestionnaireNext />
+    <QuestionnaireSubmit />
+  </QuestionnaireActions>
+</Questionnaire>
+```
+
+```tsx
+function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  event.preventDefault()
+  const answers = new FormData(event.currentTarget)
+  // answers.get("direction"), 다중 선택 항목은 answers.getAll(...)을 사용합니다.
+}
+```
+
+## 구성
+
+```text
+Questionnaire
+├── QuestionnaireProgress
+├── QuestionnaireItem
+│   ├── QuestionnaireTitle
+│   ├── QuestionnaireDescription
+│   ├── QuestionnaireChoices
+│   │   ├── QuestionnaireChoice
+│   │   └── QuestionnaireInput
+│   └── QuestionnaireError
+└── QuestionnaireActions
+    ├── QuestionnairePrevious
+    ├── QuestionnaireSkip
+    ├── QuestionnaireNext
+    └── QuestionnaireSubmit
+```
+
+Questionnaire는 항목 순서, 활성 항목, 답변 상태, 검증, 진행률, 내비게이션을
+관리합니다. Questionnaire를 포함하는 페이지, 카드, 다이얼로그 또는 드로어는
+닫기와 취소 동작, 영속화, 전송 및 분기를 관리합니다.
+
+## 서버 렌더링
+
+활성 항목, 진행률, 액션 및 답변 단축키를 서버에서 렌더링하려면 `items`를
+전달합니다. 전체 동작은
+[헤드리스 Questionnaire](https://ui.shadcn.com/docs/react/questionnaire)를 참고하세요.
+
+## 다중 선택
+
+둘 이상의 고정 답변을 허용하는 항목에는 `multiple`을 사용합니다.
+
+<ComponentPreview
+  align="end"
+  name="questionnaire-multiple"
+  previewClassName="min-h-[420px] p-4 sm:p-8"
+/>
+
+## 자유 입력 답변
+
+사용자가 다른 답변을 입력할 수 있어야 할 때 고정 선택지와 `QuestionnaireInput`을 함께 구성합니다.
+
+<ComponentPreview
+  align="end"
+  name="questionnaire-freeform"
+  previewClassName="min-h-[420px] p-4 sm:p-8"
+/>
+
+## 명시적 건너뛰기
+
+선택 항목을 의도적으로 답변하지 않은 채 둘 수 있다면 `QuestionnaireSkip`을 추가합니다.
+
+<ComponentPreview
+  align="end"
+  name="questionnaire-skip"
+  previewClassName="min-h-[520px] p-4 sm:p-8"
+/>
+
+## 단축키
+
+`shortcuts`로 각 답변에 문자 또는 숫자 키를 할당합니다.
+
+<ComponentPreview
+  align="end"
+  name="questionnaire-shortcuts"
+  previewClassName="min-h-[480px] p-4 sm:p-8"
+/>
+
+## 사용자 지정 검증
+
+제어 내비게이션과 Zod 같은 외부 스키마를 결합해 유효하지 않은 항목으로 돌아가 오류를 표시합니다.
+
+<ComponentPreview
+  align="end"
+  name="questionnaire-validation"
+  previewClassName="min-h-[520px] p-4 sm:p-8"
+/>
+
+## 제어
+
+유효하지 않은 단계로 돌아가는 경우처럼 호스트 상태에서 활성 항목을 제어합니다.
+
+<ComponentPreview
+  align="end"
+  name="questionnaire-controlled"
+  previewClassName="min-h-[520px] p-4 sm:p-8"
+/>
+
+## 이어하기
+
+저장된 활성 항목과 기본 답변을 복원하고 변경 사항을 해당 저장 상태로 재설정합니다.
+
+<ComponentPreview
+  align="end"
+  name="questionnaire-resume"
+  previewClassName="min-h-[520px] p-4 sm:p-8"
+/>
+
+## 조건부 항목
+
+사용자의 이전 답변에 해당하지 않는 항목을 비활성화합니다.
+
+<ComponentPreview
+  align="end"
+  name="questionnaire-conditional"
+  previewClassName="min-h-[520px] p-4 sm:p-8"
+/>
+
+## 내비게이션 상태
+
+항목 상태를 읽어 비활성 내비게이션과 사용자 지정 액션 스타일을 적용합니다.
+
+<ComponentPreview
+  align="end"
+  name="questionnaire-navigation-state"
+  previewClassName="min-h-[480px] p-4 sm:p-8"
+/>
+
+## 사용자 지정 진행률
+
+Progress 렌더 상태를 사용해 사용자 지정 진행률 표시기를 만듭니다.
+
+<ComponentPreview
+  align="end"
+  name="questionnaire-progress"
+  previewClassName="min-h-[520px] p-4 sm:p-8"
+/>
+
+## 애니메이션 항목
+
+진행률과 내비게이션은 고정한 채 활성 항목에 애니메이션을 적용합니다.
+
+<ComponentPreview
+  align="end"
+  name="questionnaire-animated"
+  previewClassName="min-h-[520px] p-4 sm:p-8"
+/>
+
+## 카드
+
+질문 제목과 설명의 의미 구조를 유지하면서 Questionnaire를 Card 슬롯과 구성합니다.
+
+<ComponentPreview
+  align="end"
+  name="questionnaire-card"
+  previewClassName="min-h-[560px] p-4 sm:p-8"
+/>
+
+## 다이얼로그
+
+취소와 닫기 동작은 호스트가 관리하도록 유지하면서 Dialog 내부에 Questionnaire를 구성합니다.
+
+<ComponentPreview
+  align="end"
+  name="questionnaire-dialog"
+  previewClassName="min-h-[320px] p-4 sm:p-8"
+/>
+
+## 접근성
+
+`QuestionnaireItem`은 `fieldset`을 렌더링하고 `QuestionnaireTitle`은 해당
+`legend`를 렌더링합니다. 설명과 활성 오류는 현재 항목에 연결되며, 유효하지
+않은 항목과 답변 컨트롤은 `aria-invalid`를 노출합니다.
+
+고정 선택지는 네이티브 라디오와 체크박스 동작을 유지합니다. 진행률은 이름이
+있는 progressbar로 노출되고, 내비게이션은 실제 버튼을 사용하며, 비활성 항목과
+액션은 숨겨지고 상호작용할 수 없습니다. 내비게이션에 성공하면 새 활성 항목에
+포커스하고, 검증에 실패하면 사용 가능한 답변 컨트롤에 포커스합니다.
+
+`QuestionnaireInput`에는 항상 표시되는 레이블, `aria-label` 또는
+`aria-labelledby`로 접근 가능한 이름을 제공하세요. placeholder는 레이블이
+아닙니다. 사용자 지정 구성의 레이블 지정과 전체 키보드 동작은
+[Questionnaire 접근성 가이드](https://ui.shadcn.com/docs/react/questionnaire#accessibility)를 참고하세요.
+
+## 스타일 없는 Primitive
+
+`Questionnaire`의 동작은 `@shadcn/react` 패키지에서 제공됩니다. 자체 마크업과
+스타일로 직접 사용하려면 @shadcn/react의
+[Questionnaire](https://ui.shadcn.com/docs/react/questionnaire)를 참고하세요.
+
+## API 참고
+
+각 파트의 prop, 데이터 속성 및 렌더 상태는
+[@shadcn/react Questionnaire API](https://ui.shadcn.com/docs/react/questionnaire#api-reference)에 문서화되어 있습니다.
+스타일 컴포넌트는 대응하는 스타일 없는 prop을 상속합니다. 내비게이션
+컴포넌트는 Button의 `size`와 `variant` prop도 받으며,
+`QuestionnaireActions`는 스타일만 제공하는 레이아웃 헬퍼입니다.
