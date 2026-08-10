@@ -1,5 +1,11 @@
 # @dou.so/ondo-ui
 
+## 1.5.1
+
+### Patch Changes
+
+- [#34](https://github.com/douinc/ondo-ui/pull/34) [`c0956c8`](https://github.com/douinc/ondo-ui/commit/c0956c83e2f40f85366276a9274a3dca8f8acc30) Thanks [@initred](https://github.com/initred)! - `init` now replaces template-created stock components (for example the Next.js template's Radix-based `button.tsx`) with their `@ondo-ui` counterparts, so a fresh project typechecks cleanly after `add --all`. Files that existed before `init` ran are never touched.
+
 ## 1.5.0
 
 ### Minor Changes
