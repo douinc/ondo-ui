@@ -93,7 +93,7 @@ The root container for one or more frame panels.
 | Variable               | Default                                             | Description                                                                                                     |
 | :--------------------- | :-------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------- |
 | `--frame-radius`       | `var(--radius-xl)`                                  | The outer border radius of the frame. Panels derive their radius from it, so this is the single knob to adjust. |
-| `--frame-panel-radius` | `calc(var(--frame-radius) - var(--frame-px) - 1px)` | The inner panel radius, reduced from `--frame-radius` so panel corners nest concentrically inside the frame.     |
+| `--frame-panel-radius` | `calc(var(--frame-radius) - var(--frame-radius-inset) - 1px)` | The inner panel radius, reduced from `--frame-radius` so panel corners nest concentrically inside the frame.     |
 
 ### FramePanel
 
