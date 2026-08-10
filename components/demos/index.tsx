@@ -323,6 +323,20 @@ import ProgressRingNumberCount from "@/components/demos/progress-ring-number-cou
 import ProgressRingSizes from "@/components/demos/progress-ring-sizes"
 import ProgressRingVariants from "@/components/demos/progress-ring-variants"
 import ProgressVariants from "@/components/demos/progress-variants"
+import QuestionnaireAnimated from "@/components/demos/questionnaire-animated"
+import QuestionnaireCard from "@/components/demos/questionnaire-card"
+import QuestionnaireConditional from "@/components/demos/questionnaire-conditional"
+import QuestionnaireControlled from "@/components/demos/questionnaire-controlled"
+import QuestionnaireDemo from "@/components/demos/questionnaire-demo"
+import QuestionnaireDialog from "@/components/demos/questionnaire-dialog"
+import QuestionnaireFreeform from "@/components/demos/questionnaire-freeform"
+import QuestionnaireMultiple from "@/components/demos/questionnaire-multiple"
+import QuestionnaireNavigationState from "@/components/demos/questionnaire-navigation-state"
+import QuestionnaireProgressExample from "@/components/demos/questionnaire-progress"
+import QuestionnaireResume from "@/components/demos/questionnaire-resume"
+import QuestionnaireShortcuts from "@/components/demos/questionnaire-shortcuts"
+import QuestionnaireSkipExample from "@/components/demos/questionnaire-skip"
+import QuestionnaireValidation from "@/components/demos/questionnaire-validation"
 import RadioGroupChoiceCard from "@/components/demos/radio-group-choice-card"
 import RadioGroupDemo from "@/components/demos/radio-group-demo"
 import RadioGroupDescription from "@/components/demos/radio-group-description"
@@ -771,6 +785,20 @@ export const demos: Record<string, ComponentType> = {
   "progress-ring-sizes": ProgressRingSizes,
   "progress-ring-variants": ProgressRingVariants,
   "progress-variants": ProgressVariants,
+  "questionnaire-animated": QuestionnaireAnimated,
+  "questionnaire-card": QuestionnaireCard,
+  "questionnaire-conditional": QuestionnaireConditional,
+  "questionnaire-controlled": QuestionnaireControlled,
+  "questionnaire-demo": QuestionnaireDemo,
+  "questionnaire-dialog": QuestionnaireDialog,
+  "questionnaire-freeform": QuestionnaireFreeform,
+  "questionnaire-multiple": QuestionnaireMultiple,
+  "questionnaire-navigation-state": QuestionnaireNavigationState,
+  "questionnaire-progress": QuestionnaireProgressExample,
+  "questionnaire-resume": QuestionnaireResume,
+  "questionnaire-shortcuts": QuestionnaireShortcuts,
+  "questionnaire-skip": QuestionnaireSkipExample,
+  "questionnaire-validation": QuestionnaireValidation,
   "radio-group-choice-card": RadioGroupChoiceCard,
   "radio-group-demo": RadioGroupDemo,
   "radio-group-description": RadioGroupDescription,
