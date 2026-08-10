@@ -120,6 +120,15 @@ bunx --bun @dou.so/ondo-ui add --all
 bunx --bun @dou.so/ondo-ui add -a
 ```
 
+`init` replaces template stock components (such as the starter `button.tsx`)
+with their `@ondo-ui` counterparts automatically — mixing the two breaks
+typechecking. If a project was initialized with an older CLI and typechecking
+fails around a stock component, reinstall it once with `--overwrite`:
+
+```bash
+bunx --bun @dou.so/ondo-ui add button --overwrite
+```
+
 Compositions such as `empty-view` and `number-badge` are shown separately from
 registry UI components. Dependencies such as `utils` are resolved automatically.
 

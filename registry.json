@@ -827,7 +827,7 @@
       "type": "registry:ui",
       "description": "A scroll container for conversational UIs that keeps new messages pinned to the bottom, with a scroll-to-bottom button.",
       "dependencies": [
-        "@shadcn/react",
+        "@shadcn/react@^0.3.0",
         "@tabler/icons-react"
       ],
       "registryDependencies": [
@@ -1006,7 +1006,7 @@
       "type": "registry:ui",
       "description": "A multi-step questionnaire with single-choice, multiple-choice, freeform, and skippable questions.",
       "dependencies": [
-        "@shadcn/react",
+        "@shadcn/react@^0.3.0",
         "@tabler/icons-react"
       ],
       "registryDependencies": [

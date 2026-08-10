@@ -120,6 +120,15 @@ bunx --bun @dou.so/ondo-ui add --all
 bunx --bun @dou.so/ondo-ui add -a
 ```
 
+`init`은 템플릿의 기본 컴포넌트(예: 스타터 `button.tsx`)를 `@ondo-ui`
+버전으로 자동 교체합니다 — 둘이 섞이면 타입 체크가 깨지기 때문입니다. 구버전
+CLI로 초기화한 프로젝트에서 기본 컴포넌트 관련 타입 에러가 나면 한 번만
+`--overwrite`로 재설치하세요:
+
+```bash
+bunx --bun @dou.so/ondo-ui add button --overwrite
+```
+
 `empty-view`, `number-badge` 같은 Compositions는 일반 registry UI
 컴포넌트와 별도 그룹으로 표시됩니다. `utils` 같은 의존성은 자동으로 해결됩니다.
 
