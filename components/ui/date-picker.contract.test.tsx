@@ -73,4 +73,39 @@ describe("date-picker composition contract", () => {
     expect(dob).toContain("if (!selectedDate) return")
     expect(dob).toContain("setOpen(false)")
   })
+
+  test("includes the advanced picker interactions", () => {
+    const input = readFileSync(
+      resolve(process.cwd(), "components/demos/date-picker-input.tsx"),
+      "utf8"
+    )
+    const time = readFileSync(
+      resolve(process.cwd(), "components/demos/date-picker-time.tsx"),
+      "utf8"
+    )
+    const naturalLanguage = readFileSync(
+      resolve(process.cwd(), "components/demos/date-picker-natural-language.tsx"),
+      "utf8"
+    )
+    const rtl = readFileSync(
+      resolve(process.cwd(), "components/demos/date-picker-rtl.tsx"),
+      "utf8"
+    )
+
+    for (const source of [input, time, naturalLanguage, rtl]) {
+      expect(source).toContain('"use client"')
+      expect(source).toContain("export default function")
+    }
+
+    expect(input).toContain('e.key === "ArrowDown"')
+    expect(input).toContain("onMonthChange={setMonth}")
+    expect(time).toContain('type="time"')
+    expect(time).toContain('captionLayout="dropdown"')
+    expect(naturalLanguage).toContain('import { parseDate } from "chrono-node"')
+    expect(naturalLanguage).toContain("parseDate(e.target.value)")
+    expect(rtl).toContain('dir="rtl"')
+    expect(rtl).toContain('import { arSA } from "date-fns/locale"')
+    expect(rtl).toContain("arSA as arSADayPicker")
+    expect(rtl).toContain("locale={arSADayPicker}")
+  })
 })
