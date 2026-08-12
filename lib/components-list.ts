@@ -164,6 +164,14 @@ export const componentsList = [
     },
   },
   {
+    name: "date-picker",
+    title: "Date Picker",
+    description: {
+      en: "A date picker component with range and presets.",
+      ko: "날짜 범위와 프리셋을 지원하는 날짜 선택기 컴포넌트입니다.",
+    },
+  },
+  {
     name: "desktop-window",
     title: "Desktop Window",
     description: {

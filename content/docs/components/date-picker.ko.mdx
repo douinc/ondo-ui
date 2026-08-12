@@ -1,0 +1,109 @@
+---
+title: Date Picker (날짜 선택기)
+description: 날짜 범위와 프리셋을 지원하는 날짜 선택기 컴포넌트입니다.
+---
+
+<ComponentPreview name="date-picker-demo" />
+
+## 설치
+
+Date Picker는 `<Popover />`와 `<Calendar />` 컴포넌트를 조합해 만듭니다.
+
+[Popover](/docs/components/popover#installation)와 [Calendar](/docs/components/calendar#installation) 컴포넌트의 설치 안내를 참고하세요.
+
+## 사용법
+
+```tsx showLineNumbers title="components/example-date-picker.tsx"
+"use client"
+
+import * as React from "react"
+import { format } from "date-fns"
+import { IconCalendar } from "@tabler/icons-react"
+
+import { Button } from "@/components/ui/button"
+import { Calendar } from "@/components/ui/calendar"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+
+export function DatePickerDemo() {
+  const [date, setDate] = React.useState<Date>()
+
+  return (
+    <Popover>
+      <PopoverTrigger
+        render={
+          <Button
+            variant="outline"
+            data-empty={!date}
+            className="justify-start text-left font-normal data-[empty=true]:text-muted-foreground"
+          />
+        }
+      >
+        <IconCalendar />
+        {date ? format(date, "PPP") : <span>날짜 선택</span>}
+      </PopoverTrigger>
+      <PopoverContent className="w-auto p-0">
+        <Calendar mode="single" selected={date} onSelect={setDate} />
+      </PopoverContent>
+    </Popover>
+  )
+}
+```
+
+자세한 내용은 [React DayPicker](https://react-day-picker.js.org) 문서를 참조하세요.
+
+## 구성
+
+날짜 선택기는 `Popover`와 `Calendar`로 구성합니다(`DatePicker` 루트 컴포넌트는 없습니다).
+
+```text
+Popover
+├── PopoverTrigger
+└── PopoverContent
+    └── Calendar
+```
+
+## 기본
+
+기본 날짜 선택기 컴포넌트입니다.
+
+<ComponentPreview name="date-picker-basic" />
+
+## 날짜 범위 선택기
+
+날짜 범위를 선택하는 날짜 선택기 컴포넌트입니다.
+
+<ComponentPreview name="date-picker-range" />
+
+## 생년월일
+
+생년월일을 선택하는 날짜 선택기 컴포넌트입니다. 월과 연도를 선택할 수 있도록 드롭다운 캡션 레이아웃을 포함합니다.
+
+<ComponentPreview name="date-picker-dob" />
+
+## 입력 필드
+
+입력 필드로 날짜를 선택하는 날짜 선택기 컴포넌트입니다.
+
+<ComponentPreview name="date-picker-input" />
+
+## 시간 선택기
+
+시간 입력 필드로 시간을 선택하는 날짜 선택기 컴포넌트입니다.
+
+<ComponentPreview name="date-picker-time" />
+
+## 자연어 선택기
+
+이 컴포넌트는 자연어 날짜를 해석하기 위해 `chrono-node` 라이브러리를 사용합니다.
+
+<ComponentPreview name="date-picker-natural-language" />
+
+## RTL
+
+OnDo UI에서 RTL 지원을 활성화하려면 [RTL 구성 가이드](https://ui.shadcn.com/docs/rtl)를 참고하세요. 이 예시는 아랍어 표시 문자열 `اختر تاريخًا`를 유지한 정적 RTL 예제입니다.
+
+<ComponentPreview name="date-picker-rtl" direction="rtl" />
