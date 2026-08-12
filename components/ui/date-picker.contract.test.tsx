@@ -36,6 +36,17 @@ const expectedFiles = [
   "content/docs/changelog/2026-08-12-date-picker.ko.mdx",
 ]
 
+const expectedPreviewNames = [
+  "date-picker-demo",
+  "date-picker-basic",
+  "date-picker-range",
+  "date-picker-dob",
+  "date-picker-input",
+  "date-picker-time",
+  "date-picker-natural-language",
+  "date-picker-rtl",
+]
+
 describe("date-picker composition contract", () => {
   test("exports only the supported composition primitives", () => {
     expect(Object.keys(DatePicker).sort()).toEqual(expectedExports.sort())
@@ -107,5 +118,50 @@ describe("date-picker composition contract", () => {
     expect(rtl).toContain('import { arSA } from "date-fns/locale"')
     expect(rtl).toContain("arSA as arSADayPicker")
     expect(rtl).toContain("locale={arSADayPicker}")
+  })
+
+  test("keeps the bilingual documentation and preview registry in sync", () => {
+    const docs = [
+      "content/docs/components/date-picker.mdx",
+      "content/docs/components/date-picker.ko.mdx",
+    ]
+
+    for (const file of docs) {
+      const source = readFileSync(resolve(process.cwd(), file), "utf8")
+      const previews = Array.from(
+        source.matchAll(/<ComponentPreview(?:\s|\n)+name="([^"]+)"/g),
+        (match) => match[1]
+      )
+
+      expect(previews).toEqual(expectedPreviewNames)
+      expect(source).toContain("/docs/components/popover#installation")
+      expect(source).toContain("/docs/components/calendar#installation")
+    }
+
+    const demoIndex = readFileSync(
+      resolve(process.cwd(), "components/demos/index.tsx"),
+      "utf8"
+    )
+    const meta = readFileSync(
+      resolve(process.cwd(), "content/docs/components/meta.json"),
+      "utf8"
+    )
+
+    for (const previewName of expectedPreviewNames) {
+      expect(demoIndex).toContain(`\"${previewName}\":`)
+    }
+
+    expect(demoIndex.indexOf('"context-menu-submenu":')).toBeLessThan(
+      demoIndex.indexOf('"date-picker-demo":')
+    )
+    expect(demoIndex.indexOf('"date-picker-rtl":')).toBeLessThan(
+      demoIndex.indexOf('"desktop-window-demo":')
+    )
+    expect(meta.indexOf('"context-menu",')).toBeLessThan(
+      meta.indexOf('"date-picker",')
+    )
+    expect(meta.indexOf('"date-picker",')).toBeLessThan(
+      meta.indexOf('"desktop-window",')
+    )
   })
 })

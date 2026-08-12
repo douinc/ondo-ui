@@ -134,6 +134,14 @@ import ContextMenuRadio from "@/components/demos/context-menu-radio"
 import ContextMenuShortcuts from "@/components/demos/context-menu-shortcuts"
 import ContextMenuSides from "@/components/demos/context-menu-sides"
 import ContextMenuSubmenu from "@/components/demos/context-menu-submenu"
+import DatePickerBasic from "@/components/demos/date-picker-basic"
+import DatePickerDemo from "@/components/demos/date-picker-demo"
+import DatePickerDob from "@/components/demos/date-picker-dob"
+import DatePickerInput from "@/components/demos/date-picker-input"
+import DatePickerNaturalLanguage from "@/components/demos/date-picker-natural-language"
+import DatePickerRange from "@/components/demos/date-picker-range"
+import DatePickerRtl from "@/components/demos/date-picker-rtl"
+import DatePickerTime from "@/components/demos/date-picker-time"
 import DesktopWindowDemo from "@/components/demos/desktop-window-demo"
 import DesktopWindowInteractive from "@/components/demos/desktop-window-interactive"
 import DesktopWindowPlatforms from "@/components/demos/desktop-window-platforms"
@@ -596,6 +604,14 @@ export const demos: Record<string, ComponentType> = {
   "context-menu-shortcuts": ContextMenuShortcuts,
   "context-menu-sides": ContextMenuSides,
   "context-menu-submenu": ContextMenuSubmenu,
+  "date-picker-basic": DatePickerBasic,
+  "date-picker-demo": DatePickerDemo,
+  "date-picker-dob": DatePickerDob,
+  "date-picker-input": DatePickerInput,
+  "date-picker-natural-language": DatePickerNaturalLanguage,
+  "date-picker-range": DatePickerRange,
+  "date-picker-rtl": DatePickerRtl,
+  "date-picker-time": DatePickerTime,
   "desktop-window-demo": DesktopWindowDemo,
   "desktop-window-interactive": DesktopWindowInteractive,
   "desktop-window-platforms": DesktopWindowPlatforms,
