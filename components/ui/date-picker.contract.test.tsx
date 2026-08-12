@@ -22,6 +22,7 @@ const expectedExports = [
 ]
 
 const expectedFiles = [
+  ".changeset/date-picker.md",
   "components/demos/date-picker-demo.tsx",
   "components/demos/date-picker-basic.tsx",
   "components/demos/date-picker-range.tsx",
@@ -163,5 +164,28 @@ describe("date-picker composition contract", () => {
     expect(meta.indexOf('"date-picker",')).toBeLessThan(
       meta.indexOf('"desktop-window",')
     )
+  })
+
+  test("declares the v1.7.0 minor release in Changesets and both changelogs", () => {
+    const changeset = readFileSync(
+      resolve(process.cwd(), ".changeset/date-picker.md"),
+      "utf8"
+    )
+    const changelogs = [
+      "content/docs/changelog/2026-08-12-date-picker.mdx",
+      "content/docs/changelog/2026-08-12-date-picker.ko.mdx",
+    ].map((file) => readFileSync(resolve(process.cwd(), file), "utf8"))
+
+    expect(changeset).toMatch(/^---\n"@dou\.so\/ondo-ui": minor\n---/)
+    expect(changeset).toContain("Date Picker")
+
+    for (const changelog of changelogs) {
+      expect(changelog).toMatch(/^---[\s\S]*\nversion: 1\.7\.0\n---/)
+      expect(changelog).toContain("**v1.7.0**")
+      expect(changelog).toContain("Date Picker")
+      expect(changelog).toContain("8")
+      expect(changelog).toMatch(/natural language|자연어/i)
+      expect(changelog).toContain("RTL")
+    }
   })
 })
