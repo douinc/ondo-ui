@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test"
-import { existsSync } from "node:fs"
+import { existsSync, readFileSync } from "node:fs"
 import { resolve } from "node:path"
 
 import * as DatePicker from "@/components/ui/date-picker"
@@ -43,5 +43,33 @@ describe("date-picker composition contract", () => {
 
   test.each(expectedFiles)("includes %s", (file) => {
     expect(existsSync(resolve(process.cwd(), file))).toBe(true)
+  })
+
+  test("includes the calendar-selection demo interactions", () => {
+    const demo = readFileSync(
+      resolve(process.cwd(), "components/demos/date-picker-demo.tsx"),
+      "utf8"
+    )
+    const basic = readFileSync(
+      resolve(process.cwd(), "components/demos/date-picker-basic.tsx"),
+      "utf8"
+    )
+    const range = readFileSync(
+      resolve(process.cwd(), "components/demos/date-picker-range.tsx"),
+      "utf8"
+    )
+    const dob = readFileSync(
+      resolve(process.cwd(), "components/demos/date-picker-dob.tsx"),
+      "utf8"
+    )
+
+    for (const source of [demo, basic, range, dob]) {
+      expect(source).toContain('"use client"')
+      expect(source).toContain("export default function")
+    }
+
+    expect(range).toContain('mode="range"')
+    expect(range).toContain("numberOfMonths={2}")
+    expect(dob).toContain("setOpen(false)")
   })
 })
