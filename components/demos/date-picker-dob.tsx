@@ -37,6 +37,8 @@ export default function DatePickerDob() {
             defaultMonth={date}
             captionLayout="dropdown"
             onSelect={(selectedDate) => {
+              if (!selectedDate) return
+
               setDate(selectedDate)
               setOpen(false)
             }}

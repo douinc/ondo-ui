@@ -70,6 +70,7 @@ describe("date-picker composition contract", () => {
 
     expect(range).toContain('mode="range"')
     expect(range).toContain("numberOfMonths={2}")
+    expect(dob).toContain("if (!selectedDate) return")
     expect(dob).toContain("setOpen(false)")
   })
 })
