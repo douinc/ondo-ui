@@ -1,5 +1,11 @@
 # @dou.so/ondo-ui
 
+## 1.6.0
+
+### Minor Changes
+
+- [#37](https://github.com/douinc/ondo-ui/pull/37) [`b311021`](https://github.com/douinc/ondo-ui/commit/b311021ef3b39c1651eb3e32b338dffe255e3a90) Thanks [@initred](https://github.com/initred)! - Add the Date Picker registry composition built from the existing calendar, popover, and form primitives.
+
 ## 1.5.1
 
 ### Patch Changes
