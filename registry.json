@@ -496,6 +496,27 @@
       ]
     },
     {
+      "name": "date-picker",
+      "type": "registry:ui",
+      "description": "A date picker component with range and presets.",
+      "dependencies": [],
+      "registryDependencies": [
+        "@ondo-ui/button",
+        "@ondo-ui/calendar",
+        "@ondo-ui/field",
+        "@ondo-ui/input",
+        "@ondo-ui/input-group",
+        "@ondo-ui/popover",
+        "@ondo-ui/utils"
+      ],
+      "files": [
+        {
+          "path": "components/ui/date-picker.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "desktop-window",
       "type": "registry:ui",
       "description": "Wraps content in static macOS, Windows 11, or Ubuntu window chrome.",

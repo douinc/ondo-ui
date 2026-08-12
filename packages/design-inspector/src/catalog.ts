@@ -19,6 +19,7 @@ export const ONDO_COMPONENT_NAMES = [
   "combobox",
   "command",
   "context-menu",
+  "date-picker",
   "desktop-window",
   "dialog",
   "drawer",
