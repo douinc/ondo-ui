@@ -431,6 +431,12 @@ import { TabsDisabled } from "@/components/demos/tabs-disabled"
 import { TabsIcons } from "@/components/demos/tabs-icons"
 import { TabsLine } from "@/components/demos/tabs-line"
 import { TabsVertical } from "@/components/demos/tabs-vertical"
+import TextDemo from "@/components/demos/text-demo"
+import TextPairing from "@/components/demos/text-pairing"
+import TextRender from "@/components/demos/text-render"
+import TextSizes from "@/components/demos/text-sizes"
+import TextTone from "@/components/demos/text-tone"
+import TextWrap from "@/components/demos/text-wrap"
 import { TextareaButton } from "@/components/demos/textarea-button"
 import { TextareaDemo } from "@/components/demos/textarea-demo"
 import { TextareaDisabled } from "@/components/demos/textarea-disabled"
@@ -901,6 +907,12 @@ export const demos: Record<string, ComponentType> = {
   "tabs-icons": TabsIcons,
   "tabs-line": TabsLine,
   "tabs-vertical": TabsVertical,
+  "text-demo": TextDemo,
+  "text-pairing": TextPairing,
+  "text-render": TextRender,
+  "text-sizes": TextSizes,
+  "text-tone": TextTone,
+  "text-wrap": TextWrap,
   "textarea-button": TextareaButton,
   "textarea-demo": TextareaDemo,
   "textarea-disabled": TextareaDisabled,

@@ -1287,6 +1287,24 @@
       ]
     },
     {
+      "name": "text",
+      "type": "registry:ui",
+      "description": "A paragraph whose size pairs with the matching heading size.",
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "@ondo-ui/utils"
+      ],
+      "files": [
+        {
+          "path": "components/ui/text.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "textarea",
       "type": "registry:ui",
       "description": "Displays a form textarea or a component that looks like a textarea.",

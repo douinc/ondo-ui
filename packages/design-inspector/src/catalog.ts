@@ -64,6 +64,7 @@ export const ONDO_COMPONENT_NAMES = [
   "switch",
   "table",
   "tabs",
+  "text",
   "textarea",
   "timeline",
   "toast",
