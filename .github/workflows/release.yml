@@ -89,11 +89,12 @@ jobs:
         id: changesets
         uses: changesets/action@198f833dd7d863100ea6e28967bc9a9fdefadb0a # v2.1.0
         with:
-          version: bun run release:version
-          publish: bun run release:publish -- --tag latest
-          title: Version Packages
-          commit: Version Packages
-          createGithubReleases: true
+          github-token: ${{ github.token }}
+          version-script: bun run release:version
+          publish-script: bun run release:publish -- --tag latest
+          pr-title: Version Packages
+          commit-message: Version Packages
+          create-github-releases: true
         env:
           GITHUB_TOKEN: ${{ github.token }}
           NPM_CONFIG_PROVENANCE: "true"
