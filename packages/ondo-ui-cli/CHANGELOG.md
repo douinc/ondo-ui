@@ -1,5 +1,11 @@
 # @dou.so/ondo-ui
 
+## 1.7.0
+
+### Minor Changes
+
+- [#43](https://github.com/douinc/ondo-ui/pull/43) [`49a86fe`](https://github.com/douinc/ondo-ui/commit/49a86fe912709c60ed8fc19fbca2199e8fa5bd53) Thanks [@woody-uiux](https://github.com/woody-uiux)! - Add the Paragraph component, whose size pairs with the matching Heading size and supports semantic color variants.
+
 ## 1.6.0
 
 ### Minor Changes
