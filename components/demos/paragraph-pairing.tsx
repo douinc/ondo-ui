@@ -1,9 +1,9 @@
 import { Heading } from "@/components/ui/heading"
-import { Text } from "@/components/ui/text"
+import { Paragraph } from "@/components/ui/paragraph"
 
 const sizes = [1, 2, 3, 4, 5, 6] as const
 
-export default function TextPairing() {
+export default function ParagraphPairing() {
   return (
     <div className="flex w-full max-w-lg flex-col gap-8">
       {sizes.map((size) => (
@@ -14,10 +14,10 @@ export default function TextPairing() {
           <Heading level={2} size={size}>
             Ship a design system
           </Heading>
-          <Text size={size} tone="muted">
+          <Paragraph size={size} tone="muted">
             Every heading size has a paragraph size with the same number, so a
             heading and the copy beneath it stay in proportion.
-          </Text>
+          </Paragraph>
         </div>
       ))}
     </div>

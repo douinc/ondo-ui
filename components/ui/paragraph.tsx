@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
 
-const textVariants = cva("text-foreground", {
+const paragraphVariants = cva("text-foreground", {
   variants: {
     size: {
       1: "text-[1.25rem]/[1.6] tracking-[-0.006em]",
@@ -38,7 +38,7 @@ const textVariants = cva("text-foreground", {
   },
 })
 
-function Text({
+function Paragraph({
   className,
   size,
   weight,
@@ -46,21 +46,24 @@ function Text({
   wrap,
   render,
   ...props
-}: useRender.ComponentProps<"p"> & VariantProps<typeof textVariants>) {
+}: useRender.ComponentProps<"p"> & VariantProps<typeof paragraphVariants>) {
   return useRender({
     defaultTagName: "p",
     props: mergeProps<"p">(
       {
-        className: cn(textVariants({ size, weight, tone, wrap }), className),
+        className: cn(
+          paragraphVariants({ size, weight, tone, wrap }),
+          className
+        ),
       },
       props
     ),
     render,
     state: {
-      slot: "text",
+      slot: "paragraph",
       size: size ?? 4,
     },
   })
 }
 
-export { Text, textVariants }
+export { Paragraph, paragraphVariants }

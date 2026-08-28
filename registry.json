@@ -970,6 +970,24 @@
       ]
     },
     {
+      "name": "paragraph",
+      "type": "registry:ui",
+      "description": "A paragraph whose size pairs with the matching heading size.",
+      "dependencies": [
+        "@base-ui/react",
+        "class-variance-authority"
+      ],
+      "registryDependencies": [
+        "@ondo-ui/utils"
+      ],
+      "files": [
+        {
+          "path": "components/ui/paragraph.tsx",
+          "type": "registry:ui"
+        }
+      ]
+    },
+    {
       "name": "popover",
       "type": "registry:ui",
       "description": "Displays rich content in a portal, triggered by a button.",
@@ -1282,24 +1300,6 @@
       "files": [
         {
           "path": "components/ui/tabs.tsx",
-          "type": "registry:ui"
-        }
-      ]
-    },
-    {
-      "name": "text",
-      "type": "registry:ui",
-      "description": "A paragraph whose size pairs with the matching heading size.",
-      "dependencies": [
-        "@base-ui/react",
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
-      "files": [
-        {
-          "path": "components/ui/text.tsx",
           "type": "registry:ui"
         }
       ]

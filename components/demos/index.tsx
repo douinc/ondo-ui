@@ -316,6 +316,12 @@ import NumberCountFormat from "@/components/demos/number-count-format"
 import PaginationDemo from "@/components/demos/pagination-demo"
 import PaginationIconsOnly from "@/components/demos/pagination-icons-only"
 import PaginationSimple from "@/components/demos/pagination-simple"
+import ParagraphDemo from "@/components/demos/paragraph-demo"
+import ParagraphPairing from "@/components/demos/paragraph-pairing"
+import ParagraphRender from "@/components/demos/paragraph-render"
+import ParagraphSizes from "@/components/demos/paragraph-sizes"
+import ParagraphTone from "@/components/demos/paragraph-tone"
+import ParagraphWrap from "@/components/demos/paragraph-wrap"
 import PopoverAlign from "@/components/demos/popover-align"
 import PopoverBasic from "@/components/demos/popover-basic"
 import PopoverDemo from "@/components/demos/popover-demo"
@@ -431,12 +437,6 @@ import { TabsDisabled } from "@/components/demos/tabs-disabled"
 import { TabsIcons } from "@/components/demos/tabs-icons"
 import { TabsLine } from "@/components/demos/tabs-line"
 import { TabsVertical } from "@/components/demos/tabs-vertical"
-import TextDemo from "@/components/demos/text-demo"
-import TextPairing from "@/components/demos/text-pairing"
-import TextRender from "@/components/demos/text-render"
-import TextSizes from "@/components/demos/text-sizes"
-import TextTone from "@/components/demos/text-tone"
-import TextWrap from "@/components/demos/text-wrap"
 import { TextareaButton } from "@/components/demos/textarea-button"
 import { TextareaDemo } from "@/components/demos/textarea-demo"
 import { TextareaDisabled } from "@/components/demos/textarea-disabled"
@@ -792,6 +792,12 @@ export const demos: Record<string, ComponentType> = {
   "pagination-demo": PaginationDemo,
   "pagination-icons-only": PaginationIconsOnly,
   "pagination-simple": PaginationSimple,
+  "paragraph-demo": ParagraphDemo,
+  "paragraph-pairing": ParagraphPairing,
+  "paragraph-render": ParagraphRender,
+  "paragraph-sizes": ParagraphSizes,
+  "paragraph-tone": ParagraphTone,
+  "paragraph-wrap": ParagraphWrap,
   "popover-align": PopoverAlign,
   "popover-basic": PopoverBasic,
   "popover-demo": PopoverDemo,
@@ -907,12 +913,6 @@ export const demos: Record<string, ComponentType> = {
   "tabs-icons": TabsIcons,
   "tabs-line": TabsLine,
   "tabs-vertical": TabsVertical,
-  "text-demo": TextDemo,
-  "text-pairing": TextPairing,
-  "text-render": TextRender,
-  "text-sizes": TextSizes,
-  "text-tone": TextTone,
-  "text-wrap": TextWrap,
   "textarea-button": TextareaButton,
   "textarea-demo": TextareaDemo,
   "textarea-disabled": TextareaDisabled,

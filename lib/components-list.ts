@@ -380,6 +380,14 @@ export const componentsList = [
     },
   },
   {
+    name: "paragraph",
+    title: "Paragraph",
+    description: {
+      en: "A paragraph whose size pairs with the matching heading size.",
+      ko: "같은 번호의 제목 크기와 짝을 이루는 본문 문단 컴포넌트입니다.",
+    },
+  },
+  {
     name: "popover",
     title: "Popover",
     description: {
@@ -521,14 +529,6 @@ export const componentsList = [
     description: {
       en: "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
       ko: "계층화된 콘텐츠 섹션(탭 패널이라고 함) 세트로, 한 번에 하나씩 표시됩니다.",
-    },
-  },
-  {
-    name: "text",
-    title: "Text",
-    description: {
-      en: "A paragraph whose size pairs with the matching heading size.",
-      ko: "같은 번호의 제목 크기와 짝을 이루는 본문 문단 컴포넌트입니다.",
     },
   },
   {

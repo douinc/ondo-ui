@@ -1,24 +1,24 @@
 ---
-title: Text
+title: Paragraph
 description: A paragraph whose size pairs with the matching heading size.
 ---
 
-<ComponentPreview name="text-demo">
+<ComponentPreview name="paragraph-demo">
 
 ```tsx
 import { Heading } from "@/components/ui/heading"
-import { Text } from "@/components/ui/text"
+import { Paragraph } from "@/components/ui/paragraph"
 
-export default function TextDemo() {
+export default function ParagraphDemo() {
   return (
     <div className="flex w-full max-w-md flex-col gap-3">
       <Heading level={2} size={2}>
         Build faster with ondo
       </Heading>
-      <Text size={2} tone="muted">
+      <Paragraph size={2} tone="muted">
         Components you own, styled with your own theme tokens. Copy them in,
         keep the code, change whatever you need.
-      </Text>
+      </Paragraph>
     </div>
   )
 }
@@ -27,7 +27,7 @@ export default function TextDemo() {
 </ComponentPreview>
 
 <Callout>
-  `Text` is for application UI, the same as [`Heading`](/docs/components/heading).
+  `Paragraph` is for application UI, the same as [`Heading`](/docs/components/heading).
   Rendered markdown and MDX already get their paragraph styles from the
   `typeset` layer, so you do not need this component inside prose.
 </Callout>
@@ -35,24 +35,24 @@ export default function TextDemo() {
 ## Installation
 
 ```bash
-bunx shadcn@latest add @ondo-ui/text
+bunx shadcn@latest add @ondo-ui/paragraph
 ```
 
 ## Usage
 
 ```tsx
-import { Text } from "@/components/ui/text"
+import { Paragraph } from "@/components/ui/paragraph"
 ```
 
 ```tsx
-<Text
+<Paragraph
   size="1 | 2 | 3 | 4 | 5 | 6"
   weight="normal | medium | semibold"
   tone="default | muted"
   wrap="normal | nowrap | balance | pretty"
 >
   Paragraph
-</Text>
+</Paragraph>
 ```
 
 `size` picks a step on the body scale. Each step matches the `Heading` step
@@ -66,20 +66,20 @@ number.
 `1` is the largest and `6` the smallest. `4` is the default and the one to
 reach for in body copy.
 
-<ComponentPreview name="text-sizes">
+<ComponentPreview name="paragraph-sizes">
 
 ```tsx
-import { Text } from "@/components/ui/text"
+import { Paragraph } from "@/components/ui/paragraph"
 
-export default function TextSizes() {
+export default function ParagraphSizes() {
   return (
     <div className="flex w-full max-w-md flex-col gap-5">
-      <Text size={1}>Size 1 — a lede paragraph under a hero heading.</Text>
-      <Text size={2}>Size 2 — an intro paragraph for a section.</Text>
-      <Text size={3}>Size 3 — a slightly larger body paragraph.</Text>
-      <Text size={4}>Size 4 — the default body paragraph.</Text>
-      <Text size={5}>Size 5 — supporting copy inside dense UI.</Text>
-      <Text size={6}>Size 6 — captions, hints, and metadata.</Text>
+      <Paragraph size={1}>Size 1 — a lede paragraph under a hero heading.</Paragraph>
+      <Paragraph size={2}>Size 2 — an intro paragraph for a section.</Paragraph>
+      <Paragraph size={3}>Size 3 — a slightly larger body paragraph.</Paragraph>
+      <Paragraph size={4}>Size 4 — the default body paragraph.</Paragraph>
+      <Paragraph size={5}>Size 5 — supporting copy inside dense UI.</Paragraph>
+      <Paragraph size={6}>Size 6 — captions, hints, and metadata.</Paragraph>
     </div>
   )
 }
@@ -90,17 +90,17 @@ export default function TextSizes() {
 ### Pairing with a heading
 
 The two scales are numbered together. Passing the same `size` to `Heading` and
-`Text` keeps the title and its copy in proportion at every step.
+`Paragraph` keeps the title and its copy in proportion at every step.
 
-<ComponentPreview name="text-pairing">
+<ComponentPreview name="paragraph-pairing">
 
 ```tsx
 import { Heading } from "@/components/ui/heading"
-import { Text } from "@/components/ui/text"
+import { Paragraph } from "@/components/ui/paragraph"
 
 const sizes = [1, 2, 3, 4, 5, 6] as const
 
-export default function TextPairing() {
+export default function ParagraphPairing() {
   return (
     <div className="flex w-full max-w-lg flex-col gap-8">
       {sizes.map((size) => (
@@ -108,10 +108,10 @@ export default function TextPairing() {
           <Heading level={2} size={size}>
             Ship a design system
           </Heading>
-          <Text size={size} tone="muted">
+          <Paragraph size={size} tone="muted">
             Every heading size has a paragraph size with the same number, so a
             heading and the copy beneath it stay in proportion.
-          </Text>
+          </Paragraph>
         </div>
       ))}
     </div>
@@ -126,20 +126,20 @@ export default function TextPairing() {
 `tone` switches between the foreground colour and the muted one. `weight` adds
 emphasis without changing the size.
 
-<ComponentPreview name="text-tone">
+<ComponentPreview name="paragraph-tone">
 
 ```tsx
-import { Text } from "@/components/ui/text"
+import { Paragraph } from "@/components/ui/paragraph"
 
-export default function TextTone() {
+export default function ParagraphTone() {
   return (
     <div className="flex w-full max-w-md flex-col gap-6">
-      <Text>The paragraph a reader is meant to read first.</Text>
-      <Text tone="muted">
+      <Paragraph>The paragraph a reader is meant to read first.</Paragraph>
+      <Paragraph tone="muted">
         Supporting copy that should stay in the background.
-      </Text>
-      <Text weight="medium">A paragraph carrying a little more weight.</Text>
-      <Text weight="semibold">A lead-in line that introduces a list.</Text>
+      </Paragraph>
+      <Paragraph weight="medium">A paragraph carrying a little more weight.</Paragraph>
+      <Paragraph weight="semibold">A lead-in line that introduces a list.</Paragraph>
     </div>
   )
 }
@@ -154,22 +154,22 @@ which fills lines normally and only tidies the last one so a final word is not
 left alone. `balance` evens out every line instead, which suits short blocks
 rather than running copy.
 
-<ComponentPreview name="text-wrap">
+<ComponentPreview name="paragraph-wrap">
 
 ```tsx
-import { Text } from "@/components/ui/text"
+import { Paragraph } from "@/components/ui/paragraph"
 
-export default function TextWrap() {
+export default function ParagraphWrap() {
   return (
     <div className="flex w-full max-w-[20rem] flex-col gap-6">
-      <Text>
+      <Paragraph>
         A paragraph wrapped with pretty fills every line normally and only
         tidies the last one, so no single word is left stranded.
-      </Text>
-      <Text wrap="balance">
+      </Paragraph>
+      <Paragraph wrap="balance">
         A paragraph wrapped with balance evens out every line, which suits
         short blocks such as a single callout sentence.
-      </Text>
+      </Paragraph>
     </div>
   )
 }
@@ -183,20 +183,20 @@ Use the `render` prop when the markup needs a different element — a `span`
 inside another paragraph, or a `figcaption` under an image — but you still want
 the body scale.
 
-<ComponentPreview name="text-render">
+<ComponentPreview name="paragraph-render">
 
 ```tsx
-import { Text } from "@/components/ui/text"
+import { Paragraph } from "@/components/ui/paragraph"
 
-export default function TextRender() {
+export default function ParagraphRender() {
   return (
     <div className="flex w-full max-w-md flex-col gap-3">
-      <Text size={5} tone="muted" render={<span />}>
+      <Paragraph size={5} tone="muted" render={<span />}>
         Rendered as a span, for copy that sits inside another paragraph.
-      </Text>
-      <Text size={6} tone="muted" render={<figcaption />}>
+      </Paragraph>
+      <Paragraph size={6} tone="muted" render={<figcaption />}>
         Rendered as a figcaption, for an image credit.
-      </Text>
+      </Paragraph>
     </div>
   )
 }
@@ -206,7 +206,7 @@ export default function TextRender() {
 
 ## API reference
 
-### Text
+### Paragraph
 
 Renders a `p` element styled from the body scale.
 
