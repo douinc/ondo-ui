@@ -15,7 +15,7 @@ export default function ParagraphDemo() {
       <Heading level={2} size={2}>
         ondo로 더 빠르게 만드세요
       </Heading>
-      <Paragraph size={2} tone="muted">
+      <Paragraph size={2} variant="muted">
         직접 소유하는 컴포넌트를 내 테마 토큰으로 스타일링합니다. 복사해 넣고,
         코드를 그대로 가진 채, 필요한 부분만 바꾸면 됩니다.
       </Paragraph>
@@ -27,8 +27,8 @@ export default function ParagraphDemo() {
 </ComponentPreview>
 
 <Callout>
-  `Paragraph`는 [`Heading`](/docs/components/heading)과 마찬가지로 애플리케이션 UI를
-  위한 컴포넌트입니다. 마크다운과 MDX로 렌더링되는 본문은 이미 `typeset`
+  `Paragraph`는 [`Heading`](/docs/components/heading)과 마찬가지로 애플리케이션
+  UI를 위한 컴포넌트입니다. 마크다운과 MDX로 렌더링되는 본문은 이미 `typeset`
   레이어에서 문단 스타일을 받으므로, 프로즈 안에서는 필요하지 않습니다.
 </Callout>
 
@@ -47,8 +47,7 @@ import { Paragraph } from "@/components/ui/paragraph"
 ```tsx
 <Paragraph
   size="1 | 2 | 3 | 4 | 5 | 6"
-  weight="normal | medium | semibold"
-  tone="default | muted"
+  variant="default | primary | secondary | muted | info | success | warning | danger"
   wrap="normal | nowrap | balance | pretty"
 >
   본문
@@ -73,11 +72,15 @@ import { Paragraph } from "@/components/ui/paragraph"
 export default function ParagraphSizes() {
   return (
     <div className="flex w-full max-w-md flex-col gap-5">
-      <Paragraph size={1}>크기 1 — 히어로 제목 아래에 놓는 리드 문단입니다.</Paragraph>
+      <Paragraph size={1}>
+        크기 1 — 히어로 제목 아래에 놓는 리드 문단입니다.
+      </Paragraph>
       <Paragraph size={2}>크기 2 — 섹션을 여는 도입 문단입니다.</Paragraph>
       <Paragraph size={3}>크기 3 — 조금 더 큰 본문 문단입니다.</Paragraph>
       <Paragraph size={4}>크기 4 — 기본 본문 문단입니다.</Paragraph>
-      <Paragraph size={5}>크기 5 — 정보 밀도가 높은 UI의 보조 문구입니다.</Paragraph>
+      <Paragraph size={5}>
+        크기 5 — 정보 밀도가 높은 UI의 보조 문구입니다.
+      </Paragraph>
       <Paragraph size={6}>크기 6 — 캡션, 힌트, 메타 정보용입니다.</Paragraph>
     </div>
   )
@@ -107,7 +110,7 @@ export default function ParagraphPairing() {
           <Heading level={2} size={size}>
             디자인 시스템 출시하기
           </Heading>
-          <Paragraph size={size} tone="muted">
+          <Paragraph size={size} variant="muted">
             모든 제목 크기에는 같은 번호의 본문 크기가 있어서, 제목과 그 아래
             문구가 언제나 비율을 유지합니다.
           </Paragraph>
@@ -120,23 +123,39 @@ export default function ParagraphPairing() {
 
 </ComponentPreview>
 
-### 색과 굵기
+### 색상 변형
 
-`tone`은 기본 전경색과 흐린 색 사이를 전환합니다. `weight`는 크기를 바꾸지 않고
-강조만 더합니다.
+`variant`는 문단의 글자 색을 바꿉니다. `danger` 변형은 테마의
+`destructive` 색상 토큰을 사용합니다. 굵기를 조정할 때는
+`className="font-medium"`처럼 Tailwind 글꼴 유틸리티를 사용합니다.
 
-<ComponentPreview name="paragraph-tone">
+<ComponentPreview name="paragraph-variants">
 
 ```tsx
 import { Paragraph } from "@/components/ui/paragraph"
 
-export default function ParagraphTone() {
+const variants = [
+  "default",
+  "primary",
+  "secondary",
+  "muted",
+  "info",
+  "success",
+  "warning",
+  "danger",
+] as const
+
+export default function ParagraphVariants() {
   return (
     <div className="flex w-full max-w-md flex-col gap-6">
-      <Paragraph>먼저 읽히길 바라는 문단입니다.</Paragraph>
-      <Paragraph tone="muted">뒤로 물러나 있어야 하는 보조 문구입니다.</Paragraph>
-      <Paragraph weight="medium">조금 더 무게를 실은 문단입니다.</Paragraph>
-      <Paragraph weight="semibold">목록을 여는 도입 문장입니다.</Paragraph>
+      {variants.map((variant) => (
+        <div key={variant} className="flex flex-col gap-2">
+          <span className="font-mono text-xs text-muted-foreground">
+            variant=&quot;{variant}&quot;
+          </span>
+          <Paragraph variant={variant}>{variant} 변형 문단입니다.</Paragraph>
+        </div>
+      ))}
     </div>
   )
 }
@@ -164,8 +183,8 @@ export default function ParagraphWrap() {
         단어 하나가 홀로 남지 않습니다.
       </Paragraph>
       <Paragraph wrap="balance">
-        balance로 줄을 넘긴 문단은 모든 줄의 길이를 고르게 맞추므로 짧은
-        콜아웃 한 문장 같은 덩어리에 어울립니다.
+        balance로 줄을 넘긴 문단은 모든 줄의 길이를 고르게 맞추므로 짧은 콜아웃
+        한 문장 같은 덩어리에 어울립니다.
       </Paragraph>
     </div>
   )
@@ -187,10 +206,10 @@ import { Paragraph } from "@/components/ui/paragraph"
 export default function ParagraphRender() {
   return (
     <div className="flex w-full max-w-md flex-col gap-3">
-      <Paragraph size={5} tone="muted" render={<span />}>
+      <Paragraph size={5} variant="muted" render={<span />}>
         다른 문단 안에 들어가는 문구라 span으로 렌더링했습니다.
       </Paragraph>
-      <Paragraph size={6} tone="muted" render={<figcaption />}>
+      <Paragraph size={6} variant="muted" render={<figcaption />}>
         이미지 출처 표기라 figcaption으로 렌더링했습니다.
       </Paragraph>
     </div>
@@ -206,14 +225,13 @@ export default function ParagraphRender() {
 
 본문 스케일 스타일이 적용된 `p` 요소를 렌더링합니다.
 
-| Prop        | 타입                                            | 기본값    |
-| ----------- | ----------------------------------------------- | --------- |
-| `size`      | `1 \| 2 \| 3 \| 4 \| 5 \| 6`                    | `4`       |
-| `weight`    | `"normal" \| "medium" \| "semibold"`            | `normal`  |
-| `tone`      | `"default" \| "muted"`                          | `default` |
-| `wrap`      | `"normal" \| "nowrap" \| "balance" \| "pretty"` | `pretty`  |
-| `render`    | `ReactElement \| (props, state) => ReactElement` | -         |
-| `className` | `string`                                        | -         |
+| Prop        | 타입                                                                                               | 기본값    |
+| ----------- | -------------------------------------------------------------------------------------------------- | --------- |
+| `size`      | `1 \| 2 \| 3 \| 4 \| 5 \| 6`                                                                       | `4`       |
+| `variant`   | `"default" \| "primary" \| "secondary" \| "muted" \| "info" \| "success" \| "warning" \| "danger"` | `default` |
+| `wrap`      | `"normal" \| "nowrap" \| "balance" \| "pretty"`                                                    | `pretty`  |
+| `render`    | `ReactElement \| (props, state) => ReactElement`                                                   | -         |
+| `className` | `string`                                                                                           | -         |
 
 ### 스케일
 
@@ -226,5 +244,6 @@ export default function ParagraphRender() {
 | `5`  | `text-[0.9375rem]/[1.6] tracking-[0.002em]`   | `1.25rem`      |
 | `6`  | `text-[0.875rem]/[1.6] tracking-[0.004em]`    | `1.125rem`     |
 
-모든 크기에는 `tone`의 색, `weight`의 굵기, `wrap`의 줄바꿈 유틸리티(기본값
-`text-pretty`)가 함께 적용됩니다.
+모든 크기에는 `variant`의 색과 `wrap`의 줄바꿈 유틸리티(기본값
+`text-pretty`)가 적용됩니다. 굵기는 `className`에 Tailwind 글꼴 유틸리티를
+추가해 조정합니다.

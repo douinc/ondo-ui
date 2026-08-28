@@ -14,14 +14,15 @@ const paragraphVariants = cva("text-foreground", {
       5: "text-[0.9375rem]/[1.6] tracking-[0.002em]",
       6: "text-[0.875rem]/[1.6] tracking-[0.004em]",
     },
-    weight: {
-      normal: "font-normal",
-      medium: "font-medium",
-      semibold: "font-semibold",
-    },
-    tone: {
+    variant: {
       default: "text-foreground",
+      primary: "text-primary",
+      secondary: "text-secondary-foreground",
       muted: "text-muted-foreground",
+      info: "text-info",
+      success: "text-success",
+      warning: "text-warning",
+      danger: "text-destructive",
     },
     wrap: {
       normal: "text-wrap",
@@ -32,8 +33,7 @@ const paragraphVariants = cva("text-foreground", {
   },
   defaultVariants: {
     size: 4,
-    weight: "normal",
-    tone: "default",
+    variant: "default",
     wrap: "pretty",
   },
 })
@@ -41,8 +41,7 @@ const paragraphVariants = cva("text-foreground", {
 function Paragraph({
   className,
   size,
-  weight,
-  tone,
+  variant = "default",
   wrap,
   render,
   ...props
@@ -51,10 +50,7 @@ function Paragraph({
     defaultTagName: "p",
     props: mergeProps<"p">(
       {
-        className: cn(
-          paragraphVariants({ size, weight, tone, wrap }),
-          className
-        ),
+        className: cn(paragraphVariants({ size, variant, wrap }), className),
       },
       props
     ),
@@ -62,6 +58,7 @@ function Paragraph({
     state: {
       slot: "paragraph",
       size: size ?? 4,
+      variant,
     },
   })
 }

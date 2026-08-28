@@ -3,7 +3,7 @@ import { Paragraph } from "@/components/ui/paragraph"
 
 const sizes = [1, 2, 3, 4, 5, 6] as const
 
-export default function ParagraphPairing() {
+export default function HeadingPairing() {
   return (
     <div className="flex w-full max-w-lg flex-col gap-8">
       {sizes.map((size) => (

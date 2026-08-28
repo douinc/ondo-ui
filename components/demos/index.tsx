@@ -200,6 +200,7 @@ import FrameStackedPanels from "@/components/demos/frame-stacked-panels"
 import HeadingDemo from "@/components/demos/heading-demo"
 import HeadingLevelAndSize from "@/components/demos/heading-level-and-size"
 import HeadingLevels from "@/components/demos/heading-levels"
+import HeadingPairing from "@/components/demos/heading-pairing"
 import HeadingRender from "@/components/demos/heading-render"
 import HeadingSizes from "@/components/demos/heading-sizes"
 import HeadingWrap from "@/components/demos/heading-wrap"
@@ -320,7 +321,7 @@ import ParagraphDemo from "@/components/demos/paragraph-demo"
 import ParagraphPairing from "@/components/demos/paragraph-pairing"
 import ParagraphRender from "@/components/demos/paragraph-render"
 import ParagraphSizes from "@/components/demos/paragraph-sizes"
-import ParagraphTone from "@/components/demos/paragraph-tone"
+import ParagraphVariants from "@/components/demos/paragraph-variants"
 import ParagraphWrap from "@/components/demos/paragraph-wrap"
 import PopoverAlign from "@/components/demos/popover-align"
 import PopoverBasic from "@/components/demos/popover-basic"
@@ -676,6 +677,7 @@ export const demos: Record<string, ComponentType> = {
   "heading-demo": HeadingDemo,
   "heading-level-and-size": HeadingLevelAndSize,
   "heading-levels": HeadingLevels,
+  "heading-pairing": HeadingPairing,
   "heading-render": HeadingRender,
   "heading-sizes": HeadingSizes,
   "heading-wrap": HeadingWrap,
@@ -796,7 +798,7 @@ export const demos: Record<string, ComponentType> = {
   "paragraph-pairing": ParagraphPairing,
   "paragraph-render": ParagraphRender,
   "paragraph-sizes": ParagraphSizes,
-  "paragraph-tone": ParagraphTone,
+  "paragraph-variants": ParagraphVariants,
   "paragraph-wrap": ParagraphWrap,
   "popover-align": PopoverAlign,
   "popover-basic": PopoverBasic,
