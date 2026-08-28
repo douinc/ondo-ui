@@ -1,0 +1,252 @@
+---
+title: Paragraph
+description: A paragraph whose size pairs with the matching heading size.
+---
+
+<ComponentPreview name="paragraph-demo">
+
+```tsx
+import { Heading } from "@/components/ui/heading"
+import { Paragraph } from "@/components/ui/paragraph"
+
+export default function ParagraphDemo() {
+  return (
+    <div className="flex w-full max-w-md flex-col gap-3">
+      <Heading level={2} size={2}>
+        Build faster with ondo
+      </Heading>
+      <Paragraph size={2} variant="muted">
+        Components you own, styled with your own theme tokens. Copy them in,
+        keep the code, change whatever you need.
+      </Paragraph>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+<Callout>
+  `Paragraph` is for application UI, the same as
+  [`Heading`](/docs/components/heading). Rendered markdown and MDX already get
+  their paragraph styles from the `typeset` layer, so you do not need this
+  component inside prose.
+</Callout>
+
+## Installation
+
+```bash
+bunx shadcn@latest add @ondo-ui/paragraph
+```
+
+## Usage
+
+```tsx
+import { Paragraph } from "@/components/ui/paragraph"
+```
+
+```tsx
+<Paragraph
+  size="1 | 2 | 3 | 4 | 5 | 6"
+  variant="default | primary | secondary | muted | info | success | warning | danger"
+  wrap="normal | nowrap | balance | pretty"
+>
+  Paragraph
+</Paragraph>
+```
+
+`size` picks a step on the body scale. Each step matches the `Heading` step
+with the same number, so a heading and the paragraph under it can share one
+number.
+
+## Examples
+
+### Sizes
+
+`1` is the largest and `6` the smallest. `4` is the default and the one to
+reach for in body copy.
+
+<ComponentPreview name="paragraph-sizes">
+
+```tsx
+import { Paragraph } from "@/components/ui/paragraph"
+
+export default function ParagraphSizes() {
+  return (
+    <div className="flex w-full max-w-md flex-col gap-5">
+      <Paragraph size={1}>
+        Size 1 — a lede paragraph under a hero heading.
+      </Paragraph>
+      <Paragraph size={2}>Size 2 — an intro paragraph for a section.</Paragraph>
+      <Paragraph size={3}>Size 3 — a slightly larger body paragraph.</Paragraph>
+      <Paragraph size={4}>Size 4 — the default body paragraph.</Paragraph>
+      <Paragraph size={5}>Size 5 — supporting copy inside dense UI.</Paragraph>
+      <Paragraph size={6}>Size 6 — captions, hints, and metadata.</Paragraph>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Pairing with a heading
+
+The two scales are numbered together. Passing the same `size` to `Heading` and
+`Paragraph` keeps the title and its copy in proportion at every step.
+
+<ComponentPreview name="paragraph-pairing">
+
+```tsx
+import { Heading } from "@/components/ui/heading"
+import { Paragraph } from "@/components/ui/paragraph"
+
+const sizes = [1, 2, 3, 4, 5, 6] as const
+
+export default function ParagraphPairing() {
+  return (
+    <div className="flex w-full max-w-lg flex-col gap-8">
+      {sizes.map((size) => (
+        <div key={size} className="flex flex-col gap-2">
+          <Heading level={2} size={size}>
+            Ship a design system
+          </Heading>
+          <Paragraph size={size} variant="muted">
+            Every heading size has a paragraph size with the same number, so a
+            heading and the copy beneath it stay in proportion.
+          </Paragraph>
+        </div>
+      ))}
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Variants
+
+`variant` changes the text colour. The `danger` variant uses the theme's
+destructive colour token. Use Tailwind font utilities through `className` when
+you need to adjust the weight, such as `className="font-medium"`.
+
+<ComponentPreview name="paragraph-variants">
+
+```tsx
+import { Paragraph } from "@/components/ui/paragraph"
+
+const variants = [
+  "default",
+  "primary",
+  "secondary",
+  "muted",
+  "info",
+  "success",
+  "warning",
+  "danger",
+] as const
+
+export default function ParagraphVariants() {
+  return (
+    <div className="flex w-full max-w-md flex-col gap-6">
+      {variants.map((variant) => (
+        <div key={variant} className="flex flex-col gap-2">
+          <span className="font-mono text-xs text-muted-foreground">
+            variant=&quot;{variant}&quot;
+          </span>
+          <Paragraph variant={variant}>
+            The {variant} paragraph variant.
+          </Paragraph>
+        </div>
+      ))}
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Wrap
+
+`wrap` controls how the text breaks across lines and defaults to `pretty`,
+which fills lines normally and only tidies the last one so a final word is not
+left alone. `balance` evens out every line instead, which suits short blocks
+rather than running copy.
+
+<ComponentPreview name="paragraph-wrap">
+
+```tsx
+import { Paragraph } from "@/components/ui/paragraph"
+
+export default function ParagraphWrap() {
+  return (
+    <div className="flex w-full max-w-[20rem] flex-col gap-6">
+      <Paragraph>
+        A paragraph wrapped with pretty fills every line normally and only
+        tidies the last one, so no single word is left stranded.
+      </Paragraph>
+      <Paragraph wrap="balance">
+        A paragraph wrapped with balance evens out every line, which suits short
+        blocks such as a single callout sentence.
+      </Paragraph>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Custom element
+
+Use the `render` prop when the markup needs a different element — a `span`
+inside another paragraph, or a `figcaption` under an image — but you still want
+the body scale.
+
+<ComponentPreview name="paragraph-render">
+
+```tsx
+import { Paragraph } from "@/components/ui/paragraph"
+
+export default function ParagraphRender() {
+  return (
+    <div className="flex w-full max-w-md flex-col gap-3">
+      <Paragraph size={5} variant="muted" render={<span />}>
+        Rendered as a span, for copy that sits inside another paragraph.
+      </Paragraph>
+      <Paragraph size={6} variant="muted" render={<figcaption />}>
+        Rendered as a figcaption, for an image credit.
+      </Paragraph>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API reference
+
+### Paragraph
+
+Renders a `p` element styled from the body scale.
+
+| Prop        | Type                                                                                               | Default   |
+| ----------- | -------------------------------------------------------------------------------------------------- | --------- |
+| `size`      | `1 \| 2 \| 3 \| 4 \| 5 \| 6`                                                                       | `4`       |
+| `variant`   | `"default" \| "primary" \| "secondary" \| "muted" \| "info" \| "success" \| "warning" \| "danger"` | `default` |
+| `wrap`      | `"normal" \| "nowrap" \| "balance" \| "pretty"`                                                    | `pretty`  |
+| `render`    | `ReactElement \| (props, state) => ReactElement`                                                   | -         |
+| `className` | `string`                                                                                           | -         |
+
+### Scale
+
+| Size | Classes                                       | Pairs with heading |
+| ---- | --------------------------------------------- | ------------------ |
+| `1`  | `text-[1.25rem]/[1.6] tracking-[-0.006em]`    | `2.25rem`          |
+| `2`  | `text-[1.125rem]/[1.6] tracking-[-0.004em]`   | `1.75rem`          |
+| `3`  | `text-[1.0625rem]/[1.65] tracking-[-0.002em]` | `1.5rem`           |
+| `4`  | `text-[1rem]/[1.65]`                          | `1.375rem`         |
+| `5`  | `text-[0.9375rem]/[1.6] tracking-[0.002em]`   | `1.25rem`          |
+| `6`  | `text-[0.875rem]/[1.6] tracking-[0.004em]`    | `1.125rem`         |
+
+Every size gets a colour from `variant` and a wrap utility from `wrap`
+(`text-pretty` by default). Use `className` with Tailwind font utilities for
+weight.

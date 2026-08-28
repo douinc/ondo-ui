@@ -1,0 +1,249 @@
+---
+title: Paragraph (문단)
+description: 같은 번호의 제목 크기와 짝을 이루는 본문 문단 컴포넌트입니다.
+---
+
+<ComponentPreview name="paragraph-demo">
+
+```tsx
+import { Heading } from "@/components/ui/heading"
+import { Paragraph } from "@/components/ui/paragraph"
+
+export default function ParagraphDemo() {
+  return (
+    <div className="flex w-full max-w-md flex-col gap-3">
+      <Heading level={2} size={2}>
+        ondo로 더 빠르게 만드세요
+      </Heading>
+      <Paragraph size={2} variant="muted">
+        직접 소유하는 컴포넌트를 내 테마 토큰으로 스타일링합니다. 복사해 넣고,
+        코드를 그대로 가진 채, 필요한 부분만 바꾸면 됩니다.
+      </Paragraph>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+<Callout>
+  `Paragraph`는 [`Heading`](/docs/components/heading)과 마찬가지로 애플리케이션
+  UI를 위한 컴포넌트입니다. 마크다운과 MDX로 렌더링되는 본문은 이미 `typeset`
+  레이어에서 문단 스타일을 받으므로, 프로즈 안에서는 필요하지 않습니다.
+</Callout>
+
+## 설치
+
+```bash
+bunx shadcn@latest add @ondo-ui/paragraph
+```
+
+## 사용법
+
+```tsx
+import { Paragraph } from "@/components/ui/paragraph"
+```
+
+```tsx
+<Paragraph
+  size="1 | 2 | 3 | 4 | 5 | 6"
+  variant="default | primary | secondary | muted | info | success | warning | danger"
+  wrap="normal | nowrap | balance | pretty"
+>
+  본문
+</Paragraph>
+```
+
+`size`는 본문 스케일의 단계를 고릅니다. 각 단계는 같은 번호의 `Heading` 단계와
+짝을 이루므로, 제목과 그 아래 문단에 같은 번호를 넘기면 됩니다.
+
+## 예제
+
+### 크기
+
+`1`이 가장 크고 `6`이 가장 작습니다. 기본값은 `4`이며, 일반 본문에는 이 값을
+쓰면 됩니다.
+
+<ComponentPreview name="paragraph-sizes">
+
+```tsx
+import { Paragraph } from "@/components/ui/paragraph"
+
+export default function ParagraphSizes() {
+  return (
+    <div className="flex w-full max-w-md flex-col gap-5">
+      <Paragraph size={1}>
+        크기 1 — 히어로 제목 아래에 놓는 리드 문단입니다.
+      </Paragraph>
+      <Paragraph size={2}>크기 2 — 섹션을 여는 도입 문단입니다.</Paragraph>
+      <Paragraph size={3}>크기 3 — 조금 더 큰 본문 문단입니다.</Paragraph>
+      <Paragraph size={4}>크기 4 — 기본 본문 문단입니다.</Paragraph>
+      <Paragraph size={5}>
+        크기 5 — 정보 밀도가 높은 UI의 보조 문구입니다.
+      </Paragraph>
+      <Paragraph size={6}>크기 6 — 캡션, 힌트, 메타 정보용입니다.</Paragraph>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 제목과 짝 맞추기
+
+두 스케일은 같은 번호로 이어져 있습니다. `Heading`과 `Paragraph`에 같은 `size`를
+넘기면 제목과 본문의 비율이 어느 단계에서든 유지됩니다.
+
+<ComponentPreview name="paragraph-pairing">
+
+```tsx
+import { Heading } from "@/components/ui/heading"
+import { Paragraph } from "@/components/ui/paragraph"
+
+const sizes = [1, 2, 3, 4, 5, 6] as const
+
+export default function ParagraphPairing() {
+  return (
+    <div className="flex w-full max-w-lg flex-col gap-8">
+      {sizes.map((size) => (
+        <div key={size} className="flex flex-col gap-2">
+          <Heading level={2} size={size}>
+            디자인 시스템 출시하기
+          </Heading>
+          <Paragraph size={size} variant="muted">
+            모든 제목 크기에는 같은 번호의 본문 크기가 있어서, 제목과 그 아래
+            문구가 언제나 비율을 유지합니다.
+          </Paragraph>
+        </div>
+      ))}
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 색상 변형
+
+`variant`는 문단의 글자 색을 바꿉니다. `danger` 변형은 테마의
+`destructive` 색상 토큰을 사용합니다. 굵기를 조정할 때는
+`className="font-medium"`처럼 Tailwind 글꼴 유틸리티를 사용합니다.
+
+<ComponentPreview name="paragraph-variants">
+
+```tsx
+import { Paragraph } from "@/components/ui/paragraph"
+
+const variants = [
+  "default",
+  "primary",
+  "secondary",
+  "muted",
+  "info",
+  "success",
+  "warning",
+  "danger",
+] as const
+
+export default function ParagraphVariants() {
+  return (
+    <div className="flex w-full max-w-md flex-col gap-6">
+      {variants.map((variant) => (
+        <div key={variant} className="flex flex-col gap-2">
+          <span className="font-mono text-xs text-muted-foreground">
+            variant=&quot;{variant}&quot;
+          </span>
+          <Paragraph variant={variant}>{variant} 변형 문단입니다.</Paragraph>
+        </div>
+      ))}
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 줄바꿈
+
+`wrap`은 텍스트가 줄을 넘기는 방식을 정하며 기본값은 `pretty`입니다. 줄은
+평소대로 채우고 마지막 줄만 정리해서 단어 하나만 남는 일을 막습니다.
+`balance`는 모든 줄의 길이를 고르게 맞추므로, 긴 본문보다는 짧은 덩어리에
+어울립니다.
+
+<ComponentPreview name="paragraph-wrap">
+
+```tsx
+import { Paragraph } from "@/components/ui/paragraph"
+
+export default function ParagraphWrap() {
+  return (
+    <div className="flex w-full max-w-[20rem] flex-col gap-6">
+      <Paragraph>
+        pretty로 줄을 넘긴 문단은 줄을 평소대로 채우고 마지막 줄만 정리해서,
+        단어 하나가 홀로 남지 않습니다.
+      </Paragraph>
+      <Paragraph wrap="balance">
+        balance로 줄을 넘긴 문단은 모든 줄의 길이를 고르게 맞추므로 짧은 콜아웃
+        한 문장 같은 덩어리에 어울립니다.
+      </Paragraph>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### 다른 요소로 렌더링
+
+문단 안에 들어가는 `span`이나 이미지 아래의 `figcaption`처럼 마크업은 다른
+요소여야 하지만 본문 스케일은 그대로 쓰고 싶을 때 `render` prop을 사용합니다.
+
+<ComponentPreview name="paragraph-render">
+
+```tsx
+import { Paragraph } from "@/components/ui/paragraph"
+
+export default function ParagraphRender() {
+  return (
+    <div className="flex w-full max-w-md flex-col gap-3">
+      <Paragraph size={5} variant="muted" render={<span />}>
+        다른 문단 안에 들어가는 문구라 span으로 렌더링했습니다.
+      </Paragraph>
+      <Paragraph size={6} variant="muted" render={<figcaption />}>
+        이미지 출처 표기라 figcaption으로 렌더링했습니다.
+      </Paragraph>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+## API 참조
+
+### Paragraph
+
+본문 스케일 스타일이 적용된 `p` 요소를 렌더링합니다.
+
+| Prop        | 타입                                                                                               | 기본값    |
+| ----------- | -------------------------------------------------------------------------------------------------- | --------- |
+| `size`      | `1 \| 2 \| 3 \| 4 \| 5 \| 6`                                                                       | `4`       |
+| `variant`   | `"default" \| "primary" \| "secondary" \| "muted" \| "info" \| "success" \| "warning" \| "danger"` | `default` |
+| `wrap`      | `"normal" \| "nowrap" \| "balance" \| "pretty"`                                                    | `pretty`  |
+| `render`    | `ReactElement \| (props, state) => ReactElement`                                                   | -         |
+| `className` | `string`                                                                                           | -         |
+
+### 스케일
+
+| 크기 | 클래스                                        | 짝이 되는 제목 |
+| ---- | --------------------------------------------- | -------------- |
+| `1`  | `text-[1.25rem]/[1.6] tracking-[-0.006em]`    | `2.25rem`      |
+| `2`  | `text-[1.125rem]/[1.6] tracking-[-0.004em]`   | `1.75rem`      |
+| `3`  | `text-[1.0625rem]/[1.65] tracking-[-0.002em]` | `1.5rem`       |
+| `4`  | `text-[1rem]/[1.65]`                          | `1.375rem`     |
+| `5`  | `text-[0.9375rem]/[1.6] tracking-[0.002em]`   | `1.25rem`      |
+| `6`  | `text-[0.875rem]/[1.6] tracking-[0.004em]`    | `1.125rem`     |
+
+모든 크기에는 `variant`의 색과 `wrap`의 줄바꿈 유틸리티(기본값
+`text-pretty`)가 적용됩니다. 굵기는 `className`에 Tailwind 글꼴 유틸리티를
+추가해 조정합니다.

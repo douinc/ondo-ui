@@ -200,6 +200,7 @@ import FrameStackedPanels from "@/components/demos/frame-stacked-panels"
 import HeadingDemo from "@/components/demos/heading-demo"
 import HeadingLevelAndSize from "@/components/demos/heading-level-and-size"
 import HeadingLevels from "@/components/demos/heading-levels"
+import HeadingPairing from "@/components/demos/heading-pairing"
 import HeadingRender from "@/components/demos/heading-render"
 import HeadingSizes from "@/components/demos/heading-sizes"
 import HeadingWrap from "@/components/demos/heading-wrap"
@@ -316,6 +317,12 @@ import NumberCountFormat from "@/components/demos/number-count-format"
 import PaginationDemo from "@/components/demos/pagination-demo"
 import PaginationIconsOnly from "@/components/demos/pagination-icons-only"
 import PaginationSimple from "@/components/demos/pagination-simple"
+import ParagraphDemo from "@/components/demos/paragraph-demo"
+import ParagraphPairing from "@/components/demos/paragraph-pairing"
+import ParagraphRender from "@/components/demos/paragraph-render"
+import ParagraphSizes from "@/components/demos/paragraph-sizes"
+import ParagraphVariants from "@/components/demos/paragraph-variants"
+import ParagraphWrap from "@/components/demos/paragraph-wrap"
 import PopoverAlign from "@/components/demos/popover-align"
 import PopoverBasic from "@/components/demos/popover-basic"
 import PopoverDemo from "@/components/demos/popover-demo"
@@ -670,6 +677,7 @@ export const demos: Record<string, ComponentType> = {
   "heading-demo": HeadingDemo,
   "heading-level-and-size": HeadingLevelAndSize,
   "heading-levels": HeadingLevels,
+  "heading-pairing": HeadingPairing,
   "heading-render": HeadingRender,
   "heading-sizes": HeadingSizes,
   "heading-wrap": HeadingWrap,
@@ -786,6 +794,12 @@ export const demos: Record<string, ComponentType> = {
   "pagination-demo": PaginationDemo,
   "pagination-icons-only": PaginationIconsOnly,
   "pagination-simple": PaginationSimple,
+  "paragraph-demo": ParagraphDemo,
+  "paragraph-pairing": ParagraphPairing,
+  "paragraph-render": ParagraphRender,
+  "paragraph-sizes": ParagraphSizes,
+  "paragraph-variants": ParagraphVariants,
+  "paragraph-wrap": ParagraphWrap,
   "popover-align": PopoverAlign,
   "popover-basic": PopoverBasic,
   "popover-demo": PopoverDemo,

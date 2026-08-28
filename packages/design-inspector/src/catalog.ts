@@ -46,6 +46,7 @@ export const ONDO_COMPONENT_NAMES = [
   "navigation-menu",
   "number-count",
   "pagination",
+  "paragraph",
   "popover",
   "progress",
   "progress-ring",

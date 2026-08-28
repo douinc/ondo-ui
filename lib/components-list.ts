@@ -380,6 +380,14 @@ export const componentsList = [
     },
   },
   {
+    name: "paragraph",
+    title: "Paragraph",
+    description: {
+      en: "A paragraph whose size pairs with the matching heading size.",
+      ko: "같은 번호의 제목 크기와 짝을 이루는 본문 문단 컴포넌트입니다.",
+    },
+  },
+  {
     name: "popover",
     title: "Popover",
     description: {
