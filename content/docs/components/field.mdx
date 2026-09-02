@@ -296,32 +296,6 @@ The `Field` family is designed for composing accessible forms. A typical field i
 - `FieldContent` is a flex column that groups label and description. Not required if you have no description.
 - Wrap related fields with `FieldGroup`, and use `FieldSet` with `FieldLegend` for semantic grouping.
 
-## Spacing
-
-The spacing is set by the components, so a form built from them lines up without
-per-field overrides.
-
-| Between | Size | Set by |
-| ------- | ---- | ------ |
-| Label and its control, stacked | `8px` | `Field` |
-| A checkbox or radio and its label | `8px` | `Field` with `orientation="horizontal"` |
-| Label and description inside `FieldContent` | `4px` | `FieldContent` |
-| Two fields in a group | `20px` | `FieldGroup` |
-| Two option rows in a group | `12px` | `FieldGroup`, when every child is a row field |
-| Legend and the group below it | `14px` | `FieldLegend` |
-
-Two rules key off what a field holds rather than off a prop:
-
-- A `FieldGroup` whose children are *all* horizontal fields is an option list, so
-  it tightens to `12px`. A group that also holds a field set, a separator or a
-  stacked field keeps `20px`.
-- A `FieldLabel` that directly follows its own checkbox or radio is an option
-  rather than a field name, so it takes the body weight instead of medium.
-
-A stacked `FieldLabel` and `FieldDescription` are inset by `3px` so their text
-lines up with the text inside the control rather than sitting outside its
-rounded corner. Row fields are not inset, so a label stays aligned with the
-checkbox beside it.
 ## Form
 
 See the [shadcn/ui Form documentation](https://ui.shadcn.com/docs/forms) for building forms with the `Field` component and React Hook Form, TanStack Form, or Formisch.

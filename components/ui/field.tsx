@@ -43,10 +43,6 @@ function FieldGroup({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="field-group"
       className={cn(
-        // The second line tightens the gap only when *every* child is a row
-        // field -- a checkbox, radio or switch beside its label -- so a group
-        // that also holds a field set, a separator or a stacked field keeps the
-        // wider gap.
         "group/field-group @container/field-group flex w-full flex-col gap-5 *:data-[slot=field-group]:gap-4",
         "[&:not(:has(>*:not([data-slot=field][data-orientation=horizontal])))]:gap-3",
         className
@@ -114,8 +110,6 @@ function FieldLabel({
       className={cn(
         "group/field-label peer/field-label flex w-fit gap-2 leading-snug group-data-[disabled=true]/field:opacity-50 has-data-checked:border-primary/30 has-data-checked:bg-primary/5 has-[>[data-slot=field]]:rounded-md has-[>[data-slot=field]]:border *:data-[slot=field]:p-3 dark:has-data-checked:border-primary/20 dark:has-data-checked:bg-primary/10",
         "has-[>[data-slot=field]]:w-full has-[>[data-slot=field]]:flex-col",
-        // An option label follows its own control, so it reads as a choice
-        // rather than a field name and takes the body weight.
         "[[role=checkbox]+&]:font-normal [[role=radio]+&]:font-normal",
         className
       )}
