@@ -20,12 +20,12 @@ export default function FieldCheckbox() {
         <FieldDescription>
           Select the items you want to show on the desktop.
         </FieldDescription>
-        <FieldGroup className="gap-3">
+        <FieldGroup>
           <Field orientation="horizontal">
             <Checkbox id="finder-pref-9k2-hard-disks-ljj" />
             <FieldLabel
               htmlFor="finder-pref-9k2-hard-disks-ljj"
-              className="font-normal"
+
               defaultChecked
             >
               Hard disks
@@ -33,28 +33,19 @@ export default function FieldCheckbox() {
           </Field>
           <Field orientation="horizontal">
             <Checkbox id="finder-pref-9k2-external-disks-1yg" />
-            <FieldLabel
-              htmlFor="finder-pref-9k2-external-disks-1yg"
-              className="font-normal"
-            >
+            <FieldLabel htmlFor="finder-pref-9k2-external-disks-1yg">
               External disks
             </FieldLabel>
           </Field>
           <Field orientation="horizontal">
             <Checkbox id="finder-pref-9k2-cds-dvds-fzt" />
-            <FieldLabel
-              htmlFor="finder-pref-9k2-cds-dvds-fzt"
-              className="font-normal"
-            >
+            <FieldLabel htmlFor="finder-pref-9k2-cds-dvds-fzt">
               CDs, DVDs, and iPods
             </FieldLabel>
           </Field>
           <Field orientation="horizontal">
             <Checkbox id="finder-pref-9k2-connected-servers-6l2" />
-            <FieldLabel
-              htmlFor="finder-pref-9k2-connected-servers-6l2"
-              className="font-normal"
-            >
+            <FieldLabel htmlFor="finder-pref-9k2-connected-servers-6l2">
               Connected servers
             </FieldLabel>
           </Field>

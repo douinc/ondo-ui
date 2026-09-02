@@ -138,10 +138,7 @@ export default function FieldDemo() {
                   id="checkout-7j9-same-as-shipping-wgm"
                   defaultChecked
                 />
-                <FieldLabel
-                  htmlFor="checkout-7j9-same-as-shipping-wgm"
-                  className="font-normal"
-                >
+                <FieldLabel htmlFor="checkout-7j9-same-as-shipping-wgm">
                   Same as shipping address
                 </FieldLabel>
               </Field>
