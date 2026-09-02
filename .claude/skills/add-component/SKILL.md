@@ -94,6 +94,10 @@ Read a neighbouring component in `components/ui/` before writing a new one; the
 house style is consistent and easier to copy than to describe. The load-bearing
 points:
 
+- **Do not add comments to new component source files.** Newly created files in
+  `components/ui/` and `components/demos/` must not contain line comments, block
+  comments, or JSX comments. Keep the code self-explanatory through clear names
+  and structure.
 - **Base UI, not Radix.** Every component here builds on `@base-ui/react`. There
   is no `@radix-ui` dependency and no `asChild` anywhere in the codebase.
 - **Polymorphism uses the `render` prop**, which is Base UI's replacement for
