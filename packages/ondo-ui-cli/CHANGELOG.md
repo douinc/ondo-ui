@@ -1,5 +1,11 @@
 # @dou.so/ondo-ui
 
+## 1.7.1
+
+### Patch Changes
+
+- [#50](https://github.com/douinc/ondo-ui/pull/50) [`8d15b00`](https://github.com/douinc/ondo-ui/commit/8d15b007a8cf8cbea047ff8294fc0699204e28c8) Thanks [@woody-uiux](https://github.com/woody-uiux)! - Retune Field spacing and let the component set an option row's label weight and gap instead of each call site.
+
 ## 1.7.0
 
 ### Minor Changes
