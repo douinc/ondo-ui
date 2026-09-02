@@ -148,7 +148,6 @@ export default function FieldDemo() {
                 />
                 <FieldLabel
                   htmlFor="checkout-7j9-same-as-shipping-wgm"
-                  className="font-normal"
                 >
                   Same as shipping address
                 </FieldLabel>
@@ -297,6 +296,32 @@ The `Field` family is designed for composing accessible forms. A typical field i
 - `FieldContent` is a flex column that groups label and description. Not required if you have no description.
 - Wrap related fields with `FieldGroup`, and use `FieldSet` with `FieldLegend` for semantic grouping.
 
+## Spacing
+
+The spacing is set by the components, so a form built from them lines up without
+per-field overrides.
+
+| Between | Size | Set by |
+| ------- | ---- | ------ |
+| Label and its control, stacked | `8px` | `Field` |
+| A checkbox or radio and its label | `8px` | `Field` with `orientation="horizontal"` |
+| Label and description inside `FieldContent` | `4px` | `FieldContent` |
+| Two fields in a group | `20px` | `FieldGroup` |
+| Two option rows in a group | `12px` | `FieldGroup`, when every child is a row field |
+| Legend and the group below it | `14px` | `FieldLegend` |
+
+Two rules key off what a field holds rather than off a prop:
+
+- A `FieldGroup` whose children are *all* horizontal fields is an option list, so
+  it tightens to `12px`. A group that also holds a field set, a separator or a
+  stacked field keeps `20px`.
+- A `FieldLabel` that directly follows its own checkbox or radio is an option
+  rather than a field name, so it takes the body weight instead of medium.
+
+A stacked `FieldLabel` and `FieldDescription` are inset by `3px` so their text
+lines up with the text inside the control rather than sitting outside its
+rounded corner. Row fields are not inset, so a label stays aligned with the
+checkbox beside it.
 ## Form
 
 See the [shadcn/ui Form documentation](https://ui.shadcn.com/docs/forms) for building forms with the `Field` component and React Hook Form, TanStack Form, or Formisch.
@@ -554,12 +579,11 @@ export default function FieldCheckbox() {
         <FieldDescription>
           Select the items you want to show on the desktop.
         </FieldDescription>
-        <FieldGroup className="gap-3">
+        <FieldGroup>
           <Field orientation="horizontal">
             <Checkbox id="finder-pref-9k2-hard-disks-ljj" />
             <FieldLabel
               htmlFor="finder-pref-9k2-hard-disks-ljj"
-              className="font-normal"
               defaultChecked
             >
               Hard disks
@@ -569,7 +593,6 @@ export default function FieldCheckbox() {
             <Checkbox id="finder-pref-9k2-external-disks-1yg" />
             <FieldLabel
               htmlFor="finder-pref-9k2-external-disks-1yg"
-              className="font-normal"
             >
               External disks
             </FieldLabel>
@@ -578,7 +601,6 @@ export default function FieldCheckbox() {
             <Checkbox id="finder-pref-9k2-cds-dvds-fzt" />
             <FieldLabel
               htmlFor="finder-pref-9k2-cds-dvds-fzt"
-              className="font-normal"
             >
               CDs, DVDs, and iPods
             </FieldLabel>
@@ -587,7 +609,6 @@ export default function FieldCheckbox() {
             <Checkbox id="finder-pref-9k2-connected-servers-6l2" />
             <FieldLabel
               htmlFor="finder-pref-9k2-connected-servers-6l2"
-              className="font-normal"
             >
               Connected servers
             </FieldLabel>
@@ -638,19 +659,19 @@ export default function FieldRadio() {
       <RadioGroup defaultValue="monthly">
         <Field orientation="horizontal">
           <RadioGroupItem value="monthly" id="plan-monthly" />
-          <FieldLabel htmlFor="plan-monthly" className="font-normal">
+          <FieldLabel htmlFor="plan-monthly">
             Monthly ($9.99/month)
           </FieldLabel>
         </Field>
         <Field orientation="horizontal">
           <RadioGroupItem value="yearly" id="plan-yearly" />
-          <FieldLabel htmlFor="plan-yearly" className="font-normal">
+          <FieldLabel htmlFor="plan-yearly">
             Yearly ($99.99/year)
           </FieldLabel>
         </Field>
         <Field orientation="horizontal">
           <RadioGroupItem value="lifetime" id="plan-lifetime" />
-          <FieldLabel htmlFor="plan-lifetime" className="font-normal">
+          <FieldLabel htmlFor="plan-lifetime">
             Lifetime ($299.99)
           </FieldLabel>
         </Field>
@@ -767,10 +788,10 @@ export default function FieldFieldGroup() {
           Get notified when ChatGPT responds to requests that take time, like
           research or image generation.
         </FieldDescription>
-        <FieldGroup data-slot="checkbox-group">
+        <FieldGroup>
           <Field orientation="horizontal">
             <Checkbox id="push" defaultChecked disabled />
-            <FieldLabel htmlFor="push" className="font-normal">
+            <FieldLabel htmlFor="push">
               Push notifications
             </FieldLabel>
           </Field>
@@ -783,16 +804,16 @@ export default function FieldFieldGroup() {
           Get notified when tasks you&apos;ve created have updates.{" "}
           <a href="#">Manage tasks</a>
         </FieldDescription>
-        <FieldGroup data-slot="checkbox-group">
+        <FieldGroup>
           <Field orientation="horizontal">
             <Checkbox id="push-tasks" />
-            <FieldLabel htmlFor="push-tasks" className="font-normal">
+            <FieldLabel htmlFor="push-tasks">
               Push notifications
             </FieldLabel>
           </Field>
           <Field orientation="horizontal">
             <Checkbox id="email-tasks" />
-            <FieldLabel htmlFor="email-tasks" className="font-normal">
+            <FieldLabel htmlFor="email-tasks">
               Email notifications
             </FieldLabel>
           </Field>

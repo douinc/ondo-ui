@@ -1,0 +1,13 @@
+---
+title: Field spacing
+description: Retune the Field spacing scale and move the option row overrides into the component.
+version: 1.8.1
+---
+
+**v1.8.1**
+
+- Tighten the gap between a label and its control to `8px`, whether the field is stacked or laid out as a row, and the gap between two fields in a group to `20px`. A group legend now sits `14px` above its content.
+- Inset a stacked `FieldLabel` and `FieldDescription` by `3px` so their text lines up with the text inside the control rather than sitting outside its rounded corner. Row fields stay flush with their checkbox.
+- Give a `FieldLabel` that directly follows its own checkbox or radio the body weight automatically. The `className="font-normal"` written at 25 call sites is no longer needed.
+- Replace `FieldGroup`'s `data-[slot=checkbox-group]` rule, which never matched, with one that tightens the gap to `12px` when every child is a row field. `className="gap-3"` and the `data-slot="checkbox-group"` spoof are no longer needed.
+- Document the whole spacing scale under Anatomy in both locales.

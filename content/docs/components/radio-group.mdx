@@ -202,19 +202,19 @@ export default function RadioGroupFieldset() {
       <RadioGroup defaultValue="monthly">
         <Field orientation="horizontal">
           <RadioGroupItem value="monthly" id="plan-monthly" />
-          <FieldLabel htmlFor="plan-monthly" className="font-normal">
+          <FieldLabel htmlFor="plan-monthly">
             Monthly ($9.99/month)
           </FieldLabel>
         </Field>
         <Field orientation="horizontal">
           <RadioGroupItem value="yearly" id="plan-yearly" />
-          <FieldLabel htmlFor="plan-yearly" className="font-normal">
+          <FieldLabel htmlFor="plan-yearly">
             Yearly ($99.99/year)
           </FieldLabel>
         </Field>
         <Field orientation="horizontal">
           <RadioGroupItem value="lifetime" id="plan-lifetime" />
-          <FieldLabel htmlFor="plan-lifetime" className="font-normal">
+          <FieldLabel htmlFor="plan-lifetime">
             Lifetime ($299.99)
           </FieldLabel>
         </Field>
@@ -241,19 +241,19 @@ export default function RadioGroupDisabled() {
     <RadioGroup defaultValue="option2" className="w-fit">
       <Field orientation="horizontal" data-disabled>
         <RadioGroupItem value="option1" id="disabled-1" disabled />
-        <FieldLabel htmlFor="disabled-1" className="font-normal">
+        <FieldLabel htmlFor="disabled-1">
           Disabled
         </FieldLabel>
       </Field>
       <Field orientation="horizontal">
         <RadioGroupItem value="option2" id="disabled-2" />
-        <FieldLabel htmlFor="disabled-2" className="font-normal">
+        <FieldLabel htmlFor="disabled-2">
           Option 2
         </FieldLabel>
       </Field>
       <Field orientation="horizontal">
         <RadioGroupItem value="option3" id="disabled-3" />
-        <FieldLabel htmlFor="disabled-3" className="font-normal">
+        <FieldLabel htmlFor="disabled-3">
           Option 3
         </FieldLabel>
       </Field>
@@ -290,19 +290,19 @@ export default function RadioGroupInvalid() {
       <RadioGroup defaultValue="email">
         <Field orientation="horizontal" data-invalid>
           <RadioGroupItem value="email" id="invalid-email" aria-invalid />
-          <FieldLabel htmlFor="invalid-email" className="font-normal">
+          <FieldLabel htmlFor="invalid-email">
             Email only
           </FieldLabel>
         </Field>
         <Field orientation="horizontal" data-invalid>
           <RadioGroupItem value="sms" id="invalid-sms" aria-invalid />
-          <FieldLabel htmlFor="invalid-sms" className="font-normal">
+          <FieldLabel htmlFor="invalid-sms">
             SMS only
           </FieldLabel>
         </Field>
         <Field orientation="horizontal" data-invalid>
           <RadioGroupItem value="both" id="invalid-both" aria-invalid />
-          <FieldLabel htmlFor="invalid-both" className="font-normal">
+          <FieldLabel htmlFor="invalid-both">
             Both Email & SMS
           </FieldLabel>
         </Field>

@@ -17,17 +17,14 @@ export default function CheckboxGroup() {
       <FieldDescription>
         Select the items you want to show on the desktop.
       </FieldDescription>
-      <FieldGroup className="gap-3">
+      <FieldGroup>
         <Field orientation="horizontal">
           <Checkbox
             id="finder-pref-9k2-hard-disks-ljj-checkbox"
             name="finder-pref-9k2-hard-disks-ljj-checkbox"
             defaultChecked
           />
-          <FieldLabel
-            htmlFor="finder-pref-9k2-hard-disks-ljj-checkbox"
-            className="font-normal"
-          >
+          <FieldLabel htmlFor="finder-pref-9k2-hard-disks-ljj-checkbox">
             Hard disks
           </FieldLabel>
         </Field>
@@ -37,10 +34,7 @@ export default function CheckboxGroup() {
             name="finder-pref-9k2-external-disks-1yg-checkbox"
             defaultChecked
           />
-          <FieldLabel
-            htmlFor="finder-pref-9k2-external-disks-1yg-checkbox"
-            className="font-normal"
-          >
+          <FieldLabel htmlFor="finder-pref-9k2-external-disks-1yg-checkbox">
             External disks
           </FieldLabel>
         </Field>
@@ -49,10 +43,7 @@ export default function CheckboxGroup() {
             id="finder-pref-9k2-cds-dvds-fzt-checkbox"
             name="finder-pref-9k2-cds-dvds-fzt-checkbox"
           />
-          <FieldLabel
-            htmlFor="finder-pref-9k2-cds-dvds-fzt-checkbox"
-            className="font-normal"
-          >
+          <FieldLabel htmlFor="finder-pref-9k2-cds-dvds-fzt-checkbox">
             CDs, DVDs, and iPods
           </FieldLabel>
         </Field>
@@ -61,10 +52,7 @@ export default function CheckboxGroup() {
             id="finder-pref-9k2-connected-servers-6l2-checkbox"
             name="finder-pref-9k2-connected-servers-6l2-checkbox"
           />
-          <FieldLabel
-            htmlFor="finder-pref-9k2-connected-servers-6l2-checkbox"
-            className="font-normal"
-          >
+          <FieldLabel htmlFor="finder-pref-9k2-connected-servers-6l2-checkbox">
             Connected servers
           </FieldLabel>
         </Field>

@@ -17,12 +17,10 @@ export default function FieldFieldGroup() {
           Get notified when ChatGPT responds to requests that take time, like
           research or image generation.
         </FieldDescription>
-        <FieldGroup data-slot="checkbox-group">
+        <FieldGroup>
           <Field orientation="horizontal">
             <Checkbox id="push" defaultChecked disabled />
-            <FieldLabel htmlFor="push" className="font-normal">
-              Push notifications
-            </FieldLabel>
+            <FieldLabel htmlFor="push">Push notifications</FieldLabel>
           </Field>
         </FieldGroup>
       </FieldSet>
@@ -33,18 +31,14 @@ export default function FieldFieldGroup() {
           Get notified when tasks you&apos;ve created have updates.{" "}
           <a href="#">Manage tasks</a>
         </FieldDescription>
-        <FieldGroup data-slot="checkbox-group">
+        <FieldGroup>
           <Field orientation="horizontal">
             <Checkbox id="push-tasks" />
-            <FieldLabel htmlFor="push-tasks" className="font-normal">
-              Push notifications
-            </FieldLabel>
+            <FieldLabel htmlFor="push-tasks">Push notifications</FieldLabel>
           </Field>
           <Field orientation="horizontal">
             <Checkbox id="email-tasks" />
-            <FieldLabel htmlFor="email-tasks" className="font-normal">
-              Email notifications
-            </FieldLabel>
+            <FieldLabel htmlFor="email-tasks">Email notifications</FieldLabel>
           </Field>
         </FieldGroup>
       </FieldSet>
