@@ -1,0 +1,15 @@
+---
+title: Input sizing
+description: Input and Textarea grow one step across every size, and two dead radius expressions are removed.
+version: 1.8.2
+---
+
+**v1.8.2**
+
+- `Input` heights move up one step: `28 / 36 / 40 / 44 / 48 / 56px` for `xs` through `2xl`. The default is now `40px`.
+- Inner horizontal padding widens two steps: `12 / 14 / 14 / 14 / 16 / 20px`. Text no longer crowds the border.
+- Corner rounding moves up one step: `10px` for `xs` through `lg`, `14px` for `xl`, `18px` for `2xl`.
+- `Textarea` follows the same padding and rounding so a form mixing the two stays aligned. Its minimum heights are unchanged.
+- Dropped `rounded-[min(var(--radius-md),8px)]` and `rounded-[min(var(--radius-md),10px)]` from the `xs` and `sm` sizes. Both collapsed to the base radius, so the expression never did anything.
+- `Input` and `Textarea` now carry a `data-size` attribute, so a consumer can target one size without repeating the variant list.
+- Dropped the `shadow-xs` drop shadow from `Input`, `Textarea`, `InputGroup`, `NativeSelect`, `Select` and `Checkbox`. The border alone carries the field, and the shadow made controls float above the surface they sit on.
