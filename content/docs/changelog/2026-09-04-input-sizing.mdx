@@ -1,13 +1,12 @@
 ---
-title: Input sizing
-description: Input and Textarea grow one step across every size, and two dead radius expressions are removed.
+title: Input padding and radius
+description: Input and Textarea gain wider padding and rounder corners, and two dead radius expressions are removed.
 version: 1.8.2
 ---
 
 **v1.8.2**
 
-- `Input` heights move up one step: `28 / 36 / 40 / 44 / 48 / 56px` for `xs` through `2xl`. The default is now `40px`.
-- Inner horizontal padding widens two steps: `12 / 14 / 14 / 14 / 16 / 20px`. Text no longer crowds the border.
+- Inner horizontal padding widens two steps on `Input`: `12 / 14 / 14 / 14 / 16 / 20px` for `xs` through `2xl`. Text no longer crowds the border.
 - Corner rounding moves up one step: `10px` for `xs` through `lg`, `14px` for `xl`, `18px` for `2xl`.
 - `Textarea` follows the same padding and rounding so a form mixing the two stays aligned. Its minimum heights are unchanged.
 - Dropped `rounded-[min(var(--radius-md),8px)]` and `rounded-[min(var(--radius-md),10px)]` from the `xs` and `sm` sizes. Both collapsed to the base radius, so the expression never did anything.

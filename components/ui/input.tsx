@@ -9,12 +9,12 @@ const inputVariants = cva(
   {
     variants: {
       size: {
-        xs: "h-7 px-3 py-1 text-xs file:h-6 file:text-xs",
-        sm: "h-9 px-3.5 py-1 text-sm file:h-7 file:text-xs",
-        default: "h-10 px-3.5 py-1 text-base file:h-8 file:text-sm md:text-sm",
-        lg: "h-11 px-3.5 py-1 text-base file:h-9 file:text-sm md:text-sm",
-        xl: "h-12 rounded-xl px-4 py-1 text-base file:h-10 file:text-base",
-        "2xl": "h-14 rounded-2xl px-5 py-1 text-lg file:h-12 file:text-lg",
+        xs: "h-6 px-3 py-1 text-xs file:h-5 file:text-xs",
+        sm: "h-8 px-3.5 py-1 text-sm file:h-6 file:text-xs",
+        default: "h-9 px-3.5 py-1 text-base file:h-7 file:text-sm md:text-sm",
+        lg: "h-10 px-3.5 py-1 text-base file:h-8 file:text-sm md:text-sm",
+        xl: "h-11 rounded-xl px-4 py-1 text-base file:h-9 file:text-base",
+        "2xl": "h-13 rounded-2xl px-5 py-1 text-lg file:h-11 file:text-lg",
       },
     },
     defaultVariants: {

@@ -1,13 +1,12 @@
 ---
-title: Input 크기
-description: Input과 Textarea가 모든 크기에서 한 단계씩 커지고, 아무 일도 하지 않던 모서리 계산식을 걷어냅니다.
+title: Input 여백과 모서리
+description: Input과 Textarea의 padding-x와 border-radius를 넓히고, 아무 일도 하지 않던 모서리 계산식을 걷어냅니다.
 version: 1.8.2
 ---
 
 **v1.8.2**
 
-- `Input` 높이를 한 단계씩 올렸습니다. `xs`부터 `2xl`까지 `28 / 36 / 40 / 44 / 48 / 56px`이고, 기본 크기는 `40px`입니다.
-- 안쪽 좌우 여백을 두 단계 넓혔습니다. `12 / 14 / 14 / 14 / 16 / 20px`이라 글자가 테두리에 붙지 않습니다.
+- `Input`의 `padding-x`를 두 단계 넓혔습니다. `xs`부터 `2xl`까지 `12 / 14 / 14 / 14 / 16 / 20px`이라 글자가 테두리에 붙지 않습니다.
 - 모서리를 한 단계씩 키웠습니다. `xs`~`lg`는 `10px`, `xl`은 `14px`, `2xl`은 `18px`입니다.
 - `Textarea`도 같은 여백과 모서리를 따라가서, 둘을 함께 쓰는 폼의 선이 어긋나지 않습니다. 최소 높이는 그대로입니다.
 - `xs`와 `sm`에 있던 `rounded-[min(var(--radius-md),8px)]`, `rounded-[min(var(--radius-md),10px)]`를 지웠습니다. 둘 다 기본 모서리 값으로 계산돼서 아무 일도 하지 않던 식입니다.

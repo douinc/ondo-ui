@@ -2,4 +2,4 @@
 "@dou.so/ondo-ui": patch
 ---
 
-Enlarge Input and Textarea across every size, and drop the drop shadow from the form controls.
+Widen the horizontal padding and corner radius of Input and Textarea, and drop the drop shadow from the form controls.
