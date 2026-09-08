@@ -41,7 +41,7 @@ import { Badge } from "@/components/ui/badge"
 ```
 
 ```tsx
-<Badge variant="default | secondary | info | success | warning | destructive | outline | ghost">Badge</Badge>
+<Badge variant="default | secondary | muted | brand | info | success | warning | destructive | outline | ghost">Badge</Badge>
 ```
 
 ## Examples
@@ -60,12 +60,36 @@ export default function BadgeVariants() {
     <div className="flex flex-wrap gap-2">
       <Badge>Default</Badge>
       <Badge variant="secondary">Secondary</Badge>
+      <Badge variant="muted">Muted</Badge>
+      <Badge variant="brand">Brand</Badge>
       <Badge variant="info">Info</Badge>
       <Badge variant="success">Success</Badge>
       <Badge variant="warning">Warning</Badge>
       <Badge variant="destructive">Destructive</Badge>
       <Badge variant="outline">Outline</Badge>
       <Badge variant="ghost">Ghost</Badge>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Sizes
+
+Use the `size` prop to change the size of the badge.
+
+<ComponentPreview name="badge-sizes">
+
+```tsx
+import { Badge } from "@/components/ui/badge"
+
+export default function BadgeSizes() {
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      <Badge size="sm">Small</Badge>
+      <Badge>Default</Badge>
+      <Badge size="lg">Large</Badge>
     </div>
   )
 }
@@ -164,9 +188,6 @@ import { Badge } from "@/components/ui/badge"
 export default function BadgeCustomColors() {
   return (
     <div className="flex flex-wrap gap-2">
-      <Badge className="bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300">
-        Blue
-      </Badge>
       <Badge className="bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300">
         Green
       </Badge>
@@ -194,5 +215,6 @@ The `Badge` component displays a badge or a component that looks like a badge.
 
 | Prop        | Type                                                                          | Default     |
 | ----------- | ----------------------------------------------------------------------------- | ----------- |
-| `variant`   | `"default" \| "secondary" \| "info" \| "success" \| "warning" \| "destructive" \| "outline" \| "ghost" \| "link"` | `"default"` |
+| `size`      | `"sm" \| "default" \| "lg"`                                                    | `"default"` |
+| `variant`   | `"default" \| "secondary" \| "muted" \| "brand" \| "info" \| "success" \| "warning" \| "destructive" \| "outline" \| "ghost" \| "link"` | `"default"` |
 | `className` | `string`                                                                      | -           |

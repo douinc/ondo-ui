@@ -42,6 +42,7 @@ import BadgeCustomColors from "@/components/demos/badge-custom-colors"
 import BadgeDemo from "@/components/demos/badge-demo"
 import BadgeLink from "@/components/demos/badge-link"
 import BadgeVariants from "@/components/demos/badge-variants"
+import BadgeSizes from "@/components/demos/badge-sizes"
 import BadgeWithIcon from "@/components/demos/badge-with-icon"
 import BadgeWithSpinner from "@/components/demos/badge-with-spinner"
 import BreadcrumbBasic from "@/components/demos/breadcrumb-basic"
@@ -519,6 +520,7 @@ export const demos: Record<string, ComponentType> = {
   "badge-demo": BadgeDemo,
   "badge-link": BadgeLink,
   "badge-variants": BadgeVariants,
+  "badge-sizes": BadgeSizes,
   "badge-with-icon": BadgeWithIcon,
   "badge-with-spinner": BadgeWithSpinner,
   "breadcrumb-basic": BreadcrumbBasic,

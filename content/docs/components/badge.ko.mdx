@@ -42,7 +42,7 @@ import { Badge } from "@/components/ui/badge"
 ```
 
 ```tsx
-<Badge variant="default | secondary | info | success | warning | destructive | outline | ghost">Badge</Badge>
+<Badge variant="default | secondary | muted | brand | info | success | warning | destructive | outline | ghost">Badge</Badge>
 ```
 
 ## 예시
@@ -61,12 +61,36 @@ export default function BadgeVariants() {
     <div className="flex flex-wrap gap-2">
       <Badge>Default</Badge>
       <Badge variant="secondary">Secondary</Badge>
+      <Badge variant="muted">Muted</Badge>
+      <Badge variant="brand">브랜드</Badge>
       <Badge variant="info">Info</Badge>
       <Badge variant="success">Success</Badge>
       <Badge variant="warning">Warning</Badge>
       <Badge variant="destructive">Destructive</Badge>
       <Badge variant="outline">Outline</Badge>
       <Badge variant="ghost">Ghost</Badge>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
+### Sizes
+
+`size` prop을 사용하여 배지의 크기를 변경합니다.
+
+<ComponentPreview name="badge-sizes">
+
+```tsx
+import { Badge } from "@/components/ui/badge"
+
+export default function BadgeSizes() {
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      <Badge size="sm">작게</Badge>
+      <Badge>기본</Badge>
+      <Badge size="lg">크게</Badge>
     </div>
   )
 }
@@ -165,9 +189,6 @@ import { Badge } from "@/components/ui/badge"
 export default function BadgeCustomColors() {
   return (
     <div className="flex flex-wrap gap-2">
-      <Badge className="bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-300">
-        Blue
-      </Badge>
       <Badge className="bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-300">
         Green
       </Badge>
@@ -195,5 +216,6 @@ export default function BadgeCustomColors() {
 
 | Prop        | 타입                                                                          | 기본값     |
 | ----------- | ----------------------------------------------------------------------------- | ----------- |
-| `variant`   | `"default" \| "secondary" \| "info" \| "success" \| "warning" \| "destructive" \| "outline" \| "ghost" \| "link"` | `"default"` |
+| `size`      | `"sm" \| "default" \| "lg"`                                                    | `"default"` |
+| `variant`   | `"default" \| "secondary" \| "muted" \| "brand" \| "info" \| "success" \| "warning" \| "destructive" \| "outline" \| "ghost" \| "link"` | `"default"` |
 | `className` | `string`                                                                      | -           |

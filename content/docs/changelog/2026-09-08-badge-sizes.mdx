@@ -1,0 +1,13 @@
+---
+title: Badge sizes and variants
+description: Badge gains a size scale, a brand and a muted variant, and a retuned height, padding and radius.
+version: 1.8.3
+---
+
+**v1.8.3**
+
+- `Badge` takes a `size` prop with `sm`, `default` and `lg`. Height is `18 / 22 / 26px`, horizontal padding `4 / 6 / 8px`, font size `12 / 12 / 14px`.
+- Corner radius is now set per size — `6 / 8 / 10px` — instead of one shared pill radius. A single radius read as a pill at the small end and as a square at the large end.
+- New `brand` variant: the primary blue at the same weight as `info` and `success`. It replaces the `bg-blue-50 text-blue-700` pattern that the custom colors example demonstrated.
+- New `muted` variant: the same surface as `secondary` with grey text instead of near-black.
+- The blue entry is gone from the custom colors example now that `brand` covers it.
