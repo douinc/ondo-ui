@@ -73,6 +73,28 @@ export default function BadgeVariants() {
 
 </ComponentPreview>
 
+### Sizes
+
+Use the `size` prop to change the size of the badge.
+
+<ComponentPreview name="badge-sizes">
+
+```tsx
+import { Badge } from "@/components/ui/badge"
+
+export default function BadgeSizes() {
+  return (
+    <div className="flex flex-wrap items-center gap-2">
+      <Badge size="sm">Small</Badge>
+      <Badge>Default</Badge>
+      <Badge size="lg">Large</Badge>
+    </div>
+  )
+}
+```
+
+</ComponentPreview>
+
 ### With Icon
 
 You can render an icon inside the badge. Use `data-icon="inline-start"` to render the icon on the left and `data-icon="inline-end"` to render the icon on the right.
@@ -194,5 +216,6 @@ The `Badge` component displays a badge or a component that looks like a badge.
 
 | Prop        | Type                                                                          | Default     |
 | ----------- | ----------------------------------------------------------------------------- | ----------- |
+| `size`      | `"sm" \| "default" \| "lg"`                                                    | `"default"` |
 | `variant`   | `"default" \| "secondary" \| "info" \| "success" \| "warning" \| "destructive" \| "outline" \| "ghost" \| "link"` | `"default"` |
 | `className` | `string`                                                                      | -           |
