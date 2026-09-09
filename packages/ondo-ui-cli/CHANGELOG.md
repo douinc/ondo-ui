@@ -1,5 +1,11 @@
 # @dou.so/ondo-ui
 
+## 1.7.2
+
+### Patch Changes
+
+- [#55](https://github.com/douinc/ondo-ui/pull/55) [`1bb54f3`](https://github.com/douinc/ondo-ui/commit/1bb54f339c1d34ba5b280513a8a919e5210f9712) Thanks [@woody-uiux](https://github.com/woody-uiux)! - Give Badge a size scale and retune its height, padding and corner radius.
+
 ## 1.7.1
 
 ### Patch Changes
