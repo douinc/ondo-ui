@@ -1,5 +1,11 @@
 # @dou.so/ondo-ui
 
+## 1.7.3
+
+### Patch Changes
+
+- [#56](https://github.com/douinc/ondo-ui/pull/56) [`1009a6c`](https://github.com/douinc/ondo-ui/commit/1009a6c70042e6b407f342915fa0dda5ffe42deb) Thanks [@woody-uiux](https://github.com/woody-uiux)! - Point the info token at the primary blue instead of sky.
+
 ## 1.7.2
 
 ### Patch Changes
