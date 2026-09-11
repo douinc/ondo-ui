@@ -4,28 +4,10 @@
   "homepage": "https://ui.ondo.dou.so",
   "items": [
     {
-      "name": "utils",
-      "type": "registry:lib",
-      "description": "Utility functions, including the cn helper for merging Tailwind CSS classes.",
-      "dependencies": [
-        "clsx",
-        "tailwind-merge"
-      ],
-      "files": [
-        {
-          "path": "lib/utils.ts",
-          "type": "registry:lib"
-        }
-      ]
-    },
-    {
       "name": "theme",
       "type": "registry:theme",
       "description": "The ondo theme: Pretendard and Monaspace Neon fonts plus the light and dark color palette as CSS variables.",
-      "dependencies": [
-        "@fontsource/pretendard",
-        "@fontsource/monaspace-neon"
-      ],
+      "dependencies": ["@fontsource/pretendard", "@fontsource/monaspace-neon"],
       "css": {
         "@import \"@fontsource/pretendard/100.css\"": {},
         "@import \"@fontsource/pretendard/200.css\"": {},
@@ -132,9 +114,7 @@
       "name": "theme-provider",
       "type": "registry:component",
       "description": "Theme provider built on next-themes with system preference support and a D hotkey to toggle dark mode.",
-      "dependencies": [
-        "next-themes"
-      ],
+      "dependencies": ["next-themes"],
       "files": [
         {
           "path": "components/theme-provider.tsx",
@@ -146,13 +126,7 @@
       "name": "accordion",
       "type": "registry:ui",
       "description": "A vertically stacked set of interactive headings that each reveal a section of content.",
-      "dependencies": [
-        "@base-ui/react",
-        "@tabler/icons-react"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "@tabler/icons-react", "cn"],
       "files": [
         {
           "path": "components/ui/accordion.tsx",
@@ -164,12 +138,7 @@
       "name": "alert",
       "type": "registry:ui",
       "description": "Displays a callout for user attention.",
-      "dependencies": [
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["class-variance-authority", "cn"],
       "files": [
         {
           "path": "components/ui/alert.tsx",
@@ -181,13 +150,8 @@
       "name": "alert-dialog",
       "type": "registry:ui",
       "description": "A modal dialog that interrupts the user with important content and expects a response.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/button",
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "cn"],
+      "registryDependencies": ["@ondo-ui/button"],
       "files": [
         {
           "path": "components/ui/alert-dialog.tsx",
@@ -199,28 +163,20 @@
       "name": "aspect-ratio",
       "type": "registry:ui",
       "description": "Displays content within a desired ratio.",
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
       "files": [
         {
           "path": "components/ui/aspect-ratio.tsx",
           "type": "registry:ui"
         }
-      ]
+      ],
+      "dependencies": ["cn"]
     },
     {
       "name": "attachment",
       "type": "registry:ui",
       "description": "Displays a file or image attachment with media, metadata, upload state, and actions.",
-      "dependencies": [
-        "@base-ui/react",
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/button",
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "class-variance-authority", "cn"],
+      "registryDependencies": ["@ondo-ui/button"],
       "files": [
         {
           "path": "components/ui/attachment.tsx",
@@ -232,12 +188,7 @@
       "name": "avatar",
       "type": "registry:ui",
       "description": "An image element with a fallback for representing the user.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "cn"],
       "files": [
         {
           "path": "components/ui/avatar.tsx",
@@ -249,13 +200,7 @@
       "name": "badge",
       "type": "registry:ui",
       "description": "Displays a badge or a component that looks like a badge.",
-      "dependencies": [
-        "@base-ui/react",
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "class-variance-authority", "cn"],
       "files": [
         {
           "path": "components/ui/badge.tsx",
@@ -267,13 +212,7 @@
       "name": "breadcrumb",
       "type": "registry:ui",
       "description": "Displays the path to the current resource using a hierarchy of links.",
-      "dependencies": [
-        "@base-ui/react",
-        "@tabler/icons-react"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "@tabler/icons-react", "cn"],
       "files": [
         {
           "path": "components/ui/breadcrumb.tsx",
@@ -285,13 +224,7 @@
       "name": "bubble",
       "type": "registry:ui",
       "description": "Displays conversational content in a message bubble. Supports variants, alignment, grouping, reactions, and collapsible content.",
-      "dependencies": [
-        "@base-ui/react",
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "class-variance-authority", "cn"],
       "files": [
         {
           "path": "components/ui/bubble.tsx",
@@ -303,13 +236,7 @@
       "name": "button",
       "type": "registry:ui",
       "description": "Displays a button or a component that looks like a button.",
-      "dependencies": [
-        "@base-ui/react",
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "class-variance-authority", "cn"],
       "files": [
         {
           "path": "components/ui/button.tsx",
@@ -321,14 +248,8 @@
       "name": "button-group",
       "type": "registry:ui",
       "description": "A container that groups related buttons together with consistent styling.",
-      "dependencies": [
-        "@base-ui/react",
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/separator",
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "class-variance-authority", "cn"],
+      "registryDependencies": ["@ondo-ui/separator"],
       "files": [
         {
           "path": "components/ui/button-group.tsx",
@@ -340,14 +261,8 @@
       "name": "calendar",
       "type": "registry:ui",
       "description": "A calendar component that allows users to select a date or a range of dates.",
-      "dependencies": [
-        "@tabler/icons-react",
-        "react-day-picker"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/button",
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@tabler/icons-react", "react-day-picker", "cn"],
+      "registryDependencies": ["@ondo-ui/button"],
       "files": [
         {
           "path": "components/ui/calendar.tsx",
@@ -359,28 +274,20 @@
       "name": "card",
       "type": "registry:ui",
       "description": "Displays a card with header, content, and footer.",
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
       "files": [
         {
           "path": "components/ui/card.tsx",
           "type": "registry:ui"
         }
-      ]
+      ],
+      "dependencies": ["cn"]
     },
     {
       "name": "carousel",
       "type": "registry:ui",
       "description": "A carousel with motion and swipe built using Embla.",
-      "dependencies": [
-        "@tabler/icons-react",
-        "embla-carousel-react"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/button",
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@tabler/icons-react", "embla-carousel-react", "cn"],
+      "registryDependencies": ["@ondo-ui/button"],
       "files": [
         {
           "path": "components/ui/carousel.tsx",
@@ -392,12 +299,7 @@
       "name": "chart",
       "type": "registry:ui",
       "description": "Beautiful charts. Built using Recharts. Copy and paste into your apps.",
-      "dependencies": [
-        "recharts"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["recharts", "cn"],
       "files": [
         {
           "path": "components/ui/chart.tsx",
@@ -409,13 +311,7 @@
       "name": "checkbox",
       "type": "registry:ui",
       "description": "A control that allows the user to toggle between checked and not checked.",
-      "dependencies": [
-        "@base-ui/react",
-        "@tabler/icons-react"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "@tabler/icons-react", "cn"],
       "files": [
         {
           "path": "components/ui/checkbox.tsx",
@@ -427,9 +323,7 @@
       "name": "collapsible",
       "type": "registry:ui",
       "description": "An interactive component which expands/collapses a panel.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
+      "dependencies": ["@base-ui/react"],
       "files": [
         {
           "path": "components/ui/collapsible.tsx",
@@ -441,15 +335,8 @@
       "name": "combobox",
       "type": "registry:ui",
       "description": "Autocomplete input with a list of suggestions.",
-      "dependencies": [
-        "@base-ui/react",
-        "@tabler/icons-react"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/button",
-        "@ondo-ui/input-group",
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "@tabler/icons-react", "cn"],
+      "registryDependencies": ["@ondo-ui/button", "@ondo-ui/input-group"],
       "files": [
         {
           "path": "components/ui/combobox.tsx",
@@ -461,15 +348,8 @@
       "name": "command",
       "type": "registry:ui",
       "description": "Command menu for search and quick actions.",
-      "dependencies": [
-        "@tabler/icons-react",
-        "cmdk"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/dialog",
-        "@ondo-ui/input-group",
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@tabler/icons-react", "cmdk", "cn"],
+      "registryDependencies": ["@ondo-ui/dialog", "@ondo-ui/input-group"],
       "files": [
         {
           "path": "components/ui/command.tsx",
@@ -481,13 +361,7 @@
       "name": "context-menu",
       "type": "registry:ui",
       "description": "Displays a menu of actions triggered by a right click.",
-      "dependencies": [
-        "@base-ui/react",
-        "@tabler/icons-react"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "@tabler/icons-react", "cn"],
       "files": [
         {
           "path": "components/ui/context-menu.tsx",
@@ -506,8 +380,7 @@
         "@ondo-ui/field",
         "@ondo-ui/input",
         "@ondo-ui/input-group",
-        "@ondo-ui/popover",
-        "@ondo-ui/utils"
+        "@ondo-ui/popover"
       ],
       "files": [
         {
@@ -520,12 +393,7 @@
       "name": "desktop-window",
       "type": "registry:ui",
       "description": "Wraps content in static macOS, Windows 11, or Ubuntu window chrome.",
-      "dependencies": [
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["class-variance-authority", "cn"],
       "files": [
         {
           "path": "components/ui/desktop-window.tsx",
@@ -537,14 +405,8 @@
       "name": "dialog",
       "type": "registry:ui",
       "description": "A window overlaid on either the primary window or another dialog window, rendering the content underneath inert.",
-      "dependencies": [
-        "@base-ui/react",
-        "@tabler/icons-react"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/button",
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "@tabler/icons-react", "cn"],
+      "registryDependencies": ["@ondo-ui/button"],
       "files": [
         {
           "path": "components/ui/dialog.tsx",
@@ -556,12 +418,7 @@
       "name": "drawer",
       "type": "registry:ui",
       "description": "A drawer component for React.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "cn"],
       "files": [
         {
           "path": "components/ui/drawer.tsx",
@@ -573,13 +430,7 @@
       "name": "dropdown-menu",
       "type": "registry:ui",
       "description": "Displays a menu to the user — such as a set of actions or functions — triggered by a button.",
-      "dependencies": [
-        "@base-ui/react",
-        "@tabler/icons-react"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "@tabler/icons-react", "cn"],
       "files": [
         {
           "path": "components/ui/dropdown-menu.tsx",
@@ -591,12 +442,7 @@
       "name": "empty",
       "type": "registry:ui",
       "description": "Use the Empty component to display an empty state.",
-      "dependencies": [
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["class-variance-authority", "cn"],
       "files": [
         {
           "path": "components/ui/empty.tsx",
@@ -608,14 +454,8 @@
       "name": "field",
       "type": "registry:ui",
       "description": "Combine labels, controls, and help text to compose accessible form fields and grouped inputs.",
-      "dependencies": [
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/label",
-        "@ondo-ui/separator",
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["class-variance-authority", "cn"],
+      "registryDependencies": ["@ondo-ui/label", "@ondo-ui/separator"],
       "files": [
         {
           "path": "components/ui/field.tsx",
@@ -627,12 +467,7 @@
       "name": "frame",
       "type": "registry:ui",
       "description": "A bordered surface that nests panels inside it with concentric radii and a shared spacing scale.",
-      "dependencies": [
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["class-variance-authority", "cn"],
       "files": [
         {
           "path": "components/ui/frame.tsx",
@@ -644,13 +479,7 @@
       "name": "heading",
       "type": "registry:ui",
       "description": "A semantic heading whose visual size can be set independently of its level.",
-      "dependencies": [
-        "@base-ui/react",
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "class-variance-authority", "cn"],
       "files": [
         {
           "path": "components/ui/heading.tsx",
@@ -662,12 +491,7 @@
       "name": "hover-card",
       "type": "registry:ui",
       "description": "For sighted users to preview content available behind a link.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "cn"],
       "files": [
         {
           "path": "components/ui/hover-card.tsx",
@@ -679,13 +503,7 @@
       "name": "input",
       "type": "registry:ui",
       "description": "A text input component for forms and user data entry with built-in styling and accessibility features.",
-      "dependencies": [
-        "@base-ui/react",
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "class-variance-authority", "cn"],
       "files": [
         {
           "path": "components/ui/input.tsx",
@@ -697,14 +515,11 @@
       "name": "input-group",
       "type": "registry:ui",
       "description": "Add addons, buttons, and helper content to inputs.",
-      "dependencies": [
-        "class-variance-authority"
-      ],
+      "dependencies": ["class-variance-authority", "cn"],
       "registryDependencies": [
         "@ondo-ui/button",
         "@ondo-ui/input",
-        "@ondo-ui/textarea",
-        "@ondo-ui/utils"
+        "@ondo-ui/textarea"
       ],
       "files": [
         {
@@ -717,13 +532,7 @@
       "name": "input-otp",
       "type": "registry:ui",
       "description": "Accessible one-time password component with copy-paste functionality.",
-      "dependencies": [
-        "@tabler/icons-react",
-        "input-otp"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@tabler/icons-react", "input-otp", "cn"],
       "files": [
         {
           "path": "components/ui/input-otp.tsx",
@@ -735,14 +544,8 @@
       "name": "item",
       "type": "registry:ui",
       "description": "A versatile component for displaying content with media, title, description, and actions.",
-      "dependencies": [
-        "@base-ui/react",
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/separator",
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "class-variance-authority", "cn"],
+      "registryDependencies": ["@ondo-ui/separator"],
       "files": [
         {
           "path": "components/ui/item.tsx",
@@ -754,55 +557,43 @@
       "name": "kbd",
       "type": "registry:ui",
       "description": "Used to display textual user input from keyboard.",
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
       "files": [
         {
           "path": "components/ui/kbd.tsx",
           "type": "registry:ui"
         }
-      ]
+      ],
+      "dependencies": ["cn"]
     },
     {
       "name": "label",
       "type": "registry:ui",
       "description": "Renders an accessible label associated with controls.",
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
       "files": [
         {
           "path": "components/ui/label.tsx",
           "type": "registry:ui"
         }
-      ]
+      ],
+      "dependencies": ["cn"]
     },
     {
       "name": "live-waveform",
       "type": "registry:ui",
       "description": "A canvas-based real-time audio waveform visualizer with microphone input and customizable rendering modes.",
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
       "files": [
         {
           "path": "components/ui/live-waveform.tsx",
           "type": "registry:ui"
         }
-      ]
+      ],
+      "dependencies": ["cn"]
     },
     {
       "name": "marker",
       "type": "registry:ui",
       "description": "Displays an inline status, system note, bordered row, or labeled separator in a conversation.",
-      "dependencies": [
-        "@base-ui/react",
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "class-variance-authority", "cn"],
       "files": [
         {
           "path": "components/ui/marker.tsx",
@@ -814,14 +605,8 @@
       "name": "menubar",
       "type": "registry:ui",
       "description": "A visually persistent menu common in desktop applications that provides quick access to a consistent set of commands.",
-      "dependencies": [
-        "@base-ui/react",
-        "@tabler/icons-react"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/dropdown-menu",
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "@tabler/icons-react", "cn"],
+      "registryDependencies": ["@ondo-ui/dropdown-menu"],
       "files": [
         {
           "path": "components/ui/menubar.tsx",
@@ -833,28 +618,20 @@
       "name": "message",
       "type": "registry:ui",
       "description": "Displays a message in a conversation, with optional avatar, header, footer, and alignment.",
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
       "files": [
         {
           "path": "components/ui/message.tsx",
           "type": "registry:ui"
         }
-      ]
+      ],
+      "dependencies": ["cn"]
     },
     {
       "name": "message-scroller",
       "type": "registry:ui",
       "description": "A scroll container for conversational UIs that keeps new messages pinned to the bottom, with a scroll-to-bottom button.",
-      "dependencies": [
-        "@shadcn/react@^0.3.0",
-        "@tabler/icons-react"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/button",
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@shadcn/react@^0.3.0", "@tabler/icons-react", "cn"],
+      "registryDependencies": ["@ondo-ui/button"],
       "files": [
         {
           "path": "components/ui/message-scroller.tsx",
@@ -866,13 +643,7 @@
       "name": "meter",
       "type": "registry:ui",
       "description": "A linear reading of a bounded value, such as a score, a utilization, or a fill level.",
-      "dependencies": [
-        "@base-ui/react",
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "class-variance-authority", "cn"],
       "files": [
         {
           "path": "components/ui/meter.tsx",
@@ -884,13 +655,7 @@
       "name": "meter-ring",
       "type": "registry:ui",
       "description": "A radial reading of a bounded value, such as a score, a utilization, or a fill level.",
-      "dependencies": [
-        "@base-ui/react",
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "class-variance-authority", "cn"],
       "files": [
         {
           "path": "components/ui/meter-ring.tsx",
@@ -902,12 +667,7 @@
       "name": "native-select",
       "type": "registry:ui",
       "description": "A styled native HTML select element with consistent design system integration.",
-      "dependencies": [
-        "@tabler/icons-react"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@tabler/icons-react", "cn"],
       "files": [
         {
           "path": "components/ui/native-select.tsx",
@@ -922,10 +682,8 @@
       "dependencies": [
         "@base-ui/react",
         "@tabler/icons-react",
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
+        "class-variance-authority",
+        "cn"
       ],
       "files": [
         {
@@ -938,12 +696,7 @@
       "name": "number-count",
       "type": "registry:ui",
       "description": "An animated number whose digits roll between values, built on NumberFlow.",
-      "dependencies": [
-        "@number-flow/react"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@number-flow/react", "cn"],
       "files": [
         {
           "path": "components/ui/number-count.tsx",
@@ -955,13 +708,8 @@
       "name": "pagination",
       "type": "registry:ui",
       "description": "Pagination with page navigation, next and previous links.",
-      "dependencies": [
-        "@tabler/icons-react"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/button",
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@tabler/icons-react", "cn"],
+      "registryDependencies": ["@ondo-ui/button"],
       "files": [
         {
           "path": "components/ui/pagination.tsx",
@@ -973,13 +721,7 @@
       "name": "paragraph",
       "type": "registry:ui",
       "description": "A paragraph whose size pairs with the matching heading size.",
-      "dependencies": [
-        "@base-ui/react",
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "class-variance-authority", "cn"],
       "files": [
         {
           "path": "components/ui/paragraph.tsx",
@@ -991,12 +733,7 @@
       "name": "popover",
       "type": "registry:ui",
       "description": "Displays rich content in a portal, triggered by a button.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "cn"],
       "files": [
         {
           "path": "components/ui/popover.tsx",
@@ -1008,13 +745,7 @@
       "name": "progress",
       "type": "registry:ui",
       "description": "Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.",
-      "dependencies": [
-        "@base-ui/react",
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "class-variance-authority", "cn"],
       "files": [
         {
           "path": "components/ui/progress.tsx",
@@ -1026,13 +757,7 @@
       "name": "progress-ring",
       "type": "registry:ui",
       "description": "A task's progress drawn as a ring, with support for an indeterminate state.",
-      "dependencies": [
-        "@base-ui/react",
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "class-variance-authority", "cn"],
       "files": [
         {
           "path": "components/ui/progress-ring.tsx",
@@ -1044,14 +769,8 @@
       "name": "questionnaire",
       "type": "registry:ui",
       "description": "A multi-step questionnaire with single-choice, multiple-choice, freeform, and skippable questions.",
-      "dependencies": [
-        "@shadcn/react@^0.3.0",
-        "@tabler/icons-react"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/button",
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@shadcn/react@^0.3.0", "@tabler/icons-react", "cn"],
+      "registryDependencies": ["@ondo-ui/button"],
       "files": [
         {
           "path": "components/ui/questionnaire.tsx",
@@ -1063,12 +782,7 @@
       "name": "radio-group",
       "type": "registry:ui",
       "description": "A set of checkable buttons—known as radio buttons—where no more than one of the buttons can be checked at a time.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "cn"],
       "files": [
         {
           "path": "components/ui/radio-group.tsx",
@@ -1080,12 +794,7 @@
       "name": "resizable",
       "type": "registry:ui",
       "description": "Accessible resizable panel groups and layouts with keyboard support.",
-      "dependencies": [
-        "react-resizable-panels"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["react-resizable-panels", "cn"],
       "files": [
         {
           "path": "components/ui/resizable.tsx",
@@ -1097,12 +806,7 @@
       "name": "scroll-area",
       "type": "registry:ui",
       "description": "Augments native scroll functionality for custom, cross-browser styling.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "cn"],
       "files": [
         {
           "path": "components/ui/scroll-area.tsx",
@@ -1114,13 +818,7 @@
       "name": "select",
       "type": "registry:ui",
       "description": "Displays a list of options for the user to pick from—triggered by a button.",
-      "dependencies": [
-        "@base-ui/react",
-        "@tabler/icons-react"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "@tabler/icons-react", "cn"],
       "files": [
         {
           "path": "components/ui/select.tsx",
@@ -1132,12 +830,7 @@
       "name": "separator",
       "type": "registry:ui",
       "description": "Visually or semantically separates content.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "cn"],
       "files": [
         {
           "path": "components/ui/separator.tsx",
@@ -1149,14 +842,8 @@
       "name": "sheet",
       "type": "registry:ui",
       "description": "Extends the Dialog component to display content that complements the main content of the screen.",
-      "dependencies": [
-        "@base-ui/react",
-        "@tabler/icons-react"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/button",
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "@tabler/icons-react", "cn"],
+      "registryDependencies": ["@ondo-ui/button"],
       "files": [
         {
           "path": "components/ui/sheet.tsx",
@@ -1171,7 +858,8 @@
       "dependencies": [
         "@base-ui/react",
         "@tabler/icons-react",
-        "class-variance-authority"
+        "class-variance-authority",
+        "cn"
       ],
       "registryDependencies": [
         "@ondo-ui/button",
@@ -1180,8 +868,7 @@
         "@ondo-ui/sheet",
         "@ondo-ui/skeleton",
         "@ondo-ui/tooltip",
-        "@ondo-ui/use-mobile",
-        "@ondo-ui/utils"
+        "@ondo-ui/use-mobile"
       ],
       "files": [
         {
@@ -1194,26 +881,19 @@
       "name": "skeleton",
       "type": "registry:ui",
       "description": "Use to show a placeholder while content is loading.",
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
       "files": [
         {
           "path": "components/ui/skeleton.tsx",
           "type": "registry:ui"
         }
-      ]
+      ],
+      "dependencies": ["cn"]
     },
     {
       "name": "slider",
       "type": "registry:ui",
       "description": "An input where the user selects a value from within a given range.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "cn"],
       "files": [
         {
           "path": "components/ui/slider.tsx",
@@ -1225,12 +905,7 @@
       "name": "spinner",
       "type": "registry:ui",
       "description": "An indicator that can be used to show a loading state.",
-      "dependencies": [
-        "@tabler/icons-react"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@tabler/icons-react", "cn"],
       "files": [
         {
           "path": "components/ui/spinner.tsx",
@@ -1242,12 +917,7 @@
       "name": "stepper",
       "type": "registry:ui",
       "description": "A step-by-step process for users to navigate through a series of steps.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "cn"],
       "files": [
         {
           "path": "components/ui/stepper.tsx",
@@ -1259,12 +929,7 @@
       "name": "switch",
       "type": "registry:ui",
       "description": "A control that allows the user to toggle between checked and not checked.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "cn"],
       "files": [
         {
           "path": "components/ui/switch.tsx",
@@ -1276,27 +941,19 @@
       "name": "table",
       "type": "registry:ui",
       "description": "A responsive table component.",
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
       "files": [
         {
           "path": "components/ui/table.tsx",
           "type": "registry:ui"
         }
-      ]
+      ],
+      "dependencies": ["cn"]
     },
     {
       "name": "tabs",
       "type": "registry:ui",
       "description": "A set of layered sections of content—known as tab panels—that are displayed one at a time.",
-      "dependencies": [
-        "@base-ui/react",
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "class-variance-authority", "cn"],
       "files": [
         {
           "path": "components/ui/tabs.tsx",
@@ -1308,29 +965,19 @@
       "name": "textarea",
       "type": "registry:ui",
       "description": "Displays a form textarea or a component that looks like a textarea.",
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
       "files": [
         {
           "path": "components/ui/textarea.tsx",
           "type": "registry:ui"
         }
       ],
-      "dependencies": [
-        "class-variance-authority"
-      ]
+      "dependencies": ["class-variance-authority", "cn"]
     },
     {
       "name": "timeline",
       "type": "registry:ui",
       "description": "A visual representation of events in chronological order.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "cn"],
       "files": [
         {
           "path": "components/ui/timeline.tsx",
@@ -1342,14 +989,8 @@
       "name": "toast",
       "type": "registry:ui",
       "description": "A succinct message that is displayed temporarily.",
-      "dependencies": [
-        "@base-ui/react",
-        "@tabler/icons-react"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/button",
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "@tabler/icons-react", "cn"],
+      "registryDependencies": ["@ondo-ui/button"],
       "files": [
         {
           "path": "components/ui/toast.tsx",
@@ -1361,13 +1002,7 @@
       "name": "toggle",
       "type": "registry:ui",
       "description": "A two-state button that can be either on or off.",
-      "dependencies": [
-        "@base-ui/react",
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "class-variance-authority", "cn"],
       "files": [
         {
           "path": "components/ui/toggle.tsx",
@@ -1379,14 +1014,8 @@
       "name": "toggle-group",
       "type": "registry:ui",
       "description": "A set of two-state buttons that can be toggled on or off.",
-      "dependencies": [
-        "@base-ui/react",
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/toggle",
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "class-variance-authority", "cn"],
+      "registryDependencies": ["@ondo-ui/toggle"],
       "files": [
         {
           "path": "components/ui/toggle-group.tsx",
@@ -1398,12 +1027,7 @@
       "name": "tooltip",
       "type": "registry:ui",
       "description": "A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.",
-      "dependencies": [
-        "@base-ui/react"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils"
-      ],
+      "dependencies": ["@base-ui/react", "cn"],
       "files": [
         {
           "path": "components/ui/tooltip.tsx",
@@ -1426,10 +1050,7 @@
       "name": "empty-view",
       "type": "registry:component",
       "description": "A ready-made empty state composed from Empty and Button.",
-      "registryDependencies": [
-        "@ondo-ui/empty",
-        "@ondo-ui/button"
-      ],
+      "registryDependencies": ["@ondo-ui/empty", "@ondo-ui/button"],
       "files": [
         {
           "path": "components/compositions/empty-view.tsx",
@@ -1441,15 +1062,8 @@
       "name": "number-badge",
       "type": "registry:component",
       "description": "A self-anchoring count badge for avatars and icons with animated counts and 99+ overflow.",
-      "dependencies": [
-        "@number-flow/react",
-        "class-variance-authority"
-      ],
-      "registryDependencies": [
-        "@ondo-ui/utils",
-        "@ondo-ui/badge",
-        "@ondo-ui/number-count"
-      ],
+      "dependencies": ["@number-flow/react", "class-variance-authority", "cn"],
+      "registryDependencies": ["@ondo-ui/badge", "@ondo-ui/number-count"],
       "files": [
         {
           "path": "components/compositions/number-badge.tsx",

@@ -3,7 +3,7 @@
 import * as React from "react"
 import { IconCheck, IconCopy } from "@tabler/icons-react"
 
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 import { Button } from "@/components/ui/button"
 
 function legacyCopyToClipboard(value: string) {

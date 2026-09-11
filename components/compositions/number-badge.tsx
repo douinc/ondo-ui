@@ -4,7 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 
 import { Badge } from "@/components/ui/badge"
 import { NumberCount } from "@/components/ui/number-count"
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 
 const numberBadgeVariants = cva(
   "absolute z-10 min-w-5 justify-center rounded-full px-1 tabular-nums ring-1 ring-background backdrop-blur-sm transition-all duration-200 ease-out select-none",

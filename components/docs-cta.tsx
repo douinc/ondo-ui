@@ -2,7 +2,7 @@ import Link from "next/link"
 
 import { siteConfig } from "@/lib/config"
 import type { Dictionary } from "@/lib/dictionaries"
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 import { Icons } from "@/components/icons"
 import { buttonVariants } from "@/components/ui/button"
 

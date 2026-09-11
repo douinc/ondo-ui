@@ -8,7 +8,7 @@ import {
   TimelineTitle,
 } from "@/components/ui/timeline"
 
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 
 const milestones = [
   {

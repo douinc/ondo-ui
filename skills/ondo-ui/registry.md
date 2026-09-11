@@ -10,13 +10,13 @@ Use this reference when authoring, changing, or debugging Ondo registry items.
 
 Common Ondo item types:
 
-| Type | Purpose and target |
-| --- | --- |
-| `registry:ui` | Reusable UI source installed into the configured UI alias. |
+| Type                 | Purpose and target                                                                          |
+| -------------------- | ------------------------------------------------------------------------------------------- |
+| `registry:ui`        | Reusable UI source installed into the configured UI alias.                                  |
 | `registry:component` | Higher-level source such as `components/compositions/*` or `components/theme-provider.tsx`. |
-| `registry:lib` | Utilities installed through the configured library or utils alias. |
-| `registry:hook` | Hooks installed through the configured hooks alias. |
-| `registry:theme` | CSS variables, fonts, and dependencies merged into the project theme. |
+| `registry:lib`       | Utilities installed through the configured library or utils alias.                          |
+| `registry:hook`      | Hooks installed through the configured hooks alias.                                         |
+| `registry:theme`     | CSS variables, fonts, and dependencies merged into the project theme.                       |
 
 Use `dependencies` for npm packages and `registryDependencies` for installable registry items. Keep file paths copyable and include every import the installed source requires.
 
@@ -28,11 +28,7 @@ Every dependency owned by Ondo must use `@ondo-ui/<name>`. Bare names resolve to
 {
   "name": "number-badge",
   "type": "registry:component",
-  "registryDependencies": [
-    "@ondo-ui/utils",
-    "@ondo-ui/badge",
-    "@ondo-ui/number-count"
-  ]
+  "registryDependencies": ["@ondo-ui/badge", "@ondo-ui/number-count"]
 }
 ```
 

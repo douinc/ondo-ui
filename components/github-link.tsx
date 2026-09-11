@@ -2,7 +2,7 @@ import * as React from "react"
 import Link from "next/link"
 
 import { siteConfig } from "@/lib/config"
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 import { Icons } from "@/components/icons"
 import { buttonVariants } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"

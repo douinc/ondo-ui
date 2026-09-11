@@ -5,7 +5,7 @@ import { Questionnaire as QuestionnairePrimitive } from "@shadcn/react/questionn
 import { IconCheck } from "@tabler/icons-react"
 
 import { Button, buttonVariants } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 
 function Questionnaire({
   className,

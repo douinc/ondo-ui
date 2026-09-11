@@ -25,9 +25,7 @@ describe("registry dependency namespaces", () => {
       (item) => item.name === "number-badge"
     )
 
-    expect(numberBadge?.registryDependencies).toContain(
-      "@ondo-ui/number-count"
-    )
+    expect(numberBadge?.registryDependencies).toContain("@ondo-ui/number-count")
   })
 
   test("namespaces every dependency that belongs to the Ondo registry", async () => {
@@ -40,6 +38,41 @@ describe("registry dependency namespaces", () => {
     )
 
     expect(bareInternalDependencies).toEqual([])
+  })
+
+  test("installs cn directly for every registry item that imports it", async () => {
+    const registry = await readRegistry()
+    const violations: string[] = []
+
+    expect(registry.items.find((item) => item.name === "utils")).toBeUndefined()
+
+    for (const item of registry.items) {
+      if (item.registryDependencies?.includes("@ondo-ui/utils")) {
+        violations.push(`${item.name} depends on @ondo-ui/utils`)
+      }
+
+      for (const file of item.files ?? []) {
+        const source = await readFile(
+          new URL(`../${file.path}`, import.meta.url),
+          "utf8"
+        ).catch(() => "")
+
+        if (/from ["']@\/lib\/utils["']/.test(source)) {
+          violations.push(`${file.path} imports @/lib/utils`)
+        }
+
+        if (
+          /from ["']cn["']/.test(source) &&
+          !(item.dependencies ?? []).some(
+            (dependency) => dependency === "cn" || dependency.startsWith("cn@")
+          )
+        ) {
+          violations.push(`${item.name} imports cn without declaring it`)
+        }
+      }
+    }
+
+    expect(violations).toEqual([])
   })
 
   // @shadcn/react is pre-1.0 and adds a new subpath export per release (e.g.

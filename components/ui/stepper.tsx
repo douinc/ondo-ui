@@ -15,7 +15,7 @@ import { mergeProps } from "@base-ui/react/merge-props"
 import { useRender } from "@base-ui/react/use-render"
 import { cva } from "class-variance-authority"
 
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 
 type StepperOrientation = "horizontal" | "vertical"
 type StepState = "active" | "completed" | "inactive"

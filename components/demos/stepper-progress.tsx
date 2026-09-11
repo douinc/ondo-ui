@@ -13,7 +13,7 @@ import {
   StepperPanel,
   StepperTrigger,
 } from "@/components/ui/stepper"
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 
 const steps = [1, 2, 3, 4]
 

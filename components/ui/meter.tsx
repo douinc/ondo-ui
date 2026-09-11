@@ -3,7 +3,7 @@
 import { Meter as MeterPrimitive } from "@base-ui/react/meter"
 import { cva, type VariantProps } from "class-variance-authority"
 
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 
 const meterVariants = cva("group/meter flex flex-wrap gap-3", {
   variants: {

@@ -5,7 +5,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 
 import type { NavItem } from "@/lib/config"
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 import { buttonVariants } from "@/components/ui/button"
 
 export function MainNav({
