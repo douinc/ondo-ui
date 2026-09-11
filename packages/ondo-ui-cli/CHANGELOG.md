@@ -1,5 +1,11 @@
 # @dou.so/ondo-ui
 
+## 1.7.4
+
+### Patch Changes
+
+- [#60](https://github.com/douinc/ondo-ui/pull/60) [`98ca6d0`](https://github.com/douinc/ondo-ui/commit/98ca6d0f8c0254f4eee15ab4ff215c0763049e07) Thanks [@woody-uiux](https://github.com/woody-uiux)! - Add an `xl` size to Avatar and scale its overlap, fallback text and badge per size.
+
 ## 1.7.3
 
 ### Patch Changes
