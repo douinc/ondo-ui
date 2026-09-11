@@ -1,0 +1,16 @@
+---
+title: cn package imports
+description: Components now import cn directly from the cn package.
+version: 1.8.5
+---
+
+**v1.8.5**
+
+- Ondo UI components, demos, documentation site, and Design Inspector now
+  import `cn` directly from the [`cn`](https://www.npmjs.com/package/cn)
+  package.
+- Every registry item that uses `cn` declares it as an npm dependency, so
+  `shadcn add @ondo-ui/<component>` installs it automatically.
+- Remove the `@ondo-ui/utils` registry item and the local `lib/utils.ts`
+  helpers. Replace any local `@/lib/utils` imports with `import { cn } from
+"cn"`.
