@@ -7,7 +7,7 @@ import { TooltipProvider } from "@/components/ui/tooltip"
 import { DOCS_SIDEBAR_SCROLL_RESTORE_SCRIPT } from "@/lib/docs"
 import { getDictionary } from "@/lib/dictionaries"
 import type { Locale } from "@/lib/i18n"
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 
 export function getRootMetadata(locale: Locale): Metadata {
   const dict = getDictionary(locale)

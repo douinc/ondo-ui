@@ -37,9 +37,9 @@ Use `background`, `foreground`, `card`, `primary`, `secondary`, `muted`, `accent
 **Correct:** use `gap-*`, `size-*`, `truncate`, and `cn()`.
 
 ```tsx
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 
-<div className={cn("flex flex-col gap-4", active ? "bg-primary" : "bg-muted")}>
+;<div className={cn("flex flex-col gap-4", active ? "bg-primary" : "bg-muted")}>
   <Icon className="size-4" />
   <span className="truncate">Name</span>
 </div>

@@ -4,7 +4,7 @@ import * as React from "react"
 import { Progress as ProgressPrimitive } from "@base-ui/react/progress"
 import { cva, type VariantProps } from "class-variance-authority"
 
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 
 const progressRingVariants = cva(
   "group/progress-ring flex w-fit flex-col items-center gap-1.5 text-center transition-[--progress-ring-fraction] duration-500 ease-out",

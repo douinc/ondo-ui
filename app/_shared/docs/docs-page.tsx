@@ -10,7 +10,7 @@ import { buttonVariants } from "@/components/ui/button"
 import { getDictionary } from "@/lib/dictionaries"
 import type { Locale } from "@/lib/i18n"
 import { source } from "@/lib/source"
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 import { getMdxComponents } from "@/mdx-components"
 
 export async function DocsPage({

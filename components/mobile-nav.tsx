@@ -6,7 +6,7 @@ import type * as PageTree from "fumadocs-core/page-tree"
 
 import type { NavItem } from "@/lib/config"
 import { getSidebarGroups } from "@/lib/page-tree"
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 import { Button } from "@/components/ui/button"
 import {
   Popover,

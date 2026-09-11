@@ -2,7 +2,7 @@
 
 import NumberFlow from "@number-flow/react"
 
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 
 type NumberCountProps = React.ComponentProps<typeof NumberFlow>
 

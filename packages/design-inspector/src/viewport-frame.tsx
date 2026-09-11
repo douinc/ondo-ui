@@ -36,7 +36,7 @@ import {
   DesktopWindowTitle,
   DesktopWindowTitlebar,
 } from "./ui/desktop-window"
-import { cn } from "./lib/utils"
+import { cn } from "cn"
 
 type OverlayRect = {
   height: number

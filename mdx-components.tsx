@@ -3,7 +3,7 @@ import Image from "next/image"
 import Link from "next/link"
 
 import { localizeHref } from "@/lib/i18n"
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 import { Callout } from "@/components/callout"
 import { CodeBlockCommand } from "@/components/code-block-command"
 import { CodeCollapsibleWrapper } from "@/components/code-collapsible-wrapper"

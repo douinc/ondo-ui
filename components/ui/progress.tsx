@@ -3,7 +3,7 @@
 import { Progress as ProgressPrimitive } from "@base-ui/react/progress"
 import { cva, type VariantProps } from "class-variance-authority"
 
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 
 const progressVariants = cva("group/progress flex flex-wrap gap-3", {
   variants: {

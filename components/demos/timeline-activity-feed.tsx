@@ -12,8 +12,6 @@ import {
   TimelineTitle,
 } from "@/components/ui/timeline"
 
-import { cn } from "@/lib/utils"
-
 const deployments = [
   {
     id: 1,

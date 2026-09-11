@@ -4,7 +4,7 @@ import * as React from "react"
 import { Meter as MeterPrimitive } from "@base-ui/react/meter"
 import { cva, type VariantProps } from "class-variance-authority"
 
-import { cn } from "@/lib/utils"
+import { cn } from "cn"
 
 const meterRingVariants = cva(
   "group/meter-ring flex w-fit flex-col items-center gap-1.5 text-center transition-[--meter-ring-fraction] duration-500 ease-out",

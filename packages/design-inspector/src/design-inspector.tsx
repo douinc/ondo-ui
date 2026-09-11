@@ -99,7 +99,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "./ui/tooltip"
-import { cn } from "./lib/utils"
+import { cn } from "cn"
 
 type DesignInspectorLocale = InspectorLocale
 
