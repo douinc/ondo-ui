@@ -1,0 +1,12 @@
+---
+title: Avatar xl size
+description: Avatar gains an xl size and scales its overlap, fallback text and badge per size.
+version: 1.8.6
+---
+
+**v1.8.6**
+
+- `Avatar` takes `xl` alongside `sm`, `default` and `lg`. Diameter is `24 / 32 / 40 / 48px`.
+- `AvatarGroup` overlap is now set per size — `-6 / -8 / -10 / -12px` — instead of a shared `-8px`. One shared value hid a third of a small avatar and a sixth of a large one.
+- `AvatarFallback` font size follows the diameter: `12 / 14 / 16 / 18px`. `lg` previously matched `default`.
+- `AvatarBadge` is `8 / 10 / 12 / 12px`.
