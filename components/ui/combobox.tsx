@@ -230,7 +230,7 @@ function ComboboxSeparator({
     <ComboboxPrimitive.Separator
       data-slot="combobox-separator"
       className={cn(
-        "-mx-1 my-1 h-px bg-border group-data-[size=xs]/combobox-content:-mx-0.5 group-data-[size=xl]/combobox-content:-mx-1.5 group-data-[size=2xl]/combobox-content:-mx-2",
+        "-mx-1 my-1.5 h-px bg-border group-data-[size=xs]/combobox-content:-mx-0.5 group-data-[size=xl]/combobox-content:-mx-1.5 group-data-[size=2xl]/combobox-content:-mx-2",
         className
       )}
       {...props}
