@@ -28,7 +28,7 @@ function ItemSeparator({
     <Separator
       data-slot="item-separator"
       orientation="horizontal"
-      className={cn("my-2 bg-border/50", className)}
+      className={cn("my-2 opacity-50", className)}
       {...props}
     />
   )
