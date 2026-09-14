@@ -1,5 +1,11 @@
 # @dou.so/ondo-ui
 
+## 1.7.5
+
+### Patch Changes
+
+- [#66](https://github.com/douinc/ondo-ui/pull/66) [`e6f71eb`](https://github.com/douinc/ondo-ui/commit/e6f71eb443c7fe1539dfca3e9c71e8f34e874310) Thanks [@woody-uiux](https://github.com/woody-uiux)! - Lighten the separator between list items, widen the gap around menu separators, and fix the sidebar separator width.
+
 ## 1.7.4
 
 ### Patch Changes
