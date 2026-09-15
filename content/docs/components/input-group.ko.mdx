@@ -680,8 +680,6 @@ export default function InputGroupDropdown() {
 ```tsx
 "use client"
 
-import { IconLoader } from "@tabler/icons-react"
-
 import {
   InputGroup,
   InputGroupAddon,
@@ -715,7 +713,7 @@ export default function InputGroupSpinner() {
       <InputGroup>
         <InputGroupInput placeholder="데이터 새로고침 중..." />
         <InputGroupAddon>
-          <IconLoader className="animate-spin" />
+          <Spinner />
         </InputGroupAddon>
         <InputGroupAddon align="inline-end">
           <InputGroupText className="text-muted-foreground">

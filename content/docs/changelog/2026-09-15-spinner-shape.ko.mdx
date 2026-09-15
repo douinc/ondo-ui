@@ -1,0 +1,14 @@
+---
+title: 스피너 모양과 늦게 나타나기
+description: 스피너가 늘었다 줄었다 하는 호로 바뀌고, 금방 끝나는 로딩에서는 나타나지 않습니다.
+version: 1.8.7
+---
+
+**v1.8.7**
+
+- `Spinner`가 `IconLoader` 대신 직접 `svg`를 그립니다. 원 위의 호가 늘었다 줄었다 하며 돌고, 한 바퀴에 `1.8s`입니다.
+- `Spinner`가 `700ms` 기다린 뒤 `300ms`에 걸쳐 나타납니다(`starting:opacity-0`). 그 안에 끝나는 로딩에서는 보이지 않습니다.
+- `spinner` 레지스트리 항목이 더 이상 `@tabler/icons-react`에 의존하지 않습니다. `animate-spinner-dash` 테마 변수와 `@keyframes spinner-dash`를 함께 싣습니다.
+- `loading` 토스트가 `IconLoader` 대신 `Spinner`를 써서 같은 모양과 늦게 나타나기를 따릅니다. `toast` 레지스트리 항목이 `spinner`에 의존합니다.
+- `input-group-spinner` 예시의 네 번째 입력칸이 `IconLoader` 대신 `Spinner`를 씁니다.
+- `loading` 표시를 보여주는 `stepper` 예시 전부가 `IconLoader2` 대신 `Spinner`를 씁니다.

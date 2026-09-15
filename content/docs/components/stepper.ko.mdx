@@ -117,7 +117,7 @@ export default function StepperStates() {
 <ComponentPreview name="stepper-indicators">
 
 ```tsx
-import { IconCheck, IconLoader2 } from "@tabler/icons-react"
+import { IconCheck } from "@tabler/icons-react"
 import {
   Stepper,
   StepperIndicator,
@@ -125,6 +125,7 @@ import {
   StepperNav,
   StepperTrigger,
 } from "@/components/ui/stepper"
+import { Spinner } from "@/components/ui/spinner"
 
 export default function StepperIndicators() {
   return (
@@ -134,7 +135,7 @@ export default function StepperIndicators() {
       activeVariant="default"
       indicators={{
         completed: <IconCheck />,
-        loading: <IconLoader2 className="animate-spin" />,
+        loading: <Spinner className="size-3.5" />,
       }}
     >
       <StepperNav>

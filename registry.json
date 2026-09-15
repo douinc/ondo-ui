@@ -905,7 +905,19 @@
       "name": "spinner",
       "type": "registry:ui",
       "description": "An indicator that can be used to show a loading state.",
-      "dependencies": ["@tabler/icons-react", "cn"],
+      "dependencies": ["cn"],
+      "cssVars": {
+        "theme": {
+          "animate-spinner-dash": "spinner-dash 1.8s ease-in-out infinite"
+        }
+      },
+      "css": {
+        "@keyframes spinner-dash": {
+          "0%": { "stroke-dashoffset": "60" },
+          "50%": { "stroke-dashoffset": "15", "transform": "rotate(108deg)" },
+          "100%": { "stroke-dashoffset": "60", "transform": "rotate(360deg)" }
+        }
+      },
       "files": [
         {
           "path": "components/ui/spinner.tsx",
@@ -990,7 +1002,7 @@
       "type": "registry:ui",
       "description": "A succinct message that is displayed temporarily.",
       "dependencies": ["@base-ui/react", "@tabler/icons-react", "cn"],
-      "registryDependencies": ["@ondo-ui/button"],
+      "registryDependencies": ["@ondo-ui/button", "@ondo-ui/spinner"],
       "files": [
         {
           "path": "components/ui/toast.tsx",

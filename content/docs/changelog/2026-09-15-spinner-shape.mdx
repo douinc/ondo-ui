@@ -1,0 +1,14 @@
+---
+title: Spinner shape and delay
+description: The spinner is now an arc that grows and shrinks as it turns, and it stays hidden for loads that finish quickly.
+version: 1.8.7
+---
+
+**v1.8.7**
+
+- `Spinner` draws its own `svg` instead of `IconLoader`: an arc on a circle that grows and shrinks while it rotates, `1.8s` per turn.
+- `Spinner` waits `700ms` and then fades in over `300ms` (`starting:opacity-0`). Loads that finish sooner never show it.
+- The `spinner` registry item no longer depends on `@tabler/icons-react`. It ships the `animate-spinner-dash` theme variable and `@keyframes spinner-dash`.
+- The `loading` toast uses `Spinner` instead of `IconLoader`, so it gets the same shape and delay. The `toast` registry item now depends on `spinner`.
+- The fourth input in the `input-group-spinner` example uses `Spinner` instead of `IconLoader`.
+- Every `stepper` example that shows a `loading` indicator uses `Spinner` instead of `IconLoader2`.

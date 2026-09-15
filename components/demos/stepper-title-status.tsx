@@ -4,7 +4,6 @@ import { useState } from "react"
 import {
   IconCheck,
   IconCreditCard,
-  IconLoader2,
   IconLock,
   IconUserSquareRounded,
 } from "@tabler/icons-react"
@@ -22,6 +21,7 @@ import {
   StepperTitle,
   StepperTrigger,
 } from "@/components/ui/stepper"
+import { Spinner } from "@/components/ui/spinner"
 
 const steps = [
   {
@@ -49,7 +49,7 @@ export default function StepperTitleStatus() {
       activeVariant="default"
       indicators={{
         completed: <IconCheck className="size-3.5" />,
-        loading: <IconLoader2 className="size-3.5 animate-spin" />,
+        loading: <Spinner className="size-3.5" />,
       }}
       className="w-full max-w-xl space-y-8"
     >
