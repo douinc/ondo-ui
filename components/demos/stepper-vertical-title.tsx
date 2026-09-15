@@ -1,6 +1,6 @@
 "use client"
 
-import { IconCheck, IconLoader2 } from "@tabler/icons-react"
+import { IconCheck } from "@tabler/icons-react"
 
 import {
   Stepper,
@@ -13,6 +13,7 @@ import {
   StepperTitle,
   StepperTrigger,
 } from "@/components/ui/stepper"
+import { Spinner } from "@/components/ui/spinner"
 
 const steps = [{ title: "Account" }, { title: "Profile" }, { title: "Review" }]
 
@@ -27,7 +28,7 @@ export default function StepperVerticalTitle() {
         activeVariant="default"
         indicators={{
           completed: <IconCheck className="size-3.5" />,
-          loading: <IconLoader2 className="size-3.5 animate-spin" />,
+          loading: <Spinner className="size-3.5" />,
         }}
       >
         <StepperNav>

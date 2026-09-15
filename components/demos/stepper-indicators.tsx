@@ -1,6 +1,6 @@
 "use client"
 
-import { IconCheck, IconLoader2 } from "@tabler/icons-react"
+import { IconCheck } from "@tabler/icons-react"
 
 import {
   Stepper,
@@ -12,6 +12,7 @@ import {
   StepperSeparator,
   StepperTrigger,
 } from "@/components/ui/stepper"
+import { Spinner } from "@/components/ui/spinner"
 
 const steps = [1, 2, 3]
 
@@ -24,7 +25,7 @@ export default function StepperIndicators() {
       activeVariant="default"
       indicators={{
         completed: <IconCheck className="size-3.5" />,
-        loading: <IconLoader2 className="size-3.5 animate-spin" />,
+        loading: <Spinner className="size-3.5" />,
       }}
     >
       <StepperNav className="mb-5">

@@ -1,7 +1,5 @@
 "use client"
 
-import { IconLoader } from "@tabler/icons-react"
-
 import {
   InputGroup,
   InputGroupAddon,
@@ -35,7 +33,7 @@ export default function InputGroupSpinner() {
       <InputGroup>
         <InputGroupInput placeholder="Refreshing data..." />
         <InputGroupAddon>
-          <IconLoader className="animate-spin" />
+          <Spinner />
         </InputGroupAddon>
         <InputGroupAddon align="inline-end">
           <InputGroupText className="text-muted-foreground">

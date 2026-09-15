@@ -21,6 +21,20 @@
 @custom-variant fixed (&:is(.layout-fixed *));
 
 @theme inline {
+  --animate-spinner-dash: spinner-dash 1.8s ease-in-out infinite;
+  @keyframes spinner-dash {
+    0% {
+      stroke-dashoffset: 60;
+    }
+    50% {
+      stroke-dashoffset: 15;
+      transform: rotate(108deg);
+    }
+    100% {
+      stroke-dashoffset: 60;
+      transform: rotate(360deg);
+    }
+  }
   --breakpoint-3xl: 1600px;
   --color-surface: var(--surface);
   --color-surface-foreground: var(--surface-foreground);
